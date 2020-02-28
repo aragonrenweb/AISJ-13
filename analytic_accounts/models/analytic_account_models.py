@@ -199,166 +199,163 @@ class AnalyticAccounts(models.Model):
         values["code"] = code
 
     def _import(self, values):
-        CODE_LENGTH = 37
-        if "code" in values:
-            code = values["code"]
-            if len(code) == CODE_LENGTH:
-                country_code        = code[0:2]
-                region_code         = code[2:5]
-                company_code        = code[5:9]
-                
-                #===================================================================
-                # Verifica si la compañia existen en Odoo
-                # Tambien comprueba si el country y el region son
-                # igualmente validos
-                #===================================================================
-                
-                CompanyEnv = self.env["res.company"]
-                company_id = CompanyEnv.search([("analytic_code", "=", company_code)])
-                if not company_id:
-                    raise exceptions.ValidationError(_("Invalid company code"))
-                company_record = CompanyEnv.browse([company_id])
-                
-                if True:
-                    pass
-                    # raise exceptions.ValidationError(_(" (test)"))
-                
-                if company_record.ids[0].country_id:
-                    if company_record.ids[0].country_id.code == country_code:
-                        raise exceptions.ValidationError(_("Invalid country code"))
-                    if company_record.ids[0].state_id:
-                        if company_record.ids[0].state_id.code == region_code:
-                            raise exceptions.ValidationError(_("Cosas de la vida Â¯\_(ãƒ„)_/Â¯: (Invalid region/state code)"))
-                    else:
-                        raise exceptions.ValidationError(_("Country needs state specified"))
+        code = values["code"]
+        print(code)
+        if len(code) == 37:
+            country_code        = code[0:2]
+            region_code         = code[2:5]
+            company_code        = code[5:9]
+            
+            #===================================================================
+            # Verifica si la compañia existen en Odoo
+            # Tambien comprueba si el country y el region son
+            # igualmente validos
+            #===================================================================
+            
+            CompanyEnv = self.env["res.company"]
+            company_id = CompanyEnv.search([("analytic_code", "=", company_code)])
+            if not company_id:
+                raise exceptions.ValidationError(_("Invalid company code"))
+            company_record = CompanyEnv.browse([company_id])
+            
+            if True:
+                pass
+                # raise exceptions.ValidationError(_(" (test)"))
+            
+            if company_record.ids[0].country_id:
+                if company_record.ids[0].country_id.code == country_code:
+                    raise exceptions.ValidationError(_("Invalid country code"))
+                if company_record.ids[0].state_id:
+                    if company_record.ids[0].state_id.code == region_code:
+                        raise exceptions.ValidationError(_("Cosas de la vida Â¯\_(ãƒ„)_/Â¯: (Invalid region/state code)"))
                 else:
-                    raise exceptions.ValidationError(_("Company needs country specified"))
-                    
-                department_code     = code[9:13]
-                sub_department_code = code[13:17]
-                
-                type_code           = code[17:21]
-                group_code          = code[21:25]
-                account_code        = code[25:29]
-                sub_account_code    = code[29:33]
-                item_code           = code[33:37]
-                
-                #===================================================================
-                # Estos son distinto porque sin independientes y ademas opcionales
-                #===================================================================
-                DeptEnv = self.env["analytic_accounts.group.department"]
-                existing_dept = DeptEnv.search([["code", "=", department_code]])
-                if existing_dept:
-                    values["department"] = existing_dept.id
-                else:
-                    new_dept= DeptEnv.create({
-                            "name": "department-{}".format(department_code),
-                            "code": department_code
-                        })
-                    values["department"] = new_dept.id
-                
-                #===================================================================
-                # Type
-                #===================================================================
-                SubDeptEnv = self.env["analytic_accounts.group.sub_department"]
-                existing_sub_department = SubDeptEnv.search([["code", "=", sub_department_code]])
-                if existing_sub_department:
-                    values["sub_department"] = existing_sub_department.id
-                else:
-                    new_sub_department = SubDeptEnv.create({
-                            "name": "sub_department-{}".format(sub_department_code),
-                            "code": sub_department_code
-                        })
-                    values["sub_department"] = new_sub_department.id
-                
-                #===================================================================
-                # Todo esto se hace para hacer un "merge" a los
-                # datos type, group, account, sub account y item
-                #===================================================================
-                
-                
-               
-                
-                #===================================================================
-                # Type
-                #===================================================================
-                TypeEnv = self.env["analytic_accounts.group.type"]
-                existing_type = TypeEnv.search([["code", "=", type_code]])
-                if existing_type:
-                    values["type"] = existing_type.id
-                else:
-                    new_type = TypeEnv.create({
-                            "name": "type-{}".format(type_code),
-                            "code": type_code
-                        })
-                    values["type"] = new_type.id
-                    
-                
-                #===================================================================
-                # Group
-                #===================================================================
-                GroupEnv = self.env["analytic_accounts.group"]
-                existing_group= GroupEnv.search(["&", ("code", "=", group_code), ("type_id", "=", values["type"])])
-                if existing_group:
-                    values["group"] = existing_group.id
-                else:
-                    new_group = GroupEnv.create({
-                            "name": "group-{}".format(group_code),
-                            "type_id": values["type"],
-                            "code": group_code
-                        })
-                    values["group"] = new_group.id
-                
-                #===================================================================
-                # Account
-                #===================================================================
-                AccountEnv = self.env["analytic_accounts.group.account"]
-                existing_account= AccountEnv.search(["&", ("code", "=", account_code), ("group_id", "=", values["group"])])
-                if existing_account:
-                    values["account"] = existing_account.id
-                else:
-                    new_account = AccountEnv.create({
-                            "name": "account-{}".format(account_code),
-                            "group_id": values["group"],
-                            "code": account_code
-                        })
-                    values["account"] = new_account.id
-                    
-                
-                #===================================================================
-                # Sub Account
-                #===================================================================
-                SubAccountEnv = self.env["analytic_accounts.group.sub_account"]
-                existing_sub_account= SubAccountEnv.search(["&", ("code", "=", sub_account_code), ("account_id", "=", values["account"])])
-                if existing_sub_account:
-                    values["sub_account"] = existing_sub_account.id
-                else:
-                    new_sub_account = SubAccountEnv.create({
-                            "name": "sub_account-{}".format(sub_account_code),
-                            "account_id": values["account"],
-                            "code": sub_account_code
-                        })
-                    values["sub_account"] = new_sub_account.id
-                    
-                
-                #===================================================================
-                # Item
-                #===================================================================
-                ItemEnv = self.env["analytic_accounts.group.item"]
-                existing_item = ItemEnv.search(["&", ("code", "=", item_code), ("sub_account_id", "=", values["sub_account"])])
-                if existing_item:
-                    values["item"] = existing_item.id
-                else:
-                    new_item = ItemEnv.create({
-                            "name": "account-{}".format(item_code),
-                            "sub_account_id": values["sub_account"],
-                            "code": item_code
-                        })
-                    values["item"] = new_item.id
+                    raise exceptions.ValidationError(_("Country needs state specified"))
             else:
-                raise exceptions.ValidationError(_("Code length needs to be equals to {}".format(CODE_LENGTH)))
+                raise exceptions.ValidationError(_("Company needs country specified"))
+                
+            department_code     = code[9:13]
+            sub_department_code = code[13:17]
+            
+            type_code           = code[17:21]
+            group_code          = code[21:25]
+            account_code        = code[25:29]
+            sub_account_code    = code[29:33]
+            item_code           = code[33:37]
+            
+            #===================================================================
+            # Estos son distinto porque sin independientes y ademas opcionales
+            #===================================================================
+            DeptEnv = self.env["analytic_accounts.group.department"]
+            existing_dept = DeptEnv.search([["code", "=", department_code]])
+            if existing_dept:
+                values["department"] = existing_dept.id
+            else:
+                new_dept= DeptEnv.create({
+                        "name": "department-{}".format(department_code),
+                        "code": department_code
+                    })
+                values["department"] = new_dept.id
+            
+            #===================================================================
+            # Type
+            #===================================================================
+            SubDeptEnv = self.env["analytic_accounts.group.sub_department"]
+            existing_sub_department = SubDeptEnv.search([["code", "=", sub_department_code]])
+            if existing_sub_department:
+                values["sub_department"] = existing_sub_department.id
+            else:
+                new_sub_department = SubDeptEnv.create({
+                        "name": "sub_department-{}".format(sub_department_code),
+                        "code": sub_department_code
+                    })
+                values["sub_department"] = new_sub_department.id
+            
+            #===================================================================
+            # Todo esto se hace para hacer un "merge" a los
+            # datos type, group, account, sub account y item
+            #===================================================================
+            
+            
+           
+            
+            #===================================================================
+            # Type
+            #===================================================================
+            TypeEnv = self.env["analytic_accounts.group.type"]
+            existing_type = TypeEnv.search([["code", "=", type_code]])
+            if existing_type:
+                values["type"] = existing_type.id
+            else:
+                new_type = TypeEnv.create({
+                        "name": "type-{}".format(type_code),
+                        "code": type_code
+                    })
+                values["type"] = new_type.id
+                
+            
+            #===================================================================
+            # Group
+            #===================================================================
+            GroupEnv = self.env["analytic_accounts.group"]
+            existing_group= GroupEnv.search(["&", ("code", "=", group_code), ("type_id", "=", values["type"])])
+            if existing_group:
+                values["group"] = existing_group.id
+            else:
+                new_group = GroupEnv.create({
+                        "name": "group-{}".format(group_code),
+                        "type_id": values["type"],
+                        "code": group_code
+                    })
+                values["group"] = new_group.id
+            
+            #===================================================================
+            # Account
+            #===================================================================
+            AccountEnv = self.env["analytic_accounts.group.account"]
+            existing_account= AccountEnv.search(["&", ("code", "=", account_code), ("group_id", "=", values["group"])])
+            if existing_account:
+                values["account"] = existing_account.id
+            else:
+                new_account = AccountEnv.create({
+                        "name": "account-{}".format(account_code),
+                        "group_id": values["group"],
+                        "code": account_code
+                    })
+                values["account"] = new_account.id
+                
+            
+            #===================================================================
+            # Sub Account
+            #===================================================================
+            SubAccountEnv = self.env["analytic_accounts.group.sub_account"]
+            existing_sub_account= SubAccountEnv.search(["&", ("code", "=", sub_account_code), ("account_id", "=", values["account"])])
+            if existing_sub_account:
+                values["sub_account"] = existing_sub_account.id
+            else:
+                new_sub_account = SubAccountEnv.create({
+                        "name": "sub_account-{}".format(sub_account_code),
+                        "account_id": values["account"],
+                        "code": sub_account_code
+                    })
+                values["sub_account"] = new_sub_account.id
+                
+            
+            #===================================================================
+            # Item
+            #===================================================================
+            ItemEnv = self.env["analytic_accounts.group.item"]
+            existing_item = ItemEnv.search(["&", ("code", "=", item_code), ("sub_account_id", "=", values["sub_account"])])
+            if existing_item:
+                values["item"] = existing_item.id
+            else:
+                new_item = ItemEnv.create({
+                        "name": "account-{}".format(item_code),
+                        "sub_account_id": values["sub_account"],
+                        "code": item_code
+                    })
+                values["item"] = new_item.id
         else:
-            raise exceptions.ValidationError(_("Code is mandatory"))
+            raise exceptions.ValidationError(_("Cosas de la vida ¯\_()_/¯"))
         pass
 
 
