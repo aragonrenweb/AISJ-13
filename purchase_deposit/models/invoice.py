@@ -6,7 +6,7 @@ from odoo import models
 
 
 class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
 
     def _prepare_invoice_line_from_po_line(self, line):
         res = super(AccountInvoice, self).\

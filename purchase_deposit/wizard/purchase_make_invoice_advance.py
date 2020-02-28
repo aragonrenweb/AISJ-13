@@ -57,7 +57,7 @@ class PurchaseAdvancePaymentInv(models.TransientModel):
         self.deposit_taxes_id = product.supplier_taxes_id
 
     def _create_invoice(self, order, po_line, amount):
-        Invoice = self.env['account.invoice']
+        Invoice = self.env['account.move']
         ir_property_obj = self.env['ir.property']
         account_id = False
         product = self.purchase_deposit_product_id

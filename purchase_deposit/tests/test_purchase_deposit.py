@@ -14,7 +14,7 @@ class TestPurchaseDeposit(TransactionCase):
         super(TestPurchaseDeposit, self).setUp()
         self.product_model = self.env['product.product']
         self.account_model = self.env['account.account']
-        self.invoice_model = self.env['account.invoice']
+        self.invoice_model = self.env['account.move']
         self.default_model = self.env['ir.default']
 
         # Create Deposit Account
