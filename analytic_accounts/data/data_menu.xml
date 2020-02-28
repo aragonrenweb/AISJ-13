@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Action for graphics -->
+	<record model="ir.actions.act_window" id="action_analytic_account_graphics">
+        <field name="name">Account Graphics</field>
+        <field name="res_model">account.analytic.account</field>
+        <field name="view_mode">graph,search</field>
+        <field name="view_id" ref="view_analytic_account_graph"/>
+    </record>
+
+    <!-- Action for just see account -->
+    <record model="ir.actions.act_window" id="action_analytic_account">
+        <field name="name">Analytic account</field>
+        <field name="res_model">account.analytic.account</field>
+        <field name="view_mode">tree,form,graph,search</field>
+    </record>
+    
+    <!-- Action for just see account -->
+    <!-- <record model="ir.actions.act_window" id="action_analytic_account_report_form">
+        <field name="name">Analytic account</field>
+        <field name="res_model">account.analytic.account</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_analytic_account_report_form"/>
+        <field name="target">inline</field>
+    </record> -->
+
+
+    <!-- List of view of action -->
+
+    <!-- Tree -->
+    <record model="ir.actions.act_window.view" id="action_analytic_account_tree">
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="analytic.view_account_analytic_account_list"/>
+        <field name="act_window_id" ref="action_analytic_account"/>
+    </record>
+
+    <!-- Form -->
+    <record model="ir.actions.act_window.view" id="action_analytic_account_form">
+        <field name="sequence" eval="21"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_analytic_account_form"/>
+        <field name="act_window_id" ref="action_analytic_account"/>
+    </record>
+    
+    <!-- Graph -->
+    <record model="ir.actions.act_window.view" id="action_analytic_account_graph">
+        <field name="sequence" eval="21"/>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_analytic_account_graph"/>
+        <field name="act_window_id" ref="action_analytic_account"/>
+    </record>
+
+    <menuitem id="menu_analytic_account_parent"
+              name="Analytic Account"
+              parent="account_accountant.menu_accounting"/>
+
+    <menuitem id="menu_analytic_account"
+              parent="menu_analytic_account_parent"
+              action="action_analytic_account"
+              name="Analytic Account"/>
+              
+    <menuitem id="menu_analytic_account_graphics"
+              parent="menu_analytic_account_parent"
+              action="action_analytic_account_graphics"
+              name="Analytic Graphics"/>
+              
+    <!-- <menuitem id="menu_analytic_account_report_form"
+              parent="menu_analytic_account_parent"
+              action="action_analytic_account_report_form"
+              name="Analytic Reports"/> -->
+</odoo>
