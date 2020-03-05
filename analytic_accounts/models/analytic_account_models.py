@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, exceptions, _
+import logging
 
 def cojo_padding_4_right(number):
     return str(number).rjust(4, '0') if type(number) == str else "0000"
@@ -10,6 +11,8 @@ def cojo_padding_3_right(number):
 
 def cojo_padding_2_right(number):
     return str(number).rjust(2, '0') if type(number) == str else "00"
+
+_logger_ = logging.getLogger(__name__)
 
 # We add these fields because we can use odoo's Company, Country and State models
 class Company(models.Model):
@@ -200,7 +203,8 @@ class AnalyticAccounts(models.Model):
 
     def _import(self, values):
         code = values["code"]
-        print(code)
+        _logger_.info("Importing analytic account with reference: {}".format(code))
+
         if len(code) == 37:
             country_code        = code[0:2]
             region_code         = code[2:5]
@@ -215,19 +219,15 @@ class AnalyticAccounts(models.Model):
             CompanyEnv = self.env["res.company"]
             company_id = CompanyEnv.search([("analytic_code", "=", company_code)])
             if not company_id:
-                raise exceptions.ValidationError(_("Invalid company code"))
+                raise exceptions.ValidationError(_("Invalid company code, must be 1234"))
             company_record = CompanyEnv.browse([company_id])
             
-            if True:
-                pass
-                # raise exceptions.ValidationError(_(" (test)"))
-            
             if company_record.ids[0].country_id:
-                if company_record.ids[0].country_id.code == country_code:
-                    raise exceptions.ValidationError(_("Invalid country code"))
+                if company_record.ids[0].country_id.code != country_code:
+                    raise exceptions.ValidationError(_("Invalid country code, must be 12"))
                 if company_record.ids[0].state_id:
-                    if company_record.ids[0].state_id.code == region_code:
-                        raise exceptions.ValidationError(_("Cosas de la vida Â¯\_(ãƒ„)_/Â¯: (Invalid region/state code)"))
+                    if company_record.ids[0].state_id.code != region_code:
+                        raise exceptions.ValidationError(_("Invalid region/state code, must be 123"))
                 else:
                     raise exceptions.ValidationError(_("Country needs state specified"))
             else:
@@ -247,6 +247,9 @@ class AnalyticAccounts(models.Model):
             #===================================================================
             DeptEnv = self.env["analytic_accounts.group.department"]
             existing_dept = DeptEnv.search([["code", "=", department_code]])
+            if len(existing_dept.ids) > 1:
+                _logger_.error("Multiple departments!: {}".format( [r.name for r in existing_dept] ))
+
             if existing_dept:
                 values["department"] = existing_dept.id
             else:
@@ -261,6 +264,9 @@ class AnalyticAccounts(models.Model):
             #===================================================================
             SubDeptEnv = self.env["analytic_accounts.group.sub_department"]
             existing_sub_department = SubDeptEnv.search([["code", "=", sub_department_code]])
+            if len(existing_sub_department.ids) > 1:
+                _logger_.error("Multiple sub departments!: {}".format( [r.name for r in existing_sub_department] ))
+
             if existing_sub_department:
                 values["sub_department"] = existing_sub_department.id
             else:
@@ -283,6 +289,9 @@ class AnalyticAccounts(models.Model):
             #===================================================================
             TypeEnv = self.env["analytic_accounts.group.type"]
             existing_type = TypeEnv.search([["code", "=", type_code]])
+            if len(existing_type.ids) > 1:
+                _logger_.error("Multiple type!: {}".format( [r.name for r in existing_type] ))
+
             if existing_type:
                 values["type"] = existing_type.id
             else:
@@ -298,6 +307,9 @@ class AnalyticAccounts(models.Model):
             #===================================================================
             GroupEnv = self.env["analytic_accounts.group"]
             existing_group= GroupEnv.search(["&", ("code", "=", group_code), ("type_id", "=", values["type"])])
+            if len(existing_group.ids) > 1:
+                _logger_.error("Multiple groups!: {}".format( [r.name for r in existing_group] ))
+
             if existing_group:
                 values["group"] = existing_group.id
             else:
@@ -313,6 +325,9 @@ class AnalyticAccounts(models.Model):
             #===================================================================
             AccountEnv = self.env["analytic_accounts.group.account"]
             existing_account= AccountEnv.search(["&", ("code", "=", account_code), ("group_id", "=", values["group"])])
+            if len(existing_account.ids) > 1:
+                _logger_.error("Multiple account!: {}".format( [r.name for r in existing_account] ))
+
             if existing_account:
                 values["account"] = existing_account.id
             else:
@@ -329,6 +344,9 @@ class AnalyticAccounts(models.Model):
             #===================================================================
             SubAccountEnv = self.env["analytic_accounts.group.sub_account"]
             existing_sub_account= SubAccountEnv.search(["&", ("code", "=", sub_account_code), ("account_id", "=", values["account"])])
+            if len(existing_sub_account.ids) > 1:
+                _logger_.error("Multiple sub account!: {} in account: {}".format( [r.name for r in existing_sub_account], values["account"]))
+
             if existing_sub_account:
                 values["sub_account"] = existing_sub_account.id
             else:
@@ -345,6 +363,9 @@ class AnalyticAccounts(models.Model):
             #===================================================================
             ItemEnv = self.env["analytic_accounts.group.item"]
             existing_item = ItemEnv.search(["&", ("code", "=", item_code), ("sub_account_id", "=", values["sub_account"])])
+            if len(existing_item.ids) > 1:
+                _logger_.error("Multiple items!: {}".format( [r.name for r in existing_item] ))
+
             if existing_item:
                 values["item"] = existing_item.id
             else:
