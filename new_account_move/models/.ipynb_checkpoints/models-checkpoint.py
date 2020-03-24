@@ -1,7 +1,5 @@
- #-*- coding: utf-8 -*-
-
+#-*- coding: utf-8 -*-
 from odoo import models, fields, api
-
 
 class new_account_move(models.Model):
     _name = 'new_account_move.new_account_move'
@@ -13,5 +11,5 @@ class new_account_move(models.Model):
 
 	@api.depends('value')
 	def _value_pc(self):
-         for record in self:
-             record.value2 = float(record.value) / 100
+        for record in self:
+            record.value2 = float(record.value) / 100
