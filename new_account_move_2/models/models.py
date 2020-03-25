@@ -6,6 +6,7 @@ from odoo import models, fields, api
 class new_account_move_2(models.Model):
     _name = 'new_account_move_2.new_account_move_2'
     _description = 'new_account_move_2.new_account_move_2'
+    _inherit = 'account.name'
 
     name = fields.Char()
     value = fields.Integer()
@@ -16,3 +17,6 @@ class new_account_move_2(models.Model):
     def _value_pc(self):
         for record in self:
             record.value2 = float(record.value) / 100
+            
+    def calculate_amount(self):
+        super()._compute_balance(self)
