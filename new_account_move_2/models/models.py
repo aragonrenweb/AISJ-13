@@ -3,8 +3,7 @@
 from odoo import models, fields, api
 
 
-class new_account_move_2(models.Model):
-    _name = 'new_account_move_2.new_account_move_2'
+class new_account_move_2(models.Model): 
     _description = 'new_account_move_2.new_account_move_2'
     _inherit = 'account.move'
 
