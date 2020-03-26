@@ -7,4 +7,4 @@ class new_account_move_2(models.Model):
     _inherit = 'account.move'
 
     def calculateAmount(self):
-        super()._recompute_tax_lines()
+        super()._onchange_invoice_date()
