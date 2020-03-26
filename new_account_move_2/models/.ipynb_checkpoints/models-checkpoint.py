@@ -2,7 +2,6 @@
 
 from odoo import models, fields, api
 
-
 class new_account_move_2(models.Model): 
     _inherit = 'account.move'
 
