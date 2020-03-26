@@ -8,3 +8,6 @@ class new_account_move_2(models.Model):
     def calculateAmount(self):
         super()._onchange_invoice_date()
         super()._recompute_dynamic_lines()
+        
+    def calculateMoveLineAmount(self):
+        super()._compute_amount()
