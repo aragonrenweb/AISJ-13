@@ -19,7 +19,6 @@
                     </group>
                     <group>
                         <field name="pricelist_id"/>
-                        <field name="separate_by_financial_responsability"/>
                     </group>
                 </group>
                 <notebook>
@@ -63,7 +62,7 @@
                     </page>
                 </notebook>
                 <footer>
-                    <button name="go_to_invoices" string="Confirm" type="object" class="btn-primary" />
+                    <button name="create" string="Confirm" type="object" class="btn-primary" />
                     <button string="Cancel" class="btn-danger" special="cancel" />
                 </footer>
             </form>
