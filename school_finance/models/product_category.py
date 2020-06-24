@@ -9,4 +9,4 @@ class ProductCategory (models.Model):
 
     def _compute_facts_id(self):
         for record in self:
-            facts_id = str(record.facts_id_int)
+            record.facts_id = str(record.facts_id_int)

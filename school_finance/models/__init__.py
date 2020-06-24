@@ -5,3 +5,4 @@ from . import account_move
 from . import sale_order
 from . import setting
 from . import product_category
+from . import account_journal
