@@ -16,6 +16,7 @@ class AccountJournal(models.Model):
 
     facts_id_int = fields.Integer("Fact id")
     facts_id = fields.Char("Fact id (Char)", readonly=True, compute="_compute_facts_id")
+    is_invoice = fields.Boolean()
 
     def _compute_facts_id(self):
         for record in self:
