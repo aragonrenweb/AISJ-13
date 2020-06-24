@@ -63,7 +63,6 @@ class SaleOrderForStudents(models.Model):
         
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
-
     @api.onchange('product_uom', 'product_uom_qty')
     def product_uom_change(self):
         super().product_uom_change()
