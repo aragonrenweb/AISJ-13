@@ -10,3 +10,12 @@ class AccountMove(models.Model):
 
     family_members_ids = fields.Many2many(related="family_id.member_ids")
 
+    receivable_account_id = fields.Many2one("account.account", string="Receivable account")
+
+    def set_receivable_account(self):
+        for record in self:
+            receivable_line_id = record.line_ids.filtered(lambda record: record.account_id.user_type_id.type == 'receivable')
+            receivable_line_id.ensure_one()
+            if (receivable_line_id):
+                receivable_line_id.account_id = record.receivable_account_id.id
+
