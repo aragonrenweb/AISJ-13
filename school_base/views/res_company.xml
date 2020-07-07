@@ -10,7 +10,9 @@
 
             <notebook position="inside">
                 <page string="School information">
-                    <field name="district_code_id"/>
+                    <group>
+                        <field name="district_code_id"/>
+                    </group>
                 </page>
             </notebook>
 
