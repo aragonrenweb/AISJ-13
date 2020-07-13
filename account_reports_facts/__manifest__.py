@@ -17,5 +17,8 @@
         'account_reports',
     ],
 
-    'data': [],
+    'data': [
+        'views/assets.xml',
+        'views/search_template_views.xml',
+    ],
 }

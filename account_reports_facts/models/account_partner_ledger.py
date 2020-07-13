@@ -5,12 +5,15 @@ from odoo import models, fields, api, _
 class AccountPartnerLedger(models.AbstractModel):
     _inherit = "account.partner.ledger"
 
+    filter_show_facts = False
+
     def _get_columns_name(self, options):
         res = super(AccountPartnerLedger, self)._get_columns_name(options)
-        res.insert(2, {"name": _('JRNL FID')})
-        res.insert(7, {"name": _('Category')})
-        res.insert(8, {"name": _('Base'), "class": "number"})
-        res.insert(9, {"name": _('Tax'), "class": "number"})
+        if options.get("show_facts"):
+            res.insert(2, {"name": _('JRNL FID')})
+            res.insert(7, {"name": _('Category')})
+            res.insert(8, {"name": _('Base'), "class": "number"})
+            res.insert(9, {"name": _('Tax'), "class": "number"})
         return res
 
     @api.model
@@ -90,19 +93,21 @@ class AccountPartnerLedger(models.AbstractModel):
     @api.model
     def _get_report_line_partner(self, options, partner, initial_balance, debit, credit, balance):
         res = super(AccountPartnerLedger, self)._get_report_line_partner(options, partner, initial_balance, debit, credit, balance)
-        res["colspan"] += 4
+        if options.get("show_facts"):
+            res["colspan"] += 4
         return res
 
     @api.model
     def _get_report_line_move_line(self, options, partner, aml, cumulated_init_balance, cumulated_balance):
         final_res = []
         res = super(AccountPartnerLedger, self)._get_report_line_move_line(options, partner, aml, cumulated_init_balance, cumulated_balance)
-        res["columns"].insert(1, {"name": aml["journal_facts_id"]})
-        res["columns"].insert(6, {})
-        res["columns"].insert(7, {})
-        res["columns"].insert(8, {"name": self.format_value(aml["move_amount_tax"], blank_if_zero=True), "class": "number"})
+        if options.get("show_facts"):
+            res["columns"].insert(1, {"name": aml["journal_facts_id"]})
+            res["columns"].insert(6, {})
+            res["columns"].insert(7, {})
+            res["columns"].insert(8, {"name": self.format_value(aml["move_amount_tax"], blank_if_zero=True), "class": "number"})
         final_res.append(res)
-        if aml["move_type"] in ["out_invoice", "out_refund", "out_receipt", "in_invoice", "in_refund", "in_receipt"]:
+        if options.get("show_facts") and aml["move_type"] in ["out_invoice", "out_refund", "out_receipt", "in_invoice", "in_refund", "in_receipt"]:
             move = self.env["account.move"].browse(aml["move_id"])
             for line in move.invoice_line_ids:
                 final_res.append({
@@ -112,8 +117,8 @@ class AccountPartnerLedger(models.AbstractModel):
                     "colspan": 7,
                     "parent_id": aml["id"],
                     "columns": [
-                        {"name": line.product_id.categ_id.complete_name},
-                        {"name": self.format_value(line.price_subtotal), "class": "number"},
+                        {"name": line.product_id.categ_id.complete_name, "class": "nomargin"},
+                        {"name": self.format_value(line.price_subtotal), "class": "number nomargin"},
                         {},
                         {},
                         {},
@@ -177,5 +182,6 @@ class AccountPartnerLedger(models.AbstractModel):
     @api.model
     def _get_report_line_total(self, options, initial_balance, debit, credit, balance):
         res = super(AccountPartnerLedger, self)._get_report_line_total(options, initial_balance, debit, credit, balance)
-        res["colspan"] += 4
+        if options.get("show_facts"):
+            res["colspan"] += 4
         return res
