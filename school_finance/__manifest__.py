@@ -13,13 +13,14 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Invoicing',
-    'version': '0.8.1',
+    'version': '0.9.3',
 
     # any module necessary for this one to work correctly
     'depends': [
         'base',
         'school_base',
         'sale',
+        'base_automation',
     ],
 
     # always loaded
@@ -28,6 +29,7 @@
 
         # Actions
         'data/sale_order_actions.xml',
+        'data/base_automation_data.xml',
 
         # Views
         'views/views.xml',
