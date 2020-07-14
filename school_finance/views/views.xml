@@ -30,7 +30,7 @@
     </record>
 
     <record model="ir.ui.view" id="view_res_partner_school_finance_form_view">
-        <field name="name">view_res_partner_school_fields_form_view</field>
+        <field name="name">view.res.partner.school.finance.form.view</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
