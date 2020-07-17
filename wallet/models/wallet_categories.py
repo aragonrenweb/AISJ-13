@@ -14,7 +14,7 @@ class WalletCategory(models.Model):
     product_id = fields.Many2one("product.product", "Product", readonly=True)
     credit_limit = fields.Float("Credit limit", default=lambda self: float(
         self.env["ir.config_parameter"].get_param('wallet.wallet_credit_limit')))
-    product_external_rel_id = fields.Char(related="product_id.external_rel_id")
+    product_external_relation_id = fields.Char(related="product_id.categ_id.external_relation_id")
 
     def get_wallet_amount(self, partner_id, wallet_category_id=False):
 
