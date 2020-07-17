@@ -26,4 +26,4 @@ class AccountPayment(models.Model):
 
     paid_amount = fields.Monetary(compute="_compute_paid_amount", store=True)
     unpaid_amount = fields.Monetary(compute="_compute_unpaid_amount", store=True)
-    payment_journal_category_id = fields.Many2one("account.journal", domain="[('type', '=', 'sale')]")
+    wallet_id = fields.Many2one("wallet.category")

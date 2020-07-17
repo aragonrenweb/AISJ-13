@@ -14,22 +14,26 @@ class WalletCategory(models.Model):
     product_id = fields.Many2one("product.product", "Product", readonly=True)
     credit_limit = fields.Float("Credit limit", default=lambda self: float(
         self.env["ir.config_parameter"].get_param('wallet.wallet_credit_limit')))
+    product_external_rel_id = fields.Char(related="product_id.external_rel_id")
 
-    def get_wallet_amount(self, partner_id, wallet_category_id):
+    def get_wallet_amount(self, partner_id, wallet_category_id=False):
 
         if type(partner_id) == int:
             partner_id = self.env["res.partner"].browse(partner_id)
 
         if type(wallet_category_id) == int:
             wallet_category_id = self.env["wallet.category"].browse([wallet_category_id])
+        elif not wallet_category_id:
+            wallet_category_id = self
 
-        wallet_moves = self.env["account.move"].search(
-            [("partner_id", "=", partner_id.id), ('state', '=', 'posted')]).invoice_line_ids.filtered(
-            lambda line_id: line_id.product_id in wallet_category_id.product_id)
+        if wallet_category_id:
+            wallet_moves = self.env["account.move"].search(
+                [("partner_id", "=", partner_id.id), ('state', '=', 'posted')]).invoice_line_ids.filtered(
+                lambda line_id: line_id.product_id in wallet_category_id.product_id)
 
-        if wallet_moves:
-            amount_total = sum(wallet_moves.mapped(lambda move_line: move_line.price_unit if move_line.move_id.type == 'out_invoice' else -move_line.price_unit))
-            return amount_total
+            if wallet_moves:
+                amount_total = sum(wallet_moves.mapped(lambda move_line: move_line.price_unit if move_line.move_id.type == 'out_invoice' else -move_line.price_unit))
+                return amount_total
 
         return 0
 
@@ -52,13 +56,13 @@ class WalletCategory(models.Model):
 
         return wallet_id
 
-    def get_category_id(self, category_id):
+    def get_wallet_by_category_id(self, category_id):
         if not category_id:
             return self.env.ref("wallet.default_wallet_category")
 
         wallet_id = self.env["wallet.category"].search([("category_id", "=", category_id.id)])
         if not wallet_id:
-            wallet_id = self.get_category_id(category_id.parent_id)
+            wallet_id = self.get_wallet_by_category_id(category_id.parent_id)
         return wallet_id
 
     def find_next_available_wallet(self, partner_id, category_id):

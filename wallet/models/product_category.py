@@ -12,9 +12,15 @@ class ProductCategory(models.Model):
 
     wallet_ok = fields.Boolean("For wallet use")
 
+    external_rel_id = fields.Char(help="This is only for migration reason")
+    parent_count = fields.Integer("How many category parent it has", store=True, compute="get_parent_count")
+
+    @api.depends("parent_id")
     def get_parent_count(self):
-        self.ensure_one()
-        if self.parent_id:
-            return 1 + get_parent_account(self.parent_id)
-        else:
-            return 1
+        for record in self:
+            count = 0
+            parent_id = record.parent_id
+            while parent_id:
+                count += 1
+                parent_id = parent_id.parent_id
+            record.parent_count = count
