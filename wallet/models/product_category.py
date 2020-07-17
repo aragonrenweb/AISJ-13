@@ -12,7 +12,7 @@ class ProductCategory(models.Model):
 
     wallet_ok = fields.Boolean("For wallet use")
 
-    external_rel_id = fields.Char(help="This is only for migration porpuse")
+    external_relation_id = fields.Char(help="This is only for migration reason")
     parent_count = fields.Integer("How many category parent it has", store=True, compute="get_parent_count")
 
     @api.depends("parent_id")
