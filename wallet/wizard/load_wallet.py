@@ -1,6 +1,8 @@
 
-from odoo import fields, models, api
+from odoo import fields, models, api, _
 import logging
+
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -16,10 +18,23 @@ class LoadWallet(models.TransientModel):
     currency_id = fields.Many2one('res.currency', compute='_get_company_currency', readonly=True,
                                   string="Currency", help='Utility field to express amount currency')
 
+    wallet_id = fields.Many2one("wallet.category", "Wallet")
     amount = fields.Monetary("Amount")
-    payment_ids = fields.Many2many("account.payment")
+    max_amount = fields.Monetary(compute="_compute_max_amount", store=True, readonly=True)
+    payment_ids = fields.Many2many("account.payment", required=True)
     wallet_category_id = fields.Many2one("wallet.category", "Wallet Category")
     wallet_journal_category_id = fields.Many2one(related="wallet_category_id.journal_category_id")
+
+    @api.constrains("amount")
+    def _check_amount(self):
+        for record in self:
+            if record.amount > record.max_amount:
+                raise ValidationError("")
+
+    @api.depends('payment_ids')
+    def _compute_max_amount(self):
+        for record in self:
+            record.max_amount = sum(record.payment_ids.mapped("unpaid_amount"))
 
     @api.depends('amount', 'payment_ids')
     def _onchange_amount(self):
@@ -27,11 +42,18 @@ class LoadWallet(models.TransientModel):
 
             max_amount = 0.0
 
-            if payment_ids:
+            if record.payment_ids:
                 max_amount = sum(record.payment_ids.mapped(lambda payment: payment.amount))
 
             if record.amount > max_amount:
                 record.amount = max_amount
+
+    @api.model
+    def create(self, vals_list):
+        load_wallet_id = super().create(vals_list)
+        if not load_wallet_id.payment_ids:
+            raise ValidationError(_("Please, add at least one payment"))
+        return load_wallet_id
 
     def load_wallet(self):
         self.ensure_one()
@@ -39,5 +61,6 @@ class LoadWallet(models.TransientModel):
         partner_ids = context.get("active_ids", False)
 
         if partner_ids:
-            resPartner = self.env["res.partner"]
-            resPartner.browse(partner_ids).load_wallet(self.payment_ids.ids, self.wallet_category_id.ids, self.amount)
+            if self.payment_ids:
+                resPartner = self.env["res.partner"]
+                resPartner.browse(partner_ids).load_wallet(self.payment_ids.ids, self.wallet_category_id.ids, self.amount)

@@ -16,6 +16,9 @@ class WalletCategory(models.Model):
         self.env["ir.config_parameter"].get_param('wallet.wallet_credit_limit')))
     product_external_relation_id = fields.Char(related="product_id.categ_id.external_relation_id")
 
+    def get_default_wallet(self):
+        return self.env.ref("wallet.default_wallet_category")
+
     def get_wallet_amount(self, partner_id, wallet_category_id=False):
 
         if type(partner_id) == int:
@@ -58,7 +61,7 @@ class WalletCategory(models.Model):
 
     def get_wallet_by_category_id(self, category_id):
         if not category_id:
-            return self.env.ref("wallet.default_wallet_category")
+            return self.get_default_wallet()
 
         wallet_id = self.env["wallet.category"].search([("category_id", "=", category_id.id)])
         if not wallet_id:

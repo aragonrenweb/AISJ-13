@@ -10,8 +10,13 @@
         <field name="arch" type="xml">
             <xpath expr="sheet" position="before">
                 <header>
-                    <button id="load_wallet_button" name="%(wallet.action_load_wallet_wizard)d" confirm="Are you sure?" type="action" class="oe_highlight" string="Load wallet" />
-                    <button id="reduce_wallet_button" confirm="Are you sure?" type="action" class="oe_highlight" string="Reduce wallet" />
+                    <button id="load_wallet_button"
+                            name="%(wallet.action_load_wallet_wizard)d"
+                            _confirm="Are you sure?"
+                            type="action"
+                            class="oe_highlight"
+                            string="Load wallet" />
+                    <button id="autoclear_btn" name="execute_autoclear" confirm="Are you sure?" type="object" class="oe_highlight" string="Autoclear" />
                 </header>
             </xpath>
         </field>
