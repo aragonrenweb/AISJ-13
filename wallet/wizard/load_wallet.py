@@ -21,15 +21,25 @@ class LoadWallet(models.TransientModel):
     wallet_id = fields.Many2one("wallet.category", "Wallet")
     amount = fields.Monetary("Amount")
     max_amount = fields.Monetary(compute="_compute_max_amount", store=True, readonly=True)
+
+    # For some reason, payment_ids is not required ._.
     payment_ids = fields.Many2many("account.payment", required=True)
     wallet_category_id = fields.Many2one("wallet.category", "Wallet Category")
     wallet_journal_category_id = fields.Many2one(related="wallet_category_id.journal_category_id")
+    partner_id = fields.Many2one("res.partner", "Partner")
 
     @api.constrains("amount")
     def _check_amount(self):
         for record in self:
             if record.amount > record.max_amount:
-                raise ValidationError("")
+                raise ValidationError(_("Amount cannot be greather than max amount"))
+            if record.amount < 0:
+                raise ValidationError(_("Amount cannot be neggative"))
+
+    @api.onchange("wallet_id")
+    def _remove_payments_without_selected_wallet_id(self):
+        wallet_id = self.wallet_id if self.wallet_id != self.wallet_id.get_default_wallet() else False
+        self.payment_ids = self.payment_ids.filtered(lambda payment: payment.wallet_id == self.wallet_id or not payment.wallet_id)
 
     @api.depends('payment_ids')
     def _compute_max_amount(self):
@@ -53,6 +63,10 @@ class LoadWallet(models.TransientModel):
         load_wallet_id = super().create(vals_list)
         if not load_wallet_id.payment_ids:
             raise ValidationError(_("Please, add at least one payment"))
+        else:
+            draft_payment_ids = load_wallet_id.payment_ids.filtered(lambda payment: payment.state == 'draft')
+            draft_payment_ids.post()
+
         return load_wallet_id
 
     def load_wallet(self):
@@ -63,4 +77,4 @@ class LoadWallet(models.TransientModel):
         if partner_ids:
             if self.payment_ids:
                 resPartner = self.env["res.partner"]
-                resPartner.browse(partner_ids).load_wallet(self.payment_ids.ids, self.wallet_category_id.ids, self.amount)
+                resPartner.browse(partner_ids).load_wallet(self.payment_ids.ids, self.wallet_id, self.amount)

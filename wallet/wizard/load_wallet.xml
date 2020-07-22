@@ -7,6 +7,7 @@
             <form string="Load wallet">
                 <group col="1">
                     <group>
+                        <field name="partner_id"/>
                         <field name="wallet_id" editable="true"/>
                     </group>
                     <group col="2">
@@ -18,11 +19,17 @@
                         </group>
                     </group>
                     <field name="payment_ids"
-                           domain="['&amp;', ('partner_id', 'in', active_ids),
-                                    '|', ('wallet_id', '=', wallet_id),
-                                         ('wallet_id', '=', False),
-                                         ('unpaid_amount', '>', 0)
+                           domain="[
+                                    ('wallet_id', 'in', (wallet_id, False)),
+                                    ('unpaid_amount', '>', 0),
+                                    ('payment_type', '=', 'inbound'),
+                                    ('partner_id', '=', partner_id),
+                                    ('partner_type', '=', 'customer'),
                                    ]"
+                           context="{'default_partner_id': partner_id,
+                           'default_payment_type': 'inbound',
+                           'default_wallet_id': wallet_id,
+                           'default_partner_type': 'customer'}"
                     >
                         <tree>
                             <field name="payment_date"/>
@@ -50,5 +57,6 @@
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="wallet.load_wallet_form"/>
         <field name="target">new</field>
+        <field name="context">{"default_partner_id": active_id}</field>
     </record>
 </odoo>

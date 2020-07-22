@@ -13,14 +13,15 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Wallet',
-    'version': '0.8',
+    'version': '1.0-beta',
 
     # any module necessary for this one to work correctly
     'depends': [
         'base', 
         "account",
         "account_accountant",
-        "product"],
+        "product"
+    ],
 
     # always loaded
     'data': [

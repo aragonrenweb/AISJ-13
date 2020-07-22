@@ -76,6 +76,7 @@ class ResPartner (models.Model):
         move_ids = self.env["account.move"]
 
         for record in self:
+            company_id = record.company_id or self.env.user.company_id
             move_id = accountMoveEnv.create({
                 "type": "out_invoice",
                 "partner_id": record.id,
@@ -85,6 +86,7 @@ class ResPartner (models.Model):
                     "price_unit": amount,
                     "quantity": 1,
                 })],
+                "company_id": company_id.id
             })
 
             move_id.post()
