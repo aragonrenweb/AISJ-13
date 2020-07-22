@@ -15,10 +15,9 @@ odoo.define('wallet.widgets', function(require) {
             return this._super();
         },
 
-        _render: function() {
+        _renderReadonly: function() {
             let res_ids = [this.value.res_id] || this.value.res_ids;
-
-            this.$el.html("<h1>Hola :3</h1>");
+            this.$el.html("<h1>" + this.value + "</h1>");
         }
 
     });

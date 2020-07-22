@@ -5,16 +5,22 @@
         <field name="model">load.wallet</field>
         <field name="arch" type="xml">
             <form string="Load wallet">
-                <group>
-
-                    <field name="wallet_journal_category_id" invisible="1"/>
-                    <field name="wallet_category_id" editable="true"/>
-                    <field name="amount" editable="true"/>
-
+                <group col="1">
+                    <group>
+                        <field name="wallet_id" editable="true"/>
+                    </group>
+                    <group col="2">
+                        <group colspan="1">
+                            <field name="amount" editable="true" attrs="{ 'readonly': [('wallet_id', '=', False)] }"/>
+                        </group>
+                        <group colspan="1">
+                            <field name="max_amount"/>
+                        </group>
+                    </group>
                     <field name="payment_ids"
                            domain="['&amp;', ('partner_id', 'in', active_ids),
-                                    '|', ('payment_journal_category_id', '=', wallet_journal_category_id),
-                                         ('payment_journal_category_id', '=', False),
+                                    '|', ('wallet_id', '=', wallet_id),
+                                         ('wallet_id', '=', False),
                                          ('unpaid_amount', '>', 0)
                                    ]"
                     >
