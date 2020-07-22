@@ -137,8 +137,15 @@ class AccountMove(models.Model):
                                 "invoice_line_ids": invoice_line_ids,
                             })
 
+                            # We need to ensure that the credit note has the same receivable than the invoice
+                            # So we force it
+                            move_receivable_line_id = move_id.line_ids. \
+                                filtered(lambda move_line_id: move_line_id.account_id.user_type_id.type == 'receivable')
+
                             receivable_line_id = credit_note_id.line_ids. \
                                 filtered(lambda move_line_id: move_line_id.account_id.user_type_id.type == 'receivable')
+
+                            receivable_line_id.account_id = move_receivable_line_id.account_id
 
                             credit_note_id.post()
                             _logger.info("Invoice [%s]: %s paid to %s with: credit note [%s]: %s, amount: %s" %
