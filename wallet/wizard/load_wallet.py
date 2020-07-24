@@ -77,4 +77,4 @@ class LoadWallet(models.TransientModel):
         if partner_ids:
             if self.payment_ids:
                 resPartner = self.env["res.partner"]
-                resPartner.browse(partner_ids).load_wallet(self.payment_ids.ids, self.wallet_id, self.amount)
+                resPartner.browse(partner_ids).load_wallet_with_payments(self.payment_ids.ids, self.wallet_id, self.amount)
