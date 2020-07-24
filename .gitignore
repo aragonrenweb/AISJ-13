@@ -1,3 +1,6 @@
-*.pyc
+# Specify filepatterns you want git to ignore.
+**/__pycache__
+**/.git
+**/
+**/_*
 **/*.pyc
-*/__pycache__/*
