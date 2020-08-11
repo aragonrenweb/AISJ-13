@@ -138,9 +138,6 @@
                         <tr>
                             <t t-set="colspan" t-value="6"/>
                             <th class="text-center ">
-                                <span class="fontBlue">Date</span>
-                            </th>
-                            <th class="text-center ">
                                 <span class="fontBlue">Quantity</span>
                             </th>
                             <th class="text-center ">
@@ -163,12 +160,10 @@
                             <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
                                 <t name="account_invoice_line_accountable" t-if="not line.display_type">
                                     <td class="text-center">
-                                        <span t-field="line.x_date"/>
-                                        <span groups="uom.group_uom" t-field="line.uom_id"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <span t-field="line.quantity"/>
-                                        <span groups="uom.group_uom" t-field="line.uom_id"/>
+                                        <t t-if="line.product_id.type != 'service'">
+                                            <span t-field="line.quantity"/>
+                                            <span groups="uom.group_uom" t-field="line.uom_id"/>
+                                        </t>
                                     </td>
                                     <td class="text-center" name="account_invoice_line_name">
                                         <span t-field="line.name"/>
