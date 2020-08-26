@@ -3,6 +3,7 @@
 import logging
 from odoo import fields, models, api
 from odoo.exceptions import ValidationError
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -26,10 +27,13 @@ def sort_invoice_line_by_wallet_hierarchy(invoice_line_id):
 class ResPartner (models.Model):
     _inherit = 'res.partner'
 
+    json_dict_wallet_amounts = fields.Char(compute="_compute_json_dict_wallet_amounts")
+
     def execute_autoclear(self):
-        self.autoload_payments_to_wallet()
-        self.autoload_credit_notes_to_wallet()
-        self.autopay_invoices_with_wallet()
+        for partner in self:
+            partner.autoload_payments_to_wallet()
+            partner.autoload_credit_notes_to_wallet()
+            partner.autopay_invoices_with_wallet()
 
     def autoload_credit_notes_to_wallet(self):
         for partner_id in self:
@@ -79,7 +83,7 @@ class ResPartner (models.Model):
             wallet_ids = self.env["wallet.category"].search([])
             payment_grouped = {}
             default_wallet_id = self.env.ref("wallet.default_wallet_category")
-            
+
             # We find and group payment with wallets
             for wallet_id in wallet_ids:
                 domain_payment_wallet_id = wallet_id.id
@@ -87,15 +91,15 @@ class ResPartner (models.Model):
                     domain_payment_wallet_id = False
                 payment_ids = self.env["account.payment"].search(
                     [
-                        ("partner_id", "=", self.id), 
-                        ("unpaid_amount", ">", 0), 
+                        ("partner_id", "=", self.id),
+                        ("unpaid_amount", ">", 0),
                         ("wallet_id", "=", domain_payment_wallet_id),
                         ("state", "in", ["posted", "sent", "reconciled"]),
                     ]
                 )
                 if payment_ids:
                     payment_grouped[wallet_id] = payment_ids
-            
+
             # We start load wallet to partners
             for wallet_id, payment_ids in payment_grouped.items():
                 amount = sum(payment_ids.mapped("unpaid_amount"))
@@ -178,6 +182,10 @@ class ResPartner (models.Model):
 
     def load_wallet_with_payments(self, payment_ids, wallet_id, amount):
         self.ensure_one()
+
+        if type(payment_ids) == list:
+            payment_ids = self.env["account.payment"].browse(payment_ids)
+
         accountMoveEnv = self.env["account.move"]
         move_ids = self.env["account.move"]
 
@@ -204,3 +212,14 @@ class ResPartner (models.Model):
         move_ids += move_id
 
         return move_ids
+
+    def _compute_json_dict_wallet_amounts(self):
+        wallet_category_ids = self.env["wallet.category"].search([])
+        for partner_id in self:
+            json_dict_wallet_amounts = {}
+
+            for wallet_category_id in wallet_category_ids:
+                json_dict_wallet_amounts[wallet_category_id.id] = wallet_category_id.get_wallet_amount(partner_id)
+            partner_id.json_dict_wallet_amounts = json.dumps(json_dict_wallet_amounts)
+
+

@@ -10,6 +10,20 @@ class PayWithWallet(models.TransientModel):
     _name = 'pay.with.wallet'
     _description = 'Pay with wallet...'
 
+    @api.depends("wallet_payment_line_ids")
+    def _compute_used_wallet_ids(self):
+        for record in self:
+            # record.wallet_payment_line_ids = record.wallet_payment_line_ids.filtered(
+            #     lambda payment_line_id: payment_line_id.wallet_id)
+            record.used_wallet_ids = record.wallet_payment_line_ids.mapped("wallet_id")
+
+
+    # @api.onchange("wallet_payment_line_ids")
+    # def _onchange_wallet_payment_line_ids(self):
+    #     for record in self:
+
+
+
     @api.depends("partner_id")
     def _compute_wallet_ids(self):
         self.ensure_one()
@@ -52,9 +66,16 @@ class PayWithWallet(models.TransientModel):
         active_move_ids = self._context.get('active_ids', [])
         if active_move_ids:
             move_ids = self.env["account.move"].browse(active_move_ids)
+            move_ids.partner_id.ensure_one()
+
             wallet_to_apply = move_ids.get_wallet_due_amounts()
+            wallet_partner_amounts = {wallet_id: wallet_id.get_wallet_amount(move_ids.partner_id) for wallet_id in
+                                      self.env["wallet.category"].search([])}
             wallet_payment_line_ids = self.env["wallet.payment.line"]
-            for wallet_id, amount in wallet_to_apply.items():
+
+            wallet_suggestion_amounts = move_ids.calculate_wallet_distribution(wallet_to_apply, wallet_partner_amounts)
+
+            for wallet_id, amount in wallet_suggestion_amounts.items():
                 wallet_payment_line_id = self.wallet_payment_line_ids.create({
                     "wallet_id": wallet_id.id,
                     "amount": amount
@@ -64,12 +85,20 @@ class PayWithWallet(models.TransientModel):
 
     partner_id = fields.Many2one("res.partner", required=True)
     wallet_ids = fields.Many2many("wallet.category", compute="_compute_wallet_ids")
-    wallet_payment_line_ids = fields.Many2many("wallet.payment.line", string="Wallets", default=_get_default_lines)
+    used_wallet_ids = fields.Many2many("wallet.category", compute="_compute_used_wallet_ids")
+    wallet_payment_line_ids = fields.One2many("wallet.payment.line", "pay_with_wallet_id", string="Wallets", default=_get_default_lines)
 
 
 class WalletPaymentLine(models.TransientModel):
     _name = "wallet.payment.line"
 
-    wallet_id = fields.Many2one("wallet.category")
+    @api.depends("wallet_id", "amount")
+    def _compute_partner_amount(self):
+        for record in self:
+            if record.wallet_id:
+                record.partner_amount = record.wallet_id.get_wallet_amount(record.pay_with_wallet_id.partner_id) - record.amount
+
+    pay_with_wallet_id = fields.Many2one("pay.with.wallet")
+    wallet_id = fields.Many2one("wallet.category", required=True)
     amount = fields.Float()
-    # max_amount = fields.Float()
+    partner_amount = fields.Float("Partner amount", readonly=True, compute="_compute_partner_amount")
