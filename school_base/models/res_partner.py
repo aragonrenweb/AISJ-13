@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 
-from ..utils import formatting
-
 from odoo import fields, models, api, _
 from odoo.exceptions import AccessError, UserError, ValidationError
+
+from ..utils.commons import switch_statement
 
 SELECT_PERSON_TYPES = [
     ("student", "Student"),
@@ -32,7 +32,38 @@ class Contact(models.Model):
 
     # Overwritten fields
     # Name should be readonly
-    name = fields.Char(index=True, compute="_compute_name", store=True, readonly=True)
+    allow_edit_student_name = fields.Boolean(compute="_retrieve_allow_name_edit_from_config")
+    allow_edit_parent_name = fields.Boolean(compute="_retrieve_allow_name_edit_from_config")
+    allow_edit_person_name = fields.Boolean(compute="_retrieve_allow_name_edit_from_config")
+
+    is_name_edit_allowed = fields.Boolean(compute="_compute_allow_name_edition")
+
+    def _retrieve_allow_name_edit_from_config(self):
+        self.allow_edit_student_name = self.env["ir.config_parameter"].get_param(
+            "school_base.allow_edit_student_name") != False
+        self.allow_edit_parent_name = self.env["ir.config_parameter"].get_param(
+            "school_base.allow_edit_parent_name") != False
+        self.allow_edit_person_name = self.env["ir.config_parameter"].get_param(
+            "school_base.allow_edit_person_name") != False
+
+    @api.depends("allow_edit_student_name",
+                 "allow_edit_parent_name",
+                 "allow_edit_person_name",
+                 "person_type")
+    def _compute_allow_name_edition(self):
+        for partner_id in self:
+            # Sumulating switch statement
+            partner_id.is_name_edit_allowed = switch_statement(cases={
+                "default": partner_id.allow_edit_person_name,
+                "parent": partner_id.allow_edit_parent_name,
+                "student": partner_id.allow_edit_student_name,
+            }, value=partner_id.person_type)
+
+    @api.onchange("person_type")
+    def _onchange_person_type(self):
+        self._compute_allow_name_edition()
+
+    name = fields.Char(index=True, compute="_compute_name", store=True)
 
     company_type = fields.Selection(SELECT_COMPANY_TYPES, string="Company Type")
     person_type = fields.Selection(SELECT_PERSON_TYPES, string="Person Type")
@@ -40,7 +71,7 @@ class Contact(models.Model):
     grade_level_id = fields.Many2one("school_base.grade_level", string="Grade Level")
     homeroom = fields.Char("Homeroom")
 
-    student_status = fields.Char("Student status", help="(This field is deprecated)")
+    student_status = fields.Char("Student status (Deprecated)", help="(This field is deprecated)")
 
     comment_facts = fields.Text("Facts Comment")
     family_ids = fields.Many2many("res.partner", string="Families", relation="partner_families", column1="partner_id",
@@ -48,8 +79,8 @@ class Contact(models.Model):
     member_ids = fields.Many2many("res.partner", string="Members", relation="partner_members", column1="partner_id",
                                   column2="partner_member_id")
 
-    facts_id_int = fields.Integer("Fact id (Integer)")
-    facts_id = fields.Char("Fact id")
+    facts_id_int = fields.Integer("Facts id (Integer)", compute="_converts_facts_id_to_int", store=True, readonly=True)
+    facts_id = fields.Char("Facts id")
     facts_approved = fields.Boolean()
 
     is_family = fields.Boolean("Is a family?")
@@ -69,7 +100,22 @@ class Contact(models.Model):
     allergy_ids = fields.One2many("school_base.allergy", "partner_id", string="Allergies")
     condition_ids = fields.One2many("school_base.condition", "partner_id", string="Conditions")
 
-    # old_name = fields.Char()
+    @api.depends("facts_id")
+    def _converts_facts_id_to_int(self):
+        for partner_id in self:
+            partner_id.facts_id_int = int(partner_id.facts_id) if partner_id.facts_id and partner_id.facts_id.isdigit() else 0
+
+    @api.constrains("facts_id")
+    def _check_facts_id(self):
+        for partner_id in self:
+            if partner_id.facts_id:
+
+                if not partner_id.facts_id.isdigit():
+                    raise ValidationError("Facts id needs to be an number")
+
+                should_be_unique = self.search_count([("facts_id", "=", partner_id.facts_id)])
+                if should_be_unique > 1:
+                    raise ValidationError("Another contact has the same facts id!")
 
     @api.model
     def format_name(self, first_name, middle_name, last_name):
