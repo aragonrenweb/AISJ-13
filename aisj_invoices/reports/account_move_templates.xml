@@ -291,14 +291,14 @@
                     <tr/>
                     <tr>
                         <td/>
-                        <td class="border-top text-center">Accountant - Payable</td>
+                        <td class="border-top text-center">Accountant - Payable<br/><hr class="border-top mx-auto" style="width:120px;"/></td>
                         <td/>
                         <td/>
-                        <td class="border-top text-center">Accounting Manager</td>
+                        <td class="border-top text-center">Accounting Manager<br/><hr class="border-top mx-auto" style="width:120px;"/></td>
                         <td/>
                     </tr>
                 </table>
-                <table class="table table-borderless table-sm">
+                <table class="table table-borderless table-sm" style="margin-top:80px;">
                     <tr/>
                     <tr>
                         <td style="width:1%;white-space:nowrap;">Approved by:</td>
@@ -313,13 +313,13 @@
                     <tr/>
                     <tr>
                         <td/>
-                        <td class="border-top text-center">Business Manager</td>
+                        <td class="border-top text-center">Business Manager<br/><hr class="border-top mx-auto" style="width:120px;"/></td>
                         <td/>
-                        <td class="border-top text-center">Super Intendent</td>
+                        <td class="border-top text-center">Superintendent<br/><hr class="border-top mx-auto" style="width:120px;"/></td>
                         <td/>
-                        <td class="border-top text-center">School Board</td>
+                        <td class="border-top text-center">School Board<br/><hr class="border-top mx-auto" style="width:120px;"/></td>
                         <td/>
-                        <td class="border-top text-center">School Board</td>
+                        <td class="border-top text-center">School Board<br/><hr class="border-top mx-auto" style="width:120px;"/></td>
                     </tr>
                 </table>
             </div>
