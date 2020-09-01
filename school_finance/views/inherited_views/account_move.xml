@@ -4,6 +4,9 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
+            <button name="action_invoice_register_payment" position="after">
+                <button name="compute_grade_and_homeroom" type="object" string="Compute grade and homeroom"/>
+            </button>
             <group id="header_left_group" position="inside">
                 <field name="family_members_ids" invisible="1"/>
                 <field name="student_id" domain="['&amp;', ('id', 'in', family_members_ids), ('person_type', '=', 'student')]" />

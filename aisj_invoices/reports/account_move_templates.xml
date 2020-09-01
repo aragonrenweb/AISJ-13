@@ -270,4 +270,59 @@
             </t>
         </xpath>
     </template>
+
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//address" position="replace">
+            <strong><address class="mb0" t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;], &quot;no_marker&quot;: True}"/></strong>
+            <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: True}"/>
+        </xpath>
+        <div id="qrcode" position="after">
+            <div t-if="o and o._name == 'account.move' and o.type in ['in_invoice','out_refund']">
+                <table class="table table-borderless table-sm mt64">
+                    <tr/>
+                    <tr>
+                        <td style="width:1%;white-space:nowrap;">Prepared by:</td>
+                        <td/>
+                        <td style="width:10%"/>
+                        <td style="width:1%;white-space:nowrap;">Reviewed by:</td>
+                        <td/>
+                        <td style="width:10%"/>
+                    </tr>
+                    <tr/>
+                    <tr>
+                        <td/>
+                        <td class="border-top text-center">Accountant - Payable</td>
+                        <td/>
+                        <td/>
+                        <td class="border-top text-center">Accounting Manager</td>
+                        <td/>
+                    </tr>
+                </table>
+                <table class="table table-borderless table-sm">
+                    <tr/>
+                    <tr>
+                        <td style="width:1%;white-space:nowrap;">Approved by:</td>
+                        <td style="width:18%;"/>
+                        <td/>
+                        <td style="width:18%;"/>
+                        <td/>
+                        <td style="width:18%;"/>
+                        <td/>
+                        <td style="width:18%;"/>
+                    </tr>
+                    <tr/>
+                    <tr>
+                        <td/>
+                        <td class="border-top text-center">Business Manager</td>
+                        <td/>
+                        <td class="border-top text-center">Super Intendent</td>
+                        <td/>
+                        <td class="border-top text-center">School Board</td>
+                        <td/>
+                        <td class="border-top text-center">School Board</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </template>
 </odoo>

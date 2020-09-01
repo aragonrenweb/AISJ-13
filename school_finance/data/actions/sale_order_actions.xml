@@ -11,4 +11,6 @@
                 order.action_confirm()
         </field>
     </record>
+
+
 </odoo>

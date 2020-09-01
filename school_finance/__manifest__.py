@@ -10,7 +10,7 @@
     'website': "http://www.Eduwebgroup.com",
 
     'category': 'Invoicing',
-    'version': '0.13',
+    'version': '0.14',
 
     # any module necessary for this one to work correctly
     'depends': [
@@ -24,7 +24,8 @@
         'security/ir.model.access.csv',
 
         # Actions
-        'data/sale_order_actions.xml',
+        'data/actions/sale_order_actions.xml',
+        'data/actions/account_move_actions.xml',
 
         # Views
         'views/views.xml',

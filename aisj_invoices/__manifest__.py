@@ -19,5 +19,6 @@
 
     'data': [
         'reports/account_move_templates.xml',
+        'reports/report_templates.xml',
     ],
 }
