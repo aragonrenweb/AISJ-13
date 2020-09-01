@@ -15,6 +15,7 @@ class SchoolFinance(models.Model):
     family_res_finance_ids = fields.One2many("school_finance.financial.res.percent", 'partner_id',
                                              string="Family resposability")
     student_invoice_ids = fields.One2many("account.move", "student_id", string="Student Invoices")
+
     invoice_amount_untaxed_signed = fields.Monetary(string="Total Tax Ecluded",
                                                     compute="_compute_invoice_totals")
     invoice_amount_tax_signed = fields.Monetary(string="Total Tax",
@@ -39,7 +40,6 @@ class SchoolFinance(models.Model):
                                                          compute="_compute_invoice_totals")
     family_invoice_amount_residual_signed = fields.Monetary(string="Family Total Amount Due",
                                                             compute="_compute_invoice_totals")
-
     def _check_category_sum(self):
         for record in self:
             categories = [{category.category_id.id: category.percent} for category in record.family_res_finance_ids]
