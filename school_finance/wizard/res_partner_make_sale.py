@@ -36,6 +36,11 @@ class ResPartnerMakeSale(models.TransientModel):
 
     separate_by_financial_responsability = fields.Boolean(default=True)
     sales_ids = fields.Many2many('sale.order')
+    payment_term_id = fields.Many2one(string="Payment Terms",
+                                      comodel_name="account.payment.term",
+                                      help="Payment term for the generated order.")
+    use_student_payment_term = fields.Boolean(string="Use Student Payment Terms",
+                                              help="If checked, the sale order payment terms is taken from the student if any.")
 
     # partner_ids
     @api.model
@@ -92,7 +97,7 @@ class ResPartnerMakeSale(models.TransientModel):
                         for line in line_ids:
                             if line[0] == 0:
 
-                                #We just clone it
+                                # We just clone it
                                 line_dict = dict(line[2])
 
                                 if line_dict["display_type"] == 'line_section':
@@ -109,7 +114,6 @@ class ResPartnerMakeSale(models.TransientModel):
                                 if line_dict["price_unit"] != 0:
                                     order_line.append((0, 0, line_dict))
 
-
                         sale_id = SaleOrderEnv.create({
                             "date_order": datetime.now(),
                             "partner_id": sale_dict["partner_id"],
@@ -120,6 +124,7 @@ class ResPartnerMakeSale(models.TransientModel):
                             "order_line": order_line,
                             "invoice_date": values["invoice_date"],
                             "invoice_date_due": values["invoice_date_due"],
+                            "payment_term_id": values["payment_term_id"],
                             "pricelist_id": sale_pricelist,
                         })
                         sales = sales + sale_id
@@ -132,17 +137,22 @@ class ResPartnerMakeSale(models.TransientModel):
                         "order_line": values["order_line_ids"],
                         "invoice_date": values["invoice_date"],
                         "invoice_date_due": values["invoice_date_due"],
+                        "payment_term_id": values["payment_term_id"],
                         "pricelist_id": sale_pricelist,
                     })
-
                 sales = sales + sale_id
 
             if sales:
+                for sale in sales:
+                    if values[
+                        "use_student_payment_term"] and sale.student_id and sale.student_id.property_payment_term_id:
+                        sale.payment_term_id = sale.student_id.property_payment_term_id.id
+                        sale.invoice_date_due = False
                 values["sales_ids"].append((6, 0, sales.ids))
             # del values["order_line_ids"]
 
-            # We need to stop order_lines from being created
-            # because it give us error, it needs a sale.order to be created
+        # We need to stop order_lines from being created
+        # because it give us error, they need a sale.order to be created
         del values["order_line_ids"]
 
         if not values["sales_ids"]:
