@@ -19,5 +19,6 @@
     'data': [
         'views/assets.xml',
         'views/account_report_templates.xml',
+        'views/search_template_views.xml',
     ],
 }
