@@ -5,6 +5,8 @@ from odoo import models, fields, api, _
 class AccountReport(models.AbstractModel):
     _inherit = "account.report"
 
+    filter_show_empty_accounts = None
+
     @api.model
     def _init_filter_analytic(self, options, previous_options=None):
         super(AccountReport, self)._init_filter_analytic(options, previous_options)
