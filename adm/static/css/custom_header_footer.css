@@ -29,7 +29,7 @@ header{
 }
 
 .navbar{
-    background-color: #1a4176 !important;
+    background-color: #1a183c !important;
     min-height: 90px;
 }
 
@@ -62,13 +62,13 @@ li span:hover:after, li b:hover:after {
 }
 
 .containerImageFooter{
-    background-color:#1a4176 !important;
+    background-color:#1a183c !important;
     margin: 0px;
     min-height:240px;
 }
 
 .containerExtraDataFooter{
-    background-color:#1a4176 !important;
+    background-color:#1a183c !important;
     width: 100%;
     padding-left:15%;
     padding-right: 15%;
@@ -106,7 +106,7 @@ li span:hover:after, li b:hover:after {
 }
 
 .text-info {
-    color: #1a4176 !important;
+    color: #11a183c !important;
 }
 
 .text-secondary {
