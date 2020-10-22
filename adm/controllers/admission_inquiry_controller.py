@@ -75,7 +75,7 @@ class Admission(http.Controller):
             # PARA TOMAR POR FACTS ID
             # if len(PartnerEnv.sudo().search([('facts_id','=',family_id_fact),('is_family', '=', True)])) == 0:
             # CASO DE TOMAR POR EL FACTS UD ID
-            if len(PartnerEnv.sudo().search([('facts_udid', '=', family_id_fact), ('is_family', '=', True)])) == 0:
+            if len(PartnerEnv.sudo().search([('facts_id', '=', family_id_fact), ('is_family', '=', True)])) == 0:
                 countries = http.request.env['res.country']
                 states = http.request.env['res.country.state']
                 contact_times = http.request.env['adm.contact_time']
@@ -100,7 +100,7 @@ class Admission(http.Controller):
                 # PARA TOMAR POR FACTS ID
                 #   family_data = PartnerEnv.sudo().search([('facts_id','=',family_id_fact),('is_family', '=', True)])[0]
                 # CASO DE TOMAR POR EL FACTS UD ID
-                family_data = PartnerEnv.sudo().search([('facts_udid','=',family_id_fact),('is_family', '=', True)])[0]
+                family_data = PartnerEnv.sudo().search([('facts_id','=',family_id_fact),('is_family', '=', True)])[0]
                 family_id = family_data
                 mobile_1 = family_data.mobile
                 phone_1 = family_data.phone
