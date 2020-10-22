@@ -69,9 +69,9 @@
         'views/web/reports/report_application_default.xml',
         'views/web/reports/report_application_custom.xml',
         'views/web/reports/report_internal_custom.xml',
-        'views/templates_custom.xml',
-        
-        'views/wizards/salewiz.xml',
+        # 'views/templates_custom.xml',
+        #
+        # 'views/wizards/salewiz.xml',
     ],
     'qweb': ['static/src/xml/kanban_view_button.xml'],
     'application': True
