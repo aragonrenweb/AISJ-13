@@ -94,14 +94,14 @@
         <xpath expr="//div[@id='footer']" position="replace">
             <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
                   <div class="containerImageFooter col-12 d-flex flex-column">
-                      <div class="col-12 d-flex justify-content-center"><img id="img_footer" src="/adm/static/files/Logo_blanco_iae.png" class="img img-fluid" alt="My Website"/></div>
-                      <div class="col-12 text-center text-light textImagenLogo">EXCELENCIA EDUCATIVA</div>
+                      <div class="col-12 d-flex justify-content-center"><img id="img_footer" src="/adm/static/files/aisj_logo_blanco.png" class="img img-fluid" alt="My Website"/></div>
+                      <div class="col-12 text-center text-light textImagenLogo">Our vision is to be a distinguished learning community committed to excellence, innovation, and collaboration.</div>
                   </div>
                   <div class="containerExtraDataFooter d-flex flex-wrap">
-                      <div class="col-6 text-left linetop_footer">© 2019 – Instituto Alberto Einstein</div>
+                      <div class="col-6 text-left linetop_footer">2020 American School of Jeddah</div>
                       <div class="col-6 text-right linetop_footer">
 <!--                          <a role="menuitem " target="_blank" href="http://www.iae.edu/contacto" class="nav-link pt-0 pb-5">-->
-                            <span>admisiones@iae.edu</span>
+                            <span>admissions@aisj.edu.sa/</span>
 <!--                          </a>-->
                       </div>
                   </div>
@@ -116,10 +116,10 @@
                     <b>ADMISSIONS</b>
                 </div>
                 <div class="col-12 text-secondary h4 text-center">
-                    <b>INSTITUTO ALBERTO EINSTEIN</b>
+                    <b>AMERICAN INTERNATIONAL SCHOOL OF JEDDAH</b>
                 </div>
                 <div class="col-12 d-flex mb-2">
-                    <img  src="/adm/static/files/WEBSITE-ADMISIONES_1.jpg" class="img img-fluid w-100" alt="Admissions"/>
+                    <img  src="/adm/static/files/adm_portal.png" class="img img-fluid w-100" alt="Admissions"/>
                 </div>
             </div>
         </xpath>
