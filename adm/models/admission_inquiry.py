@@ -282,39 +282,39 @@ class Inquiry(models.Model):
 
         medical_base = []
 
-        medical_base.append((0, 0, {
-            'name': 'Ambientales (Hongo,ácaros, humedad, polvo,etc).',
-            'comment': '',
-        }))
-
-        medical_base.append((0, 0, {
-            'name': 'Alimenticias',
-            'comment': '',
-        }))
-
-        medical_base.append((0, 0, {
-            'name': 'Dieta Especial',
-            'comment': '',
-        }))
-
-        medical_base.append((0, 0, {
-            'name': 'Antecedentes médico e importancia',
-            'comment': '',
-        }))
-
-        medical_base.append((0, 0, {
-            'name': '¿Que procedimientos quirúrgicos ha sido sometido?',
-            'comment': '',
-        }))
-
-        medical_base.append((0, 0, {
-            'name': '¿En algún momento ha presentado desmayo o perdida de conocimiento?',
-            'comment': '',
-        }))
-
-        medical_base.append((0, 0, {
-            'name': 'Acude con algún especialista a control regularmente, favor anotar nombre y teléfono del (los) especialista(s)','comment': '',
-        }))
+        # medical_base.append((0, 0, {
+        #     'name': 'Ambientales (Hongo,ácaros, humedad, polvo,etc).',
+        #     'comment': '',
+        # }))
+        #
+        # medical_base.append((0, 0, {
+        #     'name': 'Alimenticias',
+        #     'comment': '',
+        # }))
+        #
+        # medical_base.append((0, 0, {
+        #     'name': 'Dieta Especial',
+        #     'comment': '',
+        # }))
+        #
+        # medical_base.append((0, 0, {
+        #     'name': 'Antecedentes médico e importancia',
+        #     'comment': '',
+        # }))
+        #
+        # medical_base.append((0, 0, {
+        #     'name': '¿Que procedimientos quirúrgicos ha sido sometido?',
+        #     'comment': '',
+        # }))
+        #
+        # medical_base.append((0, 0, {
+        #     'name': '¿En algún momento ha presentado desmayo o perdida de conocimiento?',
+        #     'comment': '',
+        # }))
+        #
+        # medical_base.append((0, 0, {
+        #     'name': 'Acude con algún especialista a control regularmente, favor anotar nombre y teléfono del (los) especialista(s)','comment': '',
+        # }))
 
 
         if product_id:  
