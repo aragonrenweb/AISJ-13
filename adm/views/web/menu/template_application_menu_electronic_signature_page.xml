@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="adm.template_application_menu_electronic_signature_page">
+        <t t-call="website.layout">
+            <t t-set="title">Application</t>
+            <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
+            <link rel="stylesheet" href="/adm/static/css/electronic_signature.css"/>
+            <div class="oe_struture"/>
+            <div class="oe_struture">
+                <t t-call="adm.template_application_menu"/>
+                <div class="container-fluid d-flex p-4">
+                    <main class="col">
+                        <section class="card mb-2">
+                            <section class="card-header">
+                                <h1>Signature</h1>
+                            </section>
+                            <section class="card-body&gt;">
+                                <div class="container">
+                                    <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
+                                        <div class="alert alert-warning mt-3" role="alert">
+                                            The request has already been sent.
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="h4 mt-3 text-color-howard">SIGNATURE</div>
+                                        <p>Your signature below affirms the completeness and accuracy of the information supplied on this
+                                            application.</p>
+
+                                        <!-- <form action="app_edit.cfm?memberid=3606&amp;studentid=504&amp;FormSchoolID=258" method="post" name="frm" class="app_form" enctype="multipart/form-data"> -->
+                                        <form t-att-action="'/admission/applications/signature/{}'.format(application_id)" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="next_previous" value="next"/>
+                                            <input type="hidden" name="goto" value=""/>
+
+                                            <!-- <input name="text" t-att-value="attach_file_id" /> -->
+                                            <!--  <img t-att-src="attach_file_id.website_url" alt="Girl in a jacket" width="500" height="600"/>-->
+                                            <div class="wrapper ml-auto">
+                                                <t t-if="attach_file_id is not -1 ">
+                                                    <img  id="imgDefault" t-att-src="attach_file_id.website_url" width="400" height="200" />
+                                                </t>
+                                                <canvas id="signature-pad" class="signature-pad" width="400" height="200"></canvas>
+                                            </div>
+                                            <div class="col-12 pr-0 text-right">
+                                                <div id="clear" class="mt-1 btn btn-secondary ">Clear</div>
+                                            </div>
+                                            <input class="d-none" id="inputSignature" name="signature-pad" value=""/>
+                                            <button type="submit" id="btnForm" class="btn btn-success d-none">Send</button>
+                                        </form>
+                                        <div class="col-12 text-center mb-3">
+                                            <button class="btn btn-lg btn-warning" onclick="sendFormSignature()">Upload</button>
+                                        </div>
+
+                                        <script
+                                                src="https://code.jquery.com/jquery-3.4.0.js"
+                                                integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="
+                                                crossorigin="anonymous">
+                                        </script>
+                                        <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+                                        <script src="/adm/static/js/electronic_signature.js"></script>
+                                    </t>
+                                </div>
+                            </section>
+                        </section>
+                    </main>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

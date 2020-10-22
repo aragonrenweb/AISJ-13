@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="template_application_menu_student_info">
+        <t t-call="website.layout">
+            <t t-set="title">Application</t>
+            <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
+            <div class="oe_struture"/>
+            <div class="oe_struture">
+                <t t-call="adm.template_application_menu"/>
+                <div class="container-fluid d-flex p-4">
+
+                    <main class="col">
+
+                        <section class="card mb-2">
+                            <section class="card-header">
+                                <h1>Languages</h1>
+                            </section>
+
+                            <section class="card-body&gt;">
+                                <div class="container">
+                                    <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
+                                        <div class="alert alert-warning mt-3" role="alert">
+                                            The request has already been sent.
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+
+                                        <form t-att-action="'/admission/applications/{}/write'.format(application_id)" method="post" enctype="multipart/form-data" id="info-form">
+
+                                            <input type="hidden" name="is_additional_student_info"/>
+
+                                            <div class="container">
+
+
+                                                <section class="form-group row mt-3">
+
+                                                    <label class="col-4 control-label">
+                                                        Native Language:
+                                                        <span class="text-danger" style="padding-right:5px;">*</span>
+                                                    </label>
+
+                                                    <div class="col">
+                                                        <select name="first_language" class="form-control">
+                                                            <option value="-1" t-att-selected="not application.first_language">Select a language
+                                                            </option>
+                                                            <t t-foreach="adm_languages" t-as="language">
+                                                                <option t-att-value="language.id" t-att-selected="application.first_language.id == language.id">
+                                                                    <t t-esc="language.name"/>
+                                                                </option>
+                                                            </t>
+
+
+                                                        </select>
+                                                    </div>
+                                                </section>
+
+                                                <section class="col-12 col-md">
+                                                    <label>
+                                                        For Non-Native English speakers, please indicate level of English (circle one):
+                                                        <span class="text-danger"> *</span>
+                                                    </label>
+                                                    <select required="required" class="form-control" type="text" name="first_level_language">
+                                                        <option value="beginner" t-att-selected="application.first_level_language == 'beginner'" >Beginner</option>
+                                                        <option value="elementary" t-att-selected="application.first_level_language == 'elementary'">Elementary</option>
+                                                        <option value="intermediate" t-att-selected="application.first_level_language == 'intermediate'">Intermediate</option>
+                                                        <option value="advanced" t-att-selected="application.first_level_language == 'advanced'">Advanced</option>
+                                                        <option value="fluent" t-att-selected="application.first_level_language == 'fluent'">Fluent</option>
+                                                    </select>
+                                                </section>
+
+
+                                                <section class="form-group row mt-4">
+
+                                                    <label class="col-4 control-label">
+                                                        Other Language:
+                                                    </label>
+
+                                                    <div class="col">
+                                                        <select name="second_language" class="form-control">
+                                                            <option value="-1" t-att-selected="not application.second_language">Select a language
+                                                            </option>
+                                                            <t t-foreach="adm_languages" t-as="language">
+                                                                <option t-att-value="language.id" t-att-selected="application.second_language.id == language.id">
+                                                                    <t t-esc="language.name"/>
+                                                                </option>
+                                                            </t>
+
+
+                                                        </select>
+                                                    </div>
+                                                </section>
+
+                                                <section class="col-12 col-md">
+                                                    <label>
+                                                        For Non-Native English speakers, please indicate level of English (circle one):
+                                                    </label>
+                                                    <select required="required" class="form-control" type="text" name="second_level_language">
+                                                        <option value="beginner" t-att-selected="application.second_level_language == 'beginner'" >Beginner</option>
+                                                        <option value="elementary" t-att-selected="application.second_level_language == 'elementary'">Elementary</option>
+                                                        <option value="intermediate" t-att-selected="application.second_level_language == 'intermediate'">Intermediate</option>
+                                                        <option value="advanced" t-att-selected="application.second_level_language == 'advanced'">Advanced</option>
+                                                        <option value="fluent" t-att-selected="application.second_level_language == 'fluent'">Fluent</option>
+                                                    </select>
+                                                </section>
+
+                                                <section class="form-group row mt-4">
+
+                                                    <label class="col-4 control-label">
+                                                        Other Language:
+                                                    </label>
+
+                                                    <div class="col">
+                                                        <select name="third_language" class="form-control">
+                                                            <option value="-1" t-att-selected="not application.third_language">Select a language
+                                                            </option>
+                                                            <t t-foreach="adm_languages" t-as="language">
+                                                                <option t-att-value="language.id" t-att-selected="application.third_language.id == language.id">
+                                                                    <t t-esc="language.name"/>
+                                                                </option>
+                                                            </t>
+
+
+                                                        </select>
+                                                    </div>
+                                                </section>
+
+                                                <section class="col-12 col-md">
+                                                    <label>
+                                                        For Non-Native English speakers, please indicate level of English (circle one):
+                                                    </label>
+                                                    <select required="required" class="form-control" type="text" name="third_level_language">
+                                                        <option value="beginner" t-att-selected="application.third_level_language == 'beginner'" >Beginner</option>
+                                                        <option value="elementary" t-att-selected="application.third_level_language == 'elementary'">Elementary</option>
+                                                        <option value="intermediate" t-att-selected="application.third_level_language == 'intermediate'">Intermediate</option>
+                                                        <option value="advanced" t-att-selected="application.third_level_language == 'advanced'">Advanced</option>
+                                                        <option value="fluent" t-att-selected="application.third_level_language == 'fluent'">Fluent</option>
+                                                    </select>
+                                                </section>
+
+                                                <button class="btn btn-warning btn-lg d-block ml-auto mr-auto mt-3 mb-3">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </t>
+                                </div>
+                            </section>
+                        </section>
+
+                    </main>
+
+                </div>
+            </div>
+            <script type="text/javascript" src="/adm/static/js/student_info.js"/>
+        </t>
+    </template>
+</odoo>

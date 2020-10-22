@@ -25,12 +25,11 @@ SELECT_STATUS_TYPES = [
 ]
 
 SELECT_REENROLLMENT_STATUS = [
-    ("admissions", "Admissions"),
-    ("enrolled", "Enrolled"),
-    ("graduate", "Graduate"),
-    ("inactive", "Inactive"),
-    ("pre-enrolled", "Pre-Enrolled"),
+    ("open", "Open"),
+    ("finished", "Finished"),
     ("withdrawn", "Withdrawn"),
+    ("rejected", "Rejected"),
+    ("blocked", "Blocked"),
 ]
 
 
@@ -125,6 +124,10 @@ class Contact(models.Model):
     facts_id_int = fields.Integer("Facts id (Integer)", compute="_converts_facts_id_to_int", store=True, readonly=True)
     facts_id = fields.Char("Facts id")
 
+    # Facts UDID
+    facts_udid_int = fields.Integer("Facts UDID (Integer)", compute="_converts_facts_udid_id_to_int", store=True, readonly=True)
+    facts_udid = fields.Char("Facts UDID")
+
     # Healthcare
     allergy_ids = fields.One2many("school_base.allergy", "partner_id", string="Allergies")
     condition_ids = fields.One2many("school_base.condition", "partner_id", string="Conditions")
@@ -143,6 +146,23 @@ class Contact(models.Model):
                     raise ValidationError("Facts id needs to be an number")
 
                 should_be_unique = self.search_count([("facts_id", "=", partner_id.facts_id)])
+                if should_be_unique > 1:
+                    raise ValidationError("Another contact has the same facts id!")
+
+    @api.depends("facts_udid")
+    def _converts_facts_udid_id_to_int(self):
+        for partner_id in self:
+            partner_id.facts_udid_int = int(partner_id.facts_udid) if partner_id.facts_udid and partner_id.facts_udid.isdigit() else 0
+
+    @api.constrains("facts_udid")
+    def _check_facts_udid_id(self):
+        for partner_id in self:
+            if partner_id.facts_udid:
+
+                if not partner_id.facts_udid.isdigit():
+                    raise ValidationError("Facts id needs to be an number")
+
+                should_be_unique = self.search_count([("facts_id", "=", partner_id.facts_udid)])
                 if should_be_unique > 1:
                     raise ValidationError("Another contact has the same facts id!")
 
@@ -267,4 +287,11 @@ class Contact(models.Model):
                     if student_status.lower() == status_name.lower():
                         partner_id.student_status_id = status_name
                         break
+
+    # devuelve familias de un partner
+    def get_families(self):
+        PartnerEnv = self.env["res.partner"].sudo()
+        return PartnerEnv.search([("is_family", "=", True)]).filtered(
+            lambda app: self.id in app.member_ids.ids)
+
 
