@@ -30,7 +30,7 @@ class AccountPartnerLedger(models.AbstractModel):
 
         total_initial_balance = total_debit = total_credit = total_balance = 0.0
         for partner, results in partners_results:
-            is_unfolded = 'partner_%s' % partner.id in options['unfolded_lines']
+            is_unfolded = 'partner_%s' % (partner.id if partner else 0) in options['unfolded_lines']
 
             # res.partner record line.
             partner_sum = results.get('sum', {})
