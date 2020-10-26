@@ -63,6 +63,15 @@
                                             </div>
                                             <field name="facts_id" nolabel="1" class="oe_inline"/>
                                             <field name="facts_id_int" groups="base.group_no_one"/>
+
+                                            <div class="o_td_label">
+                                                <label for="facts_id" string="Family UDID" attrs="{'invisible': ['|', ('is_family', '=', False), ('is_company','=',False)]}"/>
+                                                <label for="facts_id" string="Student UDID" attrs="{'invisible': ['|', '&amp;', ('is_family', '=', True), ('is_company', '=', True), ('person_type', '!=', 'student')]}"/>
+                                                <label for="facts_id" string="Person UDID" attrs="{'invisible': ['|', ('is_company', '=', True), ('person_type', '==', 'student')]}"/>
+                                                <label for="facts_id" string="Facts UDID" attrs="{'invisible': ['|', ('is_company', '=', False), '&amp;', ('is_family', '=', True), ('is_company', '=', True)]}"/>
+                                            </div>
+                                            <field name="facts_udid" nolabel="1" class="oe_inline"/>
+                                            <field name="facts_udid_int" groups="base.group_no_one"/>
                                         </group>
 
                                         <group colspan="2"

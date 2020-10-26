@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <template id="adm.template_application_menu">
+    <link rel="stylesheet" href="/adm/static/css/menu.css"/>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+<!-- QUEDA TRABAJAR EN LA DINAMIZACION DE LOS LANGUAGES ACTUALMENTE ESTA PUESTO EN 3 IDIOMAS EN HARD CODE -->
+      <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+        <ul class="navbar-nav w-100 justify-content-center">
+          <li class="nav-item nav-item-menu" id="nav-itm-instr">
+            <a t-att-href="'/admission/applications/{}/instructions-resources'.format(application_id)" class="nav-link" href="#">GENERAL INFO<span class="sr-only">(current)</span></a>
+          </li>
+          <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12']">
+            <li class="nav-item nav-item-menu" id="nav-itm-appl">
+              <a t-att-href="'/admission/applications/{}/info'.format(application_id)" class="nav-link" href="#">STUDENT INFO</a>
+            </li>
+          </t>
+          <t t-if="application.grade_level.name in ['PM','M','PV','PK','K']">
+            <li class="nav-item nav-item-menu" id="nav-itm-appl">
+              <a t-att-href="'/admission/applications/{}/info-preescolar'.format(application_id)" class="nav-link" href="#">STUDENT INFO (PRE-SCHOOL)</a>
+            </li>
+          </t>
+          <li class="nav-item nav-item-menu" id="nav-itm-lang">
+            <a t-att-href="'/admission/applications/{}/additional-student-info'.format(application_id)" class="nav-link" href="#">LANGUAGES</a>
+          </li>
+          <li class="nav-item nav-item-menu" id="nav-itm-acad">
+            <a t-att-href="'/admission/applications/{}/previous-school'.format(application_id)" class="nav-link" href="#">ACADEMIC INFO</a>
+          </li>
+          <li class="nav-item nav-item-menu" id="nav-itm-fam">
+            <a t-att-href="'/admission/applications/{}/family-info'.format(application_id)" class="nav-link" href="#">FAMILY INFO</a>
+          </li>
+          <li class="nav-item nav-item-menu" id="nav-itm-house">
+            <a t-att-href="'/admission/applications/{}/house-address'.format(application_id)" class="nav-link" href="#">ADDRESS INFO</a>
+          </li>
+          <li class="nav-item nav-item-menu" id="nav-itm-med">
+            <a t-att-href="'/admission/applications/{}/medical-info'.format(application_id)" class="nav-link" href="#">MEDICAL INFO</a>
+          </li>
+          <li class="nav-item nav-item-menu" id="nav-itm-sig">
+            <a t-att-href="'/admission/applications/{}/electronic-signature'.format(application_id)" class="nav-link" href="#">SIGNATURE</a>
+          </li>
+
+<!--          <t t-if="application.grade_level.name in ['PK1','PK2','PK3','PK4','Kinder']">-->
+<!--            <li class="nav-item border-right" id="nav-itm-todd">-->
+<!--              <a t-att-href="'/admission/applications/{}/document-toddlesrs'.format(application_id)" class="nav-link" href="#">Document Upload (Toddlesrs - Kinder)</a>-->
+<!--            </li>-->
+<!--          </t>-->
+
+
+            <li class="nav-item nav-item-menu" id="nav-itm-one">
+              <a t-att-href="'/admission/applications/{}/document-comun'.format(application_id)" class="nav-link" href="#">DOCUMENTS</a>
+            </li>
+
+
+<!--          <t t-if="application.grade_level.name in 'FOREIGN'">-->
+           <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12']">
+            <li class="nav-item nav-item-menu" id="nav-itm-fore">
+              <a t-att-href="'/admission/applications/{}/document-primary-secondary'.format(application_id)" class="nav-link" href="#">DOCUMENTS (PRIMARY-SECONDARY)</a>
+            </li>
+           </t>
+<!--
+            <li class="nav-item border-right" id="nav-itm-fore">
+              <a t-att-href="'/admission/applications/{}/document-foreign-instructions'.format(application_id)" class="nav-link" href="#">Instrucciones para Títulos del Extranjero</a>
+            </li>-->
+<!--          </t>-->
+
+
+          <!-- <li class="nav-item" id="nav-itm-invoice">
+            <a t-att-href="'/admission/applications/{}/review'.format(application_id)" class="nav-link" href="#">Factura</a>
+          </li>
+          -->
+
+        </ul>
+      </div>
+    </nav>
+
+    <t t-if="application.status_id.type_id =='return' or application.status_id.type_id == 'started'">
+      <form t-att-action="'/admission/applications/{}/check'.format(application_id)" method="post" enctype="multipart/form-data" id="info-form">
+        <button class="btn btn-primary btn-lg fixed-bottom ml-auto mr-2 mb-2" style="left: auto !important;">Send to School &#10095;</button>
+      </form>
+      <t t-if="showPendingInformation">
+        <div class="modal show modal_shown" tabindex="-1" role="dialog" style="padding-right: 17px; display: block;" aria-modal="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Pending Task</h5>
+              </div>
+              <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                  <ul>
+
+                    <t t-foreach="pendingData" t-as="itm">
+                      <li t-raw="itm"/>
+                    </t>
+                  </ul>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          function closeModal(){
+          $(".modal").modal('show');
+          $(".modal").modal('hide');
+          }
+        </script>
+      </t>
+    </t>
+  </template>
+</odoo>

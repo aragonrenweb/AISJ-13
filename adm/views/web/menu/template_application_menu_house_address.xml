@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="adm.template_application_menu_house_address">
+        <t t-call="website.layout">
+            <t t-set="title">Application</t>
+            <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
+            <div class="oe_struture"/>
+            <div class="oe_struture">
+                <t t-call="adm.template_application_menu"/>
+                <div class="container-fluid d-flex p-4">
+                    <main class="col">
+                        <section class="card mb-2">
+                            <section class="card-header">
+                                <h1>Address</h1>
+                            </section>
+
+                            <section class="card-body&gt; ">
+                                <div class="container  mt-3">
+                                    <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
+                                        <div class="alert alert-warning mt-3" role="alert">
+                                            The request has already been sent.
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <article class="row card card-body d-none  pb-3 pt-0" id="form-template">
+                                            <input required="required" class="form-control" type="hidden" name="house_address_id" value="-1"/>
+                                            <div class="row">
+                                                <section class="col-12 d-flex justify-content-end pt-2 pb-1">
+                                                    <button type="button" class="btn btn-danger remove-house_address">&#10006;</button>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col-12 col-md-6">
+                                                    <label>
+                                                        Name
+                                                        <span class="text-danger"> *</span>
+                                                    </label>
+                                                    <input required="required" class="form-control" type="text" name="house_address_name"/>
+                                                </section>
+                                                <section class="col-12 col-md-6">
+                                                    <label>
+                                                        City
+                                                        <span class="text-danger"> *</span>
+                                                    </label>
+                                                    <input required="required" class="form-control" type="text" name="house_address_city"/>
+                                                </section>
+                                                <section class="col-12 col-md-6">
+                                                    <label>
+                                                        Zip
+                                                        <span class="text-danger"> *</span>
+                                                    </label>
+                                                    <input required="required" class="form-control" type="text" name="house_address_zip"/>
+                                                </section>
+                                                <section class="col-12 col-md-6">
+                                                    <label>
+                                                        Street
+                                                        <span class="text-danger"> *</span>
+                                                    </label>
+                                                    <input required="required" class="form-control" type="text" name="house_address_street"/>
+                                                </section>
+                                                <section class="col-12 col-md-6">
+                                                    <label>
+                                                        Phone
+                                                        <span class="text-danger"> *</span>
+                                                    </label>
+                                                    <input required="required" class="form-control" type="text" name="house_address_phone"/>
+                                                </section>
+
+                                                <section class="col-6 col-md-3">
+                                                    <label>Country</label>
+                                                    <select required="required" class="country form-control" name="house_address_country_id">
+                                                        <option selected="selected" disabled="disabled">Select a country
+                                                        </option>
+                                                        <t t-foreach="countries" t-as="country">
+                                                            <option t-att-value="country.id" t-field="country.name"/>
+                                                        </t>
+                                                    </select>
+                                                </section>
+                                                <section class="col-6 col-md-3">
+                                                    <label>State</label>
+                                                    <select class="state form-control" name="house_address_state_id">
+                                                        <option selected="selected" disabled="disabled">Select a
+                                                            state
+                                                        </option>
+                                                        <t t-foreach="states" t-as="state" t-att-data-country="state.country_id.id">
+                                                            <option t-att-value="state.id" t-field="state.name" t-att-data-country="state.country_id.id"/>
+                                                        </t>
+                                                    </select>
+                                                </section>
+                                            </div>
+
+                                        </article>
+
+
+
+
+                                        <form t-att-action="'/admission/applications/{}/write'.format(application_id)" method="post" enctype="multipart/form-data">
+
+                                            <input required="required" class="form-control" type="hidden" name="has_house_address"/>
+
+                                            <section class="container-fluid">
+                                                <div id="house_address_forms">
+                                                    <t t-foreach="application.sudo().partner_id.parent_id.house_address_ids" t-as="house_id">
+                                                        <article class="row card card-body pb-3 pt-0" t-att-id="'house_address_{}'.format(house_id_index+1)">
+                                                            <input required="required" class="form-control" type="hidden" name="house_address_id" t-att-value="house_id.id"/>
+                                                            <div class="row">
+                                                                <section class="col-12 d-flex justify-content-end pt-2 pb-1">
+                                                                    <button type="button" class="btn btn-danger remove-house_address" t-att-data-id="house_id_index+1">&#10006;</button>
+                                                                </section>
+                                                            </div>
+                                                            <div class="row">
+                                                                <section class="col-12 col-md-6">
+                                                                    <label>
+                                                                        Name
+                                                                        <span class="text-danger"> *</span>
+                                                                    </label>
+                                                                    <input required="required" class="form-control" type="text" name="house_address_name" t-att-value="house_id.name"/>
+                                                                </section>
+                                                                <section class="col-12 col-md-6">
+                                                                    <label>
+                                                                        City
+                                                                        <span class="text-danger"> *</span>
+                                                                    </label>
+                                                                    <input required="required" class="form-control" type="text" name="house_address_city" t-att-value="house_id.city"/>
+                                                                </section>
+                                                                <section class="col-12 col-md-6">
+                                                                    <label>
+                                                                        Zip
+                                                                        <span class="text-danger"> *</span>
+                                                                    </label>
+                                                                    <input required="required" class="form-control" type="text" name="house_address_zip" t-att-value="house_id.zip"/>
+                                                                </section>
+                                                                <section class="col-12 col-md-6">
+                                                                    <label>
+                                                                        Street
+                                                                        <span class="text-danger"> *</span>
+                                                                    </label>
+                                                                    <input required="required" class="form-control" type="text" name="house_address_street" t-att-value="house_id.street"/>
+                                                                </section>
+                                                                <section class="col-12 col-md-6">
+                                                                    <label>
+                                                                        Phone
+                                                                        <span class="text-danger"> *</span>
+                                                                    </label>
+                                                                    <input required="required" class="form-control" type="text" name="house_address_phone" t-att-value="house_id.phone"/>
+                                                                </section>
+
+                                                                <section class="col-6 col-md-3">
+                                                                    <label>Country</label>
+                                                                    <select required="required" class="country form-control" name="house_address_country_id">
+                                                                        <option selected="selected" disabled="disabled">Select a country
+                                                                        </option>
+                                                                        <t t-foreach="countries" t-as="country">
+                                                                            <option t-att-value="country.id" t-field="country.name" t-att-selected="house_id.country_id == country"/>
+                                                                        </t>
+                                                                    </select>
+                                                                </section>
+                                                                <section class="col-6 col-md-3">
+                                                                    <label>State</label>
+                                                                    <select class="state form-control" name="house_address_state_id">
+                                                                        <option selected="selected" disabled="disabled">Select a
+                                                                            state
+                                                                        </option>
+                                                                        <t t-foreach="states" t-as="state">
+                                                                            <option t-if="house_id.country_id.id == state.country_id.id" t-att-value="state.id" t-field="state.name" t-att-selected="house_id.state_id == state" t-att-data-country="state.country_id.id"/>
+                                                                            <option t-else="" class="d-none" t-att-value="state.id" t-field="state.name" t-att-selected="house_id.state_id == state" t-att-data-country="state.country_id.id"/>
+                                                                        </t>
+                                                                    </select>
+                                                                </section>
+                                                            </div>
+
+                                                        </article>
+                                                    </t>
+                                                    <t t-if="len(application.sudo().partner_id.parent_id.house_address_ids) == 0">
+                                                        <button type="button" class="add-house_address btn btn-secondary d-block ml-auto mt-2">&#10010; Add Home Address</button>
+                                                    </t>
+                                                </div>
+                                                <div class="row justify-content-center p-4">
+                                                    <button class="btn btn-warning btn-lg">Submit changes</button>
+                                                </div>
+                                            </section>
+                                        </form>
+
+                                        <script type="text/javascript" src="/adm/static/js/house_address.js"/>
+                                    </t>
+                                </div>
+                            </section>
+                        </section>
+                    </main>
+                </div>
+
+            </div>
+        </t>
+    </template>
+</odoo>
