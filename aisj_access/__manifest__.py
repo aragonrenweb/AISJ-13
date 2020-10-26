@@ -21,7 +21,6 @@
 
     'data': [
         # 'security/ir.model.access.csv',
-        'data/ir_module_category_data.xml',
         'data/res_groups_data.xml',
     ],
 }
