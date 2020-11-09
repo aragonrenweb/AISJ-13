@@ -75,6 +75,8 @@
                                             <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
                                     </a>
                                     <div class="dropdown-menu js_usermenu" role="menu">
+                                        <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a>
+                                        <div id="o_logout_divider" class="dropdown-divider"/>
                                         <a id="o_logout" class="dropdown-item" t-attf-href="/admission/applications" role="menuitem">Applications</a>
                                         <a id="o_logout" class="dropdown-item" t-attf-href="/admission/reenrollments" role="menuitem">Reenrollments</a>
                                         <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
