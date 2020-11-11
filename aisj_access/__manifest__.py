@@ -18,6 +18,7 @@
         'account',
         'purchase',
         'hide_menu_by_group',
+        'helpdesk',
     ],
 
     'data': [
@@ -25,5 +26,6 @@
         'security/ir.model.access.csv',
         'security/account_move_security.xml',
         'views/account_move_views.xml',
+        'views/portal_templates.xml',
     ],
 }
