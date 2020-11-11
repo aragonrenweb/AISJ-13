@@ -80,9 +80,6 @@
                                     <div class="mb8" t-if="internal_ticket">
                                         Stage: <strong t-field="internal_ticket.stage_id"/>
                                     </div>
-                                    <div>
-                                        <button t-if="not internal_ticket" type="submit" class="btn btn-primary mr4">Save</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -140,6 +137,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="text-center mt16">
+                        <button t-if="not internal_ticket" type="submit" class="btn btn-primary mr4">Submit</button>
                     </div>
                 </form>
                 <div t-if="internal_ticket and not internal_ticket.stage_id.is_close and not internal_ticket.closed_by_partner" class="modal" tabindex="-1" role="dialog" id="helpdesk_ticket_close_modal">
