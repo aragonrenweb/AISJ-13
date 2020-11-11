@@ -138,7 +138,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center mt16">
                         <button t-if="not internal_ticket" type="submit" class="btn btn-primary mr4">Submit</button>
                     </div>
                 </form>
