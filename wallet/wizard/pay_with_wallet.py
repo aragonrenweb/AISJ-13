@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+from odoo.tools.misc import formatLang
 from collections import defaultdict
 # from ..util import DefaultOrderedDict
 import logging
@@ -55,12 +56,17 @@ class PayWithWallet(models.TransientModel):
 
         if active_move_ids:
 
-            wallet_payment_line_dict = {wallet_payment_line_id.wallet_id: wallet_payment_line_id.amount
+            wallet_payment_line_dict = {wallet_payment_line_id.wallet_id.id: wallet_payment_line_id.amount
                                         for wallet_payment_line_id in self.wallet_payment_line_ids}
 
             move_ids = self.env["account.move"].browse(active_move_ids)
             for move_id in move_ids:
                 move_id.pay_with_wallet(wallet_payment_line_dict)
+
+    @api.onchange('partner_id')
+    def onchange_partner(self):
+        for record in self:
+            record.wallet_payment_line_ids = record._get_default_lines()
 
     def _get_default_lines(self):
         active_move_ids = self._context.get('active_ids', [])
@@ -69,7 +75,7 @@ class PayWithWallet(models.TransientModel):
             move_ids.partner_id.ensure_one()
 
             wallet_to_apply = move_ids.get_wallet_due_amounts()
-            wallet_partner_amounts = {wallet_id: wallet_id.get_wallet_amount(move_ids.partner_id) for wallet_id in
+            wallet_partner_amounts = {wallet_id.id: wallet_id.get_wallet_amount(move_ids.partner_id) for wallet_id in
                                       self.env["wallet.category"].search([])}
             wallet_payment_line_ids = self.env["wallet.payment.line"]
 
@@ -77,16 +83,33 @@ class PayWithWallet(models.TransientModel):
 
             for wallet_id, amount in wallet_suggestion_amounts.items():
                 wallet_payment_line_id = self.wallet_payment_line_ids.create({
+                    'partner_id': self.partner_id.id,
                     "wallet_id": wallet_id.id,
                     "amount": amount
                 })
                 wallet_payment_line_ids += wallet_payment_line_id
             return wallet_payment_line_ids
+    
+    @api.depends("partner_id")
+    def _compute_wallet_balances(self):
+        for wizard in self:
+            result = ""
+            if wizard.partner_id:
+                wallet_balances = wizard.partner_id.get_wallet_balances_dict([])
+                for wallet_id, amount in wallet_balances.items():
+                    wallet = self.env["wallet.category"].browse(wallet_id)
+                    result += "<li><strong>%s:</strong> %s %s %s</li>" % (
+                        wallet.name,
+                        self.env.company.currency_id.symbol if self.env.company.currency_id.position == 'before' else "",
+                        formatLang(self.env, amount),
+                        self.env.company.currency_id.symbol if self.env.company.currency_id.position == 'after' else "")
+            wizard.wallet_balances = "<div><ul>%s</ul></div>" % result
 
     partner_id = fields.Many2one("res.partner", required=True)
     wallet_ids = fields.Many2many("wallet.category", compute="_compute_wallet_ids")
     used_wallet_ids = fields.Many2many("wallet.category", compute="_compute_used_wallet_ids")
     wallet_payment_line_ids = fields.One2many("wallet.payment.line", "pay_with_wallet_id", string="Wallets", default=_get_default_lines)
+    wallet_balances = fields.Html(string="Wallet Balances", compute="_compute_wallet_balances")
 
 
 class WalletPaymentLine(models.TransientModel):
@@ -96,9 +119,10 @@ class WalletPaymentLine(models.TransientModel):
     def _compute_partner_amount(self):
         for record in self:
             if record.wallet_id:
-                record.partner_amount = record.wallet_id.get_wallet_amount(record.pay_with_wallet_id.partner_id) - record.amount
+                record.partner_amount = record.wallet_id.get_wallet_amount(record.partner_id) - record.amount
 
     pay_with_wallet_id = fields.Many2one("pay.with.wallet")
     wallet_id = fields.Many2one("wallet.category", required=True)
     amount = fields.Float()
+    partner_id = fields.Many2one("res.partner")
     partner_amount = fields.Float("Partner amount", readonly=True, compute="_compute_partner_amount")
