@@ -16,6 +16,10 @@ class SchoolFinance(models.Model):
     family_res_finance_ids = fields.One2many("school_finance.financial.res.percent", 'partner_id', string="Family resposability")
     student_invoice_ids = fields.One2many("account.move", "student_id", string="Student Invoices", domain=[('type', '=', 'out_invoice')])
 
+    student_invoice_address_ids = fields.Many2many('res.partner', relation='res_partner_stu_inv_addr_rel',
+                                      compute="compute_student_invoice_address_ids", store=True, required=False, column1='res_partner_id', column2='res_address_id',
+                                      string='Student Invoice Addresses', readonly=True)
+
     invoice_amount_untaxed_signed = fields.Monetary(string="Total Tax Ecluded", compute="_compute_invoice_totals")
     invoice_amount_tax_signed = fields.Monetary(string="Total Tax", compute="_compute_invoice_totals")
     invoice_amount_total_signed = fields.Monetary(string="Total Total", compute="_compute_invoice_totals")
@@ -30,7 +34,17 @@ class SchoolFinance(models.Model):
     family_invoice_amount_residual_signed = fields.Monetary(string="Family Total Amount Due", compute="_compute_invoice_totals")
 
     # Normal contact
-    sc_invoice_ids = fields.One2many('account.move', compute="compute_sc_invoice_ids", string='Invoice lines', readonly=True, domain=[('type', '=', 'out_refund')])
+    sc_invoice_ids = fields.Many2many('account.move', relation='res_partner_invoices_rel',
+                                      compute="compute_sc_invoice_ids", store=True,
+                                      string='Invoice lines', readonly=True, domain=[('type', '=', 'out_refund')])
+
+    related_families_by_inv_address_ids = fields.One2many('res.partner', 'invoice_address_id')
+
+    @api.onchange('family_ids')
+    @api.depends('family_ids', 'family_ids.invoice_address_id')
+    def compute_student_invoice_address_ids(self):
+        for partner in self:
+            partner.student_invoice_address_ids = partner.family_ids.mapped('invoice_address_id')
 
     @api.onchange('invoice_ids', 'sc_invoice_ids')
     @api.depends('invoice_ids')
@@ -40,9 +54,9 @@ class SchoolFinance(models.Model):
 
     def _check_category_sum(self):
         for record in self:
-            categories = [{
-                              category.category_id.id: category.percent
-                              } for category in record.family_res_finance_ids]
+            # categories = [{
+            #                   category.category_id.id: category.percent
+            #                   } for category in record.family_res_finance_ids]
             categories_ids = {category.category_id for category in record.family_res_finance_ids}
 
             for category_id in categories_ids:
