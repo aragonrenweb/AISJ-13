@@ -25,6 +25,8 @@
         'data/res_groups_data.xml',
         'security/ir.model.access.csv',
         'security/account_move_security.xml',
+        'security/purchase_order_security.xml',
+        'security/purchase_order_line_security.xml',
         'views/portal_templates.xml',
     ],
 }
