@@ -21,12 +21,21 @@ class LoadWallet(models.TransientModel):
     wallet_id = fields.Many2one("wallet.category", "Wallet")
     amount = fields.Monetary("Amount")
     max_amount = fields.Monetary(compute="_compute_max_amount", store=True, readonly=True)
+    current_amount = fields.Monetary(string="Current Amount", compute="_compute_current_amount")
 
     # For some reason, payment_ids is not required ._.
     payment_ids = fields.Many2many("account.payment", required=True)
     wallet_category_id = fields.Many2one("wallet.category", "Wallet Category")
     wallet_journal_category_id = fields.Many2one(related="wallet_category_id.journal_category_id")
+
     partner_id = fields.Many2one("res.partner", "Partner")
+    payment_partner_id = fields.Many2one("res.partner", compute="compute_payment_partner_id", store=True)
+
+    @api.depends('partner_id')
+    @api.onchange('partner_id')
+    def compute_payment_partner_id(self):
+        for load_wallet in self:
+            load_wallet.payment_partner_id = load_wallet.partner_id
 
     @api.constrains("amount")
     def _check_amount(self):
@@ -38,7 +47,7 @@ class LoadWallet(models.TransientModel):
 
     @api.onchange("wallet_id")
     def _remove_payments_without_selected_wallet_id(self):
-        wallet_id = self.wallet_id if self.wallet_id != self.wallet_id.get_default_wallet() else False
+        wallet_id = self.wallet_id if self.wallet_id != self.wallet_id.default_wallet_category_id else False
         self.payment_ids = self.payment_ids.filtered(lambda payment: payment.wallet_id == self.wallet_id or not payment.wallet_id)
 
     @api.depends('payment_ids')
@@ -77,4 +86,22 @@ class LoadWallet(models.TransientModel):
         if partner_ids:
             if self.payment_ids:
                 resPartner = self.env["res.partner"]
-                resPartner.browse(partner_ids).load_wallet_with_payments(self.payment_ids.ids, self.wallet_id, self.amount)
+                load_wallet_with_payment_params = self._build_load_wallet_with_payment_params()
+                resPartner.browse(partner_ids).load_wallet_with_payments(**load_wallet_with_payment_params)
+
+    def _build_load_wallet_with_payment_params(self):
+        return {
+            'payment_ids': self.payment_ids.ids,
+            'wallet_id': self.wallet_id.id,
+            'amount': self.amount,
+            'partner_id': self.payment_partner_id
+            }
+
+    @api.depends("wallet_id", "partner_id")
+    def _compute_current_amount(self):
+        for wizard in self:
+            result = 0
+            if wizard.wallet_id and wizard.partner_id:
+                wallet_balances = wizard.partner_id.get_wallet_balances_dict([wizard.wallet_id.id])
+                result = wallet_balances[wizard.wallet_id.id]
+            wizard.current_amount = result

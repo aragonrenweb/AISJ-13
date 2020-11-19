@@ -13,7 +13,7 @@
     # Check https://github.com/odoo/odoo/blob/13.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Wallet',
-    'version': '1.0-beta3',
+    'version': '1.0.3-beta',
 
     # any module necessary for this one to work correctly
     'depends': [
@@ -26,20 +26,25 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'security/account_security.xml',
+
         'wizard/load_wallet.xml',
         'wizard/pay_with_wallet.xml',
 
+        # Inherit views
+        'views/inherited/account_payment_views.xml',
+        'views/inherited/account_move.xml',
+        'views/inherited/account_move_line_views.xml',
         'views/partner_views.xml',
         'views/wallet_views.xml',
         'views/config_views.xml',
         'views/templates.xml',
 
-        # Inherit views
-        'views/inherited/account_payment_views.xml',
-        'views/inherited/account_move.xml',
 
         'data/add_assets.xml',
         'data/category_all_wallet.xml',
         'data/menu.xml',
     ],
+
+    'post_init_hook': 'default_settings_values',
 }
