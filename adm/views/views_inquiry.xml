@@ -84,17 +84,9 @@
                             <field name="first_name" />
                             <field name="middle_name" />
                             <field name="last_name" />
+                            <field name="current_grade_level_id" />
                             <field name="grade_level_id" />
-                            <field name="responsible_id" widget="many2many_kanban">
-                                <kanban>
-                                    <field name="first_name"/>
-                                    <templates>
-                                        <t t-name="kanban-box">
-                                            <field name="name"/>
-                                        </t>
-                                    </templates>
-                                </kanban>
-                            </field>
+                            <field name="responsible_id" mode="kanban"/>
                         </group>
                         <group colspan="1">
                             <field name="gender" />

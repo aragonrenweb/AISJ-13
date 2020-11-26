@@ -45,6 +45,7 @@ class Inquiry(models.Model):
     # Admission Information
 
     school_year_id = fields.Many2one("school_base.school_year", string="School Year")
+    current_grade_level_id = fields.Many2one("school_base.grade_level", string="Current Grade Level")
     grade_level_id = fields.Many2one("school_base.grade_level", string="Grade Level", domain=[('active_admissions', '=', True)])
     #responsible_id = fields.Many2one("res.partner", string="Responsible")
     responsible_id = fields.Many2many("res.partner")

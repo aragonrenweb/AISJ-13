@@ -86,26 +86,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="form-group col-6 col-md-2">
-                                            <label for="txtSalutation_1">
-                                                Salutation
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select class="custom-select" id="txtSalutation_1" name="txtSalutation_1"
-                                                placeholder="Salutation" required="required">
-                                                <option disabled="disabled" value="">- Select a salutation -</option>
-                                                <option value="Col.">Col.</option>
-                                                <option value="Dr.">Dr.</option>
-                                                <option value="Fr.">Fr.</option>
-                                                <option value="Miss">Miss</option>
-                                                <option value="Mr.">Mr.</option>
-                                                <option value="Mrs.">Mrs.</option>
-                                                <option value="Ms.">Ms.</option>
-                                                <option value="Sr.">Sr.</option>
-                                                <option value="Srt.ª">Srt.ª</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-12 col-md-5">
+                                        <div class="form-group col-12 col-md-4">
                                             <label for="txtEmail_1">
                                                 Email
                                                 <span class="text-danger">*</span>
@@ -113,17 +94,15 @@
                                                 <input type="email" class="form-control checkDuplicated email" id="txtEmail_1" name="txtEmail_1"
                                                     placeholder="example@email.com" required="required" />
                                         </div>
-                                        <div class="form-group col-12 col-md-6">
-                                            <label for="txtCellPhone_1">Cell Phone</label>
-                                                <input type="tel" class="form-control phone checkDuplicated" id="txtCellPhone_1"
-                                                    name="txtCellPhone_1" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
+                                        <div class="form-group col-12 col-md-4">
+                                            <label for="txtCellPhone_1">
+                                                Cell Phone
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="tel" required="required" class="form-control phone checkDuplicated" id="txtCellPhone_1"
+                                                name="txtCellPhone_1" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
                                         </div>
-                                        <div class="form-group col-12 col-md-6">
-                                            <label for="txtHomePhone_1">Home Phone</label>
-                                                 <input type="tel" class="form-control" id="txtHomePhone_1"
-                                                    name="txtHomePhone_1" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
-                                        </div>
-                                        <div class="form-group col-12 col-md-6">
+                                        <div class="form-group col-12 col-md-4">
                                             <label for="selCountry_1">
                                                 Country
                                                 <span class="text-danger">*</span>
@@ -133,18 +112,12 @@
                                                 <option value="-1" disabled="disabled">-Select a country-
                                                 </option>
                                                 <t t-foreach="countries" t-as="country">
-                                                    <option t-att-value="country.id" >
-                                                        <t t-esc="country.name" />
+                                                    <option t-att-selected="company.country_id.id == country.id" t-att-value="country.id">
+                                                        <t t-esc="country.name"/>
                                                     </option>
                                                 </t>
                                             </select>
                                         </div>
-<!--                                        <div class="form-group col-6 col-md-6">-->
-<!--                                            <label for="txtResidePanama_1">-->
-<!--                                                Reside en Panamá?-->
-<!--                                            </label>-->
-<!--                                                <input type="checkbox" class="form-control" id="txtResidePanama_1" name="txtResidePanama_1" data-test="12"/>-->
-<!--                                        </div>-->
                                     </div>
                                 </section>
                             </section>
@@ -181,27 +154,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="form-group col-6 col-md-2">
-                                            <label for="txtSalutation_2">
-                                                Salutation
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select class="custom-select" id="txtSalutation_2" name="txtSalutation_2"
-                                                placeholder="Salutation" required="required">
-                                                <option disabled="disabled" value="">- Select a salutation -</option>
-                                                <option value="Col.">Col.</option>
-                                                <option value="Dr.">Dr.</option>
-                                                <option value="Fr.">Fr.</option>
-                                                <option value="Miss">Miss</option>
-                                                <option value="Mr.">Mr.</option>
-                                                <option value="Mrs.">Mrs.</option>
-                                                <option value="Ms.">Ms.</option>
-                                                <option value="Sr.">Sr.</option>
-                                                <option value="Srt.ª">Srt.ª</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-12 col-md-5">
+                                        <div class="form-group col-12 col-md-4">
                                             <label for="txtEmail_2">
                                                 Email
                                                 <span class="text-danger">*</span>
@@ -209,19 +162,15 @@
                                             <input type="email" class="form-control checkDuplicated email" id="txtEmail_2" name="txtEmail_2"
                                                 placeholder="example@email.com" required="required" />
                                         </div>
-
-
-                                        <div class="form-group col-12 col-md-6">
-                                            <label for="txtCellPhone_2">Cell Phone</label>
-                                            <input type="tel" class="form-control checkDuplicated phone" id="txtCellPhone_2"
+                                        <div class="form-group col-12 col-md-4">
+                                            <label for="txtCellPhone_2">
+                                                Cell Phone
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="tel" required="required" class="form-control checkDuplicated phone" id="txtCellPhone_2"
                                                 name="txtCellPhone_2" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
                                         </div>
-                                        <div class="form-group col-12 col-md-6">
-                                            <label for="txtHomePhone_2">Home Phone</label>
-                                            <input type="tel" class="form-control" id="txtHomePhone_2"
-                                                name="txtHomePhone_2" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
-                                        </div>
-                                        <div class="form-group col-12 col-md-6">
+                                        <div class="form-group col-12 col-md-4">
                                             <label for="selCountry_2">
                                                 Country
                                                 <span class="text-danger">*</span>
@@ -231,19 +180,12 @@
                                                 <option value="-1" disabled="disabled">-Select a country-
                                                 </option>
                                                 <t t-foreach="countries" t-as="country">
-                                                    <option t-att-value="country.id">
-                                                        <t t-esc="country.name" />
+                                                    <option t-att-selected="company.country_id.id == country.id" t-att-value="country.id">
+                                                        <t t-esc="country.name"/>
                                                     </option>
                                                 </t>
                                             </select>
                                         </div>
-<!--                                         <div class="form-group col-6 col-md-6">-->
-<!--                                            <label for="txtResidePanama_2">-->
-<!--                                                Reside en Panamá?-->
-<!--                                            </label>-->
-<!--                                            <input type="checkbox" class="form-control" id="txtResidePanama_2" name="txtResidePanama_2"-->
-<!--                                                />-->
-<!--                                        </div>-->
                                     </div>
                                 </section>
                             </section>
@@ -274,17 +216,6 @@
                                             <input type="tel" class="form-control" id="txtReferenceFamily_1_b"
                                                 name="txtReferenceFamily_1_b" placeholder="Name lastname and contact phone"/>
                                         </div>
-<!--                                        <div class="form-group col-12 col-md-6">-->
-<!--                                            <label for="contCongregation_1">Congregation member</label>-->
-<!--                                            <div id="contCongregation_1">-->
-<!--                                                <input type="radio" id="shevet" name="title_1" value="Shevet Ahim" />-->
-<!--                                                <label class="ml-1" for="shevet">Shevet Ahim</label>-->
-<!--                                                <input class="ml-3" type="radio" id="beth" name="title_1" value="Beth El"/>-->
-<!--                                                <label class="ml-1" for="beth">Beth El</label>-->
-<!--                                                <input class="ml-3" type="radio" name="title_1" id="other" value="other"/> <label for="other">Other</label>-->
-<!--                                                <input class="ml-1" type="text" name="other_reason_1" style="border: solid 1px #ced4da;"/>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
                                     </div>
                                 </section>
                             </section>
@@ -321,26 +252,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="form-group col-6 col-md-2">
-                                            <label for="txtSalutation_1">
-                                                Salutation
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select class="custom-select" id="txtSalutation_1" name="txtSalutation_1"
-                                                placeholder="Salutation" required="required">
-                                                <option disabled="disabled" value="">- Select a salutation -</option>
-                                                <option value="Col.">Col.</option>
-                                                <option value="Dr.">Dr.</option>
-                                                <option value="Fr.">Fr.</option>
-                                                <option value="Miss">Miss</option>
-                                                <option value="Mr.">Mr.</option>
-                                                <option value="Mrs.">Mrs.</option>
-                                                <option value="Ms.">Ms.</option>
-                                                <option value="Sr.">Sr.</option>
-                                                <option value="Srt.ª">Srt.ª</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-12 col-md-5">
+                                        <div class="form-group col-12 col-md-4">
                                             <label for="txtEmail_1">
                                                 Email
                                                 <span class="text-danger">*</span>
@@ -348,17 +260,15 @@
                                                 <input type="email" class="form-control checkDuplicated email" id="txtEmail_1" name="txtEmail_1"
                                                     placeholder="example@email.com" required="required" />
                                         </div>
-                                        <div class="form-group col-12 col-md-6">
-                                            <label for="txtCellPhone_1">Cell Phone</label>
-                                                <input type="tel" class="form-control phone checkDuplicated" id="txtCellPhone_1"
-                                                    name="txtCellPhone_1" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
+                                        <div class="form-group col-12 col-md-4">
+                                            <label for="txtCellPhone_1">
+                                                Cell Phone
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="tel" required="required" class="form-control phone checkDuplicated" id="txtCellPhone_1"
+                                                name="txtCellPhone_1" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
                                         </div>
-                                        <div class="form-group col-12 col-md-6">
-                                            <label for="txtHomePhone_1">Home Phone</label>
-                                                 <input type="tel" class="form-control" id="txtHomePhone_1"
-                                                    name="txtHomePhone_1" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
-                                        </div>
-                                        <div class="form-group col-12 col-md-6">
+                                        <div class="form-group col-12 col-md-4">
                                             <label for="selCountry_1">
                                                 Country
                                                 <span class="text-danger">*</span>
@@ -368,18 +278,12 @@
                                                 <option value="-1" disabled="disabled">-Select a country-
                                                 </option>
                                                 <t t-foreach="countries" t-as="country">
-                                                    <option t-att-value="country.id" >
-                                                        <t t-esc="country.name" />
+                                                    <option t-att-selected="company.country_id.id == country.id" t-att-value="country.id">
+                                                        <t t-esc="country.name"/>
                                                     </option>
                                                 </t>
                                             </select>
                                         </div>
-<!--                                        <div class="form-group col-6 col-md-6">-->
-<!--                                            <label for="txtResidePanama_1">-->
-<!--                                                Reside en Panamá?-->
-<!--                                            </label>-->
-<!--                                                <input type="checkbox" class="form-control" id="txtResidePanama_1" name="txtResidePanama_1" data-test="12"/>-->
-<!--                                        </div>-->
                                     </div>
                                 </section>
                             </section>
@@ -416,27 +320,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="form-group col-6 col-md-2">
-                                            <label for="txtSalutation_2">
-                                                Salutation
-                                                <span class="text-danger">*</span>
-                                            </label>
-                                            <select class="custom-select" id="txtSalutation_2" name="txtSalutation_2"
-                                                placeholder="Salutation" required="required">
-                                                <option disabled="disabled" value="">- Select a salutation -</option>
-                                                <option value="Col.">Col.</option>
-                                                <option value="Dr.">Dr.</option>
-                                                <option value="Fr.">Fr.</option>
-                                                <option value="Miss">Miss</option>
-                                                <option value="Mr.">Mr.</option>
-                                                <option value="Mrs.">Mrs.</option>
-                                                <option value="Ms.">Ms.</option>
-                                                <option value="Sr.">Sr.</option>
-                                                <option value="Srt.ª">Srt.ª</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-12 col-md-5">
+                                        <div class="form-group col-12 col-md-4">
                                             <label for="txtEmail_2">
                                                 Email
                                                 <span class="text-danger">*</span>
@@ -445,18 +329,15 @@
                                                 placeholder="example@email.com" required="required" />
                                         </div>
 
-
-                                        <div class="form-group col-12 col-md-6">
-                                            <label for="txtCellPhone_2">Cell Phone</label>
-                                            <input type="tel" class="form-control checkDuplicated phone" id="txtCellPhone_2"
+                                        <div class="form-group col-12 col-md-4">
+                                            <label for="txtCellPhone_2">
+                                                Cell Phone
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="tel" required="required" class="form-control checkDuplicated phone" id="txtCellPhone_2"
                                                 name="txtCellPhone_2" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
                                         </div>
-                                        <div class="form-group col-12 col-md-6">
-                                            <label for="txtHomePhone_2">Home Phone</label>
-                                            <input type="tel" class="form-control" id="txtHomePhone_2"
-                                                name="txtHomePhone_2" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />
-                                        </div>
-                                        <div class="form-group col-12 col-md-6">
+                                        <div class="form-group col-12 col-md-4">
                                             <label for="selCountry_2">
                                                 Country
                                                 <span class="text-danger">*</span>
@@ -466,296 +347,16 @@
                                                 <option value="-1" disabled="disabled">-Select a country-
                                                 </option>
                                                 <t t-foreach="countries" t-as="country">
-                                                    <option t-att-value="country.id">
-                                                        <t t-esc="country.name" />
+                                                    <option t-att-selected="company.country_id.id == country.id" t-att-value="country.id">
+                                                        <t t-esc="country.name"/>
                                                     </option>
                                                 </t>
                                             </select>
                                         </div>
-<!--                                         <div class="form-group col-6 col-md-6">-->
-<!--                                            <label for="txtResidePanama_2">-->
-<!--                                                Reside en Panamá?-->
-<!--                                            </label>-->
-<!--                                            <input type="checkbox" class="form-control" id="txtResidePanama_2" name="txtResidePanama_2"-->
-<!--                                                />-->
-<!--                                        </div>-->
-                                    </div>
-                                </section>
-                            </section>
-
-                            <section class="card mt-2 hide_parent">
-                                <section class="card-header">
-                                    <h1 class="text-light">References</h1>
-                                </section>
-                                <section class="card-body">
-                                    <div class="row">
-                                       <div class="form-group col-12 col-md ">
-                                            <label for="txtStreetAddress">
-                                                Community residence address (Community name / Phone/ Reference)
-                                                <span class="text-danger">
-                                                    *
-                                                </span>
-                                            </label>
-                                            <input type="text" class="form-control" id="txtStreetAddress"
-                                                name="txtStreet Address" placeholder="Street Address" required="required" />
-                                        </div>
-                                         <div class="form-group col-12 col-md-6">
-                                            <label for="txtReferenceFamily_1_a">a) Reference Family 1</label>
-                                            <input type="tel" class="form-control" id="txtReferenceFamily_1_a"
-                                                name="txtReferenceFamily_1_a" placeholder="Name lastname and contact phone"/>
-                                        </div>
-                                        <div class="form-group col-12 col-md-6">
-                                            <label for="txtReferenceFamily_1_b">b) Reference Family 2</label>
-                                            <input type="tel" class="form-control" id="txtReferenceFamily_1_b"
-                                                name="txtReferenceFamily_1_b" placeholder="Name lastname and contact phone"/>
-                                        </div>
-<!--                                        <div class="form-group col-12 col-md-6">-->
-<!--                                            <label for="contCongregation_1">Congregation member</label>-->
-<!--                                            <div id="contCongregation_1">-->
-<!--                                                <input type="radio" id="shevet" name="title_1" value="Shevet Ahim" />-->
-<!--                                                <label class="ml-1" for="shevet">Shevet Ahim</label>-->
-<!--                                                <input class="ml-3" type="radio" id="beth" name="title_1" value="Beth El"/>-->
-<!--                                                <label class="ml-1" for="beth">Beth El</label>-->
-<!--                                                <input class="ml-3" type="radio" name="title_1" id="other" value="other"/> <label for="other">Other</label>-->
-<!--                                                <input class="ml-1" type="text" name="other_reason_1" style="border: solid 1px #ced4da;"/>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
                                     </div>
                                 </section>
                             </section>
                         </t>
-<!--                        <section class="card hide_parent" id="section_parent_1">-->
-<!--                            <section class="card-header">-->
-<!--                                <h1 class="text-light">Parent 1</h1>-->
-<!--                            </section>-->
-<!--                            <section class="card-body">-->
-<!--                                <div class="row">-->
-<!--                                     <div class="form-group col-12 col-md">-->
-<!--                                        <label for="txtFirstName_1">-->
-<!--                                            First Name-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                            <input type="text" class="form-control checkDuplicated firstname" id="txtFirstName_1"-->
-<!--                                                name="txtFirstName_1" placeholder="First Name" required="required" />-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md">-->
-<!--                                        <label for="txtMiddleName_1">Middle Name</label>-->
-<!--                                            <input type="text" class="form-control" id="txtMiddleName_1"-->
-<!--                                                name="txtMiddleName_1" placeholder="Middle Name" />-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md">-->
-<!--                                        <label for="txtLastName_1">-->
-<!--                                            Last Name-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                            <input type="text" class="form-control checkDuplicated lastname" id="txtLastName_1"-->
-<!--                                                name="txtLastName_1" placeholder="Last Name" required="required" />-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-<!--                                <div class="row">-->
-<!--                                    <div class="form-group col-6 col-md-2">-->
-<!--                                        <label for="txtSalutation_1">-->
-<!--                                            Salutation-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                        <select class="custom-select" id="txtSalutation_1" name="txtSalutation_1"-->
-<!--                                            placeholder="Salutation" required="required">-->
-<!--                                            <option disabled="disabled" value="">- Select a salutation -</option>-->
-<!--                                            <option value="Col.">Col.</option>-->
-<!--                                            <option value="Dr.">Dr.</option>-->
-<!--                                            <option value="Fr.">Fr.</option>-->
-<!--                                            <option value="Miss">Miss</option>-->
-<!--                                            <option value="Mr.">Mr.</option>-->
-<!--                                            <option value="Mrs.">Mrs.</option>-->
-<!--                                            <option value="Ms.">Ms.</option>-->
-<!--                                            <option value="Sr.">Sr.</option>-->
-<!--                                            <option value="Srt.ª">Srt.ª</option>-->
-<!--                                        </select>-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md-5">-->
-<!--                                        <label for="txtEmail_1">-->
-<!--                                            Email-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                            <input type="email" class="form-control checkDuplicated email" id="txtEmail_1" name="txtEmail_1"-->
-<!--                                                placeholder="example@email.com" required="required" />-->
-<!--                                    </div>  -->
-<!--                                    <div class="form-group col-12 col-md-6">-->
-<!--                                        <label for="txtCellPhone_1">Cell Phone</label>-->
-<!--                                            <input type="tel" class="form-control phone checkDuplicated" id="txtCellPhone_1"-->
-<!--                                                name="txtCellPhone_1" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md-6">-->
-<!--                                        <label for="txtHomePhone_1">Home Phone</label>-->
-<!--                                             <input type="tel" class="form-control" id="txtHomePhone_1"-->
-<!--                                                name="txtHomePhone_1" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md-6">-->
-<!--                                        <label for="selCountry_1">-->
-<!--                                            Country-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                        <select type="text" class="custom-select" id="selCountry_1"-->
-<!--                                            name="selCountry_1" placeholder="Country" required="required">-->
-<!--                                            <option value="-1" disabled="disabled">-Select a country- -->
-<!--                                            </option>-->
-<!--                                            <t t-foreach="countries" t-as="country">-->
-<!--                                                <option t-att-value="country.id" >-->
-<!--                                                    <t t-esc="country.name" />-->
-<!--                                                </option>-->
-<!--                                            </t>-->
-<!--                                        </select>-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-6 col-md-6">-->
-<!--                                        <label for="txtResidePanama_1">-->
-<!--                                            Reside en Panamá?-->
-<!--                                        </label>-->
-<!--                                            <input type="checkbox" class="form-control" id="txtResidePanama_1" name="txtResidePanama_1" data-test="12"/>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </section>-->
-<!--                        </section>-->
-
-<!--                        <button type="button" class="btn btn-warning mt-2 hide_parent" id="showSecondParent" onclick="toggleSecondParent()">Show/Hide Second Parent</button>-->
-
-<!--                        <section class="card mt-2 hide_parent" id="section_parent_2">-->
-<!--                            <section class="card-header">-->
-<!--                                <h1 class="text-light">Parent 2</h1>-->
-<!--                            </section>-->
-<!--                            <section class="card-body">-->
-<!--                                <div class="row">-->
-<!--                                    <div class="form-group col-12 col-md">-->
-<!--                                        <label for="txtFirstName_2">-->
-<!--                                            First Name-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                        <input type="text" class="form-control checkDuplicated firstname" id="txtFirstName_2"-->
-<!--                                            name="txtFirstName_2" placeholder="First Name" required="required" />-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md">-->
-<!--                                        <label for="txtMiddleName_2">Middle Name</label>-->
-<!--                                        <input type="text" class="form-control" id="txtMiddleName_2"-->
-<!--                                            name="txtMiddleName_2" placeholder="Middle Name" />-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md">-->
-<!--                                        <label for="txtLastName_2">-->
-<!--                                            Last Name-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                        <input type="text" class="form-control checkDuplicated lastname" id="txtLastName_2"-->
-<!--                                            name="txtLastName_2" placeholder="Last Name" required="required" />-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-<!--                                <div class="row">-->
-<!--                                    <div class="form-group col-6 col-md-2">-->
-<!--                                        <label for="txtSalutation_2">-->
-<!--                                            Salutation-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                        <select class="custom-select" id="txtSalutation_2" name="txtSalutation_2"-->
-<!--                                            placeholder="Salutation" required="required">-->
-<!--                                            <option disabled="disabled" value="">- Select a salutation -</option>-->
-<!--                                            <option value="Col.">Col.</option>-->
-<!--                                            <option value="Dr.">Dr.</option>-->
-<!--                                            <option value="Fr.">Fr.</option>-->
-<!--                                            <option value="Miss">Miss</option>-->
-<!--                                            <option value="Mr.">Mr.</option>-->
-<!--                                            <option value="Mrs.">Mrs.</option>-->
-<!--                                            <option value="Ms.">Ms.</option>-->
-<!--                                            <option value="Sr.">Sr.</option>-->
-<!--                                            <option value="Srt.ª">Srt.ª</option>-->
-<!--                                        </select>-->
-<!--                                    </div>-->
-
-<!--                                    <div class="form-group col-12 col-md-5">-->
-<!--                                        <label for="txtEmail_2">-->
-<!--                                            Email-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                        <input type="email" class="form-control checkDuplicated email" id="txtEmail_2" name="txtEmail_2"-->
-<!--                                            placeholder="example@email.com" required="required" />-->
-<!--                                    </div>-->
-
-
-<!--                                    <div class="form-group col-12 col-md-6">-->
-<!--                                        <label for="txtCellPhone_2">Cell Phone</label>-->
-<!--                                        <input type="tel" class="form-control checkDuplicated phone" id="txtCellPhone_2"-->
-<!--                                            name="txtCellPhone_2" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md-6">-->
-<!--                                        <label for="txtHomePhone_2">Home Phone</label>-->
-<!--                                        <input type="tel" class="form-control" id="txtHomePhone_2"-->
-<!--                                            name="txtHomePhone_2" placeholder="+01 234 56 78 90" pattern="\+?[0-9 -]+" />-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md-6">-->
-<!--                                        <label for="selCountry_2">-->
-<!--                                            Country-->
-<!--                                            <span class="text-danger">*</span>-->
-<!--                                        </label>-->
-<!--                                        <select type="text" class="custom-select" id="selCountry_2"-->
-<!--                                            name="selCountry_2" placeholder="Country" required="required">-->
-<!--                                            <option value="-1" disabled="disabled">-Select a country- -->
-<!--                                            </option>-->
-<!--                                            <t t-foreach="countries" t-as="country">-->
-<!--                                                <option t-att-value="country.id">-->
-<!--                                                    <t t-esc="country.name" />-->
-<!--                                                </option>-->
-<!--                                            </t>-->
-<!--                                        </select>-->
-<!--                                    </div>-->
-<!--                                     <div class="form-group col-6 col-md-6">-->
-<!--                                        <label for="txtResidePanama_2">-->
-<!--                                            Reside en Panamá?-->
-<!--                                        </label>-->
-<!--                                        <input type="checkbox" class="form-control" id="txtResidePanama_2" name="txtResidePanama_2"-->
-<!--                                            />-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </section>-->
-<!--                        </section>-->
-
-<!--                        <section class="card mt-2 hide_parent">-->
-<!--                            <section class="card-header">-->
-<!--                                <h1 class="text-light">References</h1>-->
-<!--                            </section>-->
-<!--                            <section class="card-body">-->
-<!--                                <div class="row">-->
-<!--                                   <div class="form-group col-12 col-md ">-->
-<!--                                        <label for="txtStreetAddress">-->
-<!--                                            Community residence address (Community name / Phone/ Reference)-->
-<!--                                            <span class="text-danger">-->
-<!--                                                *-->
-<!--                                            </span>-->
-<!--                                        </label>-->
-<!--                                        <input type="text" class="form-control" id="txtStreetAddress"-->
-<!--                                            name="txtStreet Address" placeholder="Street Address" required="required" />-->
-<!--                                    </div>-->
-<!--                                     <div class="form-group col-12 col-md-6">-->
-<!--                                        <label for="txtReferenceFamily_1_a">a) Reference Family IAE</label>-->
-<!--                                        <input type="tel" class="form-control" id="txtReferenceFamily_1_a"-->
-<!--                                            name="txtReferenceFamily_1_a" placeholder="Name lastname and contact phone"/>-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md-6">-->
-<!--                                        <label for="txtReferenceFamily_1_b">b) Reference Family IAE</label>-->
-<!--                                        <input type="tel" class="form-control" id="txtReferenceFamily_1_b"-->
-<!--                                            name="txtReferenceFamily_1_b" placeholder="Name lastname and contact phone"/>-->
-<!--                                    </div>-->
-<!--                                    <div class="form-group col-12 col-md-6">-->
-<!--                                        <label for="contCongregation_1">Congregation member</label>-->
-<!--                                        <div id="contCongregation_1">-->
-<!--                                            <input type="radio" id="shevet" name="title_1" value="Shevet Ahim" />-->
-<!--                                            <label class="ml-1" for="shevet">Shevet Ahim</label>-->
-<!--                                            <input class="ml-3" type="radio" id="beth" name="title_1" value="Beth El"/>-->
-<!--                                            <label class="ml-1" for="beth">Beth El</label>-->
-<!--                                            <input class="ml-3" type="radio" name="title_1" id="other" value="other"/> <label for="other">Other</label>-->
-<!--                                            <input class="ml-1" type="text" name="other_reason_1" style="border: solid 1px #ced4da;"/>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </section>-->
-<!--                        </section>-->
 
                         <section class="card mt-2">
                             <section class="card-header">
@@ -806,7 +407,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="form-group col">
+                                            <div class="form-group col-12 col-md-6">
                                                 <label for="txtStudent1Birthday">
                                                     Birthday
                                                     <span class="text-danger">*</span>
@@ -814,82 +415,38 @@
                                                 <input type="date" class="form-control" id="txtStudent1Birthday"
                                                     name="txtStudentBirthday" required="required" />
                                             </div>
-                                            <div class="form-group col">
-                                                <label for="txtStudent1Birthday">Gender</label>
-                                                <select class="custom-select" name="selStudentGender">
-                                                    <option value="gender_male">Male</option>
-                                                    <option value="gender_female">Female</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
                                             <div class="form-group col-12 col-md-6">
-                                                <label for="selStudentSchoolCode">
-                                                    School code
+                                                <label for="selStudent1CurrentGradeLevel">
+                                                    Current Grade Level
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <select class="custom-select selectSchoolCode"
-                                                    name="selStudentSchoolCode" required="required">
-                                                    <option value="-1" selected="true" disabled="disabled">-Select a
-                                                        School code-
-                                                    </option>
-                                                     <t t-foreach="grade_levels" t-as="grade_level">
-                                                        <option t-att-data-id="grade_level.school_code_id.id">
-                                                            <t t-esc="grade_level.school_code_id.name" />
-                                                        </option>
-                                                    </t>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-12 col-md-6">
-                                                <label for="selStudent1GradeLevel">
-                                                    Grade Level of Interest
-                                                    <span class="text-danger">*</span>
-                                                </label>
-                                                <select class="custom-select selectGradeLevel" id="selStudent1GradeLevel"
-                                                    name="selStudentGradeLevel" required="required">
-                                                    <option value="-1" selected="true" disabled="disabled">-Select a
-                                                        grade
-                                                        level-
+                                                <select required="required" class="custom-select" id="selStudent1CurrentGradeLevel"
+                                                        name="selStudentCurrentGradeLevel">
+                                                    <option value="-1" disabled="disabled">-Select a
+                                                        grade level-
                                                     </option>
                                                     <t t-foreach="grade_levels" t-as="grade_level">
-                                                        <option t-att-value="grade_level.id" t-att-data-schoolid="grade_level.school_code_id.id" class="d-none">
-                                                            <t t-esc="grade_level.name" />
+                                                        <option t-att-value="grade_level.id">
+                                                            <t t-esc="grade_level.name"/>
                                                         </option>
                                                     </t>
                                                 </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-12 col-md-6">
-                                                <label for="selStudent1SchoolYear">
-                                                    School Year
-                                                    <span class="text-danger">*</span>
-                                                </label>
-                                                <select class="custom-select" id="selStudent1SchoolYear"
-                                                    name="selStudentSchoolYear" required="required">
-                                                    <option value="-1" selected="true" disabled="disabled">-Select a
-                                                        school
-                                                        year-
-                                                    </option>
-                                                    <t t-foreach="school_years" t-as="school_year">
-                                                        <option t-att-value="school_year.id">
-                                                            <t t-esc="school_year.name" />
-                                                        </option>
-                                                    </t>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-12 col-md-6">
-                                                <label for="txtStudent1CurrentSchool">Current School</label>
-                                                <input type="text" class="form-control"
-                                                    id="txtStudent1CurrentSchool" name="txtStudentCurrentSchool"
-                                                    placeholder="Current School" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </section>
                         </section>
+
+                        <section class="card mt-2">
+                            <section class="card-header">
+                                <h1 class="text-light">Message / Question</h1>
+                            </section>
+                            <section class="card-body">
+                                <textarea class="form-control" name="message"/>
+                            </section>
+                        </section>
+
                         <div class="row justify-content-center m-3">
                             <button type="submit" class="btn btn-primary btn-lg">Submit inquiry</button>
                         </div>
