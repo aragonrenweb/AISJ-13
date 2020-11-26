@@ -36,29 +36,24 @@ function addStudent(){
     $(studentClonnable).find("input").each(function() {
     	$(this).val("");
     });
-    
-    
-    // Year List
-    var optionsSchoolYear = $('select#selStudent1SchoolYear option').clone();
-    $('#selStudent'+studentCount+'SchoolYear').append(optionsSchoolYear);
 
     // Grade Level List
-    var optionsGradeLevel = $('select#selStudent1GradeLevel option').clone();
-    $('#selStudent'+studentCount+'GradeLevel').append(optionsGradeLevel);
+    var optionsGradeLevel = $('select#selStudent1CurrentGradeLevel option').clone();
+    $('#selStudent'+studentCount+'CurrentGradeLevel').append(optionsGradeLevel);
 
-      document.querySelectorAll(".selectSchoolCode").forEach(function(element){
-            element.addEventListener("change", function(){
-                var schoolCodeID = $(this).find("option:selected").data("id");
-                $(this).parent().parent().children().last().find("option").each(function(element){
-                    var school_option_id = $(this).data("schoolid");
-                    if(schoolCodeID != -1 && schoolCodeID == school_option_id)
-                        $(this).removeClass('d-none')
-                    else
-                        $(this).addClass('d-none')
-                })
-                $(this).parent().parent().children().last().find("select").val(-1);
-            })
-        });
+    //   document.querySelectorAll(".selectSchoolCode").forEach(function(element){
+    //         element.addEventListener("change", function(){
+    //             var schoolCodeID = $(this).find("option:selected").data("id");
+    //             $(this).parent().parent().children().last().find("option").each(function(element){
+    //                 var school_option_id = $(this).data("schoolid");
+    //                 if(schoolCodeID != -1 && schoolCodeID == school_option_id)
+    //                     $(this).removeClass('d-none')
+    //                 else
+    //                     $(this).addClass('d-none')
+    //             })
+    //             $(this).parent().parent().children().last().find("select").val(-1);
+    //         })
+    //     });
 }
 
 function getStates(){
