@@ -4,7 +4,7 @@
         <t t-call="website.layout">
             <t t-set="head">
                 <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
-                <t t-call-assets="adm.assets_application_student_info" load_defer="True"/>
+                <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
             </t>
             <t t-set="title">Application</t>
             <div class="oe_struture"/>
@@ -19,101 +19,65 @@
                             </section>
 
                             <section class="card-body&gt;">
-
                                 <div class="container">
-
                                     <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
                                         <div class="alert alert-warning mt-3" role="alert">
                                             The request has already been sent.
                                         </div>
                                     </t>
                                     <t t-else="">
-                                        <form t-att-action="'/admission/applications/{}/write'.format(application_id)"
+                                        <form t-attf-action="/admission/applications/#{application_id}/write"
                                               method="post" enctype="multipart/form-data">
-                                            <div class="container">
-
-                                                <section class="container align-items-center mt-3">
-                                                    <div class="row">
-                                                        <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-                                                            <div class="text-center">
-                                                                <img t-att-src="student_photo" widget="image"
-                                                                     class="avatar rounded" alt="avatar" width="175"/>
-                                                                <h6 class="mt-2">Upload a different photo...</h6>
-                                                                <input type="file" name="file_upload"
-                                                                       class="form-control"/>
-                                                                <div class='alert alert-info pt-0 pb-0 mt-1'
-                                                                     role='alert'>Upload a student photo.</div>
-                                                            </div>
+                                            <div class="container pt-4">
+                                                <div class="row">
+                                                    <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                                                        <div class="text-center">
+                                                            <img t-att-src="student_photo" widget="image"
+                                                                 class="avatar rounded" alt="avatar"
+                                                                 width="175"/>
+                                                            <h6 class="mt-2">Upload a different photo...</h6>
+                                                            <input type="file" name="file_upload"
+                                                                   class="form-control" accept="image/*"/>
+                                                            <div class='alert alert-info pt-0 pb-0 mt-1'
+                                                                 role='alert'>Upload a student photo.</div>
                                                         </div>
                                                     </div>
-                                                    <div class="row mt-2" style="height: 40px;">
-                                                        <div class="form-group col-12 col-md-8 offset-md-2">
-                                                            <!--                                                            <label>Legal Name (First Middle Last):</label>-->
-                                                            <label for="">Student Name (as it appears on passport)</label>
-                                                            <input type="text"
-                                                                   class="form-control text-center font-weight-bold"
-                                                                   t-att-value="student.sudo().name"
-                                                                   disabled="disabled"/>
-                                                        </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="form-group col-12 col-md-8 offset-md-2">
+                                                        <label>Student Name (as it appears on
+                                                            passport)</label>
+                                                        <input type="text"
+                                                               class="form-control text-center font-weight-bold"
+                                                               t-att-value="student.sudo().name"
+                                                               disabled="disabled"/>
                                                     </div>
-                                                    <div class="row mb-3 justify-content-center">
-                                                        ( <a href="javascript:change_name();">Change</a> )
-                                                    </div>
+                                                </div>
+                                                <div class="row mb-3 justify-content-center">
+                                                    ( <button id="toggleStudentName" type="button"
+                                                              class="btn btn-link p-0">Change</button> )
+                                                </div>
 
-
-                                                    <script type="text/javascript">
-                                                        function change_name(){
-                                                        if(document.getElementById('change_name_div').style.display ==
-                                                        'none')
-                                                        document.getElementById('change_name_div').style.display =
-                                                        'block';
-                                                        else
-                                                        document.getElementById('change_name_div').style.display =
-                                                        'none';
-                                                        }
-                                                        $(function(){
-
-                                                        // write your code here...
-
-                                                        });
-                                                        function addBrother(){
-                                                        var itm = document.getElementById("brother_base_div");
-
-                                                        var cln = itm.cloneNode(true);
-                                                        cln.classList.remove("d-none");
-                                                        cln.classList.add("d-flex");
-                                                        cln.classList.add("flex-wrap");
-                                                        cln.classList.add("p-0");
-                                                        document.getElementById("brother_new_div").appendChild(cln);
-                                                        }
-                                                    </script>
-                                                </section>
                                                 <div id="change_name_div"
                                                      style="display:none; padding:10px; margin-top:5px;" class="row">
                                                     <div class="container">
                                                         <div class="row">
                                                             <section class="col-12 col-md-4 form-group">
-                                                                <label>
-                                                                    First Name
-                                                                    <span class="text-danger"> *</span>
-                                                                </label>
+                                                                <label> First Name <span class="text-danger">
+                                                                    *</span></label>
                                                                 <input type="text" name="first_name"
                                                                        class="form-control"
                                                                        t-att-value="application.first_name"/>
                                                             </section>
                                                             <section class="col-12 col-md-4 form-group">
-                                                                <label>
-                                                                    Middle Name
-                                                                </label>
+                                                                <label> Middle Name </label>
                                                                 <input type="text" name="middle_name"
                                                                        class="form-control"
                                                                        t-att-value="application.middle_name"/>
                                                             </section>
                                                             <section class="col-12 col-md-4 form-group">
-                                                                <label>
-                                                                    Last Name
-                                                                    <span class="text-danger"> *</span>
-                                                                </label>
+                                                                <label> Last Name <span class="text-danger">
+                                                                    *</span></label>
                                                                 <input type="text" name="last_name" class="form-control"
                                                                        t-att-value="application.last_name"/>
                                                             </section>
@@ -122,81 +86,66 @@
                                                 </div>
                                                 <section class="row">
                                                     <div class="col-12 col-md-6 form-group">
-                                                        <label>
-                                                            Grade Level:
-                                                        </label>
-                                                        <input disabled="disabled" type="text" class="form-control"
-                                                               t-att-value="application.inquiry_id.grade_level_id.name"/>
+                                                        <label for="selStudentGradeLevel"> Grade Level: </label>
+                                                        <select id="selStudentGradeLevel" class="form-control">
+                                                            <t t-foreach="grade_level_ids" t-as="grade_level">
+                                                                <option t-att-selected="application.inquiry_id.grade_level_id == grade_level"
+                                                                        t-att-value="grade_level.id"><t
+                                                                        t-esc="grade_level.name"/></option>
+                                                            </t>
+                                                        </select>
                                                     </div>
                                                     <div class="col-12 col-md-6 form-group">
-                                                        <label>
-                                                            School Year:
-                                                        </label>
+                                                        <label> School Year: </label>
                                                         <input disabled="disabled" type="text" class="form-control"
                                                                t-att-value="application.inquiry_id.school_year_id.name"/>
                                                     </div>
                                                 </section>
                                                 <section class="row">
                                                     <div class="col-12 col-md-6 form-group">
-                                                        <label>
-                                                            Home Address:
-                                                            <span class="text-danger"> *</span>
-                                                        </label>
-                                                        <input disabled="disabled" required="required" type="text"
+                                                        <label> Street Address: <span class="text-danger">
+                                                            *</span></label>
+                                                        <input required="required" type="text"
                                                                name="street" class="form-control"
                                                                t-att-value="application.street "/>
-                                                    </div>
-                                                    <div class="col-12 col-md-6 form-group">
-                                                        <label>
-                                                            ZIP:
-                                                            <span class="text-danger"> *</span>
-                                                        </label>
-                                                        <input disabled="disabled" required="required" type="text"
-                                                               name="zip" class="form-control"
-                                                               t-att-value="application.zip"/>
                                                     </div>
                                                 </section>
                                                 <section class="row">
                                                     <div class="col-12 col-md-4 form-group">
-                                                        <label>
-                                                            City:
-                                                            <span class="text-danger"> *</span>
-                                                        </label>
-                                                        <input disabled="disabled" required="required" type="text"
+                                                        <label> City: <span class="text-danger"> *</span></label>
+                                                        <input required="required" type="text"
                                                                name="city" class="form-control"
                                                                t-att-value="application.city"/>
                                                     </div>
                                                     <div class="col-12 col-md-4 form-group">
-                                                        <label for="state_id">
-                                                            State
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                        <select disabled="disabled" required="required" type="text"
+                                                        <label for="state_id"> State <span class="text-danger">
+                                                            *</span></label>
+                                                        <select required="required" type="text"
                                                                 id="state_id" name="state_id" placeholder="State"
                                                                 class="form-control">
-                                                            <option selected="selected"
-                                                                    t-att-value="application.partner_id.state_id.id">
-                                                                <t t-esc="application.partner_id.state_id.name"/>
+                                                            <option value="-1" selected="selected" disabled="disabled">
+                                                                -Select a state-
                                                             </option>
+                                                            <t t-foreach="state_ids" t-as="state">
+                                                                <option t-att-selected="application.state_id == state"
+                                                                        t-att-value="state.id">
+                                                                    <t t-esc="state.name"/>
+                                                                </option>
+                                                            </t>
                                                         </select>
                                                     </div>
                                                     <div class="col-12 col-md-4 form-group">
-                                                        <label for="country_id">
-                                                            Country
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                        <select disabled="disabled" required="required" type="text"
+                                                        <label for="country_id"> Country <span class="text-danger">
+                                                            *</span></label>
+                                                        <select required="required" type="text"
                                                                 id="country_id" name="country_id" placeholder="Country"
                                                                 class="form-control">
-                                                            <option value="-1" selected="true" disabled="disabled">
+                                                            <option value="-1" selected="selected" disabled="disabled">
                                                                 -Select a country-
                                                             </option>
-                                                            <t t-foreach="countries" t-as="country">
-                                                                <option t-if="application.country_id.id == country.id"
-                                                                        selected="selected" t-att-value="country.id">
-                                                                    <t t-esc="country.name"/>
-                                                                </option>
-                                                                <option t-else="" t-att-value="country.id">
+                                                            <t t-foreach="country_ids" t-as="country">
+                                                                <option t-att-selected="application.country_id.id == country.id"
+                                                                        t-att-value="country.id">
                                                                     <t t-esc="country.name"/>
                                                                 </option>
                                                             </t>
@@ -206,37 +155,21 @@
 
                                                 <section class="row">
                                                     <div class="col-12 col-md-6 form-group">
-                                                        <label>
-                                                            Date of Birth (ddmmyyyy):
-                                                            <span class="text-danger"> *</span>
-                                                        </label>
+                                                        <label> Date of Birth: <span class="text-danger">
+                                                            *</span></label>
+                                                        <!-- Three inputs with Day, Month and Year -->
                                                         <input required="required" type="date" name="date_of_birth"
                                                                class="form-control"
                                                                t-att-value="application.date_of_birth"/>
                                                     </div>
-                                                    <div class="col-12 col-md-6 form-group">
-                                                        <label>
-                                                            Home Telephone:
-                                                            <span class="text-danger"> *</span>
-                                                        </label>
-                                                        <input required="required" type="text" name="home_phone"
-                                                               class="form-control"
-                                                               t-att-value="application.home_phone"/>
-                                                    </div>
                                                 </section>
                                                 <section class="row">
                                                     <div class="col-12 col-md-6 form-group">
-                                                        <label>
-                                                            Gender:
-                                                            <span class="text-danger"> *</span>
-                                                        </label>
+                                                        <label> Gender: <span class="text-danger"> *</span></label>
                                                         <select required="required" class="form-control" name="gender">
-                                                            <t t-foreach="genders.ids" t-as="gender_id">
-                                                                <option t-if="application.gender == gender_id"
-                                                                        selected="selected" t-att-value="gender_id.id">
-                                                                    <t t-esc="gender_id.name"/>
-                                                                </option>
-                                                                <option t-else="" t-att-value="gender_id.id">
+                                                            <t t-foreach="gender_ids" t-as="gender_id">
+                                                                <option t-att-selected="application.gender == gender_id"
+                                                                        t-att-value="gender_id.id">
                                                                     <t t-esc="gender_id.name"/>
                                                                 </option>
                                                             </t>
@@ -261,78 +194,86 @@
                                                     </div>
                                                 </section>
                                                 <section class="row">
-                                                    <div class="col-12 col-md-6 form-group">
-                                                        <label>
-                                                            Email of Applicant (if applicable):
-                                                        </label>
-                                                        <input type="text" name="email" class="form-control"
-                                                               t-att-value="application.email"/>
-                                                    </div>
                                                     <div class="col-12 col-md-6">
-                                                        <label>
-                                                            ID Number:
-                                                        </label>
+                                                        <label> Iqama/ Residence Permit ID number: </label>
                                                         <input type="text" name="identification" class="form-control"
                                                                t-att-value="application.partner_id.identification"/>
                                                     </div>
                                                 </section>
-                                                <!--
+
+                                                <section class="row mt-3">
+                                                    <hr class="col-12"/>
+                                                    <div class="col-12 text-center h2">Passport</div>
+
+                                                    <div class="col-12 col-md-6">
+                                                        <label>Passport number 1:</label>
+                                                        <input type="text" name="identification" class="form-control"
+                                                               t-att-value="application.partner_id.identification"/>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <label>Passport number 2:</label>
+                                                        <input type="text" name="identification" class="form-control"
+                                                               t-att-value="application.partner_id.identification"/>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <label>Passport Expiration Date</label>
+                                                        <input type="date" name="passport_expiration_date"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </section>
+
                                                 <section class="row">
-                                                    <div class="col-12 bg-ia-pan mt-3 mb-2 h4">
-                                                        Otros Hermanos
+                                                    <hr class="col-12"/>
+                                                    <div class="col-12 text-center h2">Documentation</div>
+
+                                                    <div class="col-12 col-md-6 form-group">
+                                                        <label for="passport_file" class="label">Upload passport
+                                                            copy</label>
+                                                        <div class="form-upload">
+                                                            <label class="label-upload" for="passport_file"><i
+                                                                    class="fa fa-upload"></i></label>
+                                                            <input type="file" id="passport_file"/>
+                                                            <span class="js_input_file_label">No file uploaded</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-md-6 form-group">
+                                                        <label for="passport_residency_permit" class="label">Upload
+                                                            Iqama/ Residency Permit Copy</label>
+                                                        <div class="form-upload">
+                                                            <label class="label-upload"
+                                                                   for="passport_residency_permit"><i
+                                                                    class="fa fa-upload"></i></label>
+                                                            <input type="file" id="passport_residency_permit"/>
+                                                            <span class="js_input_file_label">No file uploaded</span>
+                                                        </div>
                                                     </div>
                                                 </section>
-                                                <section class="row" >
-                                                    <div class="col-12 d-none" id="brother_base_div">
-                                                         <div class="col-12 col-md-4 form-group">
-                                                            <label>
-                                                                Nombre:
-                                                            </label>
-                                                            <input  type="text" name="brother_name" class="form-control"/>
-                                                         </div>
-                                                         <div class="col-12 col-md-4 form-group">
-                                                             <label>
-                                                                Edad:
-                                                             </label>
-                                                            <input  type="text" name="brother_age" class="form-control"/>
-                                                         </div>
-                                                          <div class="col-12 col-md-4 form-group">
-                                                             <label>
-                                                                Colegio en que estudia:
-                                                             </label>
-                                                            <input  type="text" name="brother_school" class="form-control"/>
-                                                         </div>
-                                                         <hr class="col-12 "></hr>
+
+                                                <section class="row mt-3">
+                                                    <hr class="col-12"/>
+                                                    <div class="col-12 text-center h2">Foo</div>
+
+                                                    <div class="col-12 col-md-6">
+                                                        <label>Which semester are you applying for?</label>
+                                                        <select name="applying_semester" class="form-control">
+                                                            <t t-foreach="applying_semester_values" t-as="applying_semester_value">
+                                                                <option t-att-selected="application.applying_semester == applying_semester_value['value']"
+                                                                        t-att-value="applying_semester_value['value']">
+                                                                    <t t-esc="applying_semester_value['name']"/>
+                                                                </option>
+                                                            </t>
+                                                        </select>
                                                     </div>
-                                                    <div class="col-12 d-flex flex-wrap p-0" id="brother_new_div">
-                                                         <t t-foreach="application.brothers" t-as="brother">
-                                                            <div class="col-12 col-md-4 form-group">
-                                                                 <label>
-                                                                    Nombre:
-                                                                 </label>
-                                                                 <input  type="text" name="brother_name" class="form-control" t-att-value="brother.name"/>
-                                                            </div>
-                                                            <div class="col-12 col-md-4 form-group">
-                                                                 <label>
-                                                                    Edad:
-                                                                 </label>
-                                                                <input  type="number" name="brother_age" class="form-control" t-att-value="brother.age"/>
-                                                            </div>
-                                                            <div class="col-12 col-md-4 form-group">
-                                                                 <label>
-                                                                    Colegio en que estudia:
-                                                                 </label>
-                                                                <input  type="text" name="brother_school" class="form-control" t-att-value="brother.school"/>
-                                                            </div>
-                                                            <hr class="col-12 "></hr>
-                                                         </t>
+
+                                                    <div class="col-12 col-md-6">
+                                                        <label id="field_expected_starting_date">Expected starting date</label>
+                                                        <input for="field_expected_starting_date" type="date" name="expected_starting_date" class="form-control"/>
                                                     </div>
-                                                    <button type="button" class="ml-auto btn btn-secondary" id="add_brother_button" onclick="addBrother()">Add Brother</button>
                                                 </section>
-                                                -->
+
                                                 <button class="btn btn-warning btn-lg d-block ml-auto mr-auto mt-3 mb-3">
                                                     Submit changes</button>
-
                                             </div>
                                         </form>
                                     </t>
