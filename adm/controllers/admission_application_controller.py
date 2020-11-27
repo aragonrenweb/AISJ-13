@@ -12,11 +12,11 @@ _logger = logging.getLogger(__name__)
 
 
 def get_parameters():
-    return http.request.httprequest.args
+    return request.httprequest.args
 
 
 def post_parameters():
-    return http.request.httprequest.form
+    return request.httprequest.form
 
 
 def lookup(s, lookups):
@@ -27,23 +27,24 @@ def lookup(s, lookups):
 
 class Admission(http.Controller):
 
-    def get_partner(self):
-        return http.request.env["res.users"].browse([http.request.session.uid]).partner_id
+    @staticmethod
+    def get_partner():
+        return request.env["res.users"].browse([request.session.uid]).partner_id
 
-    def _login_redirect(self, uid, redirect=None):
+    @staticmethod
+    def _login_redirect(uid, redirect=None):
         return redirect if redirect else '/web'
 
     @http.route("/admission/logging_from_facts", auth="public", methods=["GET"], website=True)
     def logging_from_facts(self,**params):
-        allow_urls = http.request.env['ir.config_parameter'].sudo().get_param('allow_urls', '')
-        admin_pass = http.request.env['ir.config_parameter'].sudo().get_param('admin_pass', '')
+        allow_urls = request.env['ir.config_parameter'].sudo().get_param('allow_urls', '')
+        admin_pass = request.env['ir.config_parameter'].sudo().get_param('admin_pass', '')
         route = "/"
         if 'parent_email' in params:
             parent_email = params['parent_email']
 
-
         if 'parent_email' in locals():
-            user = http.request.env["res.users"].sudo().search([('email','=ilike',parent_email)])
+            user = request.env["res.users"].sudo().search([('email','=ilike',parent_email)])
             if len(user) > 0:
                 uid = request.session.authenticate(request.session.db, 'admin', admin_pass)
                 request.session.uid = user.id
@@ -56,29 +57,30 @@ class Admission(http.Controller):
                     if 'family_id' in params:
                         route += "?family_id=" + str(params['family_id'])
 
-        return http.request.redirect(route)
+        return request.redirect(route)
 
-        # if ('HTTP_ORIGIN' in http.request.httprequest.headers.environ):
-        #     origen_url = http.request.httprequest.headers.environ['HTTP_ORIGIN']
+        # if ('HTTP_ORIGIN' in request.httprequest.headers.environ):
+        #     origen_url = request.httprequest.headers.environ['HTTP_ORIGIN']
         #
-        # ApplicationEnv = http.request.env["adm.application"]
+        # ApplicationEnv = request.env["adm.application"]
         #
         # application_ids = ApplicationEnv.sudo().search([("family_id", "=", 481)])
         #
-        # response = http.request.render('adm.template_admission_application_list', {
+        # response = request.render('adm.template_admission_application_list', {
         #     "application_ids": application_ids,
         # })
         # return response
 
     @http.route("/admission/applications", auth="public", methods=["GET"], website=True)
     def admission_list_web(self, **params):
-        user_contact = self.get_partner()
-        ApplicationEnv = http.request.env["adm.application"]
+        user_partner = self.get_partner()
+        ApplicationEnv = request.env["adm.application"]
 
         # application_ids = ApplicationEnv.search([("family_id", "=", user_contact.parent_id.id)])
         # obtenemos todas las aplicaciones en las cuales el estudiante asociado este relacionado mediante la familia con el user que esta accediendo dede el portal.
-        application_ids = ApplicationEnv.sudo().search([]).filtered(lambda app: any(i in user_contact.get_families().ids for i in app.partner_id.get_families().ids))
-        response = http.request.render('adm.template_admission_application_list', {
+        # application_ids = ApplicationEnv.sudo().search([]).filtered(lambda app: any(i in user_contact.get_families().ids for i in app.partner_id.get_families().ids))
+        application_ids = ApplicationEnv.sudo().search([('partner_id.family_ids', 'in', user_partner.family_ids.ids)])
+        response = request.render('adm.template_admission_application_list', {
             "application_ids": application_ids,
         })
         return response
@@ -86,11 +88,11 @@ class Admission(http.Controller):
     # @http.route("/admission/test_logging", auth="public", methods=["GET"], website=True)
     # def test_logging(self, **params):
     #     user_contact = self.get_partner()
-    #     ApplicationEnv = http.request.env["adm.application"]
+    #     ApplicationEnv = request.env["adm.application"]
     #
     #     application_ids = ApplicationEnv.search([("family_id", "=", user_contact.parent_id.id)])
     #
-    #     response = http.request.render('adm.template_admission_application_list', {
+    #     response = request.render('adm.template_admission_application_list', {
     #         "application_ids": application_ids,
     #     })
     #     return response
@@ -190,22 +192,22 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>", auth="public", methods=["GET"], website=True)
     def admission_web(self, application_id):
         contact_id = self.get_partner()
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
 
-        contact_time_ids = http.request.env["adm.contact_time"].browse(
-            http.request.env["adm.contact_time"].search([])).ids
-        degree_program_ids = http.request.env["adm.degree_program"].browse(
-            http.request.env["adm.degree_program"].search([])).ids
+        contact_time_ids = request.env["adm.contact_time"].browse(
+            request.env["adm.contact_time"].search([])).ids
+        degree_program_ids = request.env["adm.degree_program"].browse(
+            request.env["adm.degree_program"].search([])).ids
 
-        application_status_ids = http.request.env["adm.application.status"].browse(
-            http.request.env["adm.application.status"].search([])).ids
+        application_status_ids = request.env["adm.application.status"].browse(
+            request.env["adm.application.status"].search([])).ids
 
         student_application = ApplicationEnv.browse([application_id])
-        language_ids = http.request.env['adm.language'].browse(http.request.env['adm.language'].search([]))
-        language_level_ids = http.request.env['adm.language.level'].browse(
-            http.request.env['adm.language.level'].search([]))
+        language_ids = request.env['adm.language'].browse(http.request.env['adm.language'].search([]))
+        language_level_ids = request.env['adm.language.level'].browse(
+            request.env['adm.language.level'].search([]))
 
-        response = http.request.render('adm.template_application_menu_progress', {
+        response = request.render('adm.template_application_menu_progress', {
             'contact_id': contact_id,
             'application_id': application_id,
             'application_status_ids': application_status_ids,
@@ -214,8 +216,8 @@ class Admission(http.Controller):
             'student_application': student_application,
             'contact_time_ids': contact_time_ids,
             'degree_program_ids': degree_program_ids,
-            'current_url': http.request.httprequest.full_path,
-            "application": http.request.env["adm.application"].browse([application_id]),
+            'current_url': request.httprequest.full_path,
+            "application": request.env["adm.application"].browse([application_id]),
             "showPendingInformation": False,
             "pendingData": self.getPendingTasks(application_id),
         })
@@ -230,9 +232,9 @@ class Admission(http.Controller):
         application_id = params["application_id"]
         upload_file = params["signature-pad"]
 
-        AttachmentEnv = http.request.env["ir.attachment"]
+        AttachmentEnv = request.env["ir.attachment"]
 
-        AttachEnv = http.request.env["ir.attachment"]
+        AttachEnv = request.env["ir.attachment"]
         attach_file = AttachEnv.browse(AttachEnv.sudo().search(
             [('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])])).ids
 
@@ -270,9 +272,9 @@ class Admission(http.Controller):
 
         # GUARDAMOS LA URL DE LA FIRMA PARA LUEGO OBTENER LA FIRMA EN EL REPORTE IMPRESO
         result = {"signature_attach_url": last_attach_id.website_url}
-        http.request.env["adm.application"].browse([application_id]).sudo().write(result)
+        request.env["adm.application"].browse([application_id]).sudo().write(result)
 
-        return http.request.redirect(url_redirect)
+        return request.redirect(url_redirect)
 
     @http.route("/admission/applications/message/<int:application_id>", auth="public", methods=["POST"], website=True,
                 csrf=False)
@@ -288,7 +290,7 @@ class Admission(http.Controller):
 
         message_body = message_body.replace("\n", "<br />\n")
 
-        MessageEnv = http.request.env["mail.message"]
+        MessageEnv = request.env["mail.message"]
         message_id = MessageEnv.sudo().create({
             'date': datetime.today(),
             'email_from': '"{}" <{}>'.format(contact_id.name, contact_id.email),
@@ -301,7 +303,7 @@ class Admission(http.Controller):
             "body": "<p>{}</p>".format(message_body),
         })
 
-        AttachmentEnv = http.request.env["ir.attachment"]
+        AttachmentEnv = request.env["ir.attachment"]
 
         attach_file = -1
         last_attach_id = AttachmentEnv.sudo().search(
@@ -334,9 +336,9 @@ class Admission(http.Controller):
                 })
         # url_redirect = '/admission/applications/{}/document-upload'.format(application_id)
         url_redirect = ('/admission/applications/{}/document-' + str(origin)).format(application_id)
-        return http.request.redirect(url_redirect)
+        return request.redirect(url_redirect)
 
-        # return http.request.redirect('/admission/applications')
+        # return request.redirect('/admission/applications')
 
         # ===============================================================================================================
         # return "Ok"
@@ -369,7 +371,7 @@ class Admission(http.Controller):
         if params["selState"] != "-1":
             new_parent_dict["state"] = params["selState"]
 
-        partners = http.request.env['res.partner']
+        partners = request.env['res.partner']
         id_parent = partners.create(new_parent_dict)
 
         # Create a lead
@@ -387,7 +389,7 @@ class Admission(http.Controller):
         school_year_list = post_parameters().getlist("selStudentSchoolYear")
         current_school_list = post_parameters().getlist("txtStudentCurrentSchool")
         gender_list = post_parameters().getlist("selStudentGender")
-        InquiryEnv = http.request.env["adm.inquiry"]
+        InquiryEnv = request.env["adm.inquiry"]
 
         for index_student in range(students_total):
             # print("{} -> {}".format(first_name_list, index_student))
@@ -416,7 +418,7 @@ class Admission(http.Controller):
             })
             id_students.append(id_student)
 
-        return http.request.redirect('/admission/applications')
+        return request.redirect('/admission/applications')
 
     # adm.previous_school_description
     def set_house_address(self, application_id, params):
@@ -440,9 +442,9 @@ class Admission(http.Controller):
             house_address_street = post_params.getlist("house_address_street")
             house_address_phone = post_params.getlist("house_address_phone")
 
-            application = http.request.env["adm.application"].browse([application_id])
+            application = request.env["adm.application"].browse([application_id])
 
-            HouseAddressEnv = http.request.env["adm.house_address"]
+            HouseAddressEnv = request.env["adm.house_address"]
 
             # First, delete all that are not in the form, that's why the user clicked remove button.
             all_ids = set(application.sudo().partner_id.parent_id.house_address_ids.ids)
@@ -454,7 +456,7 @@ class Admission(http.Controller):
             if unlink_commands:
                 application.sudo().partner_id.parent_id.write({"house_address_ids": unlink_commands})
 
-            # PartnerEnv = http.request.env["res.partner"]
+            # PartnerEnv = request.env["res.partner"]
 
             # USANDO UN ITERADOR TOMA CADA UNO DE LAS LISTAS EN EL ZIP_LONGEST  Y LO ASIGNA A CADA UNA DE LAS VARIABLES QUE SE ASIGNA EN EL FOR
             for id, name, country_id, state_id, city, zip, street, phone \
@@ -512,7 +514,7 @@ class Admission(http.Controller):
 
             post_params = post_parameters()
 
-            application = http.request.env["adm.application"].browse([application_id])
+            application = request.env["adm.application"].browse([application_id])
 
             # -- Conditions -- #
             medical_conditions_ids = post_params.getlist("medical_condition_id")
@@ -633,7 +635,7 @@ class Admission(http.Controller):
             # third_language_skills = list(map(int, third_language_skills))
             # 
             # ===========================================================================================================
-            application = http.request.env["adm.application"].browse([application_id])
+            application = request.env["adm.application"].browse([application_id])
 
             application.sudo().write({
                 "first_language_skill_write": False,
@@ -671,8 +673,8 @@ class Admission(http.Controller):
             previous_school_gradecompleted = post_params.getlist("previous_school_gradecompleted")
             previous_school_extracurricular_interests = post_params.getlist("previous_school_extracurricular_interests")
 
-            PreviousSchoolDescriptionEnv = http.request.env["adm.previous_school_description"]
-            application = http.request.env["adm.application"].browse([application_id])
+            PreviousSchoolDescriptionEnv = request.env["adm.previous_school_description"]
+            application = request.env["adm.application"].browse([application_id])
 
             # First, delete all that are not in the form, that's why the user clicked remove button.
             all_ids = set(application.previous_school_ids.ids)
@@ -816,9 +818,9 @@ class Admission(http.Controller):
 
             new_partner_photos = post_params.getlist("new_file_upload")
 
-            PartnerEnv = http.request.env["res.partner"]
-            RelationshipEnv = http.request.env["adm.relationship"]
-            application = http.request.env["adm.application"].browse([application_id])
+            PartnerEnv = request.env["res.partner"]
+            RelationshipEnv = request.env["adm.relationship"]
+            application = request.env["adm.application"].browse([application_id])
 
             # First, delete all that are not in the form, that's why the user clicked remove button.
             ids_to_delete = {relation.id for relation in application.relationship_ids if
@@ -956,7 +958,7 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/write", auth="public", methods=["POST"], website=True,
                 csrf=False)
     def write_application(self, application_id, **params):
-        field_ids = http.request.env.ref("adm.model_adm_application").sudo().field_id
+        field_ids = request.env.ref("adm.model_adm_application").sudo().field_id
         fields = [field_id.name for field_id in field_ids]
         keys = params.keys() & fields
         result = {k: params[k] for k in keys}
@@ -977,8 +979,8 @@ class Admission(http.Controller):
 
         if 'file_upload' in params and params["file_upload"] is not '' and "has_contact" not in params:
             upload_file = params["file_upload"]
-            http.request.env["res.partner"].sudo().browse(
-                [http.request.env["adm.application"].browse([application_id]).partner_id.id]).write({
+            request.env["res.partner"].sudo().browse(
+                [request.env["adm.application"].browse([application_id]).partner_id.id]).write({
                 "image_1920": base64.b64encode(upload_file.stream.read())
             })
 
@@ -1040,9 +1042,9 @@ class Admission(http.Controller):
         # ===============================================================================================================
 
         if result:
-            http.request.env["adm.application"].browse([application_id]).sudo().write(result)
+            request.env["adm.application"].browse([application_id]).sudo().write(result)
 
-        return http.request.redirect(http.request.httprequest.referrer)
+        return request.redirect(http.request.httprequest.referrer)
 
 
     @http.route("/admission/applications/<int:application_id>/check", auth="public", methods=["POST"], website=True,
@@ -1050,21 +1052,21 @@ class Admission(http.Controller):
     def check_application(self, application_id, **params):
 
         if len(self.getPendingTasks(application_id)) == 0:
-            ApplicationEnv = http.request.env["adm.application"]
+            ApplicationEnv = request.env["adm.application"]
             application = ApplicationEnv.browse(application_id)
 
             # BUSCAMOS EL STATUS QUE SEA DE TIPO SUBMITTED PARA TRANSLADAR LA PETICION DEL USUARIO
-            StatusEnv = http.request.env["adm.application.status"]
+            StatusEnv = request.env["adm.application.status"]
             statusSubmitted = StatusEnv.browse(StatusEnv.search([('type_id', '=', 'submitted')]))
             application.force_status_submitted(statusSubmitted.id.id)
 
-        return http.request.redirect(http.request.httprequest.referrer + "?checkData=1")
+        return request.redirect(http.request.httprequest.referrer + "?checkData=1")
 
     @http.route("/admission/<int:application_id>/check_email", auth="public", methods=["POST"], csrf=False)
     def check_email(self, application_id, **params):
         email_to_check = str(params['email']).strip()
-        #ApplicationEnv = http.request.env["adm.application"]
-        PartnerEnv = http.request.env["res.partner"]
+        #ApplicationEnv = request.env["adm.application"]
+        PartnerEnv = request.env["res.partner"]
         #ApplicationEnv.browse([application_id]).relationship_ids[1].partner_2.email
         #for partner in PartnerEnv.browse([application_id]).relationship_ids:
         exists = len(PartnerEnv.search([("email","=",email_to_check)])) > 0
@@ -1078,7 +1080,7 @@ class Admission(http.Controller):
         lastname_to_check = str(params['lastname']).strip();
         email_to_check = str(params['email']).strip();
         cellphone_to_check = str(params['cellphone']).strip();
-        PartnerEnv = http.request.env["res.partner"].sudo();
+        PartnerEnv = request.env["res.partner"].sudo();
         check_email = len(PartnerEnv.search([("email", "=ilike", email_to_check)])) > 0
         check_parent_name = len(PartnerEnv.search([("first_name", "=ilike", firstname_to_check), ("last_name", "=ilike", lastname_to_check)])) > 0
         check_cellphone = len(PartnerEnv.search([("mobile", "=", cellphone_to_check)])) > 0
@@ -1089,7 +1091,7 @@ class Admission(http.Controller):
     def getPhotoContact(self,application_id,  **params):
 
         partner_id = params['partner_id']
-        photo = http.request.env["adm.application"].sudo().browse([application_id]).partner_id.family_ids.member_ids.filtered(lambda partner: str(partner.id) == partner_id).image_1920
+        photo = request.env["adm.application"].sudo().browse([application_id]).partner_id.family_ids.member_ids.filtered(lambda partner: str(partner.id) == partner_id).image_1920
 
         if photo:
             return "data:image/png;base64," + str(photo)[2:-1:]
@@ -1103,9 +1105,9 @@ class Admission(http.Controller):
                 website=True, csrf=False)
     def instructions_resources(self, **params):
 
-        return http.request.render("adm.template_application_menu_instructions", {
+        return request.render("adm.template_application_menu_instructions", {
             "application_id": params["application_id"],
-            "application": http.request.env["adm.application"].browse([params["application_id"]]),
+            "application": request.env["adm.application"].browse([params["application_id"]]),
             "showPendingInformation": True if "checkData" in params else False,
             "pendingData": self.getPendingTasks(params["application_id"]),
         })
@@ -1115,25 +1117,25 @@ class Admission(http.Controller):
                 website=True, csrf=False)
     def foreign_instructions_resources(self, **params):
 
-        return http.request.render("adm.template_application_menu_foreign_instruc", {
+        return request.render("adm.template_application_menu_foreign_instruc", {
             "application_id": params["application_id"],
-            "application": http.request.env["adm.application"].browse([params["application_id"]]),
+            "application": request.env["adm.application"].browse([params["application_id"]]),
             "showPendingInformation": True if "checkData" in params else False,
             "pendingData": self.getPendingTasks(params["application_id"]),
         })
 
     def getPendingTasks(self, application_id):
-        field_ids = http.request.env.ref("adm.model_adm_application").sudo().field_id
+        field_ids = request.env.ref("adm.model_adm_application").sudo().field_id
 
         # obtengo los campos el modelo admissions que sean requeridos
-        FieldsEnv = http.request.env['ir.model.fields'].sudo()
+        FieldsEnv = request.env['ir.model.fields'].sudo()
         fields_required_ids = FieldsEnv.search([('required', '=', True)])
 
         keys = fields_required_ids & field_ids
         fields = [{"field_name": field_id.name, "field_descrip": field_id.field_description}
                   for field_id in keys]
 
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         application = ApplicationEnv.browse([application_id])
         result = []
 
@@ -1145,43 +1147,41 @@ class Admission(http.Controller):
 
     @http.route("/admission/applications/<int:application_id>/info", auth="public", methods=["GET"], website=True,
                 csrf=False)
-    def info(self, **params):
+    def info(self, application_id, **params):
 
         showPendingInformation = True if "checkData" in params else False
-        pendingTasks = self.getPendingTasks(params["application_id"])
+        pendingTasks = self.getPendingTasks(application_id)
 
-        ApplicationEnv = http.request.env["adm.application"]
-        CountryEnv = http.request.env['res.country']
-        GenderEnv = http.request.env['adm.gender']
-        application = ApplicationEnv.browse([params["application_id"]])
-        countries = CountryEnv.browse(CountryEnv.search([]))
-        genders = GenderEnv.browse(GenderEnv.search([]))
+        ApplicationEnv = request.env["adm.application"]
+        application = ApplicationEnv.browse(application_id)
+        country_ids = request.env['res.country'].search([])
+        state_ids = request.env['res.country.state'].search([])
+        gender_ids = request.env['adm.gender'].search([])
 
-        LanguageEnv = http.request.env["adm.language"]
+        LanguageEnv = request.env["adm.language"]
         languages = LanguageEnv.browse(LanguageEnv.search([])).ids
 
         student_photo = "data:image/png;base64," + str(application.partner_id.image_1920)[2:-1:]
 
-        # requestParams = {
-        #     "application_id": params["application_id"],
-        #     "application": application,
-        #     "countries": countries.ids,
-        #     "student": application.partner_id,
-        #     "student_photo": student_photo,
-        #     "adm_languages": languages,
-        #     "genders": genders,
-        # }
+        grade_level_ids = request.env['school_base.grade_level'].sudo().search([])
 
-        return http.request.render("adm.template_application_menu_info", {
-            "application_id": params["application_id"],
+        # Applying semester
+        field_applying_semester = request.env['adm.application']._fields['applying_semester']
+        applying_semester_values = [{'name': name, 'value': value} for name, value in field_applying_semester.selection]
+
+        return request.render("adm.template_application_student_info", {
+            "application_id": application_id,
             "application": application,
-            "countries": countries.ids,
+            "country_ids": country_ids,
+            "state_ids": state_ids,
             "student": application.partner_id,
             "student_photo": student_photo,
             "adm_languages": languages,
-            "genders": genders,
+            "gender_ids": gender_ids,
             "showPendingInformation": showPendingInformation,
             "pendingData": pendingTasks,
+            'grade_level_ids': grade_level_ids,
+            'applying_semester_values': applying_semester_values,
         })
 
     @http.route("/admission/applications/<int:application_id>/info-preescolar", auth="public", methods=["GET"],
@@ -1192,19 +1192,19 @@ class Admission(http.Controller):
         showPendingInformation = True if "checkData" in params else False
         pendingTasks = self.getPendingTasks(params["application_id"])
 
-        ApplicationEnv = http.request.env["adm.application"]
-        CountryEnv = http.request.env['res.country']
-        GenderEnv = http.request.env['adm.gender']
+        ApplicationEnv = request.env["adm.application"]
+        CountryEnv = request.env['res.country']
+        GenderEnv = request.env['adm.gender']
         application = ApplicationEnv.browse([params["application_id"]])
         countries = CountryEnv.browse(CountryEnv.search([]))
         genders = GenderEnv.browse(GenderEnv.search([]))
 
-        LanguageEnv = http.request.env["adm.language"]
+        LanguageEnv = request.env["adm.language"]
         languages = LanguageEnv.browse(LanguageEnv.search([])).ids
 
         student_photo = "data:image/png;base64," + str(application.partner_id.image_1920)[2:-1:]
 
-        return http.request.render("adm.template_application_menu_info_preescolar", {
+        return request.render("adm.template_application_menu_info_preescolar", {
             "application_id": params["application_id"],
             "application": application,
             "countries": countries.ids,
@@ -1219,18 +1219,18 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/previous-school", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def previous_school(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
-        CountryEnv = http.request.env['res.country']
-        StateEnv = http.request.env['res.country.state']
+        ApplicationEnv = request.env["adm.application"]
+        CountryEnv = request.env['res.country']
+        StateEnv = request.env['res.country.state']
 
         application = ApplicationEnv.browse([params["application_id"]])
         countries = CountryEnv.browse(CountryEnv.search([]))
         states = StateEnv.browse(StateEnv.search([]))
 
-        LanguageEnv = http.request.env["adm.language"]
+        LanguageEnv = request.env["adm.language"]
         languages = LanguageEnv.browse(LanguageEnv.search([])).ids
 
-        return http.request.render("adm.template_application_menu_previous_school", {
+        return request.render("adm.template_application_menu_previous_school", {
             "application_id": params["application_id"],
             "application": application,
             "countries": countries.ids,
@@ -1244,13 +1244,13 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/additional-student-info", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def additional_student_info(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         application = ApplicationEnv.browse([params["application_id"]])
 
-        LanguageEnv = http.request.env["adm.language"]
+        LanguageEnv = request.env["adm.language"]
         languages = LanguageEnv.browse(LanguageEnv.search([])).ids
 
-        return http.request.render("adm.template_application_menu_student_info", {
+        return request.render("adm.template_application_menu_student_info", {
             "application_id": params["application_id"],
             "application": application,
             "adm_languages": languages,
@@ -1259,9 +1259,9 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/household-1", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def household_1(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         application = ApplicationEnv.browse([params["application_id"]])
-        return http.request.render("adm.template_application_menu_household1", {
+        return request.render("adm.template_application_menu_household1", {
             "application_id": params["application_id"],
             "application": application,
             "showPendingInformation": True if "checkData" in params else False,
@@ -1271,9 +1271,9 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/household-2", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def household_2(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         application = ApplicationEnv.browse([params["application_id"]])
-        return http.request.render("adm.template_application_menu_household2", {
+        return request.render("adm.template_application_menu_household2", {
             "application_id": params["application_id"],
             "application": application,
         })
@@ -1281,15 +1281,15 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/house-address", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def house_address(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
-        CountryEnv = http.request.env['res.country']
-        StateEnv = http.request.env['res.country.state']
+        ApplicationEnv = request.env["adm.application"]
+        CountryEnv = request.env['res.country']
+        StateEnv = request.env['res.country.state']
 
         application = ApplicationEnv.browse([params["application_id"]])
         countries = CountryEnv.browse(CountryEnv.search([]))
         states = StateEnv.browse(StateEnv.search([]))
 
-        return http.request.render("adm.template_application_menu_house_address", {
+        return request.render("adm.template_application_menu_house_address", {
             "application_id": params["application_id"],
             "application": application,
             "countries": countries.ids,
@@ -1301,17 +1301,17 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/family-info", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def family_info(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         application = ApplicationEnv.browse([params["application_id"]])
 
-        PartnerEnv = http.request.env["res.partner"]
+        PartnerEnv = request.env["res.partner"]
         relation_contact_ids = {relation.partner_2.id for relation in application.relationship_ids}
         pertner_search_ids = PartnerEnv.sudo().search([('is_company', '=', False)]).filtered(lambda
                                                                                                  x: x.id in application.partner_id.parent_id.member_ids.ids and x.id != application.partner_id.id and not x.id in relation_contact_ids)
 
         partners = PartnerEnv.browse(pertner_search_ids)
 
-        CountryEnv = http.request.env['res.country']
+        CountryEnv = request.env['res.country']
         countries = CountryEnv.browse(CountryEnv.search([]))
 
         person_photos = []
@@ -1320,7 +1320,7 @@ class Admission(http.Controller):
             print(relationship.partner_2)
             person_photos.append("data:image/png;base64," + str(relationship.partner_2.image_1920)[2:-1:])
 
-        return http.request.render("adm.template_application_menu_family_info", {
+        return request.render("adm.template_application_menu_family_info", {
             "application_id": params["application_id"],
             "application": application,
             "partners": partners.ids,
@@ -1333,9 +1333,9 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/medical-info", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def medical_info(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         application = ApplicationEnv.browse([params["application_id"]])
-        return http.request.render("adm.template_application_menu_medical_info", {
+        return request.render("adm.template_application_menu_medical_info", {
             "application_id": params["application_id"],
             "application": application,
             "showPendingInformation": True if "checkData" in params else False,
@@ -1345,31 +1345,31 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/alumni-currently-enrolled-student", auth="public",
                 methods=["GET"], website=True, csrf=False)
     def alumni_currently_enrolled_student(self, **params):
-        return http.request.render("adm.template_application_menu_alumni_currently_enrolled_students", {
+        return request.render("adm.template_application_menu_alumni_currently_enrolled_students", {
             "application_id": params["application_id"]
         })
 
     @http.route("/admission/applications/<int:application_id>/institutional-fee-declaration-form", auth="public",
                 methods=["GET"], website=True, csrf=False)
     def institutional_fee_declaration_form(self, **params):
-        return http.request.render("adm.template_application_menu_institutional_fee_declaration", {
+        return request.render("adm.template_application_menu_institutional_fee_declaration", {
             "application_id": params["application_id"]
         })
 
     @http.route("/admission/applications/<int:application_id>/policy-agreement", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def policy_agreement(self, **params):
-        return http.request.render("adm.template_application_menu_admissions_policy_agreement", {
+        return request.render("adm.template_application_menu_admissions_policy_agreement", {
             "application_id": params["application_id"]
         })
 
     @http.route("/admission/applications/<int:application_id>/references", auth="public", methods=["GET"], website=True,
                 csrf=False)
     def references(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         application = ApplicationEnv.browse([params["application_id"]])
 
-        return http.request.render("adm.template_application_menu_references", {
+        return request.render("adm.template_application_menu_references", {
             "application": application,
             "application_id": params["application_id"],
         })
@@ -1377,10 +1377,10 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/recommendation", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def recommendation(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         application = ApplicationEnv.browse([params["application_id"]])
 
-        return http.request.render("adm.template_application_menu_recommendation", {
+        return request.render("adm.template_application_menu_recommendation", {
             "application": application,
             "application_id": params["application_id"],
         })
@@ -1388,10 +1388,10 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/document-upload", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def document_upload(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         student_application = ApplicationEnv.browse([params["application_id"]])
 
-        return http.request.render("adm.template_application_menu_upload_file", {
+        return request.render("adm.template_application_menu_upload_file", {
             "student_application": student_application,
             "application_id": params["application_id"],
         })
@@ -1399,9 +1399,9 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/document-toddlesrs", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def document_toddlesrs(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         student_application = ApplicationEnv.browse([params["application_id"]])
-        AttachEnv = http.request.env["ir.attachment"]
+        AttachEnv = request.env["ir.attachment"]
 
         # cont_XX indica el ID de el archivo a descargar en vista
         cont_toddlesrs_birth_cert = 0
@@ -1442,7 +1442,7 @@ class Admission(http.Controller):
         if last_attach_id:
             cont_toddlesrs_howard_eval = AttachEnv.browse(last_attach_id[0].id)
 
-        return http.request.render("adm.template_application_menu_upload_file_toddlesrs", {
+        return request.render("adm.template_application_menu_upload_file_toddlesrs", {
             "student_application": student_application,
             "application_id": params["application_id"],
             "cont_toddlesrs_birth_cert": cont_toddlesrs_birth_cert,
@@ -1450,7 +1450,7 @@ class Admission(http.Controller):
             "cont_toddlesrs_medical_record": cont_toddlesrs_medical_record,
             "cont_toddlesrs_certificate_health": cont_toddlesrs_certificate_health,
             "cont_toddlesrs_howard_eval": cont_toddlesrs_howard_eval,
-            "application": http.request.env["adm.application"].browse([params["application_id"]]),
+            "application": request.env["adm.application"].browse([params["application_id"]]),
             "showPendingInformation": True if "checkData" in params else False,
             "pendingData": self.getPendingTasks(params["application_id"]),
         })  #
@@ -1458,9 +1458,9 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/document-comun", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def document_document_comun(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         student_application = ApplicationEnv.browse([params["application_id"]])
-        AttachEnv = http.request.env["ir.attachment"]
+        AttachEnv = request.env["ir.attachment"]
 
         cont_comun_birth_certificate = 0
         last_attach_id = AttachEnv.sudo().search(
@@ -1533,7 +1533,7 @@ class Admission(http.Controller):
         if last_attach_id:
             cont_comun_bank_comercial_reference = AttachEnv.sudo().browse(last_attach_id[0].id)
 
-        return http.request.render("adm.template_application_menu_upload_file_comun", {
+        return request.render("adm.template_application_menu_upload_file_comun", {
             "student_application": student_application,
             "application_id": params["application_id"],
             "cont_comun_birth_certificate": cont_comun_birth_certificate,
@@ -1546,7 +1546,7 @@ class Admission(http.Controller):
             "cont_comun_peace_save_certificate": cont_comun_peace_save_certificate,
             "cont_comun_personal_reference": cont_comun_personal_reference,
             "cont_comun_bank_comercial_reference": cont_comun_bank_comercial_reference,
-            "application": http.request.env["adm.application"].browse([params["application_id"]]),
+            "application": request.env["adm.application"].browse([params["application_id"]]),
             "showPendingInformation": True if "checkData" in params else False,
             "pendingData": self.getPendingTasks(params["application_id"]),
         })
@@ -1555,9 +1555,9 @@ class Admission(http.Controller):
                 methods=["GET"],
                 website=True, csrf=False)
     def document_primary_secondary(self, **params):  ##
-        ApplicationEnv = http.request.env["adm.application"]
+        ApplicationEnv = request.env["adm.application"]
         student_application = ApplicationEnv.browse([params["application_id"]])
-        AttachEnv = http.request.env["ir.attachment"]
+        AttachEnv = request.env["ir.attachment"]
 
         cont_primary_secondary_good_conduct = 0
         last_attach_id = AttachEnv.sudo().search(
@@ -1595,7 +1595,7 @@ class Admission(http.Controller):
             cont_primary_secondary_foreign_certificate = AttachEnv.browse(last_attach_id[0].id)
 
 
-        return http.request.render("adm.template_application_menu_upload_file_primary_secondary", {
+        return request.render("adm.template_application_menu_upload_file_primary_secondary", {
             "student_application": student_application,
             "application_id": params["application_id"],
             "cont_primary_secondary_good_conduct": cont_primary_secondary_good_conduct,
@@ -1603,7 +1603,7 @@ class Admission(http.Controller):
             "cont_primary_secondary_school_certificate": cont_primary_secondary_school_certificate,
             "cont_primary_secondary_convalidate_credits": cont_primary_secondary_convalidate_credits,
             "cont_primary_secondary_foreign_certificate": cont_primary_secondary_foreign_certificate,
-            "application": http.request.env["adm.application"].browse([params["application_id"]]),
+            "application": request.env["adm.application"].browse([params["application_id"]]),
             "showPendingInformation": True if "checkData" in params else False,
             "pendingData": self.getPendingTasks(params["application_id"]),
         })
@@ -1611,8 +1611,8 @@ class Admission(http.Controller):
     @http.route("/admission/applications/<int:application_id>/electronic-signature", auth="public", methods=["GET"],
                 website=True, csrf=False)
     def electronic_signature(self, **params):
-        ApplicationEnv = http.request.env["adm.application"]
-        AttachEnv = http.request.env["ir.attachment"]
+        ApplicationEnv = request.env["adm.application"]
+        AttachEnv = request.env["ir.attachment"]
 
         application = ApplicationEnv.browse([params["application_id"]])
 
@@ -1625,7 +1625,7 @@ class Admission(http.Controller):
         if last_attach_id:
             attach_file = AttachEnv.browse(last_attach_id[0].id)
 
-        return http.request.render("adm.template_application_menu_electronic_signature_page", {
+        return request.render("adm.template_application_menu_electronic_signature_page", {
             "application_id": params["application_id"],
             "application": application,
             "attach_file_id": attach_file,
@@ -1637,7 +1637,7 @@ class Admission(http.Controller):
                 csrf=False)
     def review(self, **params):
 
-        ApplicationEnv = http.request.env["adm.application"].sudo()
+        ApplicationEnv = request.env["adm.application"].sudo()
         application = ApplicationEnv.browse([params["application_id"]])
 
         # busco si existe el link de pago generado si se mantiene en -1 indica que existe un pago realizado 
@@ -1646,7 +1646,7 @@ class Admission(http.Controller):
         # comprobamos que no tenga alguna transaction creada, de lo contrario estaria pagada
         if not application[0].order_id.transaction_ids:
             if application:
-                WizardEnv = http.request.env["payment.link.wizard"].sudo()
+                WizardEnv = request.env["payment.link.wizard"].sudo()
                 wizardIDs = WizardEnv.search(
                     [('res_model', '=', 'sale.order'), ('res_id', '=', application[0].order_id.id)])
 
@@ -1670,10 +1670,10 @@ class Admission(http.Controller):
 
                 linkPayment = wizard_data[0].link
 
-        return http.request.render("adm.template_application_menu_invoice", {
+        return request.render("adm.template_application_menu_invoice", {
             "application_id": params["application_id"],
             "sales_order_info": str(linkPayment),
-            "application": http.request.env["adm.application"].browse([params["application_id"]]),
+            "application": request.env["adm.application"].browse([params["application_id"]]),
             "showPendingInformation": True if "checkData" in params else False,
             "pendingData": self.getPendingTasks(params["application_id"]),
             # "sales_order_info": str(wizard_data[0].link),
@@ -1684,4 +1684,4 @@ class Admission(http.Controller):
     # define una funcion principal
     def insertId(self, **kw):
         #return json.dumps(request.httprequest.url +' | '+ request.httprequest.base_url  +' | '+ request.httprequest.host_url)
-        return json.dumps(http.request.httprequest.headers.environ['HTTP_ORIGIN'])
+        return json.dumps(request.httprequest.headers.environ['HTTP_ORIGIN'])

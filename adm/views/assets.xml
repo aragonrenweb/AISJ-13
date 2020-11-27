@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
+    <template id="assets_application_student_info" name="Assets student info">
+        <link rel="stylesheet" href="/adm/static/src/css/main.css"/>
+        <script type="text/javascript" src="/adm/static/src/js/application/student_info.js"></script>
+    </template>
+
     <template id="assets_backend_inherit_ninebox" inherit_id="web.assets_backend" name="Employees Asset">
         <xpath expr="script[last()]" position="after">
             <script type="text/javascript" src="/adm/static/js/listview_button.js"></script>

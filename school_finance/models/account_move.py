@@ -14,9 +14,23 @@ class AccountMove(models.Model):
     receivable_account_id = fields.Many2one("account.account", string="Receivable account", domain=[("user_type_id.type", "=", "receivable")])
 
     is_in_debug_mode = fields.Boolean(compute="compute_is_in_debug_mode")
+    period_start = fields.Date(string="Period Start")
+    period_end = fields.Date(string="Period End")
+    invoice_payment_state_color = fields.Integer(string="Payment Status Color", compute="compute_invoice_payment_state_color")
 
     def compute_is_in_debug_mode(self):
         self.is_in_debug_mode = self.env.user.has_group('base.group_no_one')
+
+    def compute_invoice_payment_state_color(self):
+        for move in self:
+            result = 0
+            if move.invoice_payment_state == "not_paid":
+                result = 1 #red
+            elif move.invoice_payment_state == "in_payment":
+                result = 3 #yellow
+            elif move.invoice_payment_state == "paid":
+                result = 10 #green
+            move.invoice_payment_state_color = result
 
     def get_receivable_account_ids(self):
         return self.get_receivable_line_ids().mapped("account_id")
@@ -52,11 +66,11 @@ class AccountMove(models.Model):
     def set_receivable_account(self):
         """ It uses receivable_account_id field to set autoamtically the receivable account """
         for record in self:
-            receivable_line_id = record.line_ids.filtered(
-                lambda line: line.account_id.user_type_id.type == 'receivable')
-            receivable_line_id.ensure_one()
-            if receivable_line_id and record.receivable_account_id:
-                receivable_line_id.account_id = record.receivable_account_id.id
+            if record.receivable_account_id:
+                receivable_line_ids = record.line_ids.filtered(
+                    lambda line: line.account_id.user_type_id.type == 'receivable')
+                for receivable_line_id in receivable_line_ids:
+                    receivable_line_id.account_id = record.receivable_account_id.id
 
 
 

@@ -1,0 +1,14 @@
+.form-upload label.label-upload {
+  display: inline-block;
+  background-color: indigo;
+  color: white;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+.form-upload input[type=file] {
+  display: none;
+}
+
+/*# sourceMappingURL=main.css.map */

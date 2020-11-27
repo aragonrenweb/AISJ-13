@@ -244,6 +244,11 @@ class Application(models.Model):
     family_id = fields.Many2one(string="Family", related="partner_id.parent_id")
 
     # QUESTION CUSTOMIZED PREESCOLAR
+    applying_semester = fields.Selection([
+        ('Semester 1 (August)', 'semester_1'),
+        ('Semester 2 (January)', 'semester_2'),
+        ('Immediate', 'immediate'),
+        ], string="Applying semester")
 
     # DATOS DEL EMBARAZO Y NACIMIENTO
     pe_alguna_complicacion = fields.Char("Alguna complicación")
