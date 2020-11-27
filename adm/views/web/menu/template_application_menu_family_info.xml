@@ -260,7 +260,8 @@
                                                                 <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                                                                     <div class="text-center">
 
-                                                                        <img t-att-src="person_photos[partnerIdx]"  widget="image" class="avatar rounded" alt="avatar" width="175"/>
+                                                                        <img t-if="len(person_photos[partnerIdx]) &lt;= 30" src="/adm/static/files/contact_photo_placeholder.png" widget="image" class="avatar rounded" alt="avatar" width="175"/>
+                                                                        <img t-else="" t-att-src="person_photos[partnerIdx]" widget="image" class="avatar rounded" alt="avatar" width="175"/>
                                                                         <h6 class="mt-2 textUpload">Upload a different photo...</h6>
 
                                                                         <input required="required" type="file" name="file_upload" class="form-control"/>

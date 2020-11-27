@@ -131,6 +131,7 @@
                             <field name="last_name" />
                             <field name="contact_time_id" />
                             <field name="grade_level"/>
+                            <field name="school_year"/>
                             <field name="brothers"/>
                         </group>
                         <group colspan="1">

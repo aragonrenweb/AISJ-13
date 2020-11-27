@@ -95,7 +95,9 @@ class Application(models.Model):
     current_school = fields.Char(string="Current School")
     current_school_address = fields.Char(string="Current School Address")
 
-    grade_level = fields.Many2one(string="GradeLevel", related="inquiry_id.grade_level_id", required=True)
+    grade_level = fields.Many2one("school_base.grade_level", string="Grade Level", domain=[('active_admissions', '=', True)])
+    grade_level_inquiry = fields.Many2one(string="GradeLevel", related="inquiry_id.grade_level_id")
+    school_year = fields.Many2one("school_base.school_year", string="School Year")
 
     previous_school = fields.Char(string="Previous School")
     previous_school_address = fields.Char(string="Previous School Address")
