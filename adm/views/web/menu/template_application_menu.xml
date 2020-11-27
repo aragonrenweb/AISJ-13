@@ -21,10 +21,10 @@
                         </li>
 <!--                    </t>-->
 <!--                    <t t-if="application.grade_level.name in ['PM','M','PV','PK','K']">-->
-                        <li class="nav-item nav-item-menu" id="nav-itm-appl">
-                            <a t-att-href="'/admission/applications/{}/info-preescolar'.format(application_id)"
-                               class="nav-link" href="#">STUDENT INFO (PRE-SCHOOL)</a>
-                        </li>
+<!--                        <li class="nav-item nav-item-menu" id="nav-itm-appl">-->
+<!--                            <a t-att-href="'/admission/applications/{}/info-preescolar'.format(application_id)"-->
+<!--                               class="nav-link" href="#">STUDENT INFO (PRE-SCHOOL)</a>-->
+<!--                        </li>-->
 <!--                    </t>-->
                     <li class="nav-item nav-item-menu" id="nav-itm-lang">
                         <a t-att-href="'/admission/applications/{}/additional-student-info'.format(application_id)"
