@@ -344,6 +344,8 @@ class Inquiry(models.Model):
                 "current_school": self.current_school,
                 "current_school_address": self.current_school_address,
                 "partner_id": self.partner_id.id,
+                "grade_level_id": self.grade_level_id.id,
+                "school_year_id": self.school_year_id.id,
                 "medical_conditions_ids": medical_base,
             })
         
@@ -358,6 +360,8 @@ class Inquiry(models.Model):
                 "current_school": self.current_school,
                 "current_school_address": self.current_school_address,
                 "partner_id": self.partner_id.id,
+                "grade_level_id": self.grade_level_id.id,
+                "school_year_id": self.school_year_id.id,
                 "medical_conditions_ids": medical_base,
             })
         

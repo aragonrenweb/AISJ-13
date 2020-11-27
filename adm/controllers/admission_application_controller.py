@@ -95,6 +95,98 @@ class Admission(http.Controller):
     #     })
     #     return response
 
+    @http.route("/admission/applications/create", auth="public", methods=["GET"], website=True,
+                csrf=False)
+    def info_create_get(self, **params):
+        ApplicationEnv = http.request.env["adm.application"]
+        CountryEnv = http.request.env['res.country']
+        GenderEnv = http.request.env['adm.gender']
+        LanguageEnv = http.request.env["adm.language"]
+        GradeLevelEnv = http.request.env['school_base.grade_level']
+        SchoolYearEnv = http.request.env['school_base.school_year']
+        
+        countries = CountryEnv.browse(CountryEnv.search([]))
+        genders = GenderEnv.browse(GenderEnv.search([]))
+        languages = LanguageEnv.browse(LanguageEnv.search([])).ids
+        grade_levels = GradeLevelEnv.browse(GradeLevelEnv.search([('active_admissions', '=', True)])).ids
+        school_years = SchoolYearEnv.browse(SchoolYearEnv.search([])).ids
+        companies = http.request.env['res.company'].sudo().search([('country_id','!=',False)])
+
+        template = "adm.template_application_menu_info"
+        if params.get("grade_level") == "pre":
+            template = "adm.template_application_menu_info_preescolar"
+
+        return http.request.render(template, {
+            "application": ApplicationEnv,
+            "countries": countries.ids,
+            "student_photo": "data:image/png;base64",
+            "adm_languages": languages,
+            "genders": genders,
+            "grade_levels": grade_levels,
+            "school_years": school_years,
+            "create_mode": True,
+            "create_grade_level": params.get("grade_level"),
+            "company": companies and companies[0],
+        })
+
+    @http.route("/admission/applications/create", auth="public", methods=["POST"], website=True,
+                csrf=False)
+    def info_create_post(self, **params):
+        PartnerEnv = http.request.env["res.partner"]
+        ApplicationEnv = http.request.env["adm.application"]
+
+        field_ids = http.request.env.ref("adm.model_adm_application").sudo().field_id
+        fields = [field_id.name for field_id in field_ids]
+        keys = params.keys() & fields
+        result = {k: params[k] for k in keys}
+        field_types = {field_id.name: field_id.ttype for field_id in field_ids}
+
+        brother_name_list = post_parameters().getlist("brother_name")
+        brother_age_list = post_parameters().getlist("brother_age")
+        brother_school_list = post_parameters().getlist("brother_school")
+
+        many2one_fields = [name for name, value in field_types.items() if value == "many2one"]
+
+        brothers = [(5, 0, 0)]
+        for idx in range(len(brother_name_list)):
+            if brother_name_list[idx] != '' and brother_age_list[idx] != '' and brother_school_list[idx] != '':
+                brothers.append((0, 0, {
+                    'name': brother_name_list[idx],
+                    'age': brother_age_list[idx],
+                    'school': brother_school_list[idx],
+                }))
+        result["brothers"] = brothers
+
+        for key in result.keys():
+            if key in many2one_fields:
+                result[key] = int(result[key])
+                if result[key] == -1:
+                    result[key] = False
+                    pass
+
+        parent = http.request.env.user.partner_id
+        family = parent.family_ids and parent.family_ids[0]
+        partner = PartnerEnv.sudo().create({
+            "first_name": result.get("first_name"),
+            "middle_name": result.get("middle_name"),
+            "last_name": result.get("last_name"),
+            "image_1920": params.get("file_upload") and base64.b64encode(params["file_upload"].stream.read()),
+            "parent_id": family.id,
+            "person_type": "student",
+            "family_ids": [(4, family.id)],
+        })
+        family.member_ids = [(4, partner.id)]
+        application = ApplicationEnv.create({
+            "first_name": result.get("first_name"),
+            "middle_name": result.get("middle_name"),
+            "last_name": result.get("last_name"),
+            "partner_id": partner.id,
+        })
+        result["relationship_ids"] = [(0, 0, {"partner_2": parent.id})]
+        application.sudo().write(result)
+
+        return http.request.redirect("/admission/applications/%s" % application.id)
+
     @http.route("/admission/applications/<int:application_id>", auth="public", methods=["GET"], website=True)
     def admission_web(self, application_id):
         contact_id = self.get_partner()

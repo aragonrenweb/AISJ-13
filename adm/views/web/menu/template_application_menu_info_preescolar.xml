@@ -19,37 +19,36 @@
 
                                 <div class="container">
 
-                                    <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
+                                    <t t-if="not create_mode and application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
                                         <div class="alert alert-warning mt-3" role="alert">
                                           The request has already been sent.
                                         </div>
                                     </t>
                                     <t t-else="">
-                                        <form t-att-action="'/admission/applications/{}/write'.format(application_id)" method="post" enctype="multipart/form-data">
+                                        <form t-att-action="'/admission/applications/create' if create_mode else '/admission/applications/{}/write'.format(application_id)" method="post" enctype="multipart/form-data">
                                             <div class="container">
 
                                                 <section class="container align-items-center mt-3">
                                                     <div class="row">
                                                         <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                                                             <div class="text-center">
-
-                                                              <img t-att-src="student_photo"  widget="image" class="avatar rounded" alt="avatar" width="175"/>
-                                                              <h6 class="mt-2">Upload a different photo...</h6>
-
-                                                              <input type="file" name="file_upload" class="form-control"/>
-                                                              <div class='alert alert-info pt-0 pb-0 mt-1' role='alert'>Upload a student photo.</div>
+                                                                <img t-if="len(student_photo) &lt;= 30" src="/adm/static/files/contact_photo_placeholder.png"
+                                                                    widget="image" class="avatar rounded" alt="avatar" width="175"/>
+                                                                <img t-else="" t-att-src="student_photo"  widget="image" class="avatar rounded" alt="avatar" width="175"/>
+                                                                <h6 class="mt-2">Upload a different photo...</h6>
+                                                                <input type="file" name="file_upload" class="form-control"/>
+                                                                <div class='alert alert-info pt-0 pb-0 mt-1' role='alert'>Upload a student photo.</div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row mt-2" style="height: 40px;">
+                                                    <div t-if="not create_mode" class="row mt-2" style="height: 40px;">
                                                         <div class="form-group col-12 col-md-8 offset-md-2">
-<!--                                                            <label>Legal Name (First Middle Last):</label>-->
-                                                            <input type="text" class="form-control text-center font-weight-bold" t-att-value="student.sudo().name" disabled="disabled"/>
+                                                            <input type="text" class="form-control text-center font-weight-bold" t-att-value="student and student.sudo().name" disabled="disabled"/>
                                                         </div>
                                                     </div>
-                                                    <div class="row mb-3 justify-content-center">
+                                                    <div t-if="not create_mode" class="row mb-3 justify-content-center">
                                                         (
-                                                    <a  href="javascript:change_name();">Change</a>
+                                                    <a href="javascript:change_name();">Change</a>
                                                     )
                                                     </div>
 
@@ -60,7 +59,7 @@
                                                         else
                                                         document.getElementById('change_name_div').style.display = 'none';
                                                         }
-                                                          function addBrother(){
+                                                        function addBrother(){
                                                             var itm = document.getElementById("brother_base_div");
 
                                                             var cln = itm.cloneNode(true);
@@ -70,20 +69,15 @@
                                                             cln.classList.add("p-0");
                                                             document.getElementById("brother_new_div").appendChild(cln);
                                                         }
-                                                        $(function(){
-
-                                                        // write your code here...
-
-                                                        });
                                                     </script>
                                                 </section>
-                                                <div id="change_name_div" style="display:none; padding:10px; margin-top:5px;" class="row">
+                                                <div id="change_name_div" t-att-style="'padding:10px; margin-top:5px;' + ('' if create_mode else ' display:none;')" class="row">
                                                     <div class="container">
                                                         <div class="row">
                                                             <section class="col-12 col-md-4 form-group">
                                                                 <label>
                                                                     First Name
-                                                                    <span class="text-danger">*</span>
+                                                                    <span class="text-danger"> *</span>
                                                                 </label>
                                                                 <input type="text" name="first_name" class="form-control" t-att-value="application.first_name"/>
                                                             </section>
@@ -103,21 +97,49 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <section class="row">
+                                                <section t-if="not create_mode" class="row">
                                                     <div class="col-12 col-md-6 form-group">
                                                         <label>
                                                             Grade Level:
                                                         </label>
-                                                        <input disabled="disabled" type="text" class="form-control" t-att-value="application.inquiry_id.grade_level_id.name"/>
+                                                        <input disabled="disabled" type="text" class="form-control" t-att-value="application.grade_level.name"/>
                                                     </div>
                                                     <div class="col-12 col-md-6 form-group">
                                                         <label>
                                                             School Year:
                                                         </label>
-                                                        <input disabled="disabled" type="text" class="form-control" t-att-value="application.inquiry_id.school_year_id.name"/>
+                                                        <input disabled="disabled" type="text" class="form-control" t-att-value="application.school_year.name"/>
                                                     </div>
                                                 </section>
-                                                <section class="row">
+                                                <section t-else="" class="row">
+                                                    <div class="col-12 col-md-6 form-group">
+                                                        <label>
+                                                            Grade Level:
+                                                            <span class="text-danger"> *</span>
+                                                        </label>
+                                                        <select required="required" class="form-control" name="grade_level">
+                                                            <t t-foreach="grade_levels" t-as="grade_level">
+                                                                <option t-att-selected="application.grade_level.id == grade_level.id" t-att-value="grade_level.id">
+                                                                    <t t-esc="grade_level.name"/>
+                                                                </option>
+                                                            </t>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 col-md-6 form-group">
+                                                        <label>
+                                                            School Year:
+                                                            <span class="text-danger"> *</span>
+                                                        </label>
+                                                        <select required="required" class="form-control" name="school_year">
+                                                            <t t-foreach="school_years" t-as="school_year">
+                                                                <option t-att-selected="application.school_year.id == school_year.id" t-att-value="school_year.id">
+                                                                    <t t-esc="school_year.name"/>
+                                                                </option>
+                                                            </t>
+                                                        </select>
+                                                    </div>
+                                                </section>
+                                                <section t-if="not create_mode" class="row">
                                                     <div class="col-12 col-md-6 form-group">
                                                         <label>
                                                             Home Address:
@@ -133,7 +155,7 @@
                                                         <input disabled="disabled" required="required" type="text" name="zip" class="form-control" t-att-value="application.zip"/>
                                                     </div>
                                                 </section>
-                                                <section class="row">
+                                                <section t-if="not create_mode" class="row">
                                                      <div class="col-12 col-md-4 form-group">
                                                         <label>
                                                             City:
@@ -206,17 +228,22 @@
                                                     </select>
                                                     </div>
                                                      <div class="col-12 col-md-6 form-group">
-                                                          <label>Nationality:</label>
+                                                        <label>Nationality:</label>
                                                         <select  name="citizenship" class="form-control">
                                                             <option value="-1" selected="true" disabled="disabled">-Select a country-
                                                             </option>
                                                             <t t-foreach="countries" t-as="country">
-                                                                <option t-if="application.citizenship.id == country.id" selected="selected" t-att-value="country.id">
+                                                                <option t-if="application.citizenship" t-att-selected="application.citizenship.id == country.id" t-att-value="country.id">
                                                                     <t t-esc="country.name"/>
                                                                 </option>
-                                                                <option t-else="" t-att-value="country.id">
-                                                                    <t t-esc="country.name"/>
-                                                                </option>
+                                                                <t t-else="">
+                                                                    <option t-if="application" t-att-selected="application.create_uid.sudo().company_id.country_id.id == country.id" t-att-value="country.id">
+                                                                        <t t-esc="country.name"/>
+                                                                    </option>
+                                                                    <option t-else="" t-att-selected="company.country_id.id == country.id" t-att-value="country.id">
+                                                                        <t t-esc="country.name"/>
+                                                                    </option>
+                                                                </t>
                                                             </t>
                                                         </select>
                                                     </div>
