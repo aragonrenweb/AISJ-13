@@ -14,18 +14,18 @@
                         <a t-att-href="'/admission/applications/{}/instructions-resources'.format(application_id)"
                            class="nav-link" href="#">GENERAL INFO<span class="sr-only">(current)</span></a>
                     </li>
-                    <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12']">
+<!--                    <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12']">-->
                         <li class="nav-item nav-item-menu" id="nav-itm-appl">
                             <a t-att-href="'/admission/applications/{}/info'.format(application_id)" class="nav-link"
                                href="#">STUDENT INFO</a>
                         </li>
-                    </t>
-                    <t t-if="application.grade_level.name in ['PM','M','PV','PK','K']">
+<!--                    </t>-->
+<!--                    <t t-if="application.grade_level.name in ['PM','M','PV','PK','K']">-->
                         <li class="nav-item nav-item-menu" id="nav-itm-appl">
                             <a t-att-href="'/admission/applications/{}/info-preescolar'.format(application_id)"
                                class="nav-link" href="#">STUDENT INFO (PRE-SCHOOL)</a>
                         </li>
-                    </t>
+<!--                    </t>-->
                     <li class="nav-item nav-item-menu" id="nav-itm-lang">
                         <a t-att-href="'/admission/applications/{}/additional-student-info'.format(application_id)"
                            class="nav-link" href="#">LANGUAGES</a>
