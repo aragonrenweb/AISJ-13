@@ -13,16 +13,16 @@
           <li class="nav-item nav-item-menu" id="nav-itm-instr">
             <a t-if="not create_mode" t-att-href="'/admission/applications/{}/instructions-resources'.format(application_id)" class="nav-link" href="#">GENERAL INFO<span class="sr-only">(current)</span></a>
           </li>
-          <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12'] or (create_mode and create_grade_level != 'pre')">
+<!--          <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12'] or (create_mode and create_grade_level != 'pre')">-->
             <li class="nav-item nav-item-menu" id="nav-itm-appl">
               <a t-att-href="not create_mode and '/admission/applications/{}/info'.format(application_id)" class="nav-link" href="#">STUDENT INFO</a>
             </li>
-          </t>
-          <t t-if="application.grade_level.name in ['PM','M','PV','PK','K'] or (create_mode and create_grade_level == 'pre')">
-            <li class="nav-item nav-item-menu" id="nav-itm-appl">
-              <a t-att-href="not create_mode and '/admission/applications/{}/info-preescolar'.format(application_id)" class="nav-link" href="#">STUDENT INFO (PRE-SCHOOL)</a>
-            </li>
-          </t>
+<!--          </t>-->
+<!--          <t t-if="application.grade_level.name in ['PM','M','PV','PK','K'] or (create_mode and create_grade_level == 'pre')">-->
+<!--            <li class="nav-item nav-item-menu" id="nav-itm-appl">-->
+<!--              <a t-att-href="not create_mode and '/admission/applications/{}/info-preescolar'.format(application_id)" class="nav-link" href="#">STUDENT INFO (PRE-SCHOOL)</a>-->
+<!--            </li>-->
+<!--          </t>-->
           <li t-if="not create_mode" class="nav-item nav-item-menu" id="nav-itm-lang">
             <a t-att-href="'/admission/applications/{}/additional-student-info'.format(application_id)" class="nav-link" href="#">LANGUAGES</a>
           </li>
@@ -55,11 +55,11 @@
 
 
 <!--          <t t-if="application.grade_level.name in 'FOREIGN'">-->
-           <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12']">
-            <li class="nav-item nav-item-menu" id="nav-itm-fore">
-              <a t-att-href="'/admission/applications/{}/document-primary-secondary'.format(application_id)" class="nav-link" href="#">DOCUMENTS (PRIMARY-SECONDARY)</a>
-            </li>
-           </t>
+<!--           <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12']">-->
+<!--            <li class="nav-item nav-item-menu" id="nav-itm-fore">-->
+<!--              <a t-att-href="'/admission/applications/{}/document-primary-secondary'.format(application_id)" class="nav-link" href="#">DOCUMENTS (PRIMARY-SECONDARY)</a>-->
+<!--            </li>-->
+<!--           </t>-->
 <!--
             <li class="nav-item border-right" id="nav-itm-fore">
               <a t-att-href="'/admission/applications/{}/document-foreign-instructions'.format(application_id)" class="nav-link" href="#">Instrucciones para Títulos del Extranjero</a>
