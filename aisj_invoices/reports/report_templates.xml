@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="external_layout_background_inherit" inherit_id="web.external_layout_background">
-        <xpath expr="//div[hasclass('header')]" position="replace">
+        <xpath expr="//div[contains(@t-attf-class, 'header')]" position="replace">
             <div class="header">
                 <div class="o_background_header">
                     <div class="float-right">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </xpath>
-        <xpath expr="//div[hasclass('footer')]" position="replace">
+        <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
             <div class="footer o_background_footer">
                 <div class="text-center">
                     <ul class="list-inline" style="

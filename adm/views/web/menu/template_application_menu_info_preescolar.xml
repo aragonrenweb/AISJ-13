@@ -168,7 +168,7 @@
                                                         State
                                                         <span class="text-danger">*</span>
                                                         </label>
-                                                        <select disabled="disabled" required="required" type="text" id="state_id" name="state_id" placeholder="State" class="form-control">
+                                                        <select required="required" type="text" id="state_id" name="state_id" placeholder="State" class="form-control">
                                                                 <option selected="selected" t-att-value="application.partner_id.state_id.id">
                                                                     <t t-esc="application.partner_id.state_id.name"/>
                                                                 </option>

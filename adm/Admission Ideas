@@ -6,7 +6,9 @@ Campos que pueden crear los usuarios y el backend se hace automatico:
 
 Campos que se hace automatico pero el mostrar la "data" no. Se tiene que meter mano en el controlador
 - Many2one
-(Ni idea si existe una manera de enviar los objectos de manera dinamica, ya que realmente lo que hara es rellenar los options con el modelo que tenga la etiqueta. A ver... Es posible sin problemas, pero sinceramente quedara muy sucio de la manera en como lo tengo pensado, esto lo solucionare apenas pueda.)
+(Ni idea si existe una manera de enviar los objectos de manera dinamica, ya que realmente lo que hara es rellenar los
+options con el modelo que tenga la etiqueta. A ver... Es posible sin problemas, pero sinceramente
+quedara muy sucio de la manera en como lo tengo pensado, esto lo solucionare apenas pueda.)
 
 Campos que hay que editar 2 controlladores (el que imprime el formulario, y el que recibe la info)
 

@@ -49,7 +49,7 @@
         'views/web/menu/template_application_menu_family_info.xml',
         'views/web/menu/template_application_menu_household1.xml',
         'views/web/menu/template_application_menu_household2.xml',
-        'views/web/menu/template_application_menu_info.xml',
+        'views/web/menu/template_application_student_info.xml',
         'views/web/menu/template_application_menu_info_preescolar.xml',
         'views/web/menu/template_application_menu_foreign_instruc.xml',
         'views/web/menu/template_application_menu_institutional_fee_declaration.xml',
@@ -72,6 +72,10 @@
         'views/templates_custom.xml',
 
         'views/wizards/salewiz.xml',
+
+        # Load assets
+        'views/assets.xml'
+
     ],
     'qweb': ['static/src/xml/kanban_view_button.xml'],
     'application': True
