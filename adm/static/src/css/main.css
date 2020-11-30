@@ -11,4 +11,19 @@
   display: none;
 }
 
+.card-sticky-save {
+  position: sticky;
+  transform: translateY(-50%);
+}
+@media (min-height: 720px) {
+  .card-sticky-save {
+    top: 50%;
+  }
+}
+@media (max-height: 719px) {
+  .card-sticky-save {
+    bottom: 0;
+  }
+}
+
 /*# sourceMappingURL=main.css.map */

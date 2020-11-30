@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="template_application_parents_form">
+        <div class="container">
+            <div class="row">
+                <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                    <div class="text-center">
+
+                        <img src="/adm/static/files/contact_photo_placeholder.png" widget="image" class="avatar rounded-circle" alt="avatar" width="175"/>
+                        <h6 class="mt-2 textUpload">Upload a different photo...</h6>
+
+                        <input required="required" type="file" name="file_upload" class="form-control"/>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <fieldset class="col-12 border">
+                    <legend class="w-auto">Demographics</legend>
+                    <section class="row">
+                        <div class="col-12 col-md-6 form-group">
+                            <label>First name</label>
+                            <input class="form-control" type="text" name="first_name"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Last name</label>
+                            <input class="form-control" type="text" name="last_name"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Date of birth</label>
+                            <input class="form-control" type="date" name="date_of_birth"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Sex</label>
+                            <input class="form-control" type="text" name="gender"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Employer</label>
+                            <input class="form-control" type="text" name="employer"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Occupation</label>
+                            <input class="form-control" type="text" name="occupation"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Marital status</label>
+                            <input class="form-control" type="text" name="marital_status"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Citizenship</label>
+                            <input class="form-control" type="text" name="citizenship"/>
+                        </div>
+                    </section>
+                </fieldset>
+
+                <fieldset class="col-12 border">
+                    <legend class="w-auto">Relationship to application</legend>
+                    <section class="row">
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Relationship to applicant</label>
+                            <input class="form-control" type="text" name="relation_type"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Custodial rights</label>
+                            <input class="form-control" type="text" name="custodial_rights"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Financial Responsability</label>
+                            <input class="form-control" type="text" name="financial_responsability"/>
+                        </div>
+                    </section>
+                </fieldset>
+
+                <fieldset class="col-12 border">
+                    <legend class="w-auto">Contact information</legend>
+                    <section class="row">
+                    
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Home phone</label>
+                            <input class="form-control" type="text" name="home_phone"/>
+                        </div>
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Home phone</label>
+                            <input class="form-control" type="text" name="home_phone"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Email</label>
+                            <input class="form-control" type="email" name="email"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Work email</label>
+                            <input class="form-control" type="email" name="work_email"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Mobile Phone</label>
+                            <input class="form-control" type="text" name="mobile_phone"/>
+                        </div>
+                    </section>
+                </fieldset>
+
+                <fieldset class="col-12 border">
+                    <legend class="w-auto">Education information</legend>
+                    <section class="row">
+                    
+                        <!-- School information -->
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Education</label>
+                            <input class="form-control" type="text" name=""/>
+                        </div>
+                        <div class="col-12 col-md-6 form-group">
+                            <label>School name</label>
+                            <input class="form-control" type="text" name=""/>
+                        </div>
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Degree</label>
+                            <input class="form-control" type="text" name=""/>
+                        </div>
+                        <div class="col-12 col-md-6 form-group">
+                            <label>First language</label>
+                            <input class="form-control" type="text" name=""/>
+                        </div>
+                    </section>
+                </fieldset>
+
+                <hr class="w-100 mt-4"/>
+                <!-- Uploads -->
+                <div class="col-12 col-md-6 form-group">
+                    <label>Residency Permit Id Number</label>
+                    <input class="form-control" type="file" name=""/>
+                </div>
+
+                <div class="col-12 col-md-6 form-group">
+                    <label>Parent passport upload</label>
+                    <input class="form-control" type="file" name=""/>
+                </div>
+
+                <hr class="w-100 mt-4"/>
+
+                <!-- Just analyitics questions -->
+                <div class="col-12 col-md-6 form-group">
+                    <label>Interested in being an AISJ business partner donation</label>
+                    <input class="form-control" type="text" name=""/>
+                </div>
+
+                <div class="col-12 col-md-6 form-group">
+                    <label>May we provide your contact information to our Parent Teacher Support Association (PTSA) so that they might reach out to welcome you?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" t-attf-name="contact_information_permission[#{id}]"/>
+                        <label class="form-check-label">Yes</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" t-attf-name="contact_information_permission[#{id}]"/>
+                        <label class="form-check-label">No</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </template>
+
+    <template id="template_application_parents_webpage" name="Student's parents">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <!--<link rel="stylesheet" href="/adm/static/css/form_application.css"/>-->
+               <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
+            </t>
+            <t t-set="title">Parents</t>
+
+            <div class="oe_struture"/>
+            <div class="oe_struture">
+                <t t-call="adm.template_application_menu"/>
+                <div class="container-fluid mt-4">
+                    <div class="row">
+                        <!--<div class="col-3"></div>-->
+                        <div class="col-12 col-md-9">
+                            <section class="card">
+                                <div class="card-header">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#parent1Collapse">
+                                            Parent 1/Guardian information
+                                        </button> 
+                                    </h2>
+                                </div>
+                                <div class="collapse show" id="parent1Collapse">
+                                    <div class="card-body">
+                                        <t t-set="id" t-value="1"/>
+                                        <t t-call="adm.template_application_parents_form"/>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="card mt-2 mb-2">
+                                <div class="card-header">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#parent2Collapse">
+                                            Parent 2/Guardian information
+                                        </button> 
+                                    </h2>
+                                </div>
+                                <div class="collapse" id="parent2Collapse">
+                                    <div class="card-body">
+                                        <t t-set="id" t-value="2"/>
+                                        <t t-call="adm.template_application_parents_form"/>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="card mt-2 mb-2">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>With whom does the applicant live:</label>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="living_whom"/>
+                                                <label class="form-check-label">Father and mother</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="living_whom"/>
+                                                <label class="form-check-label">Father and stepmother</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="living_whom"/>
+                                                <label class="form-check-label">Father only</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="living_whom"/>
+                                                <label class="form-check-label">Mother and stepfather</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="living_whom"/>
+                                                <label class="form-check-label">Mother only</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="living_whom"/>
+                                                <label class="form-check-label">Grandparents</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="living_whom"/>
+                                                <label class="form-check-label">Shares time with both parents</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="living_whom"/>
+                                                <label class="form-check-label">Other</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>Does your employer pay tuition directly to the school?</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q_employer_pay_tuition"/>
+                                                <label class="form-check-label">Yes</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="q_employer_pay_tuition"/>
+                                                <label class="form-check-label">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <section class="card card-sticky-save mb-3 mt-3">
+                                <div class="card-body"> 
+                                    <p> Fields with (*) are mandatory </p>
+                                    <section class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
+                                        <span class="text-muted mb-2">Please, make sure you save the changes</span>
+                                        <button class="btn btn-primary" type="button">Save</button>
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

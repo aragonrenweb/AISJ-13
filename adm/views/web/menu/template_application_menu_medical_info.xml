@@ -15,7 +15,7 @@
                                 <h1>Medical Information</h1>
                             </section>
 
-                            <section class="card-body&gt;">
+                            <section class="card-body">
                                 <div class="container">
                                     <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
                                         <div class="alert alert-warning mt-3" role="alert">
@@ -31,6 +31,22 @@
                                                         Name
                                                         <span class="text-danger"> *</span>
                                                     </label>
+                                                    <input type="checkbox"/> Other
+                                                    <select class="form-control">
+                                                        <option>Asthma</option>
+                                                        <option>Attention Deficit Disorder/Hyperactive</option>
+                                                        <option>Neurological Concerns</option>
+                                                        <option>Seizure disorder/Epilepsy</option>
+                                                        <option>Diabetes</option>
+                                                        <option>Frequent ear infections</option>
+                                                        <option>Frequent Headaches</option>
+                                                        <option>Heart Problems</option>
+                                                        <option>Kidney/urinary problems</option>
+                                                        <option>Menstrual problems</option>
+                                                        <option>Glasses/contact lens</option>
+                                                        <option>Emotional concerns</option>
+                                                        <option>Other</option>
+                                                    </select>
                                                     <input required="required" class="form-control" type="text" name="medical_condition_name"/>
                                                 </section>
                                                 <section class="col-6">

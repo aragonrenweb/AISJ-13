@@ -71,6 +71,19 @@
         'views/web/reports/report_internal_custom.xml',
         'views/templates_custom.xml',
 
+        # Application/Family
+        'views/web/menu/application/family/template_application_parents.xml',
+        'views/web/menu/application/family/template_application_siblings_info.xml',
+
+        # Application/Schools
+        'views/web/menu/application/schools/template_application_schools_information.xml',
+
+        # Application/Parent Questionnaire
+        'views/web/menu/application/parent_questionnaire/template_application_parent_questionnaire.xml',
+
+        # Application/Additional Questions
+        'views/web/menu/application/additional_questions/template_application_additional_questions.xml',
+
         'views/wizards/salewiz.xml',
 
         # Load assets

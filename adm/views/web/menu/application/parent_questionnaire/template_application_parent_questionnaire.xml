@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="adm.template_application_parent_questionnaire_form">
+        <section class="container-fluid">
+            <div id="school_forms">
+                <article class="row card card-body pt-0 mt-2">
+                    <input class="form-control" type="hidden" name="previous_school_id"/>
+                    <div class="row">
+                        <section class="col-12 d-flex justify-content-end pt-2 pb-1 m-0">
+                            <button type="button" class="btn btn-danger remove-school">&#10006;</button>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <section class="col-12 col-md">
+                            <label>Name of school</label>
+                            <span class="text-danger"> *</span>
+                            <div>
+                                <input class="form-control" type="text" name="previous_school_name"/>
+                            </div>
+                        </section>
+
+                        <section class="col-12 col-md">
+                            <label>Grade Levels</label>
+                            <input class="form-control" type="text" name="previous_school_street"/>
+                        </section>
+
+                        <section class="col-12 col-md">
+                            <label>Address</label>
+                            <input class="form-control" type="text" name="previous_school_street"/>
+                        </section>
+                    </div>
+                    <div class="row">
+
+                        <section class="col-12 col-md">
+                            <label>
+                                Start Date
+                                <span class="text-danger"> *</span>
+                            </label>
+                            <input class="form-control" type="date" name="previous_school_todate"/>
+                        </section>
+
+                        <section class="col-12 col-md">
+                            <label>
+                                End Date
+                                <span class="text-danger"> *</span>
+                            </label>
+                            <input class="form-control" type="date" name="previous_school_fromdate"/>
+                        </section>
+
+                    </div>
+                    <div class="row">
+                        <section class="col-12 col-md">
+                            <label>
+                                Reason for Leaving
+                                <span class="text-danger"> *</span>
+                            </label>
+                            <input class="form-control" type="text" name="previous_school_gradecompleted"/>
+                        </section>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </template>
+
+    <template id="adm.template_application_parent_questionnaire_webpage">
+
+        <t t-call="website.layout">
+            <t t-set="head">
+                <!--<link rel="stylesheet" href="/adm/static/css/form_application.css"/>-->
+                <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
+            </t>
+            <t t-set="title">Schools</t>
+
+            <div class="oe_struture"/>
+            <div class="oe_struture">
+                <t t-call="adm.template_application_menu"/>
+                <div class="container-fluid mt-4">
+                    <div class="row">
+                        <div class="col-12 col-md-9">
+                            <section class="card mb-2">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Subject</th>
+                                                    <th>1</th>
+                                                    <th>2</th>
+                                                    <th>3</th>
+                                                    <th>4</th>
+                                                    <th>5</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Math</td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>English</td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Languajes</td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Sciences</td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>History</td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PE</td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Arts</td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Social Studies</td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Arabic</td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                    <td><input type="radio"/></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="card mb-2">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>My child's challenged at school include</label>
+                                            <input class="form-control" type="text" name=""/>
+                                        </div>
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>In What activities outside of school is your child involved?</label>
+                                            <input class="form-control" type="text" name=""/>
+                                        </div>
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>Applicant's proficiency in English:</label>
+
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_applicant_profency_english"/>
+                                                <label class="form-check-label">Fluent</label>
+                                            </div>
+
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_applicant_profency_english"/>
+                                                <label class="form-check-label">Limited</label>
+                                            </div>
+
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_applicant_profency_english"/>
+                                                <label class="form-check-label">Beginner</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>Has the applicant received any of the following programs?</label>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">English as a second language</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">Gifted and Talented or Accelerated</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">Occupational Language Therapy</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">Educational or Psychological Testing</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">Counseling</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">Extra Academic Support</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">Special Education</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">ADHD Testing</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">Cognitive Testing</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_received_following_programs"/>
+                                                <label class="form-check-label">None of the above</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>Has your child ever received additional support in-school or outside of
+                                                school in the following areas?</label>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_application_received_support"/>
+                                                <label class="form-check-label">Reading/Literacy Support</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_application_received_support"/>
+                                                <label class="form-check-label">Math Support</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_application_received_support"/>
+                                                <label class="form-check-label">Speech and Language support</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_application_received_support"/>
+                                                <label class="form-check-label">Occupational Support</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_application_received_support"/>
+                                                <label class="form-check-label">Resource Classroom</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_application_received_support"/>
+                                                <label class="form-check-label">Any other type of therapy or support</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_application_received_support"/>
+                                                <label class="form-check-label">None of the above</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>why are you interested in AISJ for your child?</label>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_interested_child"/>
+                                                <label class="form-check-label">In my neighborhood</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_interested_child"/>
+                                                <label class="form-check-label">Program/Curriculum</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_interested_child"/>
+                                                <label class="form-check-label">Not for profit</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_interested_child"/>
+                                                <label class="form-check-label">Facilities</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_interested_child"/>
+                                                <label class="form-check-label">Teaching Staff</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_interested_child"/>
+                                                <label class="form-check-label">Reputation</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_interested_child"/>
+                                                <label class="form-check-label">Siblings at school</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_interested_child"/>
+                                                <label class="form-check-label">AP Program</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_interested_child"/>
+                                                <label class="form-check-label">Other</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>What experiences are you hoping your child will have at AISJ?</label>
+                                            <textarea class="form-control" type="text" name=""/>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>How did you hear about us?</label>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_hear_about_us"/>
+                                                <label class="form-check-label">Employer</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_hear_about_us"/>
+                                                <label class="form-check-label">Friends</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_hear_about_us"/>
+                                                <label class="form-check-label">Alumni</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_hear_about_us"/>
+                                                <label class="form-check-label">Relocation Service</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_hear_about_us"/>
+                                                <label class="form-check-label">Advertising</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_hear_about_us"/>
+                                                <label class="form-check-label">Website</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_hear_about_us"/>
+                                                <label class="form-check-label">Current school</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_hear_about_us"/>
+                                                <label class="form-check-label">Open house</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_hear_about_us"/>
+                                                <label class="form-check-label">Other</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>Is there anything you really want us to know about your family as you
+                                                apply to AISJ?</label>
+                                            <input class="form-control" type="text" name=""/>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 form-group">
+                                            <label>Has your family attended an Admissions visit or tour at AISJ?</label>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_aisj_tour"/>
+                                                <label class="form-check-label">Yes</label>
+                                            </div>
+                                            <div class="form-check"> 
+                                                <input class="form-check-input" type="radio" name="q_aisj_tour"/>
+                                                <label class="form-check-label">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <section class="card card-sticky-save mb-3 mt-3">
+                                <div class="card-body">
+                                    <p> Fields with (*) are mandatory </p>
+                                    <section
+                                            class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
+                                        <span class="text-muted mb-2">Please, make sure you save the changes</span>
+                                        <button class="btn btn-primary" type="button">Save</button>
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+        <!--        <script defer="defer" type="text/javascript" src="/adm/static/js/previous_school.js"/>-->
+    </template>
+</odoo>
