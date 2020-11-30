@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="template_application_siblings_form">
+        <div class="container">
+            <div class="row">
+                <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                    <div class="text-center">
+                        <img src="/adm/static/files/contact_photo_placeholder.png" widget="image" class="avatar rounded-circle" alt="avatar" width="175"/>
+                        <h6 class="mt-2 textUpload">Upload a different photo...</h6>
+                        <input required="required" type="file" name="file_upload" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <fieldset class="col-12 border">
+                    <legend class="w-auto">Demographics</legend>
+                    <section class="row">
+                        <div class="col-12 col-md-6 form-group">
+                            <label>First name</label>
+                            <input class="form-control" type="text" name="first_name"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Family name</label>
+                            <input class="form-control" type="text" name="last_name"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Age</label>
+                            <input class="form-control" type="number" name="date_of_birth"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Status</label>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sibling_status"/>
+                                <label class="for-check-label">Attending AISJ</label>
+                            </div>
+                            
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sibling_status"/>
+                                <label class="for-check-label">Applying to AISJ</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sibling_status"/>
+                                <label class="for-check-label">Neither</label>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Sibling Grade</label>
+                            <input class="form-control" type="text" name="sibling_grade"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Alumni or currently Enrolled Students</label>
+                            <input class="form-control" type="text" name="alumni_enrolled_student"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Alumnus/Enrolled 1</label>
+                            <input class="form-control" type="text" name="alumnus_enrolled_1"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Name: </label>
+                            <input class="form-control" type="text" name="name"/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Relationship to application</label>
+                            <input class="form-control" type="text" name=""/>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label>Years attended</label>
+                            <input class="form-control" type="text" name=""/>
+                        </div>
+
+                    </section>
+                </fieldset>
+
+            </div>
+        </div>
+    </template>
+
+    <template id="template_application_siblings_webpage" name="Student's siblings">
+        <t t-call="website.layout">
+            <t t-set="head">
+                <!--<link rel="stylesheet" href="/adm/static/css/form_application.css"/>-->
+               <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
+            </t>
+            <t t-set="title">siblings</t>
+
+            <div class="oe_struture"/>
+            <div class="oe_struture">
+                <t t-call="adm.template_application_menu"/>
+                <div class="container-fluid mt-4">
+                    <div class="row">
+                        <!--<div class="col-3"></div>-->
+                        <div class="col-12 col-md-9">
+                            <section class="card">
+                                <div class="card-header">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#parent1Collapse">
+                                            Siblings 1/Guardian information
+                                        </button> 
+                                    </h2>
+                                </div>
+                                <div class="collapse show" id="parent1Collapse">
+                                    <div class="card-body">
+                                        <t t-set="id" t-value="1"/>
+                                        <t t-call="adm.template_application_siblings_form"/>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-12 col-md-3">
+                            <section class="card card-sticky-save mb-3 mt-3">
+                                <div class="card-body"> 
+                                    <p> Fields with (*) are mandatory </p>
+                                    <section class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
+                                        <span class="text-muted mb-2">Please, make sure you save the changes</span>
+                                        <button class="btn btn-primary" type="button">Save</button>
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

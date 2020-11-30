@@ -11,101 +11,65 @@
             <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
                 <ul class="navbar-nav w-100 justify-content-center">
                     <li class="nav-item nav-item-menu" id="nav-itm-instr">
-                        <a t-att-href="'/admission/applications/{}/instructions-resources'.format(application_id)"
-                           class="nav-link" href="#">GENERAL INFO<span class="sr-only">(current)</span></a>
+                        <a t-attf-href="/admission/applications/#{application_id}/instructions-resources"
+                           class="nav-link" >
+                            GENERAL INFO
+                        </a>
                     </li>
-<!--                    <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12']">-->
-                        <li class="nav-item nav-item-menu" id="nav-itm-appl">
-                            <a t-att-href="'/admission/applications/{}/info'.format(application_id)" class="nav-link"
-                               href="#">STUDENT INFO</a>
-                        </li>
-<!--                    </t>-->
-<!--                    <t t-if="application.grade_level.name in ['PM','M','PV','PK','K']">-->
-<!--                        <li class="nav-item nav-item-menu" id="nav-itm-appl">-->
-<!--                            <a t-att-href="'/admission/applications/{}/info-preescolar'.format(application_id)"-->
-<!--                               class="nav-link" href="#">STUDENT INFO (PRE-SCHOOL)</a>-->
-<!--                        </li>-->
-<!--                    </t>-->
+                    <li class="nav-item nav-item-menu" id="nav-itm-appl">
+                        <a t-attf-href="/admission/applications/#{application_id}/info" class="nav-link" >
+                            STUDENT INFO
+                        </a>
+                    </li>
                     <li class="nav-item nav-item-menu" id="nav-itm-lang">
-                        <a t-att-href="'/admission/applications/{}/additional-student-info'.format(application_id)"
-                           class="nav-link" href="#">LANGUAGES</a>
+                        <a t-attf-href="/admission/applications/#{application_id}/additional-student-info" class="nav-link" >
+                            LANGUAGES
+                        </a>
                     </li>
                     <li class="nav-item nav-item-menu" id="nav-itm-acad">
-                        <a t-att-href="'/admission/applications/{}/previous-school'.format(application_id)"
-                           class="nav-link" href="#">STUDENT'S SCHOOL</a>
+                        <a t-attf-href="/admission/applications/#{application_id}/schools" class="nav-link" >
+                            STUDENT'S SCHOOL
+                        </a>
                     </li>
 
                     <li class="nav-item nav-item-menu dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowFamily" role="button"
+                        <a class="nav-link dropdown-toggle"  id="navbarDropdowFamily" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             FAMILY
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdowFamily">
-                            <a class="dropdown-item" href="#">PARENTS</a>
-                            <a class="dropdown-item" href="#">SIBLINGS</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">OTHER MEMBERS</a>
+                            <a class="dropdown-item" t-attf-href="/admission/applications/#{application_id}/family/parents">
+                                PARENTS
+                            </a>
+                            <a class="dropdown-item" t-attf-href="/admission/applications/#{application_id}/family/siblings">
+                                SIBLINGS
+                            </a>
                         </div>
                     </li>
 
-<!--                    <li class="nav-item nav-item-menu" id="nav-itm-fam">-->
-<!--                        <div class="dropdown">-->
-<!--                            <button class="btn btn-link nav-link dropdown-toggle" type="button" id="dropdownMenu2"-->
-<!--                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                                FAMILY-->
-<!--                            </button>-->
-<!--                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">-->
-<!--                                <button class="dropdown-item nav-link" type="button">Action</button>-->
-<!--                                <button class="dropdown-item nav-link" type="button">Another action</button>-->
-<!--                                <button class="dropdown-item nav-link" type="button">Something else here</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash;            <a t-att-href="'/admission/applications/{}/family-info'.format(application_id)" class="" href="#">FAMILY</a>&ndash;&gt;-->
-<!--                    </li>-->
-                    <!--          <li class="nav-item nav-item-menu" id="nav-itm-house">-->
-                    <!--            <a t-att-href="'/admission/applications/{}/house-address'.format(application_id)" class="nav-link" href="#">ADDRESS INFO</a>-->
-                    <!--          </li>-->
-                    <li class="nav-item nav-item-menu" id="nav-itm-med">
-                        <a t-att-href="'/admission/applications/{}/medical-info'.format(application_id)"
-                           class="nav-link" href="#">HEALTH</a>
+                    <li class="nav-item nav-item-menu" id="nav-itm-acad">
+                        <a t-attf-href="/admission/applications/#{application_id}/parent-questionnaire" class="nav-link" >
+                            Parent Questionnaire
+                        </a>
                     </li>
-<!--                    <li class="nav-item nav-item-menu" id="nav-itm-sig">-->
-<!--                        <a t-att-href="'/admission/applications/{}/electronic-signature'.format(application_id)"-->
-<!--                           class="nav-link" href="#">SIGNATURE</a>-->
-<!--                    </li>-->
 
-                    <!--          <t t-if="application.grade_level.name in ['PK1','PK2','PK3','PK4','Kinder']">-->
-                    <!--            <li class="nav-item border-right" id="nav-itm-todd">-->
-                    <!--              <a t-att-href="'/admission/applications/{}/document-toddlesrs'.format(application_id)" class="nav-link" href="#">Document Upload (Toddlesrs - Kinder)</a>-->
-                    <!--            </li>-->
-                    <!--          </t>-->
+                    <li class="nav-item nav-item-menu" id="nav-itm-acad">
+                        <a t-attf-href="/admission/applications/#{application_id}/additional-questions" class="nav-link" >
+                            Additional Questions
+                        </a>
+                    </li>
 
+                    <li class="nav-item nav-item-menu" id="nav-itm-med">
+                        <a t-attf-href="/admission/applications/#{application_id}/medical-info" class="nav-link" >
+                            HEALTH
+                        </a>
+                    </li>
 
                     <li class="nav-item nav-item-menu" id="nav-itm-one">
-                        <a t-att-href="'/admission/applications/{}/document-comun'.format(application_id)"
-                           class="nav-link" href="#">DOCUMENTS</a>
+                        <a t-attf-href="/admission/applications/#{application_id}/document-comun" class="nav-link" >
+                            DOCUMENTS
+                        </a>
                     </li>
-
-
-                    <!--          <t t-if="application.grade_level.name in 'FOREIGN'">-->
-<!--                    <t t-if="application.grade_level.name in ['01','02','03','04','05','06','07','08','09','10','11','12']">-->
-<!--                        <li class="nav-item nav-item-menu" id="nav-itm-fore">-->
-<!--                            <a t-att-href="'/admission/applications/{}/document-primary-secondary'.format(application_id)"-->
-<!--                               class="nav-link" href="#">DOCUMENTS (PRIMARY-SECONDARY)</a>-->
-<!--                        </li>-->
-<!--                    </t>-->
-                    <!--
-                                <li class="nav-item border-right" id="nav-itm-fore">
-                                  <a t-att-href="'/admission/applications/{}/document-foreign-instructions'.format(application_id)" class="nav-link" href="#">Instrucciones para Títulos del Extranjero</a>
-                                </li>-->
-                    <!--          </t>-->
-
-
-                    <!-- <li class="nav-item" id="nav-itm-invoice">
-                      <a t-att-href="'/admission/applications/{}/review'.format(application_id)" class="nav-link" href="#">Factura</a>
-                    </li>
-                    -->
-
                 </ul>
             </div>
         </nav>
