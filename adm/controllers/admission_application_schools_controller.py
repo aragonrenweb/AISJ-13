@@ -7,6 +7,7 @@ import itertools
 import re
 import json
 from odoo.http import content_disposition, dispatch_rpc, request, serialize_exception as _serialize_exception, Response
+from odoo.addons.adm.controllers.admission_application_controller import AdmissionController
 
 _logger = logging.getLogger(__name__)
 
@@ -50,9 +51,6 @@ class Admission(http.Controller):
         # language_ids = request.env['adm.language'].browse(http.request.env['adm.language'].search([]))
         # language_level_ids = request.env['adm.language.level'].browse(request.env['adm.language.level'].search([]))
 
-        response = request.render('adm.template_application_schools_information_webpage', {
-            'application_id': application_id.id,
-            'application': application_id,
-            })
+        response = request.render('adm.template_application_schools_information_webpage', AdmissionController.compute_view_render_params(application_id))
         return response
 

@@ -245,9 +245,9 @@ class Application(models.Model):
 
     # QUESTION CUSTOMIZED PREESCOLAR
     applying_semester = fields.Selection([
-        ('Semester 1 (August)', 'semester_1'),
-        ('Semester 2 (January)', 'semester_2'),
-        ('Immediate', 'immediate'),
+        ('semester_1', 'Semester 1 (August)'),
+        ('semester_2', 'Semester 2 (January)'),
+        ('immediate', 'Immediate'),
         ], string="Applying semester")
 
     # DATOS DEL EMBARAZO Y NACIMIENTO

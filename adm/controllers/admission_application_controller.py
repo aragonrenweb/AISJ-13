@@ -25,18 +25,50 @@ def lookup(s, lookups):
             return value
 
 
-class Admission(http.Controller):
+class AdmissionController(http.Controller):
+
+    @staticmethod
+    def compute_view_render_params(application_id):
+        field_family_ids_types = request.env['adm.relationship']._fields['relationship_type']
+        relationship_types = [{
+            'name': name,
+            'value': value
+            } for value, name in field_family_ids_types.selection]
+
+        contact_id = AdmissionController.get_partner()
+        contact_time_ids = request.env["adm.contact_time"].search([])
+        degree_program_ids = request.env["adm.degree_program"].search([])
+
+        application_status_ids = request.env["adm.application.status"].search([])
+
+        language_ids = http.request.env['adm.language'].search([])
+        language_level_ids = request.env['adm.language.level'].search([])
+
+        return {
+            'contact_id': contact_id,
+            'application_id': application_id,
+            'application_status_ids': application_status_ids,
+            'language_ids': language_ids.ids,
+            'language_level_ids': language_level_ids.ids,
+            'student_application': application_id,
+            'contact_time_ids': contact_time_ids,
+            'degree_program_ids': degree_program_ids,
+            'current_url': request.httprequest.full_path,
+            "showPendingInformation": False,
+            "pendingData": AdmissionController.getPendingTasks(application_id),
+            'relationship_types': relationship_types
+            }
 
     @staticmethod
     def get_partner():
-        return request.env["res.users"].browse([request.session.uid]).partner_id
+        return request.env.user.partner_id
 
     @staticmethod
     def _login_redirect(uid, redirect=None):
         return redirect if redirect else '/web'
 
     @http.route("/admission/logging_from_facts", auth="public", methods=["GET"], website=True)
-    def logging_from_facts(self,**params):
+    def logging_from_facts(self, **params):
         allow_urls = request.env['ir.config_parameter'].sudo().get_param('allow_urls', '')
         admin_pass = request.env['ir.config_parameter'].sudo().get_param('admin_pass', '')
         route = "/"
@@ -44,7 +76,7 @@ class Admission(http.Controller):
             parent_email = params['parent_email']
 
         if 'parent_email' in locals():
-            user = request.env["res.users"].sudo().search([('email','=ilike',parent_email)])
+            user = request.env["res.users"].sudo().search([('email', '=ilike', parent_email)])
             if len(user) > 0:
                 uid = request.session.authenticate(request.session.db, 'admin', admin_pass)
                 request.session.uid = user.id
@@ -59,17 +91,7 @@ class Admission(http.Controller):
 
         return request.redirect(route)
 
-        # if ('HTTP_ORIGIN' in request.httprequest.headers.environ):
-        #     origen_url = request.httprequest.headers.environ['HTTP_ORIGIN']
-        #
-        # ApplicationEnv = request.env["adm.application"]
-        #
-        # application_ids = ApplicationEnv.sudo().search([("family_id", "=", 481)])
-        #
-        # response = request.render('adm.template_admission_application_list', {
-        #     "application_ids": application_ids,
-        # })
-        # return response
+        # if ('HTTP_ORIGIN' in request.httprequest.headers.environ):  #     origen_url = request.httprequest.headers.environ['HTTP_ORIGIN']  #  # ApplicationEnv = request.env["adm.application"]  #  # application_ids = ApplicationEnv.sudo().search([("family_id", "=", 481)])  #  # response = request.render('adm.template_admission_application_list', {  #     "application_ids": application_ids,  # })  # return response
 
     @http.route("/admission/applications", auth="public", methods=["GET"], website=True)
     def admission_list_web(self, **params):
@@ -82,7 +104,7 @@ class Admission(http.Controller):
         application_ids = ApplicationEnv.sudo().search([('partner_id.family_ids', 'in', user_partner.family_ids.ids)])
         response = request.render('adm.template_admission_application_list', {
             "application_ids": application_ids,
-        })
+            })
         return response
 
     # @http.route("/admission/test_logging", auth="public", methods=["GET"], website=True)
@@ -97,8 +119,7 @@ class Admission(http.Controller):
     #     })
     #     return response
 
-    @http.route("/admission/applications/create", auth="public", methods=["GET"], website=True,
-                csrf=False)
+    @http.route("/admission/applications/create", auth="public", methods=["GET"], website=True, csrf=False)
     def info_create_get(self, **params):
         ApplicationEnv = http.request.env["adm.application"]
         CountryEnv = http.request.env['res.country']
@@ -106,13 +127,13 @@ class Admission(http.Controller):
         LanguageEnv = http.request.env["adm.language"]
         GradeLevelEnv = http.request.env['school_base.grade_level']
         SchoolYearEnv = http.request.env['school_base.school_year']
-        
+
         countries = CountryEnv.browse(CountryEnv.search([]))
         genders = GenderEnv.browse(GenderEnv.search([]))
         languages = LanguageEnv.browse(LanguageEnv.search([])).ids
         grade_levels = GradeLevelEnv.browse(GradeLevelEnv.search([('active_admissions', '=', True)])).ids
         school_years = SchoolYearEnv.browse(SchoolYearEnv.search([])).ids
-        companies = http.request.env['res.company'].sudo().search([('country_id','!=',False)])
+        companies = http.request.env['res.company'].sudo().search([('country_id', '!=', False)])
 
         template = "adm.template_application_menu_info"
         if params.get("grade_level") == "pre":
@@ -129,10 +150,9 @@ class Admission(http.Controller):
             "create_mode": True,
             "create_grade_level": params.get("grade_level"),
             "company": companies and companies[0],
-        })
+            })
 
-    @http.route("/admission/applications/create", auth="public", methods=["POST"], website=True,
-                csrf=False)
+    @http.route("/admission/applications/create", auth="public", methods=["POST"], website=True, csrf=False)
     def info_create_post(self, **params):
         PartnerEnv = http.request.env["res.partner"]
         ApplicationEnv = http.request.env["adm.application"]
@@ -156,7 +176,7 @@ class Admission(http.Controller):
                     'name': brother_name_list[idx],
                     'age': brother_age_list[idx],
                     'school': brother_school_list[idx],
-                }))
+                    }))
         result["brothers"] = brothers
 
         for key in result.keys():
@@ -176,55 +196,27 @@ class Admission(http.Controller):
             "parent_id": family.id,
             "person_type": "student",
             "family_ids": [(4, family.id)],
-        })
+            })
         family.member_ids = [(4, partner.id)]
         application = ApplicationEnv.create({
             "first_name": result.get("first_name"),
             "middle_name": result.get("middle_name"),
             "last_name": result.get("last_name"),
             "partner_id": partner.id,
-        })
-        result["relationship_ids"] = [(0, 0, {"partner_2": parent.id})]
+            })
+        result["relationship_ids"] = [(0, 0, {
+            "partner_2": parent.id
+            })]
         application.sudo().write(result)
 
         return http.request.redirect("/admission/applications/%s" % application.id)
 
-    @http.route("/admission/applications/<int:application_id>", auth="public", methods=["GET"], website=True)
+    @http.route("/admission/applications/<model(adm.application):application_id>", auth="public", methods=["GET"], website=True)
     def admission_web(self, application_id):
-        contact_id = self.get_partner()
-        ApplicationEnv = request.env["adm.application"]
-
-        contact_time_ids = request.env["adm.contact_time"].browse(
-            request.env["adm.contact_time"].search([])).ids
-        degree_program_ids = request.env["adm.degree_program"].browse(
-            request.env["adm.degree_program"].search([])).ids
-
-        application_status_ids = request.env["adm.application.status"].browse(
-            request.env["adm.application.status"].search([])).ids
-
-        student_application = ApplicationEnv.browse([application_id])
-        language_ids = request.env['adm.language'].browse(http.request.env['adm.language'].search([]))
-        language_level_ids = request.env['adm.language.level'].browse(
-            request.env['adm.language.level'].search([]))
-
-        response = request.render('adm.template_application_menu_progress', {
-            'contact_id': contact_id,
-            'application_id': application_id,
-            'application_status_ids': application_status_ids,
-            'language_ids': language_ids.ids,
-            'language_level_ids': language_level_ids.ids,
-            'student_application': student_application,
-            'contact_time_ids': contact_time_ids,
-            'degree_program_ids': degree_program_ids,
-            'current_url': request.httprequest.full_path,
-            "application": request.env["adm.application"].browse([application_id]),
-            "showPendingInformation": False,
-            "pendingData": self.getPendingTasks(application_id),
-        })
+        response = request.render('adm.template_application_menu_progress', self.compute_view_render_params(application_id))
         return response
 
-    @http.route("/admission/applications/signature/<int:application_id>", auth="public", methods=["POST"], website=True,
-                csrf=False)
+    @http.route("/admission/applications/signature/<int:application_id>", auth="public", methods=["POST"], website=True, csrf=False)
     def send_signature(self, **params):
 
         print("Params: {}".format(params))
@@ -235,49 +227,44 @@ class Admission(http.Controller):
         AttachmentEnv = request.env["ir.attachment"]
 
         AttachEnv = request.env["ir.attachment"]
-        attach_file = AttachEnv.browse(AttachEnv.sudo().search(
-            [('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])])).ids
+        attach_file = AttachEnv.browse(AttachEnv.sudo().search([('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])])).ids
 
         attach_file = -1
-        last_attach_id = AttachEnv.sudo().search([('name', '=', 'signature.png'), ('res_model', '=', 'adm.application'),
-                                                  ('res_id', '=', params["application_id"])], order="create_date desc",
-                                                 limit=1)
+        last_attach_id = AttachEnv.sudo().search([('name', '=', 'signature.png'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+                                                 order="create_date desc", limit=1)
         # attach_file = AttachEnv.browse(AttachEnv.sudo().search([('res_model', '=', 'adm.application'),('res_id', '=', params["application_id"])])).ids
         # attach_file = AttachEnv.browse([1027])
-
 
         if upload_file:
             if last_attach_id:
                 attach_file = AttachEnv.browse(last_attach_id[0].id)
                 attach_file.sudo().write({
-                    'res_id': application_id,
-                    #'x_text': str(attach_file),
+                    'res_id': application_id,  # 'x_text': str(attach_file),
                     # base64.b64encode(upload_file.read()),
                     'datas': upload_file,
-                })
+                    })
             else:
                 file_id = AttachmentEnv.sudo().create({
-                    'name': 'signature.png',
-                    # 'datas_fname': upload_file.filename,
+                    'name': 'signature.png', # 'datas_fname': upload_file.filename,
                     'res_name': 'signature.png',
                     'type': 'binary',
                     'res_model': 'adm.application',
-                    'res_id': application_id,
-                    #'x_text': str(attach_file),
+                    'res_id': application_id,  # 'x_text': str(attach_file),
                     # base64.b64encode(upload_file.read()),
                     'datas': upload_file,
-                })
+                    })
 
         url_redirect = '/admission/applications/{}/electronic-signature'.format(application_id)
 
         # GUARDAMOS LA URL DE LA FIRMA PARA LUEGO OBTENER LA FIRMA EN EL REPORTE IMPRESO
-        result = {"signature_attach_url": last_attach_id.website_url}
+        result = {
+            "signature_attach_url": last_attach_id.website_url
+            }
         request.env["adm.application"].browse([application_id]).sudo().write(result)
 
         return request.redirect(url_redirect)
 
-    @http.route("/admission/applications/message/<int:application_id>", auth="public", methods=["POST"], website=True,
-                csrf=False)
+    @http.route("/admission/applications/message/<int:application_id>", auth="public", methods=["POST"], website=True, csrf=False)
     def send_message(self, **params):
 
         print("Params: {}".format(params))
@@ -301,72 +288,65 @@ class Admission(http.Controller):
             "message_type": "comment",
             "subtype_id": 1,
             "body": "<p>{}</p>".format(message_body),
-        })
+            })
 
         AttachmentEnv = request.env["ir.attachment"]
 
         attach_file = -1
-        last_attach_id = AttachmentEnv.sudo().search(
-            [('name', '=', str(origin_nameFile)), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+        last_attach_id = AttachmentEnv.sudo().search([('name', '=', str(origin_nameFile)), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+            order="create_date desc", limit=1)
         # attach_file = AttachEnv.browse(AttachEnv.sudo().search([('res_model', '=', 'adm.application'),('res_id', '=', params["application_id"])])).ids
         # attach_file = AttachEnv.browse([1027])
         if upload_file:
             if last_attach_id:
                 attach_file = AttachmentEnv.browse(last_attach_id[0].id)
                 attach_file.sudo().write({
-                    'name': str(origin_nameFile),
-                    # 'datas_fname': upload_file.filename,
+                    'name': str(origin_nameFile), # 'datas_fname': upload_file.filename,
                     'res_name': upload_file.filename,
                     'type': 'binary',
                     'res_model': 'adm.application',
                     'res_name': upload_file.filename,
                     'res_id': application_id,
                     'datas': base64.b64encode(upload_file.read()),
-                })
+                    })
             else:
                 file_id = AttachmentEnv.sudo().create({
-                    'name': str(origin_nameFile),
-                    # 'datas_fname': upload_file.filename,
+                    'name': str(origin_nameFile), # 'datas_fname': upload_file.filename,
                     'res_name': upload_file.filename,
                     'type': 'binary',
                     'res_model': 'adm.application',
                     'res_id': application_id,
                     'datas': base64.b64encode(upload_file.read()),
-                })
+                    })
         # url_redirect = '/admission/applications/{}/document-upload'.format(application_id)
         url_redirect = ('/admission/applications/{}/document-' + str(origin)).format(application_id)
         return request.redirect(url_redirect)
 
         # return request.redirect('/admission/applications')
 
-        # ===============================================================================================================
-        # return "Ok"
-        # ===============================================================================================================
+        # ===============================================================================================================  # return "Ok"  # ===============================================================================================================
 
-    @http.route("/admission/applications/<int:application_id>", auth="public", methods=["POST"], website=True,
-                csrf=False)
+    @http.route("/admission/applications/<int:application_id>", auth="public", methods=["POST"], website=True, csrf=False)
     def add_admission(self, **params):
 
         application_id = params["application_id"]
         if "txtMiddleName" not in params:
             params["txtMiddleName"] = ""
 
-        full_name = "{}, {}{}".format(params["txtLastName"],
-                                      "" if not params["txtMiddleName"] else params["txtMiddleName"] + " ",
-                                      params["txtFirstName"])
+        full_name = "{}, {}{}".format(params["txtLastName"], "" if not params["txtMiddleName"] else params["txtMiddleName"] + " ", params["txtFirstName"])
 
-        new_parent_dict = {'name': full_name,
-                           'first_name': params["txtFirstName"],
-                           'middle_name': params["txtMiddleName"],
-                           'last_name': params["txtLastName"],
-                           'salutation': params["txtSalutation"],
-                           'email': params["txtEmail"],
-                           'mobile': params["txtCellPhone"],
-                           'phone': params["txtHomePhone"],
-                           'street': params["txtStreetAddress"],
-                           # 'country': params["selCountry"],
-                           'zip': params["txtZip"]}
+        new_parent_dict = {
+            'name': full_name,
+            'first_name': params["txtFirstName"],
+            'middle_name': params["txtMiddleName"],
+            'last_name': params["txtLastName"],
+            'salutation': params["txtSalutation"],
+            'email': params["txtEmail"],
+            'mobile': params["txtCellPhone"],
+            'phone': params["txtHomePhone"],
+            'street': params["txtStreetAddress"], # 'country': params["selCountry"],
+            'zip': params["txtZip"]
+            }
 
         if params["selState"] != "-1":
             new_parent_dict["state"] = params["selState"]
@@ -415,7 +395,7 @@ class Admission(http.Controller):
                 'grade_level': grade_level,
                 'current_school': current_school,
                 'responsible_id': id_parent.id
-            })
+                })
             id_students.append(id_student)
 
         return request.redirect('/admission/applications')
@@ -454,16 +434,16 @@ class Admission(http.Controller):
             unlink_commands = [(2, id, 0) for id in ids_to_delete]
 
             if unlink_commands:
-                application.sudo().partner_id.parent_id.write({"house_address_ids": unlink_commands})
+                application.sudo().partner_id.parent_id.write({
+                                                                  "house_address_ids": unlink_commands
+                                                                  })
 
             # PartnerEnv = request.env["res.partner"]
 
             # USANDO UN ITERADOR TOMA CADA UNO DE LAS LISTAS EN EL ZIP_LONGEST  Y LO ASIGNA A CADA UNA DE LAS VARIABLES QUE SE ASIGNA EN EL FOR
-            for id, name, country_id, state_id, city, zip, street, phone \
-                    in itertools.zip_longest(house_address_ids, house_address_name, house_address_country_id,
-                                             house_address_state_id, house_address_city, house_address_zip,
-                                             house_address_street,
-                                             house_address_phone, fillvalue=False):
+            for id, name, country_id, state_id, city, zip, street, phone in itertools.zip_longest(house_address_ids, house_address_name, house_address_country_id,
+                                                                                                  house_address_state_id, house_address_city, house_address_zip,
+                                                                                                  house_address_street, house_address_phone, fillvalue=False):
                 if id != -1:
                     partner = HouseAddressEnv.browse([id])
                     partner.sudo().write({
@@ -474,7 +454,7 @@ class Admission(http.Controller):
                         "zip": zip,
                         "street": street,
                         "phone": phone,
-                    })
+                        })
                 else:
                     partner = HouseAddressEnv.sudo().create({
                         "name": name,
@@ -485,10 +465,9 @@ class Admission(http.Controller):
                         "street": street,
                         "phone": phone,
                         "family_id": application.partner_id.parent_id.id
-                    })
-                    # application.sudo().write({"house_address_ids": [(4, partner.sudo().id, 0)]})
+                        })  # application.sudo().write({"house_address_ids": [(4, partner.sudo().id, 0)]})
 
-    #             SOLO EN EL CASO DE LOS DEL INSTITUTO ALBERT EISNTEIN QUE TENDRAN COMO MÁXIMO UNA DIRECCIÓN PARA LA FAMILIA, cuando se modifique o se añada se cambiará la direccion a todos los contactos asociados a esta familia.
+                #             SOLO EN EL CASO DE LOS DEL INSTITUTO ALBERT EISNTEIN QUE TENDRAN COMO MÁXIMO UNA DIRECCIÓN PARA LA FAMILIA, cuando se modifique o se añada se cambiará la direccion a todos los contactos asociados a esta familia.
                 if state_id:
                     state_id = int(state_id)
 
@@ -498,7 +477,7 @@ class Admission(http.Controller):
                     "city": city,
                     "zip": zip,
                     "street": street,
-                })
+                    })
                 for member in application.sudo().partner_id.parent_id.member_ids:
                     member.sudo().write({
                         "country_id": int(country_id),
@@ -506,8 +485,7 @@ class Admission(http.Controller):
                         "city": city,
                         "zip": zip,
                         "street": street,
-                    })
-
+                        })
 
     def set_medical_info(self, application_id, params):
         if "has_medical_info" in params:
@@ -544,7 +522,9 @@ class Admission(http.Controller):
             unlink_commands = [(2, id, False) for id in ids_to_delete]
 
             if unlink_commands:
-                application.sudo().write({"medical_conditions_ids": unlink_commands})
+                application.sudo().write({
+                                             "medical_conditions_ids": unlink_commands
+                                             })
             # -------------------
 
             # -- Allergies --#
@@ -555,7 +535,9 @@ class Admission(http.Controller):
             unlink_commands = [(2, id, False) for id in ids_to_delete]
 
             if unlink_commands:
-                application.sudo().write({"medical_allergies_ids": unlink_commands})
+                application.sudo().write({
+                                             "medical_allergies_ids": unlink_commands
+                                             })
             # -------------------
 
             # -- Medications --#
@@ -566,20 +548,26 @@ class Admission(http.Controller):
             unlink_commands = [(2, id, False) for id in ids_to_delete]
 
             if unlink_commands:
-                application.sudo().write({"medical_medications_ids": unlink_commands})
+                application.sudo().write({
+                                             "medical_medications_ids": unlink_commands
+                                             })
             # -------------------
 
             # -- Conditions -- #
             conditions_create_commands = list()
             conditions_write_comands = list()
 
-            for id, name, comment \
-                    in itertools.zip_longest(medical_conditions_ids, medical_condition_name, medical_condition_comment,
-                                             fillvalue=False):
+            for id, name, comment in itertools.zip_longest(medical_conditions_ids, medical_condition_name, medical_condition_comment, fillvalue=False):
                 if id != -1:
-                    conditions_write_comands.append((1, id, {"name": name, "comment": comment}))
+                    conditions_write_comands.append((1, id, {
+                        "name": name,
+                        "comment": comment
+                        }))
                 else:
-                    conditions_create_commands.append((0, False, {"name": name, "comment": comment}))
+                    conditions_create_commands.append((0, False, {
+                        "name": name,
+                        "comment": comment
+                        }))
 
             conditions_commands = conditions_create_commands + conditions_write_comands
             # -------------------
@@ -588,13 +576,17 @@ class Admission(http.Controller):
             allergies_create_commands = list()
             allergies_write_comands = list()
 
-            for id, name, comment \
-                    in itertools.zip_longest(medical_allergies_ids, medical_allergy_name, medical_allergy_comment,
-                                             fillvalue=False):
+            for id, name, comment in itertools.zip_longest(medical_allergies_ids, medical_allergy_name, medical_allergy_comment, fillvalue=False):
                 if id != -1:
-                    allergies_create_commands.append((1, id, {"name": name, "comment": comment}))
+                    allergies_create_commands.append((1, id, {
+                        "name": name,
+                        "comment": comment
+                        }))
                 else:
-                    allergies_write_comands.append((0, False, {"name": name, "comment": comment}))
+                    allergies_write_comands.append((0, False, {
+                        "name": name,
+                        "comment": comment
+                        }))
 
             allergies_commands = allergies_write_comands + allergies_create_commands
             # -------------------
@@ -603,13 +595,17 @@ class Admission(http.Controller):
             medications_create_commands = list()
             medications_write_comands = list()
 
-            for id, name, comment \
-                    in itertools.zip_longest(medical_medications_ids, medical_medication_name, medical_medication_name,
-                                             fillvalue=False):
+            for id, name, comment in itertools.zip_longest(medical_medications_ids, medical_medication_name, medical_medication_name, fillvalue=False):
                 if id != -1:
-                    conditions_write_comands.append((1, id, {"name": name, "comment": comment}))
+                    conditions_write_comands.append((1, id, {
+                        "name": name,
+                        "comment": comment
+                        }))
                 else:
-                    medications_write_comands.append((0, False, {"name": name, "comment": comment}))
+                    medications_write_comands.append((0, False, {
+                        "name": name,
+                        "comment": comment
+                        }))
 
             medications_commands = medications_create_commands + medications_write_comands
             # -------------------
@@ -618,7 +614,7 @@ class Admission(http.Controller):
                 "medical_conditions_ids": conditions_commands,
                 "medical_allergies_ids": allergies_commands,
                 "medical_medications_ids": medications_commands,
-            })
+                })
 
     def set_additional_student(self, application_id, params):
         if "is_additional_student_info" in params:
@@ -652,7 +648,7 @@ class Admission(http.Controller):
                 "third_language_skill_read": False,
                 "third_language_skill_speak": False,
                 "third_language_skill_listen": False,
-            })
+                })
 
     def set_previous_school(self, application_id, params):
         if "has_previous_schools" in params:
@@ -689,26 +685,29 @@ class Admission(http.Controller):
             #                          previous_school_zip, previous_school_phone, previous_school_fromdate,
             #                          previous_school_todate, previous_school_gradecompleted,previous_school_extracurricular_interests,
             #                          fillvalue=False):
-            for id, name, street, city, state, country, from_date, to_date, grade_completed, extracurricular_interests \
-                    in itertools.zip_longest(previous_school_ids, previous_school_names, previous_school_street,
-                                             previous_school_city, previous_school_state, previous_school_country,
-                                             previous_school_fromdate, previous_school_todate,
-                                             previous_school_gradecompleted,
-                                             previous_school_extracurricular_interests, fillvalue=False):
+            for id, name, street, city, state, country, from_date, to_date, grade_completed, extracurricular_interests in itertools.zip_longest(previous_school_ids,
+                                                                                                                                                previous_school_names,
+                                                                                                                                                previous_school_street,
+                                                                                                                                                previous_school_city,
+                                                                                                                                                previous_school_state,
+                                                                                                                                                previous_school_country,
+                                                                                                                                                previous_school_fromdate,
+                                                                                                                                                previous_school_todate,
+                                                                                                                                                previous_school_gradecompleted,
+                                                                                                                                                previous_school_extracurricular_interests,
+                                                                                                                                                fillvalue=False):
                 if id != -1:
                     PreviousSchoolDescriptionEnv.browse([id]).write({
                         "name": name,
                         "city": city,
                         "country_id": country,
-                        "state_id": state,
-                        # "zip": zip,
-                        "street": street,
-                        # "phone": phone,
+                        "state_id": state, # "zip": zip,
+                        "street": street, # "phone": phone,
                         "from_date": from_date,
                         "to_date": to_date,
                         "grade_completed": grade_completed,
                         "extracurricular_interests": extracurricular_interests,
-                    })
+                        })
                     pass
                 else:
                     PreviousSchoolDescriptionEnv.create({
@@ -716,15 +715,13 @@ class Admission(http.Controller):
                         "name": name,
                         "country_id": country,
                         "city": city,
-                        "state_id": state,
-                        # "zip": zip,
-                        "street": street,
-                        # "phone": phone,
+                        "state_id": state, # "zip": zip,
+                        "street": street, # "phone": phone,
                         "from_date": from_date,
                         "to_date": to_date,
                         "grade_completed": grade_completed,
                         "extracurricular_interests": extracurricular_interests,
-                    })
+                        })
         pass
 
     def set_contact(self, application_id, params):
@@ -740,7 +737,7 @@ class Admission(http.Controller):
             total_file_upload = 0
             for key, value in params.items():  # VOY A OBLIGAR LA FOTO PARA QUE COINCIDA LA CANTIDAD DE FOTOS CON LA DE LAS PERSONS
                 if key.startswith('file_upload'):
-                    #total_file_upload = total_file_upload + 1
+                    # total_file_upload = total_file_upload + 1
                     profile_photos.append(value)
 
             # for cont_file_upload in range(0, total_file_upload):
@@ -778,9 +775,7 @@ class Admission(http.Controller):
                 if key.startswith('title_radio_'):
                     current_partner_title.append(value)
 
-
-            current_partner_parental_responsability = post_params.getlist(
-                "current_relationship_is_parental_responsability")
+            current_partner_parental_responsability = post_params.getlist("current_relationship_is_parental_responsability")
             current_partner_fees_payable = post_params.getlist("current_partner_fees_payable")
             current_partner_extra_payable = post_params.getlist("current_partner_extra_payable")
 
@@ -811,7 +806,6 @@ class Admission(http.Controller):
                 if key != 'title_new_radio_0' and key.startswith('title_new_radio_'):
                     new_partner_title.append(value)
 
-
             new_partner_parental_responsability = post_params.getlist("new_relationship_is_parental_responsability")
             new_partner_fees_payable = post_params.getlist("new_partner_fees_payable")
             new_partner_extra_payable = post_params.getlist("new_partner_extra_payable")
@@ -823,32 +817,26 @@ class Admission(http.Controller):
             application = request.env["adm.application"].browse([application_id])
 
             # First, delete all that are not in the form, that's why the user clicked remove button.
-            ids_to_delete = {relation.id for relation in application.relationship_ids if
-                             not relation.partner_2.id in contact_ids}
+            ids_to_delete = {relation.id for relation in application.relationship_ids if not relation.partner_2.id in contact_ids}
             unlink_commands = [(2, id, 0) for id in ids_to_delete]
 
             application.sudo().write({
                 "relationship_ids": unlink_commands,
-            })
+                })
 
             # Link all existing ids.
             application.sudo().write({
-                "relationship_ids": [(0, 0, {"partner_1": application.partner_id.id,
-                                             "partner_2": id,
-                                             }) for id in contact_existing_id],
-            })
+                "relationship_ids": [(0, 0, {
+                    "partner_1": application.partner_id.id,
+                    "partner_2": id,
+                    }) for id in contact_existing_id],
+                })
             idx = 0
-            for id, type, mobile, phone, email, house_address_id, is_emergency_contact, citizenship, identification, marital_status, occupation, office_address, office_phone, title, other_reason, parental_responsability, fees_payable, extra_payable \
-                    in itertools.zip_longest(contact_ids, relationship_type, relation_partner_mobile,
-                                             relation_partner_phone, relation_partner_email, relationship_house,
-                                             relationship_is_emergency_contact, current_partner_citizenship,
-                                             current_partner_identification, current_partner_marital_status,
-                                             current_partner_occupation, current_partner_office_address,
-                                             current_partner_office_phone,
-                                             current_partner_title, current_partner_other_reason,
-                                             current_partner_parental_responsability, current_partner_fees_payable,
-                                             current_partner_extra_payable,
-                                             fillvalue=False):
+            for id, type, mobile, phone, email, house_address_id, is_emergency_contact, citizenship, identification, marital_status, occupation, office_address, office_phone, title, other_reason, parental_responsability, fees_payable, extra_payable in itertools.zip_longest(
+                contact_ids, relationship_type, relation_partner_mobile, relation_partner_phone, relation_partner_email, relationship_house, relationship_is_emergency_contact,
+                current_partner_citizenship, current_partner_identification, current_partner_marital_status, current_partner_occupation, current_partner_office_address,
+                current_partner_office_phone, current_partner_title, current_partner_other_reason, current_partner_parental_responsability, current_partner_fees_payable,
+                current_partner_extra_payable, fillvalue=False):
 
                 # SUBIR FOTO DEL PERSON
                 # if "file_upload" in params:
@@ -863,9 +851,9 @@ class Admission(http.Controller):
                     relationship.sudo().write({
                         "relationship_type": type,
                         "is_emergency_contact": is_emergency_contact,
-                    })
+                        })
 
-                    partnerData= {
+                    partnerData = {
                         "phone": phone,
                         "mobile": mobile,
                         "email": email,
@@ -879,7 +867,7 @@ class Admission(http.Controller):
                         "work_phone": office_phone,
                         "title": title,
                         "parental_responsability": parental_responsability,
-                    }
+                        }
 
                     if profile_photos[idx] != '-1':
                         upload_file = profile_photos[idx]
@@ -909,22 +897,17 @@ class Admission(http.Controller):
                     idx = idx + 1
 
             idx = 0
-            for name, first_name, middle_name, last_name, mobile, phone, email, type, house_address_id, is_emergency_contact, citizenship, identification, marital_status, occupation, office_address, office_phone, title, other_reason, parental_responsability, fees_payable, extra_payable, partner_photo \
-                    in itertools.zip_longest(new_partner_name, new_partner_first_name, new_partner_middle_name, new_partner_last_name, new_partner_mobile, new_partner_phone,
-                                             new_partner_email, new_relationship_type, new_relationship_house,
-                                             new_relationship_is_emergency_contact, new_partner_citizenship,
-                                             new_partner_identification, new_partner_marital_status,
-                                             new_partner_occupation,
-                                             new_partner_office_address, new_partner_office_phone, new_partner_title,
-                                             new_partner_other_reason, new_partner_parental_responsability,
-                                             new_partner_fees_payable, new_partner_extra_payable, new_partner_photos,
-                                             fillvalue=False):
+            for name, first_name, middle_name, last_name, mobile, phone, email, type, house_address_id, is_emergency_contact, citizenship, identification, marital_status, occupation, office_address, office_phone, title, other_reason, parental_responsability, fees_payable, extra_payable, partner_photo in itertools.zip_longest(
+                new_partner_name, new_partner_first_name, new_partner_middle_name, new_partner_last_name, new_partner_mobile, new_partner_phone, new_partner_email,
+                new_relationship_type, new_relationship_house, new_relationship_is_emergency_contact, new_partner_citizenship, new_partner_identification,
+                new_partner_marital_status, new_partner_occupation, new_partner_office_address, new_partner_office_phone, new_partner_title, new_partner_other_reason,
+                new_partner_parental_responsability, new_partner_fees_payable, new_partner_extra_payable, new_partner_photos, fillvalue=False):
 
                 if title == 'other':
                     title = other_reason
 
                 partner_aux = {
-                    #"name": name,
+                    # "name": name,
                     "first_name": first_name,
                     "middle_name": middle_name,
                     "last_name": last_name,
@@ -942,21 +925,21 @@ class Admission(http.Controller):
                     "image_1920": base64.b64encode(new_profile_photos[idx].stream.read()),
                     "title": title,
                     "parental_responsability": parental_responsability,
-                }
+                    }
 
                 new_partner = PartnerEnv.sudo().create(partner_aux)
 
                 application.sudo().write({
-                    "relationship_ids": [(0, 0, {"partner_2": new_partner.id,
-                                                 "relationship_type": type,
-                                                 "is_emergency_contact": is_emergency_contact,
-                                                 })]
-                })
+                    "relationship_ids": [(0, 0, {
+                        "partner_2": new_partner.id,
+                        "relationship_type": type,
+                        "is_emergency_contact": is_emergency_contact,
+                        })]
+                    })
                 idx = idx + 1
         pass
 
-    @http.route("/admission/applications/<int:application_id>/write", auth="public", methods=["POST"], website=True,
-                csrf=False)
+    @http.route("/admission/applications/<int:application_id>/write", auth="public", methods=["POST"], website=True, csrf=False)
     def write_application(self, application_id, **params):
         field_ids = request.env.ref("adm.model_adm_application").sudo().field_id
         fields = [field_id.name for field_id in field_ids]
@@ -979,10 +962,9 @@ class Admission(http.Controller):
 
         if 'file_upload' in params and params["file_upload"] is not '' and "has_contact" not in params:
             upload_file = params["file_upload"]
-            request.env["res.partner"].sudo().browse(
-                [request.env["adm.application"].browse([application_id]).partner_id.id]).write({
+            request.env["res.partner"].sudo().browse([request.env["adm.application"].browse([application_id]).partner_id.id]).write({
                 "image_1920": base64.b64encode(upload_file.stream.read())
-            })
+                })
 
         # SI LOS CAMPOS BOOLEANOS NO EXISTEN EN LOS PARAMETROS LOS INICIALIZAMOS A FALSE PARA QUE SE DESACTIVEN.
 
@@ -1019,7 +1001,7 @@ class Admission(http.Controller):
                     'name': brother_name_list[idx],
                     'age': brother_age_list[idx],
                     'school': brother_school_list[idx],
-                }))
+                    }))
         result["brothers"] = brothers
 
         # upload_file = params["file_upload"]
@@ -1046,32 +1028,26 @@ class Admission(http.Controller):
 
         return request.redirect(http.request.httprequest.referrer)
 
-
-    @http.route("/admission/applications/<int:application_id>/check", auth="public", methods=["POST"], website=True,
-                csrf=False)
+    @http.route("/admission/applications/<model(adm.application):application_id>/check", auth="public", methods=["POST"], website=True, csrf=False)
     def check_application(self, application_id, **params):
 
         if len(self.getPendingTasks(application_id)) == 0:
-            ApplicationEnv = request.env["adm.application"]
-            application = ApplicationEnv.browse(application_id)
-
             # BUSCAMOS EL STATUS QUE SEA DE TIPO SUBMITTED PARA TRANSLADAR LA PETICION DEL USUARIO
-            StatusEnv = request.env["adm.application.status"]
+            StatusEnv = request.env["adm.application.status"].sudo()
             statusSubmitted = StatusEnv.browse(StatusEnv.search([('type_id', '=', 'submitted')]))
-            application.force_status_submitted(statusSubmitted.id.id)
+            application_id.sudo().force_status_submitted(statusSubmitted.id.id)
 
         return request.redirect(http.request.httprequest.referrer + "?checkData=1")
 
     @http.route("/admission/<int:application_id>/check_email", auth="public", methods=["POST"], csrf=False)
     def check_email(self, application_id, **params):
         email_to_check = str(params['email']).strip()
-        #ApplicationEnv = request.env["adm.application"]
+        # ApplicationEnv = request.env["adm.application"]
         PartnerEnv = request.env["res.partner"]
-        #ApplicationEnv.browse([application_id]).relationship_ids[1].partner_2.email
-        #for partner in PartnerEnv.browse([application_id]).relationship_ids:
-        exists = len(PartnerEnv.search([("email","=",email_to_check)])) > 0
-        return '{"exists": '+str(exists).lower()+',"email":"'+email_to_check+'"}'
-
+        # ApplicationEnv.browse([application_id]).relationship_ids[1].partner_2.email
+        # for partner in PartnerEnv.browse([application_id]).relationship_ids:
+        exists = len(PartnerEnv.search([("email", "=", email_to_check)])) > 0
+        return '{"exists": ' + str(exists).lower() + ',"email":"' + email_to_check + '"}'
 
     @http.route("/admission/checkDuplicateContact", auth="public", methods=["POST"], csrf=False)
     def check_duplicate_contact(self, **params):
@@ -1084,11 +1060,10 @@ class Admission(http.Controller):
         check_email = len(PartnerEnv.search([("email", "=ilike", email_to_check)])) > 0
         check_parent_name = len(PartnerEnv.search([("first_name", "=ilike", firstname_to_check), ("last_name", "=ilike", lastname_to_check)])) > 0
         check_cellphone = len(PartnerEnv.search([("mobile", "=", cellphone_to_check)])) > 0
-        return '{"email": ' + str(check_email).lower() + ', "parent_name": ' + str(check_parent_name).lower() + ', "cellphone": ' + str(check_cellphone).lower() +'}'
-
+        return '{"email": ' + str(check_email).lower() + ', "parent_name": ' + str(check_parent_name).lower() + ', "cellphone": ' + str(check_cellphone).lower() + '}'
 
     @http.route("/admission/<int:application_id>/getPhotoContact", auth="public", methods=["POST"], csrf=False)
-    def getPhotoContact(self,application_id,  **params):
+    def getPhotoContact(self, application_id, **params):
 
         partner_id = params['partner_id']
         photo = request.env["adm.application"].sudo().browse([application_id]).partner_id.family_ids.member_ids.filtered(lambda partner: str(partner.id) == partner_id).image_1920
@@ -1098,23 +1073,14 @@ class Admission(http.Controller):
 
         return ""
 
-        #return "data:image/png;base64," + str(relationship.partner_2.image_1920)[2:-1:]
+        # return "data:image/png;base64," + str(relationship.partner_2.image_1920)[2:-1:]
 
+    @http.route("/admission/applications/<model(adm.application):application_id>/instructions-resources", auth="public", methods=["GET"], website=True, csrf=False)
+    def instructions_resources(self, application_id, **params):
 
-    @http.route("/admission/applications/<int:application_id>/instructions-resources", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def instructions_resources(self, **params):
+        return request.render("adm.template_application_menu_instructions", self.compute_view_render_params(application_id))
 
-        return request.render("adm.template_application_menu_instructions", {
-            "application_id": params["application_id"],
-            "application": request.env["adm.application"].browse([params["application_id"]]),
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })
-
-    @http.route("/admission/applications/<int:application_id>/document-foreign-instructions", auth="public",
-                methods=["GET"],
-                website=True, csrf=False)
+    @http.route("/admission/applications/<int:application_id>/document-foreign-instructions", auth="public", methods=["GET"], website=True, csrf=False)
     def foreign_instructions_resources(self, **params):
 
         return request.render("adm.template_application_menu_foreign_instruc", {
@@ -1122,9 +1088,10 @@ class Admission(http.Controller):
             "application": request.env["adm.application"].browse([params["application_id"]]),
             "showPendingInformation": True if "checkData" in params else False,
             "pendingData": self.getPendingTasks(params["application_id"]),
-        })
+            })
 
-    def getPendingTasks(self, application_id):
+    @staticmethod
+    def getPendingTasks(application_id):
         field_ids = request.env.ref("adm.model_adm_application").sudo().field_id
 
         # obtengo los campos el modelo admissions que sean requeridos
@@ -1132,28 +1099,24 @@ class Admission(http.Controller):
         fields_required_ids = FieldsEnv.search([('required', '=', True)])
 
         keys = fields_required_ids & field_ids
-        fields = [{"field_name": field_id.name, "field_descrip": field_id.field_description}
-                  for field_id in keys]
-
-        ApplicationEnv = request.env["adm.application"]
-        application = ApplicationEnv.browse([application_id])
+        fields = [{
+                      "field_name": field_id.name,
+                      "field_descrip": field_id.field_description
+                      } for field_id in keys]
         result = []
 
         for itm in fields:
-            if str(application[itm["field_name"]]).strip() == '':
+            if str(application_id[itm["field_name"]]).strip() == '':
                 result.append(itm["field_descrip"])
 
         return result
 
-    @http.route("/admission/applications/<int:application_id>/info", auth="public", methods=["GET"], website=True,
-                csrf=False)
+    @http.route("/admission/applications/<model(adm.application):application_id>/info", auth="public", methods=["GET"], website=True, csrf=False)
     def info(self, application_id, **params):
 
         showPendingInformation = True if "checkData" in params else False
         pendingTasks = self.getPendingTasks(application_id)
 
-        ApplicationEnv = request.env["adm.application"]
-        application = ApplicationEnv.browse(application_id)
         country_ids = request.env['res.country'].search([])
         state_ids = request.env['res.country.state'].search([])
         gender_ids = request.env['adm.gender'].search([])
@@ -1161,20 +1124,22 @@ class Admission(http.Controller):
         LanguageEnv = request.env["adm.language"]
         languages = LanguageEnv.browse(LanguageEnv.search([])).ids
 
-        student_photo = "data:image/png;base64," + str(application.partner_id.image_1920)[2:-1:]
+        student_photo = "data:image/png;base64," + str(application_id.partner_id.image_1920)[2:-1:]
 
         grade_level_ids = request.env['school_base.grade_level'].sudo().search([])
 
         # Applying semester
         field_applying_semester = request.env['adm.application']._fields['applying_semester']
-        applying_semester_values = [{'name': name, 'value': value} for name, value in field_applying_semester.selection]
+        applying_semester_values = [{
+                                        'name': name,
+                                        'value': value
+                                        } for name, value in field_applying_semester.selection]
 
-        return request.render("adm.template_application_student_info", {
-            "application_id": application_id,
-            "application": application,
+        params = self.compute_view_render_params(application_id)
+        params.update({
             "country_ids": country_ids,
             "state_ids": state_ids,
-            "student": application.partner_id,
+            "student": application_id.partner_id,
             "student_photo": student_photo,
             "adm_languages": languages,
             "gender_ids": gender_ids,
@@ -1182,189 +1147,15 @@ class Admission(http.Controller):
             "pendingData": pendingTasks,
             'grade_level_ids': grade_level_ids,
             'applying_semester_values': applying_semester_values,
-        })
+            })
 
-    @http.route("/admission/applications/<int:application_id>/info-preescolar", auth="public", methods=["GET"],
-                website=True,
-                csrf=False)
-    def info_pre_escolar(self, **params):
+        return request.render("adm.template_application_student_info", params)
 
-        showPendingInformation = True if "checkData" in params else False
-        pendingTasks = self.getPendingTasks(params["application_id"])
+    @http.route("/admission/applications/<model(adm.application):application_id>/medical-info", auth="public", methods=["GET"], website=True, csrf=False)
+    def medical_info(self, application_id, **params):
+        return request.render("adm.template_application_menu_medical_info", self.compute_view_render_params(application_id))
 
-        ApplicationEnv = request.env["adm.application"]
-        CountryEnv = request.env['res.country']
-        GenderEnv = request.env['adm.gender']
-        application = ApplicationEnv.browse([params["application_id"]])
-        countries = CountryEnv.browse(CountryEnv.search([]))
-        genders = GenderEnv.browse(GenderEnv.search([]))
-
-        LanguageEnv = request.env["adm.language"]
-        languages = LanguageEnv.browse(LanguageEnv.search([])).ids
-
-        student_photo = "data:image/png;base64," + str(application.partner_id.image_1920)[2:-1:]
-
-        return request.render("adm.template_application_menu_info_preescolar", {
-            "application_id": params["application_id"],
-            "application": application,
-            "countries": countries.ids,
-            "student": application.partner_id,
-            "student_photo": student_photo,
-            "adm_languages": languages,
-            "genders": genders,
-            "showPendingInformation": showPendingInformation,
-            "pendingData": pendingTasks,
-        })
-
-    @http.route("/admission/applications/<int:application_id>/previous-school", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def previous_school(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        CountryEnv = request.env['res.country']
-        StateEnv = request.env['res.country.state']
-
-        application = ApplicationEnv.browse([params["application_id"]])
-        countries = CountryEnv.browse(CountryEnv.search([]))
-        states = StateEnv.browse(StateEnv.search([]))
-
-        LanguageEnv = request.env["adm.language"]
-        languages = LanguageEnv.browse(LanguageEnv.search([])).ids
-
-        return request.render("adm.template_application_menu_previous_school", {
-            "application_id": params["application_id"],
-            "application": application,
-            "countries": countries.ids,
-            "states": states.ids,
-            "student": application.partner_id,
-            "adm_languages": languages,
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })
-
-    @http.route("/admission/applications/<int:application_id>/additional-student-info", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def additional_student_info(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        application = ApplicationEnv.browse([params["application_id"]])
-
-        LanguageEnv = request.env["adm.language"]
-        languages = LanguageEnv.browse(LanguageEnv.search([])).ids
-
-        return request.render("adm.template_application_menu_student_info", {
-            "application_id": params["application_id"],
-            "application": application,
-            "adm_languages": languages,
-        })
-
-    @http.route("/admission/applications/<int:application_id>/household-1", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def household_1(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        application = ApplicationEnv.browse([params["application_id"]])
-        return request.render("adm.template_application_menu_household1", {
-            "application_id": params["application_id"],
-            "application": application,
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })
-
-    @http.route("/admission/applications/<int:application_id>/household-2", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def household_2(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        application = ApplicationEnv.browse([params["application_id"]])
-        return request.render("adm.template_application_menu_household2", {
-            "application_id": params["application_id"],
-            "application": application,
-        })
-
-    @http.route("/admission/applications/<int:application_id>/house-address", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def house_address(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        CountryEnv = request.env['res.country']
-        StateEnv = request.env['res.country.state']
-
-        application = ApplicationEnv.browse([params["application_id"]])
-        countries = CountryEnv.browse(CountryEnv.search([]))
-        states = StateEnv.browse(StateEnv.search([]))
-
-        return request.render("adm.template_application_menu_house_address", {
-            "application_id": params["application_id"],
-            "application": application,
-            "countries": countries.ids,
-            "states": states.ids,
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })
-
-    @http.route("/admission/applications/<int:application_id>/family-info", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def family_info(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        application = ApplicationEnv.browse([params["application_id"]])
-
-        PartnerEnv = request.env["res.partner"]
-        relation_contact_ids = {relation.partner_2.id for relation in application.relationship_ids}
-        pertner_search_ids = PartnerEnv.sudo().search([('is_company', '=', False)]).filtered(lambda
-                                                                                                 x: x.id in application.partner_id.parent_id.member_ids.ids and x.id != application.partner_id.id and not x.id in relation_contact_ids)
-
-        partners = PartnerEnv.browse(pertner_search_ids)
-
-        CountryEnv = request.env['res.country']
-        countries = CountryEnv.browse(CountryEnv.search([]))
-
-        person_photos = []
-        # RECORREMOS LAS IMAGENES PARA LIMPIARLES LAS COMILLAS Y EL PRIMER CARACTER b Y ESTAS SE MUESTREN CORRECTAMENTE EN EL SISTEMA.
-        for relationship in application.sudo().relationship_ids:
-            print(relationship.partner_2)
-            person_photos.append("data:image/png;base64," + str(relationship.partner_2.image_1920)[2:-1:])
-
-        return request.render("adm.template_application_menu_family_info", {
-            "application_id": params["application_id"],
-            "application": application,
-            "partners": partners.ids,
-            "countries": countries.ids,
-            "person_photos": person_photos,
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })
-
-    @http.route("/admission/applications/<int:application_id>/medical-info", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def medical_info(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        application = ApplicationEnv.browse([params["application_id"]])
-        return request.render("adm.template_application_menu_medical_info", {
-            "application_id": params["application_id"],
-            "application": application,
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })
-
-    @http.route("/admission/applications/<int:application_id>/alumni-currently-enrolled-student", auth="public",
-                methods=["GET"], website=True, csrf=False)
-    def alumni_currently_enrolled_student(self, **params):
-        return request.render("adm.template_application_menu_alumni_currently_enrolled_students", {
-            "application_id": params["application_id"]
-        })
-
-    @http.route("/admission/applications/<int:application_id>/institutional-fee-declaration-form", auth="public",
-                methods=["GET"], website=True, csrf=False)
-    def institutional_fee_declaration_form(self, **params):
-        return request.render("adm.template_application_menu_institutional_fee_declaration", {
-            "application_id": params["application_id"]
-        })
-
-    @http.route("/admission/applications/<int:application_id>/policy-agreement", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def policy_agreement(self, **params):
-        return request.render("adm.template_application_menu_admissions_policy_agreement", {
-            "application_id": params["application_id"]
-        })
-
-    @http.route("/admission/applications/<int:application_id>/references", auth="public", methods=["GET"], website=True,
-                csrf=False)
+    @http.route("/admission/applications/<int:application_id>/references", auth="public", methods=["GET"], website=True, csrf=False)
     def references(self, **params):
         ApplicationEnv = request.env["adm.application"]
         application = ApplicationEnv.browse([params["application_id"]])
@@ -1372,170 +1163,79 @@ class Admission(http.Controller):
         return request.render("adm.template_application_menu_references", {
             "application": application,
             "application_id": params["application_id"],
-        })
+            })
 
-    @http.route("/admission/applications/<int:application_id>/recommendation", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def recommendation(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        application = ApplicationEnv.browse([params["application_id"]])
-
-        return request.render("adm.template_application_menu_recommendation", {
-            "application": application,
-            "application_id": params["application_id"],
-        })
-
-    @http.route("/admission/applications/<int:application_id>/document-upload", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def document_upload(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        student_application = ApplicationEnv.browse([params["application_id"]])
-
-        return request.render("adm.template_application_menu_upload_file", {
-            "student_application": student_application,
-            "application_id": params["application_id"],
-        })
-
-    @http.route("/admission/applications/<int:application_id>/document-toddlesrs", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def document_toddlesrs(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        student_application = ApplicationEnv.browse([params["application_id"]])
-        AttachEnv = request.env["ir.attachment"]
-
-        # cont_XX indica el ID de el archivo a descargar en vista
-        cont_toddlesrs_birth_cert = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'toddlesrs_birth_certificate'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-
-        if last_attach_id:
-            cont_toddlesrs_birth_cert = AttachEnv.browse(last_attach_id[0].id)
-            # cont_toddlesrs_birth_cert = len(last_attach_id)
-
-        cont_toddlesrs_passport_photo = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'toddlesrs_passport_photo'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-        if last_attach_id:
-            cont_toddlesrs_passport_photo = AttachEnv.browse(last_attach_id[0].id)
-            #
-
-        cont_toddlesrs_medical_record = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'toddlesrs_medical_record'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-        if last_attach_id:
-            cont_toddlesrs_medical_record = AttachEnv.browse(last_attach_id[0].id)
-
-        cont_toddlesrs_certificate_health = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'toddlesrs_certificate_health'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-        if last_attach_id:
-            cont_toddlesrs_certificate_health = AttachEnv.browse(last_attach_id[0].id)
-
-        cont_toddlesrs_howard_eval = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'toddlesrs_howard_eval'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-        if last_attach_id:
-            cont_toddlesrs_howard_eval = AttachEnv.browse(last_attach_id[0].id)
-
-        return request.render("adm.template_application_menu_upload_file_toddlesrs", {
-            "student_application": student_application,
-            "application_id": params["application_id"],
-            "cont_toddlesrs_birth_cert": cont_toddlesrs_birth_cert,
-            "cont_toddlesrs_passport_photo": cont_toddlesrs_passport_photo,
-            "cont_toddlesrs_medical_record": cont_toddlesrs_medical_record,
-            "cont_toddlesrs_certificate_health": cont_toddlesrs_certificate_health,
-            "cont_toddlesrs_howard_eval": cont_toddlesrs_howard_eval,
-            "application": request.env["adm.application"].browse([params["application_id"]]),
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })  #
-
-    @http.route("/admission/applications/<int:application_id>/document-comun", auth="public", methods=["GET"],
-                website=True, csrf=False)
+    @http.route("/admission/applications/<int:application_id>/document-comun", auth="public", methods=["GET"], website=True, csrf=False)
     def document_document_comun(self, **params):
         ApplicationEnv = request.env["adm.application"]
         student_application = ApplicationEnv.browse([params["application_id"]])
         AttachEnv = request.env["ir.attachment"]
 
         cont_comun_birth_certificate = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_birthday_certificate'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+        last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_birthday_certificate'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+            order="create_date desc", limit=1)
         if last_attach_id:
-            cont_comun_birth_certificate = AttachEnv.sudo().browse(last_attach_id[0].id)
-            # cont_1_9_certificate_previous_school.public_url_photo = '/web/content/' + str(cont_1_9_certificate_previous_school.id) + '?download=true'
+            cont_comun_birth_certificate = AttachEnv.sudo().browse(
+                last_attach_id[0].id)  # cont_1_9_certificate_previous_school.public_url_photo = '/web/content/' + str(cont_1_9_certificate_previous_school.id) + '?download=true'
 
         cont_comun_member_letter = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_member_letter'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+        last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_member_letter'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+            order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_member_letter = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_cedula_passport = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_cedula_passport'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+        last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_cedula_passport'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+            order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_cedula_passport = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_healthy_certificate = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_healthy_certificate'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+        last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_healthy_certificate'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+            order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_healthy_certificate = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_vaccine_register = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_vaccine_register'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+        last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_vaccine_register'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+            order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_vaccine_register = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_sight_certificate = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_sight_certificate'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+        last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_sight_certificate'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+            order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_sight_certificate = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_oto_certificate = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_oto_certificate'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+        last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_oto_certificate'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+            order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_oto_certificate = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_peace_save_certificate = 0
         last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_peace_save_certificate'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+            [('name', 'like', 'comun_peace_save_certificate'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_peace_save_certificate = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_personal_reference = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_personal_reference'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+        last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_personal_reference'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
+            order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_personal_reference = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_bank_comercial_reference = 0
         last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'comun_bank_comercial_reference'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
+            [('name', 'like', 'comun_bank_comercial_reference'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])], order="create_date desc",
+            limit=1)
         if last_attach_id:
             cont_comun_bank_comercial_reference = AttachEnv.sudo().browse(last_attach_id[0].id)
 
-        return request.render("adm.template_application_menu_upload_file_comun", {
+        response_params = self.compute_view_render_params(student_application)
+        response_params.update({
             "student_application": student_application,
-            "application_id": params["application_id"],
             "cont_comun_birth_certificate": cont_comun_birth_certificate,
             "cont_comun_member_letter": cont_comun_member_letter,
             "cont_comun_cedula_passport": cont_comun_cedula_passport,
@@ -1546,142 +1246,12 @@ class Admission(http.Controller):
             "cont_comun_peace_save_certificate": cont_comun_peace_save_certificate,
             "cont_comun_personal_reference": cont_comun_personal_reference,
             "cont_comun_bank_comercial_reference": cont_comun_bank_comercial_reference,
-            "application": request.env["adm.application"].browse([params["application_id"]]),
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })
+            })
+        return request.render("adm.template_application_menu_upload_file_comun", response_params)
 
-    @http.route("/admission/applications/<int:application_id>/document-primary-secondary", auth="public",
-                methods=["GET"],
-                website=True, csrf=False)
-    def document_primary_secondary(self, **params):  ##
-        ApplicationEnv = request.env["adm.application"]
-        student_application = ApplicationEnv.browse([params["application_id"]])
-        AttachEnv = request.env["ir.attachment"]
-
-        cont_primary_secondary_good_conduct = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'primary_secondary_good_conduct'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-        if last_attach_id:
-            cont_primary_secondary_good_conduct = AttachEnv.browse(last_attach_id[0].id)
-
-        cont_primary_secondary_rehabilitation_courses = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'primary_secondary_rehabilitation_courses'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-        if last_attach_id:
-            cont_primary_secondary_rehabilitation_courses = AttachEnv.browse(last_attach_id[0].id)
-
-        cont_primary_secondary_school_certificate = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'primary_secondary_school_certificate'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-        if last_attach_id:
-            cont_primary_secondary_school_certificate = AttachEnv.browse(last_attach_id[0].id)
-
-        cont_primary_secondary_convalidate_credits = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'primary_secondary_convalidate_credit'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-        if last_attach_id:
-            cont_primary_secondary_convalidate_credits = AttachEnv.browse(last_attach_id[0].id)
-
-        cont_primary_secondary_foreign_certificate = 0
-        last_attach_id = AttachEnv.sudo().search(
-            [('name', 'like', 'primary_secondary_foreign_certificate'), ('res_model', '=', 'adm.application'),
-             ('res_id', '=', params["application_id"])], order="create_date desc", limit=1)
-        if last_attach_id:
-            cont_primary_secondary_foreign_certificate = AttachEnv.browse(last_attach_id[0].id)
-
-
-        return request.render("adm.template_application_menu_upload_file_primary_secondary", {
-            "student_application": student_application,
-            "application_id": params["application_id"],
-            "cont_primary_secondary_good_conduct": cont_primary_secondary_good_conduct,
-            "cont_primary_secondary_rehabilitation_courses": cont_primary_secondary_rehabilitation_courses,
-            "cont_primary_secondary_school_certificate": cont_primary_secondary_school_certificate,
-            "cont_primary_secondary_convalidate_credits": cont_primary_secondary_convalidate_credits,
-            "cont_primary_secondary_foreign_certificate": cont_primary_secondary_foreign_certificate,
-            "application": request.env["adm.application"].browse([params["application_id"]]),
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })
-
-    @http.route("/admission/applications/<int:application_id>/electronic-signature", auth="public", methods=["GET"],
-                website=True, csrf=False)
-    def electronic_signature(self, **params):
-        ApplicationEnv = request.env["adm.application"]
-        AttachEnv = request.env["ir.attachment"]
-
-        application = ApplicationEnv.browse([params["application_id"]])
-
-        attach_file = -1
-        last_attach_id = AttachEnv.sudo().search([('name', '=', 'signature.png'), ('res_model', '=', 'adm.application'),
-                                                  ('res_id', '=', params["application_id"])], order="create_date desc",
-                                                 limit=1)
-        # attach_file = AttachEnv.browse(AttachEnv.sudo().search([('res_model', '=', 'adm.application'),('res_id', '=', params["application_id"])])).ids
-        # attach_file = AttachEnv.browse([1027])
-        if last_attach_id:
-            attach_file = AttachEnv.browse(last_attach_id[0].id)
-
-        return request.render("adm.template_application_menu_electronic_signature_page", {
-            "application_id": params["application_id"],
-            "application": application,
-            "attach_file_id": attach_file,
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-        })
-
-    @http.route("/admission/applications/<int:application_id>/review", auth="public", methods=["GET"], website=True,
-                csrf=False)
-    def review(self, **params):
-
-        ApplicationEnv = request.env["adm.application"].sudo()
-        application = ApplicationEnv.browse([params["application_id"]])
-
-        # busco si existe el link de pago generado si se mantiene en -1 indica que existe un pago realizado 
-        linkPayment = -1
-
-        # comprobamos que no tenga alguna transaction creada, de lo contrario estaria pagada
-        if not application[0].order_id.transaction_ids:
-            if application:
-                WizardEnv = request.env["payment.link.wizard"].sudo()
-                wizardIDs = WizardEnv.search(
-                    [('res_model', '=', 'sale.order'), ('res_id', '=', application[0].order_id.id)])
-
-                if wizardIDs:
-
-                    wizard_data = WizardEnv.browse(wizardIDs[0].id)
-                    _logger.info("existe wizardIDS")
-                    #
-                else:
-                    created_wizard_id = WizardEnv.create({
-                        'res_model': 'sale.order',
-                        'res_id': int(application[0].order_id.id),
-                        'description': str(application[0].order_id.name),
-                        'amount': float(application[0].order_id.amount_total),
-                        'currency_id': int(application[0].order_id.currency_id.id),
-                        'partner_id': int(application[0].partner_id.id),
-                    })
-                    # _logger.info(created_wizard_id.id)
-
-                    wizard_data = WizardEnv.browse(created_wizard_id.id)
-
-                linkPayment = wizard_data[0].link
-
-        return request.render("adm.template_application_menu_invoice", {
-            "application_id": params["application_id"],
-            "sales_order_info": str(linkPayment),
-            "application": request.env["adm.application"].browse([params["application_id"]]),
-            "showPendingInformation": True if "checkData" in params else False,
-            "pendingData": self.getPendingTasks(params["application_id"]),
-            # "sales_order_info": str(wizard_data[0].link),
-        })
-
-       #definiendo la url desde donde va ser posible acceder, tipo de metodo, cors para habiltiar accesos a ip externas.
+    # definiendo la url desde donde va ser posible acceder, tipo de metodo, cors para habiltiar accesos a ip externas.
     @http.route("/admission/adm_insertId", auth="public", methods=["GET"], cors='*', csrf=False)
     # define una funcion principal
     def insertId(self, **kw):
-        #return json.dumps(request.httprequest.url +' | '+ request.httprequest.base_url  +' | '+ request.httprequest.host_url)
+        # return json.dumps(request.httprequest.url +' | '+ request.httprequest.base_url  +' | '+ request.httprequest.host_url)
         return json.dumps(request.httprequest.headers.environ['HTTP_ORIGIN'])

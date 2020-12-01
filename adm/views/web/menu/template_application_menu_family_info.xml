@@ -236,7 +236,7 @@
                                         <h1>Family Information</h1>
                                     </div>
                                     <div id="contact_forms" class="card-body">
-                                        <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
+                                        <t t-if="application_id.status_id.type_id !='return' and application_id.status_id.type_id != 'started'">
                                             <div class="alert alert-warning mt-3" id="requestSent" role="alert">
                                                  The request has already been sent.
                                             </div>
@@ -452,7 +452,7 @@
                                                     document.getElementById("brother_new_div").appendChild(cln);
                                                 }
                                             </script>
-                                            <t t-if="application.status_id.type_id == 'return' or application.status_id.type_id == 'started'">
+                                            <t t-if="application_id.status_id.type_id == 'return' or application_id.status_id.type_id == 'started'">
                                                 <section class="row">
                                                                 <div class="col-12 bg-ia-pan mt-3 mb-2 h4">
                                                         Brothers
@@ -513,7 +513,7 @@
                                             </t>
 
 
-                                <t t-if="application.status_id.type_id =='return' or application.status_id.type_id == 'started'">
+                                <t t-if="application_id.status_id.type_id =='return' or application_id.status_id.type_id == 'started'">
                                     <button class="d-none" id="submitButton">Submit changes</button>
                                     <div class="btn btn-lg btn-warning d-block col-8 offset-2 col-lg-4 offset-lg-4 col-xl-2 offset-xl-5 mt-2 mb-3" id="submitButtonFake">Submit changes</div>
                                 </t>

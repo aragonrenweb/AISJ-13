@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="template_application_menu_upload_file_comun" inherit_id="adm.template_application_menu_upload_file_comun">
-        <xpath expr="//input[@value='comun_bank_comercial_reference']/../../.." position="after">
-            <hr/>
-            <div class="d-flex align-items-end">
-                <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                    <section class="d-flex col-12 mt-3 p-0">
-                        <div class="col-12 text-left p-0">
-                            <label for="teacher_assessment_email">
-                                <b>11. Teacher assessments (based on language of previous school)</b>
-                            </label>
-                            <div>
-                                <t t-if="application.teacher_assessment_form_id.sudo().state == 'COMPLETE'">
-                                    <span class="badge badge-success">&#10004;</span>
-                                </t>
-                                <t t-else="">
-                                    <span t-if="application.teacher_assessment_form_id" class="badge badge-warning mr-2">&#10006;</span>
-                                    <span t-else="" class="badge badge-danger mr-2">&#10006;</span>
-                                </t>
-                                <input type="email" t-att-disabled="application.teacher_assessment_form_id" name="teacher_assessment_email" t-att-value="application.teacher_assessment_email" required="true"/>
-                                <input class="form-control d-none" name="origin" id="origin" value="comun"/>
-                                <button t-if="not application.teacher_assessment_form_id" class="btn btn-warning ml-2">Submit</button>
-                            </div>
-                        </div>
-                    </section>
-                </form>
-            </div>
-        </xpath>
+<!--        <xpath expr="//input[@value='comun_bank_comercial_reference']/../../.." position="after">-->
+<!--            <hr/>-->
+<!--            <div class="d-flex align-items-end">-->
+<!--                <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                    <section class="d-flex col-12 mt-3 p-0">-->
+<!--                        <div class="col-12 text-left p-0">-->
+<!--                            <label for="teacher_assessment_email">-->
+<!--                                <b>11. Teacher assessments (based on language of previous school)</b>-->
+<!--                            </label>-->
+<!--                            <div>-->
+<!--                                <t t-if="application_id.teacher_assessment_form_id.sudo().state == 'COMPLETE'">-->
+<!--                                    <span class="badge badge-success">&#10004;</span>-->
+<!--                                </t>-->
+<!--                                <t t-else="">-->
+<!--                                    <span t-if="application_id.teacher_assessment_form_id" class="badge badge-warning mr-2">&#10006;</span>-->
+<!--                                    <span t-else="" class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                </t>-->
+<!--                                <input type="email" t-att-disabled="application_id.teacher_assessment_form_id" name="teacher_assessment_email" t-att-value="application.teacher_assessment_email" required="true"/>-->
+<!--                                <input class="form-control d-none" name="origin" id="origin" value="comun"/>-->
+<!--                                <button t-if="not application_id.teacher_assessment_form_id" class="btn btn-warning ml-2">Submit</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </section>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </xpath>-->
     </template>
 </odoo>

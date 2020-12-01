@@ -2,7 +2,11 @@
 <odoo>
 
     <template id="template_application_parents_form">
-        <div class="container">
+        <div class="container" data-adm-model-fields="1"
+             t-att-data-adm-id = "id"
+             data-adm-model="adm.relationship">
+
+            <!-- Photo -->
             <div class="row">
                 <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                     <div class="text-center">
@@ -15,28 +19,37 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Form -->
             <div class="row">
                 <fieldset class="col-12 border">
                     <legend class="w-auto">Demographics</legend>
                     <section class="row">
                         <div class="col-12 col-md-6 form-group">
                             <label>First name</label>
-                            <input class="form-control" type="text" name="first_name"/>
+                            <input class="form-control" type="text" data-adm-field="first_name" name="first_name"/>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Last name</label>
-                            <input class="form-control" type="text" name="last_name"/>
+                            <input class="form-control" type="text" name="last_name" data-adm-field="last_name"/>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Date of birth</label>
-                            <input class="form-control" type="date" name="date_of_birth"/>
+                            <input class="form-control" type="date" name="date_of_birth" data-adm-field="date_of_birth" />
                         </div>
 
-                        <div class="col-12 col-md-6 form-group">
+                        <div class="col-12 col-md-6 form-group" data-adm-field="gender" >
                             <label>Sex</label>
-                            <input class="form-control" type="text" name="gender"/>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" t-attf-name="parent_member[#{id}]"/>
+                                <label class="form-check-lavel">Male</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input"  type="radio" t-attf-name="parent_member[#{id}]"/>
+                                <label class="form-check-lavel">Female</label>
+                            </div>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
@@ -51,7 +64,26 @@
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Marital status</label>
-                            <input class="form-control" type="text" name="marital_status"/>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+                                <label class="form-check-lavel">Married</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+                                <label class="form-check-lavel">Single</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+                                <label class="form-check-lavel">Separated</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+                                <label class="form-check-lavel">Divorced</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+                                <label class="form-check-lavel">Widowed</label>
+                            </div>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
@@ -66,12 +98,27 @@
                     <section class="row">
                         <div class="col-12 col-md-6 form-group">
                             <label>Relationship to applicant</label>
-                            <input class="form-control" type="text" name="relation_type"/>
+                            <select class="form-control">
+                                <t t-foreach="relationship_types" t-as="relationship_type">
+                                    <t t-if="relationship_type['value'] != 'sibling'">
+                                        <option t-att-value="relationship_type['value']">
+                                            <t t-esc="relationship_type['name']"/>
+                                        </option>
+                                    </t>
+                                </t>
+                            </select>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Custodial rights</label>
-                            <input class="form-control" type="text" name="custodial_rights"/>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" t-attf-name="parent_custodial[#{id}]"/>
+                                <label class="form-check-lavel">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" t-attf-name="parent_custodial[#{id}]"/>
+                                <label class="form-check-lavel">No</label>
+                            </div>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
@@ -175,8 +222,9 @@
     <template id="template_application_parents_webpage" name="Student's parents">
         <t t-call="website.layout">
             <t t-set="head">
-                <!--<link rel="stylesheet" href="/adm/static/css/form_application.css"/>-->
-               <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
+                <!--<link rel="stylesheet" href="/adm/static/css/form_application_id..css"/>-->
+                <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
+                <t t-call-assets="adm.assets_application_family_parents" defer_load="True"/>
             </t>
             <t t-set="title">Parents</t>
 
@@ -288,7 +336,7 @@
                                     <p> Fields with (*) are mandatory </p>
                                     <section class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
                                         <span class="text-muted mb-2">Please, make sure you save the changes</span>
-                                        <button class="btn btn-primary" type="button">Save</button>
+                                        <button class="btn btn-primary" id="btnFamilyParentsSave" type="button">Save</button>
                                     </section>
                                 </div>
                             </section>

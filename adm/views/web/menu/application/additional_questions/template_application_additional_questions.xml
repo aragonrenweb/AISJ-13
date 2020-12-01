@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <template id="adm.template_application_additional_questions_form">
+    <template id="adm.template_application_id.id_additional_questions_form">
         <section class="container-fluid">
             <div id="school_forms">
                 <article class="row card card-body pt-0 mt-2">
@@ -68,7 +68,7 @@
 
         <t t-call="website.layout">
             <t t-set="head">
-                <!--<link rel="stylesheet" href="/adm/static/css/form_application.css"/>-->
+                <!--<link rel="stylesheet" href="/adm/static/css/form_application_id.id.css"/>-->
                 <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
             </t>
             <t t-set="title">Parent questionnaire</t>

@@ -16,7 +16,7 @@
                                 <ul class="progressbar col">
                                     <t t-set="current" t-value="False"/>
                                     <t t-foreach="application_status_ids" t-as="application_status_id">
-                                        <t t-if="student_application.status_id.id == application_status_id.id">
+                                        <t t-if="student_application_id.status_id.id == application_status_id.id">
                                             <t t-set="current" t-value="True"/>
                                             <li class="current">
                                                 <t t-esc="application_status_id.name"/>
