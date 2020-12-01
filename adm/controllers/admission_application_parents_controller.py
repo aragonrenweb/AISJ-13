@@ -8,6 +8,8 @@ import re
 import json
 from odoo.http import content_disposition, dispatch_rpc, request, serialize_exception as _serialize_exception, Response
 
+from odoo.addons.adm.controllers.admission_application_controller import AdmissionController
+
 _logger = logging.getLogger(__name__)
 
 
@@ -35,7 +37,6 @@ class Admission(http.Controller):
     def _login_redirect(uid, redirect=None):
         return redirect if redirect else '/web'
 
-    # < model("res.country"): country >
     @http.route("/admission/applications/<model('adm.application'):application_id>/family/parents", auth="public", methods=["GET"], website=True)
     def get_parents(self, application_id):
         # contact_id = self.get_partner()
@@ -50,9 +51,7 @@ class Admission(http.Controller):
         # language_ids = request.env['adm.language'].browse(http.request.env['adm.language'].search([]))
         # language_level_ids = request.env['adm.language.level'].browse(request.env['adm.language.level'].search([]))
 
-        response = request.render('adm.template_application_parents_webpage', {
-            'application_id': application_id.id,
-            'application': application_id,
-            })
+        response_params = AdmissionController.compute_view_render_params(application_id)
+        response = request.render('adm.template_application_parents_webpage', response_params)
         return response
 

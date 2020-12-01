@@ -14,335 +14,331 @@
                                 <h1>DOCUMENTS</h1>
                             </section>
 
-                            <section class="card-body&gt;">
-                                <div class="container pb-3">
-                                    <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
-                                        <div class="alert alert-warning mt-3" role="alert">
-                                           The request has already been sent.
-                                        </div>
-                                    </t>
-                                    <t t-else="">
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b>1. Birth certificate for use scholar(It will be necessary to deliver the original)</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_birth_certificate">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_birth_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                            <section class="card-body&gt;">-->
+<!--                                <div class="container pb-3">-->
+<!--                                    <t t-if="application_id.status_id.type_id !='return' and application_id.status_id.type_id != 'started'">-->
+<!--                                        <div class="alert alert-warning mt-3" role="alert">-->
+<!--                                           The request has already been sent.-->
+<!--                                        </div>-->
+<!--                                    </t>-->
+<!--                                    <t t-else="">-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b>1. Birth certificate for use scholar(It will be necessary to deliver the original)</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_birth_certificate">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_birth_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_birthday_certificate"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_birthday_certificate"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <hr/>
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b>2. Membership letter certifying the local congregation (Shever Ahim or Bet-El) to which both parents are members. (It will be necessary to deliver the original.)</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_member_letter">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_member_letter.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <hr/>-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b>2. Membership letter certifying the local congregation (Shever Ahim or Bet-El) to which both parents are members. (It will be necessary to deliver the original.)</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_member_letter">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_member_letter.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_member_letter"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_member_letter"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <hr/>
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b>3. Photocopies of identity card or passport of each of the parents</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_cedula_passport">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_cedula_passport.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <hr/>-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b>3. Photocopies of identity card or passport of each of the parents</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_cedula_passport">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_cedula_passport.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_cedula_passport"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_cedula_passport"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <hr/>
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b>4. Health certificate</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_healthy_certificate">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_healthy_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <hr/>-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b>4. Health certificate</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_healthy_certificate">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_healthy_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_healthy_certificate"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_healthy_certificate"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <hr/>
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b>5. Copy of vaccine register</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_vaccine_register">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_vaccine_register.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <hr/>-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b>5. Copy of vaccine register</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_vaccine_register">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_vaccine_register.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_vaccine_register"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_vaccine_register"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <hr/>
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b>6.Sight Exam</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_sight_certificate">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_sight_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <hr/>-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b>6.Sight Exam</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_sight_certificate">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_sight_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_sight_certificate"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_sight_certificate"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <hr/>
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b>7. Hearing exam</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_oto_certificate">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_oto_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <hr/>-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b>7. Hearing exam</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_oto_certificate">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_oto_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_oto_certificate"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_oto_certificate"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <hr/>
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b>8. Paz y Salvo from the origin school</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_peace_save_certificate">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_peace_save_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <hr/>-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b>8. Paz y Salvo from the origin school</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_peace_save_certificate">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_peace_save_certificate.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_peace_save_certificate"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_peace_save_certificate"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <hr/>
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b class="text-info">9. Personal reference of (2) members of Jewish Community of Panama.</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_personal_reference">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_personal_reference.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <hr/>-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b class="text-info">9. Personal reference of (2) members of Jewish Community of Panama.</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_personal_reference">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_personal_reference.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_personal_reference"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_personal_reference"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <hr/>
-                                        <div class="d-flex align-items-end">
-                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">
-                                                <section class="d-flex col-12 mt-3 p-0">
-                                                    <div class="col-12 text-left p-0">
-                                                        <label for="file_upload">
-                                                            <b class="text-info">10. One (1) commercial reference and one (1) banking</b>
-                                                        </label>
-                                                        <div>
-                                                            <t t-if="cont_comun_bank_comercial_reference">
-                                                                <span class="badge badge-success">&#10004;</span>
-<!--                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />-->
-                                                                <a href="" t-att-value="cont_comun_bank_comercial_reference.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <hr/>-->
+<!--                                        <div class="d-flex align-items-end">-->
+<!--                                            <form t-att-action="'/admission/applications/message/{}'.format(application_id)" method="post" enctype="multipart/form-data">-->
+<!--                                                <section class="d-flex col-12 mt-3 p-0">-->
+<!--                                                    <div class="col-12 text-left p-0">-->
+<!--                                                        <label for="file_upload">-->
+<!--                                                            <b class="text-info">10. One (1) commercial reference and one (1) banking</b>-->
+<!--                                                        </label>-->
+<!--                                                        <div>-->
+<!--                                                            <t t-if="cont_comun_bank_comercial_reference">-->
+<!--                                                                <span class="badge badge-success">&#10004;</span>-->
+<!--&lt;!&ndash;                                                                <img t-att-src="cont_1_9_certificate_previous_school.public_url_photo" />&ndash;&gt;-->
+<!--                                                                <a href="" t-att-value="cont_comun_bank_comercial_reference.id" class="downloadFile mr-2"><span class="badge badge-info btn">&#10151;</span></a>-->
 
-                                                            </t>
-                                                            <t t-else="">
-                                                                <span class="badge badge-danger mr-2">&#10006;</span>
-                                                            </t>
-                                                            <input id="file_upload" type="file" name="file_upload"/>
-                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>
-                                                        </div>
-                                                    </div>
-                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_bank_comercial_reference"/>
-                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>
-                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>
+<!--                                                            </t>-->
+<!--                                                            <t t-else="">-->
+<!--                                                                <span class="badge badge-danger mr-2">&#10006;</span>-->
+<!--                                                            </t>-->
+<!--                                                            <input id="file_upload" type="file" name="file_upload"/>-->
+<!--                                                            <button class="btn btn-warning ml-2 d-none">Upload</button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <input class="form-control d-none"  name="origin_filename" id="origin_filename" value="comun_bank_comercial_reference"/>-->
+<!--                                                    <input class="form-control d-none"  name="origin" id="origin" value="comun"/>-->
+<!--                                                    <textarea class="form-control d-none" rows="4" cols="50" name="message_body" id="message_body"/>-->
 
-                                                </section>
-                                            </form>
-                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>
-                                        </div>
-                                        <div class="alert alert-info mt-5 text-info  text-center font-weight-bold" role="alert">
-                                            IF YOU HAVE CHILDREN IN SCHOOL, IT´S NOT NECESSARY TO COMPLY WITH POINTS 9 AND 10.
-                                            <!--  Si tiene hijos en el colegio no es necesario cumplir los puntos 8 y 9.<hr/>
-                                          UNA VEZ COMPLETADOS LOS REQUISITOS MENCIONADOS ANTERIORMENTE HABRA QUE PAGAR LA
-CUOTA DE APLICACIÓN QUE INCLUYE LAS EVALUACIONES ACADEMICAS Y PSICOLOGICAS
-CORRESPONDIENTES Y PROCESAMIENTO DE DOCUMENTOS DE ADMISION. (NO REEMBOLSABLE).<br/>
-                                            <div class="d-flex justify-content-around mt-3">
-                                                <div>PREESCOLAR 30.00 </div>
-                                                <div>PRIMARIA 200.00</div>
-                                                <div> SECUNDARIA 250.00</div>
-                                            </div>-->
+<!--                                                </section>-->
+<!--                                            </form>-->
+<!--                                            <button type="button" class="subButton btn btn-warning ml-2">Upload</button>-->
+<!--                                        </div>-->
+<!--                                        <div class="alert alert-info mt-5 text-info  text-center font-weight-bold" role="alert">-->
+<!--                                            IF YOU HAVE CHILDREN IN SCHOOL, IT´S NOT NECESSARY TO COMPLY WITH POINTS 9 AND 10.-->
+<!--                                            &lt;!&ndash;  Si tiene hijos en el colegio no es necesario cumplir los puntos 8 y 9.<hr/>-->
+<!--                                          UNA VEZ COMPLETADOS LOS REQUISITOS MENCIONADOS ANTERIORMENTE HABRA QUE PAGAR LA-->
+<!--CUOTA DE APLICACIÓN QUE INCLUYE LAS EVALUACIONES ACADEMICAS Y PSICOLOGICAS-->
+<!--CORRESPONDIENTES Y PROCESAMIENTO DE DOCUMENTOS DE ADMISION. (NO REEMBOLSABLE).<br/>-->
+<!--                                            <div class="d-flex justify-content-around mt-3">-->
+<!--                                                <div>PREESCOLAR 30.00 </div>-->
+<!--                                                <div>PRIMARIA 200.00</div>-->
+<!--                                                <div> SECUNDARIA 250.00</div>-->
+<!--                                            </div>&ndash;&gt;-->
 
-                                        </div>
+<!--                                        </div>-->
 
-                                    </t>
-                                </div>
-                            </section>
+<!--                                    </t>-->
+<!--                                </div>-->
+<!--                            </section>-->
                         </section>
-                        <script
-                                src="https://code.jquery.com/jquery-3.5.1.slim.js"
-                                integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
-                                crossorigin="anonymous"></script>
                         <script src="/adm/static/js/upload.js"></script>
                     </main>
                 </div>

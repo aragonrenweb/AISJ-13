@@ -16,7 +16,7 @@
                             </section>
                             <section class="card-body&gt;">
                                 <div class="container">
-                                    <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
+                                    <t t-if="application_id.status_id.type_id !='return' and application_id.status_id.type_id != 'started'">
                                         <div class="alert alert-warning mt-3" role="alert">
                                             The request has already been sent.
                                         </div>

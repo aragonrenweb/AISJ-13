@@ -17,7 +17,7 @@
 
                             <section class="card-body">
                                 <div class="container">
-                                    <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
+                                    <t t-if="application_id.status_id.type_id !='return' and application_id.status_id.type_id != 'started'">
                                         <div class="alert alert-warning mt-3" role="alert">
                                              The request has already been sent.
                                         </div>
@@ -27,12 +27,9 @@
                                             <input required="required" class="form-control" type="hidden" name="medical_condition_id" value="-1"/>
                                             <div class="row">
                                                 <section class="col-5">
-                                                    <label>
-                                                        Name
-                                                        <span class="text-danger"> *</span>
-                                                    </label>
-                                                    <input type="checkbox"/> Other
-                                                    <select class="form-control">
+                                                    <label> Name <span class="text-danger"> *</span> </label>
+                                                    <input type="checkbox" class="js_checkbox"/> Other
+                                                    <select class="form-control js_select_health"  required="required" name="medical_condition_name">
                                                         <option>Asthma</option>
                                                         <option>Attention Deficit Disorder/Hyperactive</option>
                                                         <option>Neurological Concerns</option>
@@ -47,7 +44,7 @@
                                                         <option>Emotional concerns</option>
                                                         <option>Other</option>
                                                     </select>
-                                                    <input required="required" class="form-control" type="text" name="medical_condition_name"/>
+                                                    <input required="required" class="form-control js_input_health" type="text" name="medical_condition_name"/>
                                                 </section>
                                                 <section class="col-6">
                                                     <label>
@@ -114,10 +111,7 @@
                                             </div>
                                         </article>
 
-
-
-
-                                        <form t-att-action="'/admission/applications/{}/write'.format(application_id)" method="post" enctype="multipart/form-data">
+                                        <form t-attf-action="/admission/applications/#{application_id.id}/write" method="post" enctype="multipart/form-data">
 
                                             <input required="required" class="form-control" type="hidden" name="has_medical_info"/>
                                             <section class="container-fluid mt-3">
@@ -127,28 +121,28 @@
                                                             Doctor Name
                                                             <span class="text-danger"> *</span>
                                                         </label>
-                                                        <input required="required" class="form-control" type="text" name="doctor_name" t-att-value="application.doctor_name"/>
+                                                        <input required="required" class="form-control" type="text" name="doctor_name" t-att-value="application_id.doctor_name"/>
                                                     </section>
                                                     <section class="col-4">
                                                         <label>
                                                             Student Blood Type
                                                             <span class="text-danger"> *</span>
                                                         </label>
-                                                        <input required="required" class="form-control" type="text" name="blood_type" t-att-value="application.blood_type"/>
+                                                        <input required="required" class="form-control" type="text" name="blood_type" t-att-value="application_id.blood_type"/>
                                                     </section>
                                                     <section class="col">
                                                         <label>
                                                             Doctor Address
                                                             <span class="text-danger"> *</span>
                                                         </label>
-                                                        <input required="required" class="form-control" type="text" name="doctor_address" t-att-value="application.doctor_address"/>
+                                                        <input required="required" class="form-control" type="text" name="doctor_address" t-att-value="application_id.doctor_address"/>
                                                     </section>
                                                     <section class="col">
                                                         <label>
                                                             Doctor phone
                                                             <span class="text-danger"> *</span>
                                                         </label>
-                                                        <input required="required" class="form-control" type="text" name="doctor_phone" t-att-value="application.doctor_phone"/>
+                                                        <input required="required" class="form-control" type="text" name="doctor_phone" t-att-value="application_id.doctor_phone"/>
                                                     </section>
                                                     <section class="col">
                                                         <label>
@@ -157,11 +151,11 @@
                                                         </label>
 
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="permission_to_treat" id="pst_yes" value="true" t-att-checked="application.permission_to_treat"/>
+                                                            <input class="form-check-input" type="radio" name="permission_to_treat" id="pst_yes" value="true" t-att-checked="application_id.permission_to_treat"/>
                                                             <label class="form-check-label" for="pst_yes">Yes</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" id="pst_no" name="permission_to_treat" value="" t-att-checked="not application.permission_to_treat"/>
+                                                            <input class="form-check-input" type="radio" id="pst_no" name="permission_to_treat" value="" t-att-checked="not application_id.permission_to_treat"/>
                                                             <label class="form-check-label" for="pst_no">No</label>
                                                         </div>
                                                     </section>
@@ -172,7 +166,7 @@
                                                         <h3>Medical Conditions</h3>
                                                     </section>
                                                     <section id="form-condition" class="container-fluid card-body p-0">
-                                                        <t t-foreach="application.medical_conditions_ids" t-as="condition">
+                                                        <t t-foreach="application_id.medical_conditions_ids" t-as="condition">
                                                             <article class="border rounded p-2 m-1" t-att-id="'medical_condition_{}'.format(condition_index+1)">
                                                                 <input required="required" class="form-control" type="hidden" name="medical_condition_id" t-att-value="condition.id"/>
                                                                 <div class="row">
@@ -207,7 +201,7 @@
                                                         <h3>Medical allergies</h3>
                                                     </section>
                                                     <section id="form-allergy" class="container-fluid card-body p-0">
-                                                        <t t-foreach="application.medical_allergies_ids" t-as="allergy">
+                                                        <t t-foreach="application_id.medical_allergies_ids" t-as="allergy">
                                                             <article class="border rounded p-2 m-1" t-att-id="'medical_allergy_{}'.format(allergy_index+1)">
                                                                 <input required="required" class="form-control" type="hidden" name="medical_allergy_id" t-att-value="allergy.id"/>
                                                                 <div class="row">
@@ -242,7 +236,7 @@
                                                         <h3>Medication</h3>
                                                     </section>
                                                     <section id="form-medication" class="container-fluid">
-                                                        <t t-foreach="application.medical_medications_ids" t-as="medication">
+                                                        <t t-foreach="application_id.medical_medications_ids" t-as="medication">
                                                             <article class="border rounded p-2 m-1" t-att-id="'medical_medication_{}'.format(medication_index+1)">
                                                                 <input required="required" class="form-control" type="hidden" name="medical_medication_id" t-att-value="medication.id"/>
                                                                 <div class="row">

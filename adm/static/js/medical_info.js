@@ -5,15 +5,30 @@
 	function addMedicalCondition() {
 		var medicalConditionClonnable = document.getElementById("form-template-condition").cloneNode(true);
 		var medicalConditionForms = document.getElementById("form-condition");
-
+		const $medicalConditionClonnable = $(medicalConditionClonnable);
 		medicalConditionForms.insertBefore(medicalConditionClonnable, this)
 		//medicalConditionForms.appendChild(medicalConditionClonnable)
 
+		// Toggle select and checkbox
+		$medicalConditionClonnable.find('.js_input_health').hide();
+		$medicalConditionClonnable.find('.js_checkbox').on('click', (event) => {
+			const $otherToggleCheckbox = $(event.currentTarget);
+
+			const isChecked = $otherToggleCheckbox.is(':checked');
+
+			$medicalConditionClonnable.find('.js_input_health').toggle(isChecked);
+			$medicalConditionClonnable.find('.js_input_health').prop('required', !isChecked);
+
+			$medicalConditionClonnable.find('.js_select_health').toggle(!isChecked);
+			$medicalConditionClonnable.find('.js_select_health').prop('required', isChecked);
+
+		})
+
 		contador--;
-		$(medicalConditionClonnable).attr("id", "medical_condition_" + contador)
-		$(medicalConditionClonnable).removeClass("d-none");
-		var removeButton = $(medicalConditionClonnable).find("button")
-		$(removeButton).data("id", contador).on("click", removeMedicalCondition);
+		$medicalConditionClonnable.attr("id", "medical_condition_" + contador);
+		$medicalConditionClonnable.removeClass("d-none");
+		const $removeButton = $medicalConditionClonnable.find("button");
+		$removeButton.data("id", contador).on("click", removeMedicalCondition);
 
 		// $(".add-medical_condition").on("click", addMedicalCondition);
 		$(medicalConditionForms).find("select.country").on("change", changeState);
@@ -22,15 +37,15 @@
 	function addMedicalAllergy() {
 		var medicalAllergyClonnable = document.getElementById("form-template-allergy").cloneNode(true);
 		var medicalAllergyForms = document.getElementById("form-allergy");
-
+		const $medicalAllergyClonnable = $(medicalAllergyClonnable);
 		medicalAllergyForms.insertBefore(medicalAllergyClonnable, this)
 		//medicalAllergyForms.appendChild(medicalAllergyClonnable)
 
 		contador--;
-		$(medicalAllergyClonnable).attr("id", "medical_allergy_" + contador)
-		$(medicalAllergyClonnable).removeClass("d-none");
-		var removeButton = $(medicalAllergyClonnable).find("button")
-		$(removeButton).data("id", contador).on("click", removeMedicalAllergy);
+		$medicalAllergyClonnable.attr("id", "medical_allergy_" + contador)
+		$medicalAllergyClonnable.removeClass("d-none");
+		const removeButton = $medicalAllergyClonnable.find("button")
+		$medicalAllergyClonnable.data("id", contador).on("click", removeMedicalAllergy);
 
 		// $(".add-medical_allergy").on("click", addMedicalAllergy);
 		$(medicalAllergyForms).find("select.country").on("change", changeState);

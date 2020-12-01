@@ -20,13 +20,13 @@
 
                             <section class="card-body&gt;">
                                 <div class="container">
-                                    <t t-if="application.status_id.type_id !='return' and application.status_id.type_id != 'started'">
+                                    <t t-if="application_id.status_id.type_id !='return' and application_id.status_id.type_id != 'started'">
                                         <div class="alert alert-warning mt-3" role="alert">
                                             The request has already been sent.
                                         </div>
                                     </t>
                                     <t t-else="">
-                                        <form t-attf-action="/admission/applications/#{application_id}/write"
+                                        <form t-attf-action="/admission/applications/#{application_id.id}/write"
                                               method="post" enctype="multipart/form-data">
                                             <div class="container pt-4">
                                                 <div class="row">
@@ -67,19 +67,19 @@
                                                                     *</span></label>
                                                                 <input type="text" name="first_name"
                                                                        class="form-control"
-                                                                       t-att-value="application.first_name"/>
+                                                                       t-att-value="application_id.first_name"/>
                                                             </section>
                                                             <section class="col-12 col-md-4 form-group">
                                                                 <label> Middle Name </label>
                                                                 <input type="text" name="middle_name"
                                                                        class="form-control"
-                                                                       t-att-value="application.middle_name"/>
+                                                                       t-att-value="application_id.middle_name"/>
                                                             </section>
                                                             <section class="col-12 col-md-4 form-group">
                                                                 <label> Last Name <span class="text-danger">
                                                                     *</span></label>
                                                                 <input type="text" name="last_name" class="form-control"
-                                                                       t-att-value="application.last_name"/>
+                                                                       t-att-value="application_id.last_name"/>
                                                             </section>
                                                         </div>
                                                     </div>
@@ -89,7 +89,7 @@
                                                         <label for="selStudentGradeLevel"> Grade Level: </label>
                                                         <select id="selStudentGradeLevel" class="form-control">
                                                             <t t-foreach="grade_level_ids" t-as="grade_level">
-                                                                <option t-att-selected="application.inquiry_id.grade_level_id == grade_level"
+                                                                <option t-att-selected="application_id.inquiry_id.grade_level_id == grade_level"
                                                                         t-att-value="grade_level.id"><t
                                                                         t-esc="grade_level.name"/></option>
                                                             </t>
@@ -98,7 +98,7 @@
                                                     <div class="col-12 col-md-6 form-group">
                                                         <label> School Year: </label>
                                                         <input disabled="disabled" type="text" class="form-control"
-                                                               t-att-value="application.inquiry_id.school_year_id.name"/>
+                                                               t-att-value="application_id.inquiry_id.school_year_id.name"/>
                                                     </div>
                                                 </section>
                                                 <section class="row">
@@ -107,7 +107,7 @@
                                                             *</span></label>
                                                         <input required="required" type="text"
                                                                name="street" class="form-control"
-                                                               t-att-value="application.street "/>
+                                                               t-att-value="application_id.street "/>
                                                     </div>
                                                 </section>
                                                 <section class="row">
@@ -115,7 +115,7 @@
                                                         <label> City: <span class="text-danger"> *</span></label>
                                                         <input required="required" type="text"
                                                                name="city" class="form-control"
-                                                               t-att-value="application.city"/>
+                                                               t-att-value="application_id.city"/>
                                                     </div>
                                                     <div class="col-12 col-md-4 form-group">
                                                         <label for="state_id"> State <span class="text-danger">
@@ -127,7 +127,7 @@
                                                                 -Select a state-
                                                             </option>
                                                             <t t-foreach="state_ids" t-as="state">
-                                                                <option t-att-selected="application.state_id == state"
+                                                                <option t-att-selected="application_id.state_id == state"
                                                                         t-att-value="state.id">
                                                                     <t t-esc="state.name"/>
                                                                 </option>
@@ -144,7 +144,7 @@
                                                                 -Select a country-
                                                             </option>
                                                             <t t-foreach="country_ids" t-as="country">
-                                                                <option t-att-selected="application.country_id.id == country.id"
+                                                                <option t-att-selected="application_id.country_id.id == country.id"
                                                                         t-att-value="country.id">
                                                                     <t t-esc="country.name"/>
                                                                 </option>
@@ -160,7 +160,7 @@
                                                         <!-- Three inputs with Day, Month and Year -->
                                                         <input required="required" type="date" name="date_of_birth"
                                                                class="form-control"
-                                                               t-att-value="application.date_of_birth"/>
+                                                               t-att-value="application_id.date_of_birth"/>
                                                     </div>
                                                 </section>
                                                 <section class="row">
@@ -168,7 +168,7 @@
                                                         <label> Gender: <span class="text-danger"> *</span></label>
                                                         <select required="required" class="form-control" name="gender">
                                                             <t t-foreach="gender_ids" t-as="gender_id">
-                                                                <option t-att-selected="application.gender == gender_id"
+                                                                <option t-att-selected="application_id.gender == gender_id"
                                                                         t-att-value="gender_id.id">
                                                                     <t t-esc="gender_id.name"/>
                                                                 </option>
@@ -182,7 +182,7 @@
                                                                 -Select a country-
                                                             </option>
                                                             <t t-foreach="countries" t-as="country">
-                                                                <option t-if="application.citizenship.id == country.id"
+                                                                <option t-if="application_id.citizenship.id == country.id"
                                                                         selected="selected" t-att-value="country.id">
                                                                     <t t-esc="country.name"/>
                                                                 </option>
@@ -197,7 +197,7 @@
                                                     <div class="col-12 col-md-6">
                                                         <label> Iqama/ Residence Permit ID number: </label>
                                                         <input type="text" name="identification" class="form-control"
-                                                               t-att-value="application.partner_id.identification"/>
+                                                               t-att-value="application_id.partner_id.identification"/>
                                                     </div>
                                                 </section>
 
@@ -208,12 +208,12 @@
                                                     <div class="col-12 col-md-6">
                                                         <label>Passport number 1:</label>
                                                         <input type="text" name="identification" class="form-control"
-                                                               t-att-value="application.partner_id.identification"/>
+                                                               t-att-value="application_id.partner_id.identification"/>
                                                     </div>
                                                     <div class="col-12 col-md-6">
                                                         <label>Passport number 2:</label>
                                                         <input type="text" name="identification" class="form-control"
-                                                               t-att-value="application.partner_id.identification"/>
+                                                               t-att-value="application_id.partner_id.identification"/>
                                                     </div>
                                                     <div class="col-12 col-md-6">
                                                         <label>Passport Expiration Date</label>
@@ -258,7 +258,7 @@
                                                         <label>Which semester are you applying for?</label>
                                                         <select name="applying_semester" class="form-control">
                                                             <t t-foreach="applying_semester_values" t-as="applying_semester_value">
-                                                                <option t-att-selected="application.applying_semester == applying_semester_value['value']"
+                                                                <option t-att-selected="application_id.applying_semester == applying_semester_value['value']"
                                                                         t-att-value="applying_semester_value['value']">
                                                                     <t t-esc="applying_semester_value['name']"/>
                                                                 </option>
