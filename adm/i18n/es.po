@@ -759,7 +759,7 @@ msgstr "Estado de actividad"
 
 #. module: adm
 #: model_terms:ir.ui.view,arch_db:adm.template_application_menu_family_info
-msgid "Add Brother"
+msgid "Add Sibling"
 msgstr "Añadir hermano"
 
 #. module: adm
@@ -865,7 +865,7 @@ msgid "Applicant’s extracurricular interests:"
 msgstr "Intereses extracurriculares del aplicante:"
 
 #. module: adm
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__application_id
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__application_id
 #: model:ir.model.fields,field_description:adm.field_adm_application_language__application_id
 #: model:ir.model.fields,field_description:adm.field_adm_application_other_contacts__application_id
 #: model:ir.model.fields,field_description:adm.field_adm_inquiry__application_id
@@ -1051,13 +1051,13 @@ msgstr "Tipo de Sangre"
 #: model_terms:ir.ui.view,arch_db:adm.template_application_menu_alumni_currently_enrolled_students
 #: model_terms:ir.ui.view,arch_db:adm.template_application_menu_household1
 #: model_terms:ir.ui.view,arch_db:adm.template_application_menu_household2
-msgid "Brother"
+msgid "Sibling"
 msgstr "Hermano"
 
 #. module: adm
-#: model:ir.model.fields,field_description:adm.field_adm_application__brothers
+#: model:ir.model.fields,field_description:adm.field_adm_application__siblings
 #: model_terms:ir.ui.view,arch_db:adm.template_application_menu_family_info
-msgid "Brothers"
+msgid "Siblings"
 msgstr "Hermanos"
 
 #. module: adm
@@ -1263,7 +1263,7 @@ msgid "Col."
 msgstr ""
 
 #. module: adm
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__school
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__school
 msgid "Colegio en que estudia"
 msgstr ""
 
@@ -1457,7 +1457,7 @@ msgstr ""
 
 #. module: adm
 #: model:ir.model.fields,field_description:adm.field_adm_application__create_uid
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__create_uid
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__create_uid
 #: model:ir.model.fields,field_description:adm.field_adm_application_language__create_uid
 #: model:ir.model.fields,field_description:adm.field_adm_application_other_contacts__create_uid
 #: model:ir.model.fields,field_description:adm.field_adm_application_question__create_uid
@@ -1490,7 +1490,7 @@ msgstr "Creado por"
 
 #. module: adm
 #: model:ir.model.fields,field_description:adm.field_adm_application__create_date
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__create_date
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__create_date
 #: model:ir.model.fields,field_description:adm.field_adm_application_language__create_date
 #: model:ir.model.fields,field_description:adm.field_adm_application_other_contacts__create_date
 #: model:ir.model.fields,field_description:adm.field_adm_application_question__create_date
@@ -1706,7 +1706,7 @@ msgstr ""
 
 #. module: adm
 #: model:ir.model.fields,field_description:adm.field_adm_application__display_name
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__display_name
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__display_name
 #: model:ir.model.fields,field_description:adm.field_adm_application_language__display_name
 #: model:ir.model.fields,field_description:adm.field_adm_application_other_contacts__display_name
 #: model:ir.model.fields,field_description:adm.field_adm_application_question__display_name
@@ -1924,7 +1924,7 @@ msgid "EXCELENCIA EDUCATIVA"
 msgstr ""
 
 #. module: adm
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__age
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__age
 msgid "Edad"
 msgstr ""
 
@@ -2754,7 +2754,7 @@ msgstr ""
 
 #. module: adm
 #: model:ir.model.fields,field_description:adm.field_adm_application__id
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__id
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__id
 #: model:ir.model.fields,field_description:adm.field_adm_application_language__id
 #: model:ir.model.fields,field_description:adm.field_adm_application_other_contacts__id
 #: model:ir.model.fields,field_description:adm.field_adm_application_question__id
@@ -3046,7 +3046,7 @@ msgstr "Idiomas"
 
 #. module: adm
 #: model:ir.model.fields,field_description:adm.field_adm_application____last_update
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother____last_update
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling____last_update
 #: model:ir.model.fields,field_description:adm.field_adm_application_language____last_update
 #: model:ir.model.fields,field_description:adm.field_adm_application_other_contacts____last_update
 #: model:ir.model.fields,field_description:adm.field_adm_application_question____last_update
@@ -3124,7 +3124,7 @@ msgstr ""
 
 #. module: adm
 #: model:ir.model.fields,field_description:adm.field_adm_application__write_uid
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__write_uid
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__write_uid
 #: model:ir.model.fields,field_description:adm.field_adm_application_language__write_uid
 #: model:ir.model.fields,field_description:adm.field_adm_application_other_contacts__write_uid
 #: model:ir.model.fields,field_description:adm.field_adm_application_question__write_uid
@@ -3157,7 +3157,7 @@ msgstr ""
 
 #. module: adm
 #: model:ir.model.fields,field_description:adm.field_adm_application__write_date
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__write_date
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__write_date
 #: model:ir.model.fields,field_description:adm.field_adm_application_language__write_date
 #: model:ir.model.fields,field_description:adm.field_adm_application_other_contacts__write_date
 #: model:ir.model.fields,field_description:adm.field_adm_application_question__write_date
@@ -3484,7 +3484,7 @@ msgstr "GUARDERÍA"
 
 #. module: adm
 #: model:ir.model.fields,field_description:adm.field_adm_application__name
-#: model:ir.model.fields,field_description:adm.field_adm_application_brother__name
+#: model:ir.model.fields,field_description:adm.field_adm_application_sibling__name
 #: model:ir.model.fields,field_description:adm.field_adm_application_task__name
 #: model:ir.model.fields,field_description:adm.field_adm_contact_time__name
 #: model:ir.model.fields,field_description:adm.field_adm_degree_program__name
@@ -5261,8 +5261,8 @@ msgid "adm.application"
 msgstr ""
 
 #. module: adm
-#: model:ir.model,name:adm.model_adm_application_brother
-msgid "adm.application.brother"
+#: model:ir.model,name:adm.model_adm_application_sibling
+msgid "adm.application.sibling"
 msgstr ""
 
 #. module: adm

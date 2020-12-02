@@ -4,7 +4,7 @@ from odoo import http
 
 
 # Se añaden campos:
-# - Brothers
+# - Siblings
 # - Datos de los hermanos
 # - Horario de contacto
 # - Comment en res.parthner
@@ -60,7 +60,7 @@ class admisionController(http.Controller):
                                                 "first_language","first_level_language","second_language","second_level_language","third_language","third_level_language",
                                                 "previous_school_ids","doctor_name","doctor_phone","doctor_address","permission_to_treat","blood_type",
                                                       "medical_conditions_ids","medical_allergies_ids","medical_medications_ids",
-                                                "relationship_ids","partner_id","name","house_address_ids","brothers",
+                                                "relationship_ids","partner_id","name","house_address_ids","siblings",
                                                ])
         
         # recorremos el array y vamos tratando los datos. Se modifica el formato del for: se añade index y enumerate para poder hacer busquedas
@@ -111,9 +111,9 @@ class admisionController(http.Controller):
             record["hermanosDatos"] = []
 
             # crea una variable con el modelo desde donde se va a tomar la información
-            datosHer = http.request.env['adm.application.brother'].sudo()  
+            datosHer = http.request.env['adm.application.sibling'].sudo()
             # filtro del modelo basados en parametros de la url
-            search_domain_Her = [("id", "=", record["brothers"])] # ("res_model", "=", "adm_uni.application"),
+            search_domain_Her = [("id", "=", record["siblings"])] # ("res_model", "=", "adm_uni.application"),
             # Tomar informacion basado en el modelo y en el domain IDS
             datosHer_record = datosHer.search(search_domain_Her)
             # Obtienes la información basada en los ids anteriores y tomando en cuenta los campos definifos en la funcion posterior

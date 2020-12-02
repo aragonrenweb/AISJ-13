@@ -97,20 +97,8 @@
 
                     <button name="force_back" string="FORCE BACK STATUS" type="object" class="btn-warning oe_read_only" />
                     <button name="force_next" string="FORCE NEXT STATUS" type="object" class="btn-warning oe_read_only" />
-<!--                    <button class="btn btn-info text-light" name="print_default" type="object" string="DEFAULT PRINT" />-->
                     <button class="btn btn-success text-light" name="print_custom" type="object" string="PRINT" />
                     <button class="btn btn-success text-light" name="generate_internal_report" type="object" string="GENERATE INTERNAL REPORT" />
-                    <!--<div class="btn-group">
-                        <button type="button" class="btn btn-info text-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            PRINT
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" name="print_default"  type="object" >Default Report</a>
-                            <a class="dropdown-item" name="print_custom"  type="object" >Custom Report</a>
-                        </div>
-                    </div>-->
-
-
 
                     <field name="status_id" widget="statusbar" options="{'fold_field': 'fold'}" />
                 </header>
@@ -132,7 +120,7 @@
                             <field name="contact_time_id" />
                             <field name="grade_level"/>
                             <field name="school_year"/>
-                            <field name="brothers"/>
+                            <field name="siblings"/>
                         </group>
                         <group colspan="1">
                             <field name="gender" />
@@ -145,116 +133,6 @@
                             <field name="state_tasks" attrs="{'invisible': True}" />
                             <field name="task_ids" widget="many2many_checkboxes" domain="[('id', 'in', state_tasks)]" />
                         </page>
-
-                        <page string="Aplicant Info">
-                            <group>
-                                <group colspan="1">
-                                    <field name="street" />
-                                    <field name="country_id" />
-                                    <field name="home_phone" />
-                                </group>
-                                <group colspan="1">
-                                    <field name="email" />
-                                    <field name="date_of_birth" />
-                                    <field name="gender" />
-                                    <field name="citizenship" />
-                                </group>
-                            </group>
-                            <hr/>
-                            <h3>DATOS DEL EMBARAZO Y NACIMIENTO</h3>
-                            <group>
-                                <group colspan="1">
-                                    <field name="pe_alguna_complicacion" />
-                                    <field name="pe_peso_al_nacer" />
-                                    <field name="pe_tipo_parto" />
-                                </group>
-                                <group colspan="1">
-                                    <field name="pe_lactancia" />
-                                    <field name="pe_alimentacion_actual" />
-                                </group>
-                            </group>
-                            <hr/>
-                            <h3>DATOS DEL DESARROLLO MOTOR DEL NIÑO/A</h3>
-                            <group>
-                                <group colspan="1">
-                                    <field name="pe_edad_aprox" />
-                                    <field name="pe_se_sento" />
-                                    <field name="pe_gateo" />
-                                </group>
-                                <group colspan="1">
-                                    <field name="pe_se_paro" />
-                                    <field name="pe_camino" />
-                                    <field name="pe_motor_comentario" />
-                                </group>
-                            </group>
-                            <hr/>
-                            <h3>DATOS DEL DESARROLLO DEL LENGUAJE</h3>
-                            <group>
-                                <group colspan="1">
-                                    <field name="pe_primeras_palabras" />
-                                    <field name="pe_primeras_frases" />
-                                    <field name="pe_oraciones_completas" />
-                                    <field name="pe_se_expresa_con_fluidez" />
-                                </group>
-                                <group colspan="1">
-                                    <field name="pe_dificultad_lenguaje_expresivo" />
-                                    <field name="pe_pronunciacion" />
-                                    <field name="pe_leng_comentario" />
-                                </group>
-                            </group>
-                            <hr/>
-                            <h3>DATOS DEL DESARROLLO SOCIAL</h3>
-                            <group>
-                                <group colspan="1">
-                                    <field name="pe_panales_dia" />
-                                    <field name="pe_panales_noche" />
-                                    <field name="pe_edad_dejo_panales" />
-                                    <field name="pe_avisa_bano" />
-                                    <field name="pe_puedes_usar_solo_bano" />
-                                    <field name="pe_duerme_toda_noche" />
-                                    <field name="pe_hora_acostarse" />
-                                    <field name="pe_hora_despertase" />
-                                    <field name="pe_como_se_levanta" />
-                                </group>
-                                <group colspan="1">
-                                    <field name="pe_objeto_para_dormir" />
-                                    <field name="pe_temor_algo" />
-                                    <field name="pe_tipo_estrategia" />
-                                    <field name="pe_comer_sentado" />
-                                    <field name="pe_viste_solo" />
-                                    <field name="pe_juega_solo" />
-                                    <field name="pe_escucha_cuento" />
-                                    <field name="pe_intereses_preferencias" />
-                                </group>
-                            </group>
-                            <hr/>
-                            <h3>HABILIDADES PARA EL APRENDIZAJE Y VIDA ESCOLAR</h3>
-                            <group>
-                                <group colspan="1">
-                                    <field name="pe_se_concentra" />
-                                    <field name="pe_termina_lo_que_comienza" />
-                                    <field name="pe_logra_seguir_indicaciones" />
-                                    <field name="pe_logra_separarse_padres" />
-                                    <field name="pe_relacion_otros_ninos" />
-                                    <field name="pe_a_quienes_prefiere_jugar" />
-                                </group>
-                                <group colspan="1">
-                                    <field name="pe_experiencia_escolar_previa" />
-                                    <field name="pe_referencia_evaluaciones_anteriores" />
-                                    <field name="pe_nee" />
-                                    <field name="pe_terapias_clases_especiales" />
-                                    <field name="pe_motivo_eleccion" />
-                                </group>
-                            </group>
-                            <hr/>
-                            <h3>COMENTARIO ADICIONAL</h3>
-                            <group>
-                                 <group colspan="1">
-                                    <field name="pe_comentario_adicional" />
-                                </group>
-                            </group>
-                        </page>
-
                         <page string="Languages">
                             <group>
                                 <group colspan="1" attrs="{'invisible': [('first_language', '==', False)]}">
@@ -262,12 +140,10 @@
                                     <field name="first_level_language"/>
                                 </group>
 
-
                                 <group colspan="1" attrs="{'invisible': [('second_language', '==', False)]}">
                                     <field name="second_language"/>
                                     <field name="second_level_language"/>
                                 </group>
-
 
                                 <group colspan="1" attrs="{'invisible': [('third_language', '==', False)]}">
                                     <field name="third_language"/>
@@ -596,9 +472,9 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_application_brother_tree">
-        <field name="name">Brother Tree</field>
-        <field name="model">adm.application.brother</field>
+    <record model="ir.ui.view" id="view_application_sibling_tree">
+        <field name="name">sibling Tree</field>
+        <field name="model">adm.application.sibling</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />

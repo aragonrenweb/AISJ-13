@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <template id="adm.template_application_id.id_additional_questions_form">
+    <template id="adm.template_application_additional_questions_form">
         <section class="container-fluid">
             <div id="school_forms">
                 <article class="row card card-body pt-0 mt-2">

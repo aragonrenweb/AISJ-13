@@ -65,8 +65,6 @@ class Application(models.Model):
                                                string="Preferred Degree Program")
 
     # Demographic
-    #name = fields.Char(string="Name", compute="_compute_name",
-                     #  default="Undefined", related="partner_id.name")
     name = fields.Char(string="Name", related="partner_id.name")
     first_name = fields.Char(string="First Name", related="partner_id.first_name")
     middle_name = fields.Char(string="Middle Name", related="partner_id.middle_name")
@@ -76,7 +74,6 @@ class Application(models.Model):
     birth_country = fields.Many2one("res.country", string="Birth Country", related="partner_id.country_id")
     birth_city = fields.Char("Birth City", related="partner_id.city")
     gender = fields.Many2one("adm.gender", string="Gender", related="partner_id.gender")
-    #gender =  fields.Selection([("m", "male"), ("f", "female")], string="Gender", related="partner_id.gender")
 
     father_name = fields.Char("Father name")
     mother_name = fields.Char("Mother name")
@@ -216,15 +213,6 @@ class Application(models.Model):
     medical_medications_ids = fields.One2many(string="Medications", related="partner_id.medical_medications_ids",
                                               readonly=False)
 
-    # Institutional Fee Declaration
-    # ===================================================================================================================
-    # fee_paid_by_employeer = fields.Boolean()
-    # fee_company_name = fields.Char()
-    # fee_company_send_invoice = fields.Char()
-    # fee_email = fields.Char()
-    # fee_signature = fields.Boolean()
-    # ===================================================================================================================
-
     # Meta
     contact_time_id = fields.Many2one("adm.contact_time",
                                       string="Preferred contact time")
@@ -250,69 +238,10 @@ class Application(models.Model):
         ('immediate', 'Immediate'),
         ], string="Applying semester")
 
-    # DATOS DEL EMBARAZO Y NACIMIENTO
-    pe_alguna_complicacion = fields.Char("Alguna complicación")
-    pe_peso_al_nacer = fields.Integer("Peso al nacer")
-    pe_tipo_parto = fields.Char("Parto Inducido/ Espontáneo/ Cesárea")
-    pe_lactancia = fields.Char("Lactancia")
-    pe_alimentacion_actual = fields.Char("Alimentación actual")
-
-    # DATOS DEL DESARROLLO MOTOR DEL NIÑO/A
-    pe_edad_aprox = fields.Integer("Edad aproximada")
-    pe_se_sento = fields.Integer("Se sentó")
-    pe_gateo = fields.Integer("Gateó")
-    pe_se_paro = fields.Integer("Se paró")
-    pe_camino = fields.Integer("Caminó")
-    pe_motor_comentario = fields.Char("Comentarios")
-
-    # DATOS DEL DESARROLLO DEL LENGUAJE
-    pe_primeras_palabras = fields.Char("Primeras Palabras")
-    pe_primeras_frases = fields.Char("Primeras Frases")
-    pe_oraciones_completas = fields.Char("Oraciones Completas")
-    pe_se_expresa_con_fluidez = fields.Char("Se expresa con fluidez")
-    pe_dificultad_lenguaje_expresivo = fields.Char("Dificultad en el lenguaje expresivo")
-    pe_pronunciacion = fields.Char("Pronunciación")
-    pe_leng_comentario = fields.Char("Comentarios")
-
-    # DATOS DEL DESARROLLO SOCIAL
-    pe_panales_dia = fields.Integer("De día")
-    pe_panales_noche = fields.Integer("De noche")
-    pe_edad_dejo_panales = fields.Integer("¿Edad que dejó los pañales?")
-    pe_avisa_bano = fields.Boolean("Avisa para ir al baño")
-    pe_puedes_usar_solo_bano = fields.Char("Puede usar solo el baño")
-    pe_duerme_toda_noche = fields.Boolean("Duerme toda la noche")
-    pe_hora_acostarse = fields.Char("Hora de acostarse")
-    pe_hora_despertase = fields.Char("Hora en que se levanta")
-    pe_como_se_levanta = fields.Char("¿Cómo se levanta?")
-    pe_objeto_para_dormir = fields.Char("¿Necesita algún objeto para dormir?")
-    pe_temor_algo = fields.Char("¿Le teme a algo o muestra ansiedad ante alguna situación especial?")
-    pe_tipo_estrategia = fields.Char("¿Qué tipo de estrategia se usan en casa para establecer disciplina?")
-    pe_comer_sentado = fields.Boolean("¿Acostumbrado a comer sentado?")
-    pe_viste_solo = fields.Boolean("¿Se viste o desviste solo?")
-    pe_juega_solo = fields.Char("¿Juega solo?")
-    pe_escucha_cuento = fields.Char("¿Escucha atentamente un cuento cuando es leído?")
-    pe_intereses_preferencias = fields.Char("Intereses y preferencias:")
-
-    # HABILIDADES PARA EL APRENDIZAJE Y VIDA ESCOLAR
-    pe_se_concentra = fields.Boolean("¿Logra concentrase en una actividad?")
-    pe_termina_lo_que_comienza = fields.Boolean("¿Termina lo que comienza?")
-    pe_logra_seguir_indicaciones = fields.Boolean("¿Logra seguir indicaciones?")
-    pe_logra_separarse_padres = fields.Boolean("¿Logra separarse de los padres?")
-    pe_relacion_otros_ninos = fields.Char("¿Cómo es su relación con otros niños?")
-    pe_a_quienes_prefiere_jugar = fields.Char("¿A quiénes prefiere para jugar?")
-    pe_experiencia_escolar_previa = fields.Char("Experiencia escolar previa")
-    pe_referencia_evaluaciones_anteriores = fields.Char("Referencia de evaluaciones anteriores")
-    pe_nee = fields.Char("NEE")
-    pe_terapias_clases_especiales = fields.Char("Terapias, clases especiales")
-    pe_motivo_eleccion = fields.Char("¿Qué motivó su elección por este colegio?")
-
-    # COMENTARIO ADICIONAL
-    pe_comentario_adicional = fields.Char("Comentarios Adicionales")
-
     # HERMANOS INFORMATION
-    brothers = fields.One2many("adm.application.brother", "application_id", "Brothers")
+    siblings = fields.One2many("adm.application.sibling", "application_id", "Siblings")
 
-    order_id = fields.Many2one("sale.order", string="Sale Order")
+    # order_id = fields.Many2one("sale.order", string="Sale Order")
 
     def message_get_suggested_recipients(self):
         recipients = super().message_get_suggested_recipients()
@@ -533,8 +462,8 @@ class ApplicationTasks(models.Model):
     status_id = fields.Many2one("adm.application.status", string="Status")
 
 
-class ApplicationBrothers(models.Model):
-    _name = "adm.application.brother"
+class ApplicationSiblings(models.Model):
+    _name = "adm.application.sibling"
 
     name = fields.Char("Name")
     age = fields.Integer("Edad")
