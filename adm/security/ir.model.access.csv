@@ -9,7 +9,7 @@ adm_degree_program_access,adm.adm_degree_program_access,adm.model_adm_degree_pro
 adm_contact_time_access,adm.adm_contact_time_access,adm.model_adm_contact_time,,1,1,1,1
 adm_application_access,adm.adm_application_access,adm.model_adm_application,,1,1,1,1
 adm_application_task_access,adm.adm_application_task_access,adm.model_adm_application_task,,1,1,1,1
-adm_application_brother_access,adm.adm_application_brother_access,adm.model_adm_application_brother,,1,1,1,1
+adm_application_sibling_access,adm.adm_application_sibling_access,adm.model_adm_application_sibling,,1,1,1,1
 adm_application_status_access,adm.adm_application_status_access,adm.model_adm_application_status,,1,1,1,1
 adm_application_language_access,adm.adm_application_language_access,adm.model_adm_application_language,,1,1,1,1
 adm_application_other_contacts_access,adm.adm_application_other_contacts_access,adm.model_adm_application_other_contacts,,1,1,1,1

@@ -441,69 +441,69 @@
                                                 // write your code here...
 
                                                 });
-                                                function addBrother(){
-                                                    var itm = document.getElementById("brother_base_div");
+                                                function addsibling(){
+                                                    var itm = document.getElementById("sibling_base_div");
 
                                                     var cln = itm.cloneNode(true);
                                                     cln.classList.remove("d-none");
                                                     cln.classList.add("d-flex");
                                                     cln.classList.add("flex-wrap");
                                                     cln.classList.add("p-0");
-                                                    document.getElementById("brother_new_div").appendChild(cln);
+                                                    document.getElementById("sibling_new_div").appendChild(cln);
                                                 }
                                             </script>
                                             <t t-if="application_id.status_id.type_id == 'return' or application_id.status_id.type_id == 'started'">
                                                 <section class="row">
                                                                 <div class="col-12 bg-ia-pan mt-3 mb-2 h4">
-                                                        Brothers
+                                                        siblings
                                                     </div>
                                                 </section>
                                                 <section class="row" >
-                                                    <div class="col-12 d-none" id="brother_base_div">
+                                                    <div class="col-12 d-none" id="sibling_base_div">
                                                          <div class="col-12 col-md-4 form-group">
                                                             <label>
                                                                 Name:
                                                             </label>
-                                                            <input  type="text" name="brother_name" class="form-control"/>
+                                                            <input  type="text" name="sibling_name" class="form-control"/>
                                                          </div>
                                                          <div class="col-12 col-md-4 form-group">
                                                              <label>
                                                                 Age:
                                                              </label>
-                                                            <input  type="text" name="brother_age" class="form-control"/>
+                                                            <input  type="text" name="sibling_age" class="form-control"/>
                                                          </div>
                                                           <div class="col-12 col-md-4 form-group">
                                                              <label>
                                                                 Previous school:
                                                              </label>
-                                                            <input  type="text" name="brother_school" class="form-control"/>
+                                                            <input  type="text" name="sibling_school" class="form-control"/>
                                                          </div>
                                                          <hr class="col-12 "></hr>
                                                     </div>
-                                                    <div class="col-12 d-flex flex-wrap p-0" id="brother_new_div">
-                                                         <t t-foreach="application.brothers" t-as="brother">
+                                                    <div class="col-12 d-flex flex-wrap p-0" id="sibling_new_div">
+                                                         <t t-foreach="application.siblings" t-as="sibling">
                                                             <div class="col-12 col-md-4 form-group">
                                                                  <label>
                                                                     Name:
                                                                  </label>
-                                                                 <input  type="text" name="brother_name" class="form-control" t-att-value="brother.name"/>
+                                                                 <input  type="text" name="sibling_name" class="form-control" t-att-value="sibling.name"/>
                                                             </div>
                                                             <div class="col-12 col-md-4 form-group">
                                                                  <label>
                                                                     Age:
                                                                  </label>
-                                                                <input  type="number" name="brother_age" class="form-control" t-att-value="brother.age"/>
+                                                                <input  type="number" name="sibling_age" class="form-control" t-att-value="sibling.age"/>
                                                             </div>
                                                             <div class="col-12 col-md-4 form-group">
                                                                  <label>
                                                                     Previous school:
                                                                  </label>
-                                                                <input  type="text" name="brother_school" class="form-control" t-att-value="brother.school"/>
+                                                                <input  type="text" name="sibling_school" class="form-control" t-att-value="sibling.school"/>
                                                             </div>
                                                             <hr class="col-12 "></hr>
                                                          </t>
                                                     </div>
-                                                    <button type="button" class="ml-auto btn btn-secondary" id="add_brother_button" onclick="addBrother()">Add Brother</button>
+                                                    <button type="button" class="ml-auto btn btn-secondary" id="add_sibling_button" onclick="addsibling()">Add sibling</button>
                                                 </section>
                                                 <section>
                                                     <div class="alert alert-warning text-center" role="alert">

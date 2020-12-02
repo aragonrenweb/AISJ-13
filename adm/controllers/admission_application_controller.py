@@ -120,7 +120,7 @@ class AdmissionController(http.Controller):
     #     return response
 
     @http.route("/admission/applications/create", auth="public", methods=["GET"], website=True, csrf=False)
-    def info_create_get(self, **params):
+    def create_get(self, **params):
         ApplicationEnv = http.request.env["adm.application"]
         CountryEnv = http.request.env['res.country']
         GenderEnv = http.request.env['adm.gender']
@@ -163,21 +163,21 @@ class AdmissionController(http.Controller):
         result = {k: params[k] for k in keys}
         field_types = {field_id.name: field_id.ttype for field_id in field_ids}
 
-        brother_name_list = post_parameters().getlist("brother_name")
-        brother_age_list = post_parameters().getlist("brother_age")
-        brother_school_list = post_parameters().getlist("brother_school")
+        sibling_name_list = post_parameters().getlist("sibling_name")
+        sibling_age_list = post_parameters().getlist("sibling_age")
+        sibling_school_list = post_parameters().getlist("sibling_school")
 
         many2one_fields = [name for name, value in field_types.items() if value == "many2one"]
 
-        brothers = [(5, 0, 0)]
-        for idx in range(len(brother_name_list)):
-            if brother_name_list[idx] != '' and brother_age_list[idx] != '' and brother_school_list[idx] != '':
-                brothers.append((0, 0, {
-                    'name': brother_name_list[idx],
-                    'age': brother_age_list[idx],
-                    'school': brother_school_list[idx],
+        siblings = [(5, 0, 0)]
+        for idx in range(len(sibling_name_list)):
+            if sibling_name_list[idx] != '' and sibling_age_list[idx] != '' and sibling_school_list[idx] != '':
+                siblings.append((0, 0, {
+                    'name': sibling_name_list[idx],
+                    'age': sibling_age_list[idx],
+                    'school': sibling_school_list[idx],
                     }))
-        result["brothers"] = brothers
+        result["siblings"] = siblings
 
         for key in result.keys():
             if key in many2one_fields:
@@ -939,6 +939,13 @@ class AdmissionController(http.Controller):
                 idx = idx + 1
         pass
 
+    @http.route("/admission/applications/<model(adm.application):application_id>/", auth="public", methods=["PUT"], website=True, csrf=False, type='json')
+    def update_application_with_json(self, application_id, **params):
+        json_request = request.jsonrequest
+        debug = 0
+        application_id.sudo().write(json_request)
+        pass
+
     @http.route("/admission/applications/<int:application_id>/write", auth="public", methods=["POST"], website=True, csrf=False)
     def write_application(self, application_id, **params):
         field_ids = request.env.ref("adm.model_adm_application").sudo().field_id
@@ -947,9 +954,9 @@ class AdmissionController(http.Controller):
         result = {k: params[k] for k in keys}
         field_types = {field_id.name: field_id.ttype for field_id in field_ids}
 
-        brother_name_list = post_parameters().getlist("brother_name")
-        brother_age_list = post_parameters().getlist("brother_age")
-        brother_school_list = post_parameters().getlist("brother_school")
+        sibling_name_list = post_parameters().getlist("sibling_name")
+        sibling_age_list = post_parameters().getlist("sibling_age")
+        sibling_school_list = post_parameters().getlist("sibling_school")
         # if field_id.ttype != 'one2many' and field_id.ttype != 'many2many'
 
         self.set_house_address(application_id, params)
@@ -994,15 +1001,15 @@ class AdmissionController(http.Controller):
         if 'pe_logra_separarse_padres' not in result:
             result["pe_logra_separarse_padres"] = False
 
-        brothers = [(5, 0, 0)]
-        for idx in range(len(brother_name_list)):
-            if brother_name_list[idx] != '' and brother_age_list[idx] != '' and brother_school_list[idx] != '':
-                brothers.append((0, 0, {
-                    'name': brother_name_list[idx],
-                    'age': brother_age_list[idx],
-                    'school': brother_school_list[idx],
+        siblings = [(5, 0, 0)]
+        for idx in range(len(sibling_name_list)):
+            if sibling_name_list[idx] != '' and sibling_age_list[idx] != '' and sibling_school_list[idx] != '':
+                siblings.append((0, 0, {
+                    'name': sibling_name_list[idx],
+                    'age': sibling_age_list[idx],
+                    'school': sibling_school_list[idx],
                     }))
-        result["brothers"] = brothers
+        result["siblings"] = siblings
 
         # upload_file = params["file_upload"]
         # result['partner_id.image_1920'] = base64.b64encode(upload_file.stream.read())
@@ -1127,6 +1134,7 @@ class AdmissionController(http.Controller):
         student_photo = "data:image/png;base64," + str(application_id.partner_id.image_1920)[2:-1:]
 
         grade_level_ids = request.env['school_base.grade_level'].sudo().search([])
+        school_year_ids = request.env['school_base.school_year'].sudo().search([])
 
         # Applying semester
         field_applying_semester = request.env['adm.application']._fields['applying_semester']
@@ -1146,6 +1154,7 @@ class AdmissionController(http.Controller):
             "showPendingInformation": showPendingInformation,
             "pendingData": pendingTasks,
             'grade_level_ids': grade_level_ids,
+            'school_year_ids': school_year_ids,
             'applying_semester_values': applying_semester_values,
             })
 

@@ -21,7 +21,6 @@ class Admission(http.Controller):
     def get_partner(self):
         return http.request.env["res.users"].browse([http.request.session.uid]).partner_id
 
-
     @http.route("/admission/reenrollments", auth="public", methods=["GET"], website=True)
     def admission_list_web(self, **params):
         user_contact = self.get_partner()
