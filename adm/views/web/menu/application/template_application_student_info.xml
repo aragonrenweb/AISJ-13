@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <template id="template_application_student_info" name="Student info">
-        <t t-call="website.layout">
+        <t t-call="adm.template_application_page_commons">
             <t t-set="head">
                 <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
                 <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
@@ -90,9 +90,10 @@
                                             <section class="row">
                                                 <div class="col-12 col-md-6 form-group">
                                                     <label for="selStudentGradeLevel"> Grade Level: </label>
-                                                    <select id="selStudentGradeLevel" class="form-control" data-adm-field="grade_level">
+                                                    <select id="selStudentGradeLevel" class="form-control"
+                                                            data-adm-field="grade_level" data-adm-field-type="MANY2ONE">
                                                         <t t-foreach="grade_level_ids" t-as="grade_level">
-                                                            <option t-att-selected="application_id.inquiry_id.grade_level_id == grade_level"
+                                                            <option t-att-selected="application_id.grade_level == grade_level"
                                                                     t-att-value="grade_level.id"><t
                                                                     t-esc="grade_level.name"/></option>
                                                         </t>
@@ -100,7 +101,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-6 form-group">
                                                     <label> School Year: </label>
-                                                    <select data-adm-field="school_year" class="form-control">
+                                                    <select data-adm-field="school_year" data-adm-field-type="MANY2ONE" class="form-control">
                                                         <t t-foreach="school_year_ids" t-as="school_year_id">
                                                             <option t-att-value="school_year_id.id"
                                                                     t-att-selected="application_id.school_year == school_year_id">
@@ -133,7 +134,7 @@
                                                         *</span></label>
                                                     <select required="required" type="text"
                                                             id="state_id" name="state_id" placeholder="State"
-                                                            data-adm-field="state_id"
+                                                            data-adm-field="state_id" data-adm-field-type="MANY2ONE"
                                                             class="form-control">
                                                         <option value="-1" selected="selected" disabled="disabled">
                                                             -Select a state-
@@ -151,7 +152,7 @@
                                                         *</span></label>
                                                     <select required="required" type="text"
                                                             id="country_id" name="country_id" placeholder="Country"
-                                                            data-adm-field="country_id"
+                                                            data-adm-field="country_id" data-adm-field-type="MANY2ONE"
                                                             class="form-control">
                                                         <option value="-1" selected="selected" disabled="disabled">
                                                             -Select a country-
@@ -180,7 +181,7 @@
                                             <section class="row">
                                                 <div class="col-12 col-md-6 form-group">
                                                     <label> Gender: <span class="text-danger"> *</span></label>
-                                                    <select required="required" class="form-control" name="gender" data-adm-field="gender">
+                                                    <select required="required" class="form-control" name="gender" data-adm-field="gender" data-adm-field-type="MANY2ONE">
                                                         <t t-foreach="gender_ids" t-as="gender_id">
                                                             <option t-att-selected="application_id.gender == gender_id"
                                                                     t-att-value="gender_id.id">
@@ -191,16 +192,14 @@
                                                 </div>
                                                 <div class="col-12 col-md-6 form-group">
                                                     <label>Nationality:</label>
-                                                    <select name="citizenship" class="form-control" data-adm-field="citizenship">
-                                                        <option value="-1" selected="true" disabled="disabled">
+                                                    <select name="citizenship" class="form-control"
+                                                            data-adm-field="citizenship" data-adm-field-type="MANY2ONE">
+                                                        <option value="-1" selected="selected" disabled="disabled">
                                                             -Select a country-
                                                         </option>
-                                                        <t t-foreach="countries" t-as="country">
-                                                            <option t-if="application_id.citizenship.id == country.id"
-                                                                    selected="selected" t-att-value="country.id">
-                                                                <t t-esc="country.name"/>
-                                                            </option>
-                                                            <option t-else="" t-att-value="country.id">
+                                                        <t t-foreach="country_ids" t-as="country">
+                                                            <option t-att-selected="application_id.citizenship.id == country.id"
+                                                                    t-att-value="country.id">
                                                                 <t t-esc="country.name"/>
                                                             </option>
                                                         </t>
@@ -222,20 +221,21 @@
 
                                                 <div class="col-12 col-md-6">
                                                     <label>Passport number 1:</label>
-                                                    <input type="text" name="identification" class="form-control"
+                                                    <input type="text" name="passport_number_1" class="form-control"
                                                            data-adm-field="passport_number_1"
-                                                           t-att-value="application_id.partner_id.identification"/>
+                                                           t-att-value="application_id.passport_number_1"/>
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <label>Passport number 2:</label>
-                                                    <input type="text" name="identification" class="form-control"
+                                                    <input type="text" name="passport_number_2" class="form-control"
                                                            data-adm-field="passport_number_2"
-                                                           t-att-value="application_id.partner_id.identification"/>
+                                                           t-att-value="application_id.passport_number_2"/>
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <label>Passport Expiration Date</label>
                                                     <input type="date" name="passport_expiration_date"
                                                            data-adm-field="passport_expiration_date"
+                                                           t-att-value="application_id.passport_expiration_date"
                                                            class="form-control"/>
                                                 </div>
                                             </section>
@@ -274,7 +274,8 @@
 
                                                 <div class="col-12 col-md-6">
                                                     <label>Which semester are you applying for?</label>
-                                                    <select name="applying_semester" class="form-control">
+                                                    <select name="applying_semester" class="form-control"
+                                                            data-adm-field="applying_semester">
                                                         <t t-foreach="applying_semester_values"
                                                            t-as="applying_semester_value">
                                                             <option t-att-selected="application_id.applying_semester == applying_semester_value['value']"
@@ -290,6 +291,7 @@
                                                         date</label>
                                                     <input id="field_expected_starting_date" type="date"
                                                            data-adm-field="expected_starting_date"
+                                                           t-att-value="application_id.expected_starting_date"
                                                            name="expected_starting_date" class="form-control"/>
                                                 </div>
                                             </section>

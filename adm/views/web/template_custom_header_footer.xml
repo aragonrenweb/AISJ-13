@@ -66,26 +66,18 @@
                 </div>
             </ul>
         </ul>
-        <!--        <xpath expr="//nav[@class='navbar navbar-expand-md navbar-light bg-light']" position="replace">-->
-        <!--                    <div class="collapse navbar-collapse" id="top_menu_collapse" aria-expanded="false">-->
-        <!--                        <ul class="nav navbar-nav ml-auto text-right" id="custom_menu">-->
-
-
-        <!--                        </ul>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </nav>-->
-        <!--        </xpath>-->
     </template>
 
     <template id="replace_footer" inherit_id="website.footer_custom" name="Footer">
         <xpath expr="//div[@id='footer']" position="replace">
             <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
                 <div class="containerImageFooter col-12 d-flex flex-column">
-                    <div class="col-12 d-flex justify-content-center"><img id="img_footer"
-                                                                           src="/adm/static/files/aisj_logo_blanco.png"
-                                                                           class="img img-fluid"
-                                                                           alt="My Website"/></div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <img id="img_footer"
+                             src="/adm/static/files/aisj_logo_blanco.png"
+                             class="img img-fluid"
+                             t-attf-alt="Logo of #{res_company.name}"/>
+                    </div>
                     <div class="col-12 text-center text-light textImagenLogo">Our vision is to be a distinguished
                         learning community committed to excellence, innovation, and collaboration.</div>
                 </div>
