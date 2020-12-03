@@ -58,6 +58,9 @@
 
         'views/web/menu/application/template_application_student_info.xml',
 
+        # Application/Commons
+        'views/web/menu/application/template_application_page_commons.xml',
+
         # Application/Family
         'views/web/menu/application/family/template_application_parents.xml',
         'views/web/menu/application/family/template_application_siblings_info.xml',

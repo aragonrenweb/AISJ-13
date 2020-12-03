@@ -73,7 +73,11 @@ class Application(models.Model):
     identification = fields.Char(string="Cedula / ID number", related="partner_id.identification")
     birth_country = fields.Many2one("res.country", string="Birth Country", related="partner_id.country_id")
     birth_city = fields.Char("Birth City", related="partner_id.city")
-    gender = fields.Many2one("adm.gender", string="Gender", related="partner_id.gender")
+    gender = fields.Many2one("adm.gender", string="Gender", related="partner_id.gender", inverse="_set_gender")
+
+    def _set_gender(self):
+        for application_id in self:
+            application_id.partner_id.gender = self.gender
 
     father_name = fields.Char("Father name")
     mother_name = fields.Char("Mother name")

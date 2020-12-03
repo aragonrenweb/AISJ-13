@@ -29,6 +29,7 @@ class AdmissionController(http.Controller):
 
     @staticmethod
     def compute_view_render_params(application_id):
+        application_id = application_id.sudo()
         field_family_ids_types = request.env['adm.relationship']._fields['relationship_type']
         relationship_types = [{
             'name': name,
@@ -39,12 +40,21 @@ class AdmissionController(http.Controller):
         contact_time_ids = request.env["adm.contact_time"].search([])
         degree_program_ids = request.env["adm.degree_program"].search([])
 
+        gender_ids = request.env['adm.gender'].search([])
         application_status_ids = request.env["adm.application.status"].search([])
+
+        grade_level_ids = request.env['school_base.grade_level'].sudo().search([])
+        school_year_ids = request.env['school_base.school_year'].sudo().search([])
 
         language_ids = http.request.env['adm.language'].search([])
         language_level_ids = request.env['adm.language.level'].search([])
 
+        country_ids = request.env['res.country'].search([])
+        state_ids = request.env['res.country.state'].search([])
+
         return {
+            "country_ids": country_ids,
+            "state_ids": state_ids,
             'contact_id': contact_id,
             'application_id': application_id,
             'application_status_ids': application_status_ids,
@@ -52,10 +62,13 @@ class AdmissionController(http.Controller):
             'language_level_ids': language_level_ids.ids,
             'student_application': application_id,
             'contact_time_ids': contact_time_ids,
+            "gender_ids": gender_ids,
             'degree_program_ids': degree_program_ids,
             'current_url': request.httprequest.full_path,
             "showPendingInformation": False,
             "pendingData": AdmissionController.getPendingTasks(application_id),
+            'grade_level_ids': grade_level_ids,
+            'school_year_ids': school_year_ids,
             'relationship_types': relationship_types
             }
 
@@ -939,12 +952,47 @@ class AdmissionController(http.Controller):
                 idx = idx + 1
         pass
 
-    @http.route("/admission/applications/<model(adm.application):application_id>/", auth="public", methods=["PUT"], website=True, csrf=False, type='json')
+    def parse_json_to_odoo_fields(self, model_env, json_request: dict):
+        json_to_build = {}
+
+        for field, value in json_request.items():
+            value_to_json = False
+            if isinstance(value, list):
+                if value:
+                    rel_model_env = request.env[model_env._fields[field].comodel_name].sudo()
+                    parsed_vals = []
+                    for val_array in value:
+                        if 'id' not in val_array or not val_array['id']:
+                            parsed_vals.append((0, 0, self.parse_json_to_odoo_fields(rel_model_env, val_array)))
+                        else:
+                            rel_id = val_array.pop('id')
+                            parsed_vals.append((0, rel_id, False))
+                            if len(val_array.keys()):
+                                rel_model_env.browse(rel_id).write(self.parse_json_to_odoo_fields(rel_model_env, val_array))
+                    value_to_json = parsed_vals
+            elif isinstance(value, dict):
+                rel_model_env = request.env[model_env._fields[field].comodel_name].sudo()
+                if 'id' not in value or not value['id']:
+                    rel_id = rel_model_env.create(self.parse_json_to_odoo_fields(rel_model_env, value)).id
+                else:
+                    rel_id = value.pop('id')
+                    if len(value.keys()):
+                        rel_model_env.browse(rel_id).write(self.parse_json_to_odoo_fields(rel_model_env, value))
+                value_to_json = rel_id
+            else:
+                if not value:
+                    value = False
+                value_to_json = value
+            json_to_build[field] = value_to_json
+
+        return json_to_build
+
+    @http.route("/admission/applications/<model(adm.application):application_id>/", auth="public", methods=["PUT"], csrf=True, type='json')
     def update_application_with_json(self, application_id, **params):
+        """ This is a JSON controller, this get a JSON and write the application with it, that's all """
         json_request = request.jsonrequest
-        debug = 0
-        application_id.sudo().write(json_request)
-        pass
+        write_vals = self.parse_json_to_odoo_fields(application_id, json_request)
+        application_id.sudo().write(write_vals)
 
     @http.route("/admission/applications/<int:application_id>/write", auth="public", methods=["POST"], website=True, csrf=False)
     def write_application(self, application_id, **params):
@@ -1124,37 +1172,21 @@ class AdmissionController(http.Controller):
         showPendingInformation = True if "checkData" in params else False
         pendingTasks = self.getPendingTasks(application_id)
 
-        country_ids = request.env['res.country'].search([])
-        state_ids = request.env['res.country.state'].search([])
-        gender_ids = request.env['adm.gender'].search([])
-
         LanguageEnv = request.env["adm.language"]
         languages = LanguageEnv.browse(LanguageEnv.search([])).ids
 
         student_photo = "data:image/png;base64," + str(application_id.partner_id.image_1920)[2:-1:]
 
-        grade_level_ids = request.env['school_base.grade_level'].sudo().search([])
-        school_year_ids = request.env['school_base.school_year'].sudo().search([])
-
         # Applying semester
         field_applying_semester = request.env['adm.application']._fields['applying_semester']
-        applying_semester_values = [{
-                                        'name': name,
-                                        'value': value
-                                        } for name, value in field_applying_semester.selection]
-
+        applying_semester_values = [{'name': name,'value': value} for value, name in field_applying_semester.selection]
         params = self.compute_view_render_params(application_id)
         params.update({
-            "country_ids": country_ids,
-            "state_ids": state_ids,
             "student": application_id.partner_id,
             "student_photo": student_photo,
             "adm_languages": languages,
-            "gender_ids": gender_ids,
             "showPendingInformation": showPendingInformation,
             "pendingData": pendingTasks,
-            'grade_level_ids': grade_level_ids,
-            'school_year_ids': school_year_ids,
             'applying_semester_values': applying_semester_values,
             })
 

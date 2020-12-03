@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="template_application_page_commons" name="Template for application pages">
+        <!-- This is just used to be called by others templates for applications pages
+             The reason is this will have common data-->
+        <t t-call="website.layout">
+            <t t-set="head_application_common">
+                <meta name="_application_id" t-att-value="application_id.id"/>
+                <t t-call-assets="adm.assets_application_common" defer_load="True"/>
+            </t>
+            <t t-set="head" t-value="head_application_common + (head or '')"/>
+            <t t-raw="0"/>
+        </t>
+    </template>
+
+</odoo>

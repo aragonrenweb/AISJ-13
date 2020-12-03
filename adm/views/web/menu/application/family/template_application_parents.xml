@@ -3,15 +3,23 @@
 
     <template id="template_application_parents_form">
         <div class="container" data-adm-model-fields="1"
-             t-att-data-adm-id = "id"
+             t-att-data-adm-id="id"
              data-adm-model="adm.relationship">
+            <t t-if="guardian_relationship_id.id">
+                <input type="hidden" t-att-value="guardian_relationship_id.id" t-attf-data-adm-field="#{parent_field_name}.id" data-adm-field-type="INTEGER"/>
+                <t t-if="guardian_relationship_id.partner_2.id">
+                    <input type="hidden" t-att-value="guardian_relationship_id.partner_2.id" t-attf-data-adm-field="#{parent_field_name}.partner_2.id" data-adm-field-type="INTEGER"/>
+                </t>
+            </t>
+            <input type="hidden" t-att-value="application_id.partner_id.id" t-attf-data-adm-field="#{parent_field_name}.partner_1" data-adm-field-type="MANY2ONE"/>
 
             <!-- Photo -->
             <div class="row">
                 <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                     <div class="text-center">
 
-                        <img src="/adm/static/files/contact_photo_placeholder.png" widget="image" class="avatar rounded-circle" alt="avatar" width="175"/>
+                        <img src="/adm/static/files/contact_photo_placeholder.png" widget="image"
+                             class="avatar rounded-circle" alt="avatar" width="175"/>
                         <h6 class="mt-2 textUpload">Upload a different photo...</h6>
 
                         <input required="required" type="file" name="file_upload" class="form-control"/>
@@ -27,68 +35,107 @@
                     <section class="row">
                         <div class="col-12 col-md-6 form-group">
                             <label>First name</label>
-                            <input class="form-control" type="text" data-adm-field="first_name" name="first_name"/>
+                            <input class="form-control" type="text"
+                                   t-attf-data-adm-field="#{parent_field_name}.partner_2.first_name"
+                                   t-att-value="guardian_relationship_id.partner_2.first_name"
+                                   name="first_name"/>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Last name</label>
-                            <input class="form-control" type="text" name="last_name" data-adm-field="last_name"/>
+                            <input class="form-control" type="text"
+                                   t-attf-data-adm-field="#{parent_field_name}.partner_2.last_name"
+                                   t-att-value="guardian_relationship_id.partner_2.last_name"
+                                   name="last_name"/>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Date of birth</label>
-                            <input class="form-control" type="date" name="date_of_birth" data-adm-field="date_of_birth" />
+                            <input class="form-control" type="date"
+                                   name="date_of_birth"
+                                   t-attf-data-adm-field="#{parent_field_name}.partner_2.date_of_birth"
+                                   t-att-value="guardian_relationship_id.partner_2.date_of_birth"
+                            />
                         </div>
 
-                        <div class="col-12 col-md-6 form-group" data-adm-field="gender" >
-                            <label>Sex</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" t-attf-name="parent_member[#{id}]"/>
-                                <label class="form-check-lavel">Male</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input"  type="radio" t-attf-name="parent_member[#{id}]"/>
-                                <label class="form-check-lavel">Female</label>
-                            </div>
+                        <div class="col-12 col-md-6 form-group">
+                            <label> Gender: <span class="text-danger"> *</span></label>
+                            <select required="required" class="form-control" name="gender"
+                                    data-adm-field="gender"
+                                    t-attf-data-adm-field="#{parent_field_name}.partner_2.gender"
+                                    data-adm-field-type="MANY2ONE">
+                                <t t-foreach="gender_ids" t-as="gender_id">
+                                    <option t-att-selected="guardian_relationship_id.partner_2.gender == gender_id"
+                                            t-att-value="gender_id.id">
+                                        <t t-esc="gender_id.name"/>
+                                    </option>
+                                </t>
+                            </select>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Employer</label>
-                            <input class="form-control" type="text" name="employer"/>
+                            <input class="form-control" type="text"
+                                   name="employer"
+                                    t-attf-data-adm-field="#{parent_field_name}.partner_2.c_aisj_employer"
+                                    t-att-value="guardian_relationship_id.partner_2.c_aisj_employer"
+
+                            />
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Occupation</label>
-                            <input class="form-control" type="text" name="occupation"/>
+                            <input class="form-control" type="text" name="occupation"
+                                    t-attf-data-adm-field="#{parent_field_name}.partner_2.occupation"
+                                    t-att-value="guardian_relationship_id.partner_2.occupation"/>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Marital status</label>
+                            <!--TODO: Pending on creation dinamically -->
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+<!--                                       t-attf-data-adm-field="#{parent_field_name}.last_name"-->
+                                <input class="form-check-input" type="radio"
+                                       t-attf-name="parent_marital_status[#{id}]"/>
                                 <label class="form-check-lavel">Married</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+                                <input class="form-check-input" type="radio"
+                                       t-attf-name="parent_marital_status[#{id}]"/>
                                 <label class="form-check-lavel">Single</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+                                <input class="form-check-input" type="radio"
+                                       t-attf-name="parent_marital_status[#{id}]"/>
                                 <label class="form-check-lavel">Separated</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+                                <input class="form-check-input" type="radio"
+                                       t-attf-name="parent_marital_status[#{id}]"/>
                                 <label class="form-check-lavel">Divorced</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" t-attf-name="parent_marital_status[#{id}]"/>
+                                <input class="form-check-input" type="radio"
+                                       t-attf-name="parent_marital_status[#{id}]"/>
                                 <label class="form-check-lavel">Widowed</label>
                             </div>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Citizenship</label>
-                            <input class="form-control" type="text" name="citizenship"/>
+                            <select name="citizenship" class="form-control"
+                                    t-attf-data-adm-field="#{parent_field_name}.partner_2.citizenship"
+                                    data-adm-field-type="MANY2ONE">
+                                <option value="-1" selected="selected" disabled="disabled">
+                                    -Select a country-
+                                </option>
+                                <t t-foreach="country_ids" t-as="country">
+                                    <option t-att-selected="guardian_relationship_id.partner_2.citizenship.id == country.id"
+                                            t-att-value="country.id">
+                                        <t t-esc="country.name"/>
+                                    </option>
+                                </t>
+                            </select>
                         </div>
                     </section>
                 </fieldset>
@@ -131,7 +178,7 @@
                 <fieldset class="col-12 border">
                     <legend class="w-auto">Contact information</legend>
                     <section class="row">
-                    
+
                         <div class="col-12 col-md-6 form-group">
                             <label>Home phone</label>
                             <input class="form-control" type="text" name="home_phone"/>
@@ -161,7 +208,7 @@
                 <fieldset class="col-12 border">
                     <legend class="w-auto">Education information</legend>
                     <section class="row">
-                    
+
                         <!-- School information -->
                         <div class="col-12 col-md-6 form-group">
                             <label>Education</label>
@@ -203,14 +250,17 @@
                 </div>
 
                 <div class="col-12 col-md-6 form-group">
-                    <label>May we provide your contact information to our Parent Teacher Support Association (PTSA) so that they might reach out to welcome you?</label>
+                    <label>May we provide your contact information to our Parent Teacher Support Association (PTSA) so
+                        that they might reach out to welcome you?</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" t-attf-name="contact_information_permission[#{id}]"/>
+                        <input class="form-check-input" type="radio"
+                               t-attf-name="contact_information_permission[#{id}]"/>
                         <label class="form-check-label">Yes</label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" t-attf-name="contact_information_permission[#{id}]"/>
+                        <input class="form-check-input" type="radio"
+                               t-attf-name="contact_information_permission[#{id}]"/>
                         <label class="form-check-label">No</label>
                     </div>
                 </div>
@@ -220,7 +270,7 @@
     </template>
 
     <template id="template_application_parents_webpage" name="Student's parents">
-        <t t-call="website.layout">
+        <t t-call="adm.template_application_page_commons">
             <t t-set="head">
                 <!--<link rel="stylesheet" href="/adm/static/css/form_application_id..css"/>-->
                 <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
@@ -238,14 +288,16 @@
                             <section class="card">
                                 <div class="card-header">
                                     <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#parent1Collapse">
+                                        <button class="btn btn-link btn-block" type="button" data-toggle="collapse"
+                                                data-target="#parent1Collapse">
                                             Parent 1/Guardian information
-                                        </button> 
+                                        </button>
                                     </h2>
                                 </div>
                                 <div class="collapse show" id="parent1Collapse">
                                     <div class="card-body">
-                                        <t t-set="id" t-value="1"/>
+                                        <t t-set="guardian_relationship_id" t-value="application_id.guardian_relationship1_id"/>
+                                        <t t-set="parent_field_name" t-value="'guardian_relationship1_id'"/>
                                         <t t-call="adm.template_application_parents_form"/>
                                     </div>
                                 </div>
@@ -254,14 +306,16 @@
                             <section class="card mt-2 mb-2">
                                 <div class="card-header">
                                     <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block" type="button" data-toggle="collapse" data-target="#parent2Collapse">
+                                        <button class="btn btn-link btn-block" type="button" data-toggle="collapse"
+                                                data-target="#parent2Collapse">
                                             Parent 2/Guardian information
-                                        </button> 
+                                        </button>
                                     </h2>
                                 </div>
                                 <div class="collapse" id="parent2Collapse">
                                     <div class="card-body">
-                                        <t t-set="id" t-value="2"/>
+                                        <t t-set="guardian_relationship_id" t-value="application_id.guardian_relationship2_id"/>
+                                        <t t-set="parent_field_name" t-value="'guardian_relationship2_id'"/>
                                         <t t-call="adm.template_application_parents_form"/>
                                     </div>
                                 </div>
@@ -316,12 +370,14 @@
                                         <div class="col-12 col-md-6 form-group">
                                             <label>Does your employer pay tuition directly to the school?</label>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="q_employer_pay_tuition"/>
+                                                <input class="form-check-input" type="radio"
+                                                       name="q_employer_pay_tuition"/>
                                                 <label class="form-check-label">Yes</label>
                                             </div>
 
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="q_employer_pay_tuition"/>
+                                                <input class="form-check-input" type="radio"
+                                                       name="q_employer_pay_tuition"/>
                                                 <label class="form-check-label">No</label>
                                             </div>
                                         </div>
@@ -332,11 +388,12 @@
 
                         <div class="col-12 col-md-3">
                             <section class="card card-sticky-save mb-3 mt-3">
-                                <div class="card-body"> 
+                                <div class="card-body">
                                     <p> Fields with (*) are mandatory </p>
-                                    <section class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
+                                    <section
+                                            class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
                                         <span class="text-muted mb-2">Please, make sure you save the changes</span>
-                                        <button class="btn btn-primary" id="btnFamilyParentsSave" type="button">Save</button>
+                                        <button class="btn btn-primary js_submit_json" type="button">Save</button>
                                     </section>
                                 </div>
                             </section>

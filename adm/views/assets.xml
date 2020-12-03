@@ -6,6 +6,10 @@
         <script type="text/javascript" src="/adm/static/src/js/application/student_info.js"></script>
     </template>
 
+    <template id="assets_application_common" name="Assets student info">
+        <script type="text/javascript" src="/adm/static/src/js/application/common.js"></script>
+    </template>
+
     <template id="assets_application_family_parents">
         <script type="text/javascript" src="/adm/static/src/js/application/family/parents.js"></script>
     </template>
