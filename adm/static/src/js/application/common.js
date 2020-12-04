@@ -25,6 +25,10 @@ odoo.define('adm.application.common', require => {
 
             // const modelFieldsValues = {};
             $elModel.find('[data-adm-field]').each((i, elField) => {
+                if ($(elField).is(':radio') && !$(elField).is(':checked')) {
+                    console.log('checked removed!');
+                    return;
+                }
                 const fieldName = elField.dataset.admField;
 
                 const fieldNameSplitHierarchical = fieldName.split('.');
@@ -45,6 +49,9 @@ odoo.define('adm.application.common', require => {
                         fieldNameToModify = auxFieldName;
                     }
                 }
+
+
+
                 auxDict[fieldNameToModify] = convertToFieldType(elField, $(elField).val());
             });
         });

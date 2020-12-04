@@ -6,12 +6,15 @@
              t-att-data-adm-id="id"
              data-adm-model="adm.relationship">
             <t t-if="guardian_relationship_id.id">
-                <input type="hidden" t-att-value="guardian_relationship_id.id" t-attf-data-adm-field="#{parent_field_name}.id" data-adm-field-type="INTEGER"/>
+                <input type="hidden" t-att-value="guardian_relationship_id.id"
+                       t-attf-data-adm-field="#{parent_field_name}.id" data-adm-field-type="INTEGER"/>
                 <t t-if="guardian_relationship_id.partner_2.id">
-                    <input type="hidden" t-att-value="guardian_relationship_id.partner_2.id" t-attf-data-adm-field="#{parent_field_name}.partner_2.id" data-adm-field-type="INTEGER"/>
+                    <input type="hidden" t-att-value="guardian_relationship_id.partner_2.id"
+                           t-attf-data-adm-field="#{parent_field_name}.partner_2.id" data-adm-field-type="INTEGER"/>
                 </t>
             </t>
-            <input type="hidden" t-att-value="application_id.partner_id.id" t-attf-data-adm-field="#{parent_field_name}.partner_1" data-adm-field-type="MANY2ONE"/>
+            <input type="hidden" t-att-value="application_id.partner_id.id"
+                   t-attf-data-adm-field="#{parent_field_name}.partner_1" data-adm-field-type="MANY2ONE"/>
 
             <!-- Photo -->
             <div class="row">
@@ -77,8 +80,8 @@
                             <label>Employer</label>
                             <input class="form-control" type="text"
                                    name="employer"
-                                    t-attf-data-adm-field="#{parent_field_name}.partner_2.c_aisj_employer"
-                                    t-att-value="guardian_relationship_id.partner_2.c_aisj_employer"
+                                   t-attf-data-adm-field="#{parent_field_name}.partner_2.c_aisj_employer"
+                                   t-att-value="guardian_relationship_id.partner_2.c_aisj_employer"
 
                             />
                         </div>
@@ -86,39 +89,27 @@
                         <div class="col-12 col-md-6 form-group">
                             <label>Occupation</label>
                             <input class="form-control" type="text" name="occupation"
-                                    t-attf-data-adm-field="#{parent_field_name}.partner_2.occupation"
-                                    t-att-value="guardian_relationship_id.partner_2.occupation"/>
+                                   t-attf-data-adm-field="#{parent_field_name}.partner_2.occupation"
+                                   t-att-value="guardian_relationship_id.partner_2.occupation"/>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
                             <label>Marital status</label>
-                            <!--TODO: Pending on creation dinamically -->
-                            <div class="form-check">
-<!--                                       t-attf-data-adm-field="#{parent_field_name}.last_name"-->
-                                <input class="form-check-input" type="radio"
-                                       t-attf-name="parent_marital_status[#{id}]"/>
-                                <label class="form-check-lavel">Married</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio"
-                                       t-attf-name="parent_marital_status[#{id}]"/>
-                                <label class="form-check-lavel">Single</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio"
-                                       t-attf-name="parent_marital_status[#{id}]"/>
-                                <label class="form-check-lavel">Separated</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio"
-                                       t-attf-name="parent_marital_status[#{id}]"/>
-                                <label class="form-check-lavel">Divorced</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio"
-                                       t-attf-name="parent_marital_status[#{id}]"/>
-                                <label class="form-check-lavel">Widowed</label>
-                            </div>
+                            <t t-foreach="marital_status_types" t-as="marital_status">
+                                <div class="form-check">
+                                    <!--                                       t-attf-data-adm-field="#{parent_field_name}.last_name"-->
+                                    <input class="form-check-input" type="radio"
+                                           t-attf-data-adm-field="#{parent_field_name}.partner_2.marital_status"
+                                           t-att-value="marital_status['value']"
+                                           t-attf-name="#{parent_field_name}.partner_2.marital_status"
+                                           t-attf-id="#{parent_field_name}.partner_2.marital_status_#{marital_status['value']}"
+                                           t-att-checked="guardian_relationship_id.partner_2.marital_status == marital_status['value']"
+                                    />
+                                    <label class="form-check-lavel" t-attf-for="#{parent_field_name}.partner_2.marital_status_#{marital_status['value']}">
+                                        <t t-esc="marital_status['name']" />
+                                    </label>
+                                </div>
+                            </t>
                         </div>
 
                         <div class="col-12 col-md-6 form-group">
@@ -145,10 +136,13 @@
                     <section class="row">
                         <div class="col-12 col-md-6 form-group">
                             <label>Relationship to applicant</label>
-                            <select class="form-control">
+                            <select class="form-control"
+                                    t-attf-data-adm-field="#{parent_field_name}.relationship_type"
+                            >
                                 <t t-foreach="relationship_types" t-as="relationship_type">
                                     <t t-if="relationship_type['value'] != 'sibling'">
-                                        <option t-att-value="relationship_type['value']">
+                                        <option t-att-selected="guardian_relationship_id.relationship_type == relationship_type['value']"
+                                                t-att-value="relationship_type['value']">
                                             <t t-esc="relationship_type['name']"/>
                                         </option>
                                     </t>
@@ -296,7 +290,8 @@
                                 </div>
                                 <div class="collapse show" id="parent1Collapse">
                                     <div class="card-body">
-                                        <t t-set="guardian_relationship_id" t-value="application_id.guardian_relationship1_id"/>
+                                        <t t-set="guardian_relationship_id"
+                                           t-value="application_id.guardian_relationship1_id"/>
                                         <t t-set="parent_field_name" t-value="'guardian_relationship1_id'"/>
                                         <t t-call="adm.template_application_parents_form"/>
                                     </div>
@@ -314,7 +309,8 @@
                                 </div>
                                 <div class="collapse" id="parent2Collapse">
                                     <div class="card-body">
-                                        <t t-set="guardian_relationship_id" t-value="application_id.guardian_relationship2_id"/>
+                                        <t t-set="guardian_relationship_id"
+                                           t-value="application_id.guardian_relationship2_id"/>
                                         <t t-set="parent_field_name" t-value="'guardian_relationship2_id'"/>
                                         <t t-call="adm.template_application_parents_form"/>
                                     </div>

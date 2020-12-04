@@ -33,7 +33,10 @@ class ResPartnerExtended(models.Model):
     citizenship = fields.Many2one("res.country", string="Citizenship")
     identification = fields.Char("Cedula / ID number")
     marital_status = fields.Selection(
-        [("married", "Married"), ("single", "female"), ("divorced", "Divorced"), ("widowed", "Widowed")],
+        [("married", "Married"),
+         ("single", "Single"),
+         ("divorced", "Divorced"),
+         ("widowed", "Widowed")],
         string="Marital Status")
     occupation = fields.Char("Occupation")
     parental_responsability = fields.Boolean("Parental Responsability")

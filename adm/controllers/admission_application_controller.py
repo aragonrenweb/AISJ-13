@@ -28,13 +28,20 @@ def lookup(s, lookups):
 class AdmissionController(http.Controller):
 
     @staticmethod
-    def compute_view_render_params(application_id):
-        application_id = application_id.sudo()
-        field_family_ids_types = request.env['adm.relationship']._fields['relationship_type']
-        relationship_types = [{
+    def _get_values_for_selection_fields(model_env, field_name):
+        field_selection_type = model_env._fields[field_name]
+        return [{
             'name': name,
             'value': value
-            } for value, name in field_family_ids_types.selection]
+            } for value, name in field_selection_type.selection]
+
+    @staticmethod
+    def compute_view_render_params(application_id):
+        application_id = application_id.sudo()
+
+        relationship_types = AdmissionController._get_values_for_selection_fields(request.env['adm.relationship'], 'relationship_type')
+        marital_status_types = AdmissionController._get_values_for_selection_fields(request.env['res.partner'], 'marital_status')
+        custodial_rights_types = AdmissionController._get_values_for_selection_fields(request.env['adm.relationship'], 'custodial_rights')
 
         contact_id = AdmissionController.get_partner()
         contact_time_ids = request.env["adm.contact_time"].search([])
@@ -69,7 +76,9 @@ class AdmissionController(http.Controller):
             "pendingData": AdmissionController.getPendingTasks(application_id),
             'grade_level_ids': grade_level_ids,
             'school_year_ids': school_year_ids,
-            'relationship_types': relationship_types
+            'relationship_types': relationship_types,
+            'marital_status_types': marital_status_types,
+            'custodial_rights_types': custodial_rights_types,
             }
 
     @staticmethod
@@ -258,7 +267,7 @@ class AdmissionController(http.Controller):
                     })
             else:
                 file_id = AttachmentEnv.sudo().create({
-                    'name': 'signature.png', # 'datas_fname': upload_file.filename,
+                    'name': 'signature.png',  # 'datas_fname': upload_file.filename,
                     'res_name': 'signature.png',
                     'type': 'binary',
                     'res_model': 'adm.application',
@@ -307,14 +316,14 @@ class AdmissionController(http.Controller):
 
         attach_file = -1
         last_attach_id = AttachmentEnv.sudo().search([('name', '=', str(origin_nameFile)), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
-            order="create_date desc", limit=1)
+                                                     order="create_date desc", limit=1)
         # attach_file = AttachEnv.browse(AttachEnv.sudo().search([('res_model', '=', 'adm.application'),('res_id', '=', params["application_id"])])).ids
         # attach_file = AttachEnv.browse([1027])
         if upload_file:
             if last_attach_id:
                 attach_file = AttachmentEnv.browse(last_attach_id[0].id)
                 attach_file.sudo().write({
-                    'name': str(origin_nameFile), # 'datas_fname': upload_file.filename,
+                    'name': str(origin_nameFile),  # 'datas_fname': upload_file.filename,
                     'res_name': upload_file.filename,
                     'type': 'binary',
                     'res_model': 'adm.application',
@@ -324,7 +333,7 @@ class AdmissionController(http.Controller):
                     })
             else:
                 file_id = AttachmentEnv.sudo().create({
-                    'name': str(origin_nameFile), # 'datas_fname': upload_file.filename,
+                    'name': str(origin_nameFile),  # 'datas_fname': upload_file.filename,
                     'res_name': upload_file.filename,
                     'type': 'binary',
                     'res_model': 'adm.application',
@@ -357,7 +366,7 @@ class AdmissionController(http.Controller):
             'email': params["txtEmail"],
             'mobile': params["txtCellPhone"],
             'phone': params["txtHomePhone"],
-            'street': params["txtStreetAddress"], # 'country': params["selCountry"],
+            'street': params["txtStreetAddress"],  # 'country': params["selCountry"],
             'zip': params["txtZip"]
             }
 
@@ -448,8 +457,8 @@ class AdmissionController(http.Controller):
 
             if unlink_commands:
                 application.sudo().partner_id.parent_id.write({
-                                                                  "house_address_ids": unlink_commands
-                                                                  })
+                    "house_address_ids": unlink_commands
+                    })
 
             # PartnerEnv = request.env["res.partner"]
 
@@ -536,8 +545,8 @@ class AdmissionController(http.Controller):
 
             if unlink_commands:
                 application.sudo().write({
-                                             "medical_conditions_ids": unlink_commands
-                                             })
+                    "medical_conditions_ids": unlink_commands
+                    })
             # -------------------
 
             # -- Allergies --#
@@ -549,8 +558,8 @@ class AdmissionController(http.Controller):
 
             if unlink_commands:
                 application.sudo().write({
-                                             "medical_allergies_ids": unlink_commands
-                                             })
+                    "medical_allergies_ids": unlink_commands
+                    })
             # -------------------
 
             # -- Medications --#
@@ -562,8 +571,8 @@ class AdmissionController(http.Controller):
 
             if unlink_commands:
                 application.sudo().write({
-                                             "medical_medications_ids": unlink_commands
-                                             })
+                    "medical_medications_ids": unlink_commands
+                    })
             # -------------------
 
             # -- Conditions -- #
@@ -714,8 +723,8 @@ class AdmissionController(http.Controller):
                         "name": name,
                         "city": city,
                         "country_id": country,
-                        "state_id": state, # "zip": zip,
-                        "street": street, # "phone": phone,
+                        "state_id": state,  # "zip": zip,
+                        "street": street,  # "phone": phone,
                         "from_date": from_date,
                         "to_date": to_date,
                         "grade_completed": grade_completed,
@@ -728,8 +737,8 @@ class AdmissionController(http.Controller):
                         "name": name,
                         "country_id": country,
                         "city": city,
-                        "state_id": state, # "zip": zip,
-                        "street": street, # "phone": phone,
+                        "state_id": state,  # "zip": zip,
+                        "street": street,  # "phone": phone,
                         "from_date": from_date,
                         "to_date": to_date,
                         "grade_completed": grade_completed,
@@ -846,10 +855,10 @@ class AdmissionController(http.Controller):
                 })
             idx = 0
             for id, type, mobile, phone, email, house_address_id, is_emergency_contact, citizenship, identification, marital_status, occupation, office_address, office_phone, title, other_reason, parental_responsability, fees_payable, extra_payable in itertools.zip_longest(
-                contact_ids, relationship_type, relation_partner_mobile, relation_partner_phone, relation_partner_email, relationship_house, relationship_is_emergency_contact,
-                current_partner_citizenship, current_partner_identification, current_partner_marital_status, current_partner_occupation, current_partner_office_address,
-                current_partner_office_phone, current_partner_title, current_partner_other_reason, current_partner_parental_responsability, current_partner_fees_payable,
-                current_partner_extra_payable, fillvalue=False):
+                    contact_ids, relationship_type, relation_partner_mobile, relation_partner_phone, relation_partner_email, relationship_house, relationship_is_emergency_contact,
+                    current_partner_citizenship, current_partner_identification, current_partner_marital_status, current_partner_occupation, current_partner_office_address,
+                    current_partner_office_phone, current_partner_title, current_partner_other_reason, current_partner_parental_responsability, current_partner_fees_payable,
+                    current_partner_extra_payable, fillvalue=False):
 
                 # SUBIR FOTO DEL PERSON
                 # if "file_upload" in params:
@@ -911,10 +920,10 @@ class AdmissionController(http.Controller):
 
             idx = 0
             for name, first_name, middle_name, last_name, mobile, phone, email, type, house_address_id, is_emergency_contact, citizenship, identification, marital_status, occupation, office_address, office_phone, title, other_reason, parental_responsability, fees_payable, extra_payable, partner_photo in itertools.zip_longest(
-                new_partner_name, new_partner_first_name, new_partner_middle_name, new_partner_last_name, new_partner_mobile, new_partner_phone, new_partner_email,
-                new_relationship_type, new_relationship_house, new_relationship_is_emergency_contact, new_partner_citizenship, new_partner_identification,
-                new_partner_marital_status, new_partner_occupation, new_partner_office_address, new_partner_office_phone, new_partner_title, new_partner_other_reason,
-                new_partner_parental_responsability, new_partner_fees_payable, new_partner_extra_payable, new_partner_photos, fillvalue=False):
+                    new_partner_name, new_partner_first_name, new_partner_middle_name, new_partner_last_name, new_partner_mobile, new_partner_phone, new_partner_email,
+                    new_relationship_type, new_relationship_house, new_relationship_is_emergency_contact, new_partner_citizenship, new_partner_identification,
+                    new_partner_marital_status, new_partner_occupation, new_partner_office_address, new_partner_office_phone, new_partner_title, new_partner_other_reason,
+                    new_partner_parental_responsability, new_partner_fees_payable, new_partner_extra_payable, new_partner_photos, fillvalue=False):
 
                 if title == 'other':
                     title = other_reason
@@ -1155,9 +1164,9 @@ class AdmissionController(http.Controller):
 
         keys = fields_required_ids & field_ids
         fields = [{
-                      "field_name": field_id.name,
-                      "field_descrip": field_id.field_description
-                      } for field_id in keys]
+            "field_name": field_id.name,
+            "field_descrip": field_id.field_description
+            } for field_id in keys]
         result = []
 
         for itm in fields:
@@ -1179,7 +1188,10 @@ class AdmissionController(http.Controller):
 
         # Applying semester
         field_applying_semester = request.env['adm.application']._fields['applying_semester']
-        applying_semester_values = [{'name': name,'value': value} for value, name in field_applying_semester.selection]
+        applying_semester_values = [{
+            'name': name,
+            'value': value
+            } for value, name in field_applying_semester.selection]
         params = self.compute_view_render_params(application_id)
         params.update({
             "student": application_id.partner_id,
@@ -1214,44 +1226,44 @@ class AdmissionController(http.Controller):
 
         cont_comun_birth_certificate = 0
         last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_birthday_certificate'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
-            order="create_date desc", limit=1)
+                                                 order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_birth_certificate = AttachEnv.sudo().browse(
                 last_attach_id[0].id)  # cont_1_9_certificate_previous_school.public_url_photo = '/web/content/' + str(cont_1_9_certificate_previous_school.id) + '?download=true'
 
         cont_comun_member_letter = 0
         last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_member_letter'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
-            order="create_date desc", limit=1)
+                                                 order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_member_letter = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_cedula_passport = 0
         last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_cedula_passport'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
-            order="create_date desc", limit=1)
+                                                 order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_cedula_passport = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_healthy_certificate = 0
         last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_healthy_certificate'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
-            order="create_date desc", limit=1)
+                                                 order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_healthy_certificate = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_vaccine_register = 0
         last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_vaccine_register'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
-            order="create_date desc", limit=1)
+                                                 order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_vaccine_register = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_sight_certificate = 0
         last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_sight_certificate'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
-            order="create_date desc", limit=1)
+                                                 order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_sight_certificate = AttachEnv.sudo().browse(last_attach_id[0].id)
 
         cont_comun_oto_certificate = 0
         last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_oto_certificate'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
-            order="create_date desc", limit=1)
+                                                 order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_oto_certificate = AttachEnv.sudo().browse(last_attach_id[0].id)
 
@@ -1263,7 +1275,7 @@ class AdmissionController(http.Controller):
 
         cont_comun_personal_reference = 0
         last_attach_id = AttachEnv.sudo().search([('name', 'like', 'comun_personal_reference'), ('res_model', '=', 'adm.application'), ('res_id', '=', params["application_id"])],
-            order="create_date desc", limit=1)
+                                                 order="create_date desc", limit=1)
         if last_attach_id:
             cont_comun_personal_reference = AttachEnv.sudo().browse(last_attach_id[0].id)
 
