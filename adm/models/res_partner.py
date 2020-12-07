@@ -42,4 +42,14 @@ class ResPartnerExtended(models.Model):
     parental_responsability = fields.Boolean("Parental Responsability")
     title = fields.Char("Title")
     work_address = fields.Char("Office Address")
+
     work_phone = fields.Char("Office Phone")
+    home_phone = fields.Char("Home Phone")
+
+    work_email = fields.Char('Work email')
+
+    # Education information
+    education = fields.Char()
+    school_name = fields.Char()
+    degree = fields.Char()
+    first_language = fields.Char()

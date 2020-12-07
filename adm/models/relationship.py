@@ -18,4 +18,10 @@ class Relationship(models.Model):
 
     custodial_rights = fields.Selection([('yes', _('Yes')), ('no', _('No')), ], string="Custiodial rights", default="no")
 
+    financial_responsability = fields.Char()
     is_emergency_contact = fields.Boolean("Is an emergency contact?")
+    residency_permit_id_number = fields.Many2one('ir.attachment')
+    parent_passport_upload = fields.Many2one('ir.attachment')
+
+    def test(self):
+        self.env['res.partner']

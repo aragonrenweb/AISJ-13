@@ -21,3 +21,4 @@ class PreviousSchoolDescription(models.Model):
     to_date = fields.Date("To Date")
     grade_completed = fields.Char("Grade Current or Completed")
     extracurricular_interests = fields.Char("Applicant’s extracurricular interests")
+    reason_for_leaving = fields.Char()
