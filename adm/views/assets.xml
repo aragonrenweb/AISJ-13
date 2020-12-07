@@ -6,6 +6,15 @@
         <script type="text/javascript" src="/adm/static/src/js/application/student_info.js"></script>
     </template>
 
+    <template id="assets_application_school_info" name="Assets school info">
+        <script type="text/javascript" src="/adm/static/src/js/application/school.js"></script>
+    </template>
+    <template id="assets_application_school_health" name="Assets school health">
+        <script type="text/javascript" src="/adm/static/src/js/application/health.js"></script>
+    </template>
+    <template id="assets_application_school_sibling" name="Assets school sibling">
+        <script type="text/javascript" src="/adm/static/src/js/application/sibling.js"></script>
+    </template>
     <template id="assets_application_common" name="Assets student info">
         <script type="text/javascript" src="/adm/static/src/js/application/common.js"></script>
     </template>

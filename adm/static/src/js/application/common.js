@@ -1,79 +1,123 @@
 odoo.define('adm.application.common', require => {
 
     require('web.core');
+    const utils = require('web.utils')
 
-    function buildJson() {
-        const jsonToBuild = {};
+    async function buildAdmJSONObject(rootEl) {
+        let auxJson = {};
 
-        function convertToFieldType(el, val) {
+        async function getValueDependingOnType($el) {
+            if ($el.is(':file')) {
+                const fileFromEl = $el[0].files[0];
+                const urlEncodedFile = await utils.getDataURLFromFile(fileFromEl);
+                const base64EncodedFile = urlEncodedFile.split(',')[1];
+                if (($el.data('admFieldType') || '').toUpperCase() === 'ATTACHMENT') {
+                    return {
+                        'content_type': fileFromEl.type,
+                        'name': fileFromEl.name,
+                        'base64_encoded_file': base64EncodedFile,
+                    }
+                } else {
+                    return base64EncodedFile;
+                }
+            }
+            let val = $el.val();
 
-            switch ((el.dataset.admFieldType || '').toUpperCase()) {
-                case 'MANY2ONE':
+            switch (($el.data('admFieldType') || '').toUpperCase()) {
                 case 'INTEGER':
                     val = parseInt(val);
                     break;
                 case 'FLOAT':
                     val = parseFloat(val);
+                    break;
             }
 
             return val;
 
         }
 
-        $('[data-adm-model-fields="1"]').each((i, elModel) => {
-            const $elModel = $(elModel);
+        function cloneChildren($el) {
+            const clonedEl = $el.clone();
+            const auxDiv = document.createElement("DIV");
+            clonedEl.children().appendTo(auxDiv);
+            return auxDiv;
+        }
 
-            // const modelFieldsValues = {};
-            $elModel.find('[data-adm-field]').each((i, elField) => {
-                if ($(elField).is(':radio') && !$(elField).is(':checked')) {
-                    console.log('checked removed!');
-                    return;
-                }
-                const fieldName = elField.dataset.admField;
+        const firstFields = $(rootEl).find('[data-adm-field]:not([data-adm-field] [data-adm-field])');
+        for (let i = 0; i < firstFields.length; ++i) {
+            const el = firstFields[i];
+            const $el = $(el);
+            if (($el.is(':radio') && !$el.is(':checked'))
+                || $el.prop('disabled')
+                || ($el.is(':file') && (!el.files || !el.files.length ))) {
+                continue;
+            }
 
-                const fieldNameSplitHierarchical = fieldName.split('.');
-                let fieldNameToModify = fieldNameSplitHierarchical[0];
-                let auxDict = jsonToBuild;
+            const fieldName = $el.data('admField');
+            const fieldType = ($(el).data('admFieldType') || '').toUpperCase();
+            switch (fieldType) {
+                case 'MANY2MANY':
+                case 'ONE2MANY':
+                    const auxDivMany2many = cloneChildren($el);
 
-                if (fieldNameSplitHierarchical.length > 1){
-                    for (let i = 0; i < fieldNameSplitHierarchical.length; i++) {
-
-                        const auxFieldName = fieldNameSplitHierarchical[i];
-
-                        if (fieldNameSplitHierarchical[i + 1] !== undefined) {
-                            if (!Object.hasOwnProperty.call(auxDict, auxFieldName)) {
-                                auxDict[auxFieldName] = {};
-                            }
-                            auxDict = auxDict[auxFieldName]
-                        }
-                        fieldNameToModify = auxFieldName;
+                    auxJson[fieldName] = [];
+                    const $elRelList = $(auxDivMany2many).find('[data-adm-rel]:not([data-adm-rel] [data-adm-rel])');
+                    for (let j = 0; j < $elRelList.length; j++) {
+                        const elRel = $elRelList[j];
+                        const $elRel = $(elRel);
+                        const rootResetedRel = cloneChildren($elRel);
+                        const relResult = await buildAdmJSONObject(rootResetedRel)
+                        auxJson[fieldName].push(relResult);
                     }
-                }
+                    break;
+                case 'MANY2ONE':
+                    const auxDivMany2one = cloneChildren($el);
+                    const many2manyJSON = await buildAdmJSONObject(auxDivMany2one)
+                    if (!auxJson[fieldName]) {
+                        auxJson[fieldName] = await buildAdmJSONObject(auxDivMany2one);
+                    } else {
+                        auxJson[fieldName] = {
+                            ...auxJson[fieldName],
+                            ...many2manyJSON,
+                        };
+                    }
+                    break;
+                default:
+                    auxJson[fieldName] = await getValueDependingOnType($el);
+                    break;
+            }
+        }
 
-
-
-                auxDict[fieldNameToModify] = convertToFieldType(elField, $(elField).val());
-            });
-        });
-
-        return JSON.stringify(jsonToBuild);
+        return auxJson;
     }
 
     function sendJson() {
-        const jsonToSend = buildJson();
-        console.log(jsonToSend);
-        const applicationId = $('meta[name="_application_id"]').attr("value");//$('meta[name="_application_id"]').val();
-        $.ajax({
-            url: '/admission/applications/' + applicationId + '/',
-            method: 'PUT',
-            contentType: 'application/json',
-            data: jsonToSend,
-            csrf_token: odoo.csrf_token,
-        })
+        const mainRoot = $('[data-adm-model-fields="1"]');
+        buildAdmJSONObject(mainRoot).then(jsonToSend => {
+            console.log(jsonToSend);
+            const applicationId = $('meta[name="_application_id"]').attr("value");//$('meta[name="_application_id"]').val();
+
+            $.ajax({
+                url: '/admission/applications/' + applicationId + '/',
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(jsonToSend),
+                csrf_token: odoo.csrf_token,
+            })
+        });
     }
 
     $(document).ready(() => {
+        $('.form-upload').each((i, el) => {
+            const $el = $(el);
+            const inputFile = $el.find('input[type=file]');
+            const inputSpanLabel = $el.find('.js_input_file_label');
+            inputFile.on('change', (event) => {
+                inputSpanLabel.text(event.currentTarget.files[0].name);
+            });
+        });
         $('.js_submit_json').on('click', sendJson);
     });
 
-});
+})
+;

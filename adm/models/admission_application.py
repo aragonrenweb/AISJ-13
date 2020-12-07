@@ -7,14 +7,7 @@ import requests
 from urllib.request import urlopen
 from odoo.http import content_disposition, dispatch_rpc, request, serialize_exception as _serialize_exception, Response
 
-status_types = [
-    ("stage", "Stage"),
-    ("done", "Done"),
-    ("return", "Return To Parents"),
-    ("started", "Application Started"),
-    ("submitted", "Submitted"),
-    ("cancelled", "Cancelled")
-]
+status_types = [("stage", "Stage"), ("done", "Done"), ("return", "Return To Parents"), ("started", "Application Started"), ("submitted", "Submitted"), ("cancelled", "Cancelled")]
 
 
 class Questions(models.Model):
@@ -61,8 +54,7 @@ class Application(models.Model):
         return status_ids
 
     # Admission Information
-    preferred_degree_program = fields.Many2one("adm.degree_program",
-                                               string="Preferred Degree Program")
+    preferred_degree_program = fields.Many2one("adm.degree_program", string="Preferred Degree Program")
 
     # Demographic
     name = fields.Char(string="Name", related="partner_id.name")
@@ -82,7 +74,6 @@ class Application(models.Model):
     father_name = fields.Char("Father name")
     mother_name = fields.Char("Mother name")
     family_id = fields.Many2one(related="partner_id.parent_id", string="Family")
-
 
     # Contact
     email = fields.Char(string="Email", related="partner_id.email", index=True)
@@ -109,9 +100,8 @@ class Application(models.Model):
     bac_grade = fields.Float("BAC Grade")
 
     # Skills
-    language_ids = fields.One2many("adm.application.language", "application_id",
-                                   string="Languages", kwargs={
-            "website_form_blacklisted": False
+    language_ids = fields.One2many("adm.application.language", "application_id", string="Languages", kwargs={
+        "website_form_blacklisted": False
         })
 
     # Location
@@ -131,8 +121,7 @@ class Application(models.Model):
     letters_of_recommendation_id = fields.Many2one("ir.attachment", string="Letter of recommendation")
 
     # Additional student info
-    resident_status = fields.Selection((('permanent', 'Permanent'), ('transient', 'Transient')),
-                                       string="Resident status")
+    resident_status = fields.Selection((('permanent', 'Permanent'), ('transient', 'Transient')), string="Resident status")
     resident_length_of_stay = fields.Char("Length of stay")
 
     first_language = fields.Many2one("adm.language", string="First Language")
@@ -161,13 +150,7 @@ class Application(models.Model):
     signature_attach_url = fields.Char("Signature Attachment URL")
 
     # languages level
-    languages_levels = [
-        ("beginner", "Beginner"),
-        ("elementary", "Elementary"),
-        ("intermediate", "Intermediate"),
-        ("advanced", "Advanced"),
-        ("fluent", "Fluent")
-    ]
+    languages_levels = [("beginner", "Beginner"), ("elementary", "Elementary"), ("intermediate", "Intermediate"), ("advanced", "Advanced"), ("fluent", "Fluent")]
     first_level_language = fields.Selection(languages_levels, string="Level", default='beginner')
     second_level_language = fields.Selection(languages_levels, string="Level", default='beginner')
     third_level_language = fields.Selection(languages_levels, string="Level", default='beginner')
@@ -191,9 +174,6 @@ class Application(models.Model):
     # houses
     house_address_ids = fields.One2many(related="family_id.house_address_ids", string="House addresses")
 
-    # Siblings
-    sibling_ids = fields.Many2many("res.partner", "application_sibling_ids")
-
     # References
     isp_community_reference_1 = fields.Char("ISP Community Reference #1")
     isp_community_reference_2 = fields.Char("ISP Community Reference #2")
@@ -208,22 +188,18 @@ class Application(models.Model):
     doctor_name = fields.Char("Doctor name")
     doctor_phone = fields.Char("Doctor phone")
     doctor_address = fields.Char("Doctor Direction")
+    hospital = fields.Char("Hospital")
     permission_to_treat = fields.Boolean("Permission To Treat")
     blood_type = fields.Char("Blood Type")
-    medical_allergies_ids = fields.One2many(string="Allergies", related="partner_id.medical_allergies_ids",
-                                            readonly=False)
-    medical_conditions_ids = fields.One2many(string="Conditions", related="partner_id.medical_conditions_ids",
-                                             readonly=False)
-    medical_medications_ids = fields.One2many(string="Medications", related="partner_id.medical_medications_ids",
-                                              readonly=False)
+    medical_allergies_ids = fields.One2many(string="Allergies", related="partner_id.medical_allergies_ids", readonly=False)
+    medical_conditions_ids = fields.One2many(string="Conditions", related="partner_id.medical_conditions_ids", readonly=False)
+    medical_medications_ids = fields.One2many(string="Medications", related="partner_id.medical_medications_ids", readonly=False)
 
     # Meta
-    contact_time_id = fields.Many2one("adm.contact_time",
-                                      string="Preferred contact time")
+    contact_time_id = fields.Many2one("adm.contact_time", string="Preferred contact time")
 
     partner_id = fields.Many2one("res.partner", string="Contact")
-    status_id = fields.Many2one("adm.application.status",
-                                string="Status", group_expand="_read_group_status_ids")
+    status_id = fields.Many2one("adm.application.status", string="Status", group_expand="_read_group_status_ids")
     task_ids = fields.Many2many("adm.application.task")
 
     inquiry_id = fields.Many2one("adm.inquiry")
@@ -236,24 +212,24 @@ class Application(models.Model):
     family_id = fields.Many2one(string="Family", related="partner_id.parent_id")
 
     # QUESTION CUSTOMIZED PREESCOLAR
-    applying_semester = fields.Selection([
-        ('semester_1', 'Semester 1 (August)'),
-        ('semester_2', 'Semester 2 (January)'),
-        ('immediate', 'Immediate'),
-        ], string="Applying semester")
+    applying_semester = fields.Selection([('semester_1', 'Semester 1 (August)'), ('semester_2', 'Semester 2 (January)'), ('immediate', 'Immediate'), ], string="Applying semester")
 
     # HERMANOS INFORMATION
-    siblings = fields.One2many("adm.application.sibling", "application_id", "Siblings")
+    sibling_ids = fields.One2many("adm.application.sibling", "application_id", "Siblings")
 
-    # order_id = fields.Many2one("sale.order", string="Sale Order")
+    # Files
+    passport_file_ids = fields.One2many('ir.attachment', 'application_passport_id')
+    residency_file_ids = fields.One2many('ir.attachment', 'application_residency_id')
+
+    residency_permit_id_number = fields.Many2one('ir.attachment')
+    parent_passport_upload = fields.Many2one('ir.attachment')
 
     def message_get_suggested_recipients(self):
         recipients = super().message_get_suggested_recipients()
         try:
             for inquiry in self:
                 if inquiry.email:
-                    inquiry._message_add_suggested_recipient(recipients, partner=self.partner_id, email=inquiry.email,
-                                                             reason=_('Custom Email Luis'))
+                    inquiry._message_add_suggested_recipient(recipients, partner=self.partner_id, email=inquiry.email, reason=_('Custom Email Luis'))
         except exceptions.AccessError:  # no read access rights -> just ignore suggested recipients because this imply modifying followers
             pass
         return recipients
@@ -269,23 +245,25 @@ class Application(models.Model):
         index -= 1
         if index >= 0:
             next_status = status_ids_ordered[index]
-            self.with_context({'forcing': True}).status_id = next_status
+            self.with_context({
+                                  'forcing': True
+                                  }).status_id = next_status
 
     def print_default(self):
         return {
             'type': 'ir.actions.act_url',
-            'url': '/report/html/adm.report_default/'+str(self.id),
+            'url': '/report/html/adm.report_default/' + str(self.id),
             'target': '_blank',
             'res_id': self.id,
-        }
+            }
 
     def print_custom(self):
         return {
             'type': 'ir.actions.act_url',
-            'url': '/report/html/adm.report_custom/'+str(self.id),
+            'url': '/report/html/adm.report_custom/' + str(self.id),
             'target': '_blank',
             'res_id': self.id,
-        }
+            }
 
     # GENERATE THE INTERNAL REPORT AND WILL SAVE INT ATTACHMENT OF THE APPLICATION
     def generate_internal_report(self):
@@ -295,26 +273,25 @@ class Application(models.Model):
         # pdf result is a list
         b64_pdf = base64.b64encode(pdf[0])
         # save pdf as attachment
-        #requests.session = request.session
+        # requests.session = request.session
 
         file_id = AttachmentEnv.sudo().create({
-            'name': 'Internal Report',
-            # 'datas_fname': upload_file.filename,
+            'name': 'Internal Report', # 'datas_fname': upload_file.filename,
             'res_name': 'reportInternal.pdf',
             'type': 'binary',
             'res_model': 'adm.application',
             'res_id': self.id,
             'datas': b64_pdf,
-           # 'datas': base64.b64encode(urlopen('/report/html/adm.report_internal_custom/'+str(self.id)).read()),
-            #'datas': base64.b64encode(s.get(url).content),
-        })
+            # 'datas': base64.b64encode(urlopen('/report/html/adm.report_internal_custom/'+str(self.id)).read()),
+            # 'datas': base64.b64encode(s.get(url).content),
+            })
 
         return {
             'type': 'ir.actions.act_url',
-            'url': '/report/html/adm.report_custom/'+str(self.id),
+            'url': '/report/html/adm.report_custom/' + str(self.id),
             'target': '_blank',
             'res_id': self.id,
-        }
+            }
 
     def force_next(self):
         status_ids_ordered = self.env['adm.application.status'].sudo().search([], order="sequence")
@@ -327,10 +304,14 @@ class Application(models.Model):
         index += 1
         if index < len(status_ids_ordered):
             next_status = status_ids_ordered[index]
-            self.with_context({'forcing': True}).status_id = next_status
+            self.with_context({
+                                  'forcing': True
+                                  }).status_id = next_status
 
     def force_status_submitted(self, next_status_id):
-        self.with_context({'forcing': True}).status_id = next_status_id
+        self.with_context({
+                              'forcing': True
+                              }).status_id = next_status_id
 
     def move_to_next_status(self):
         self.forcing = False
@@ -379,7 +360,9 @@ class Application(models.Model):
     def _onchange_country_id(self):
         res = {}
         if self.country_id:
-            res['domain'] = {'state_id': [('country_id', '=', self.country_id.id)]}
+            res['domain'] = {
+                'state_id': [('country_id', '=', self.country_id.id)]
+                }
 
     @api.model
     def create(self, values):
@@ -398,7 +381,7 @@ class Application(models.Model):
         last_name = values["last_name"] if "last_name" in values else self.last_name
 
         partner_related_fields = dict()
-        #partner_related_fields["name"] = values["name"] = formatting.format_name(first_name, middle_name, last_name)
+        # partner_related_fields["name"] = values["name"] = formatting.format_name(first_name, middle_name, last_name)
 
         # "related" in self.fields_get()["email"]
         # Se puede hacer totalmente dinamico, no lo hago ahora por falta de tiempo
@@ -408,11 +391,11 @@ class Application(models.Model):
         # fields = self.fields_get()
 
         if "first_name" in values:
-           partner_related_fields["first_name"] = first_name
+            partner_related_fields["first_name"] = first_name
         if "middle_name" in values:
-           partner_related_fields["middle_name"] = middle_name
+            partner_related_fields["middle_name"] = middle_name
         if "last_name" in values:
-           partner_related_fields["last_name"] = last_name
+            partner_related_fields["last_name"] = last_name
 
         if "email" in values:
             partner_related_fields["email"] = values["email"]
@@ -469,10 +452,20 @@ class ApplicationTasks(models.Model):
 class ApplicationSiblings(models.Model):
     _name = "adm.application.sibling"
 
+    partner_id = fields.Many2one('res.partner')
+
     name = fields.Char("Name")
     age = fields.Integer("Edad")
-    school = fields.Char("Colegio en que estudia")
+
+    school = fields.Char("School name")
     application_id = fields.Many2one("adm.application", "Application")
+    grade_level_id = fields.Many2one('school_base.grade_level')
+    alumni_state = fields.Selection([('alumni', 'Alumni'), ('currently_enrolled', 'Currently Enrolled')], 'Alumni or currently Enrolled Students')
+    alumnus_enrolled_1 = fields.Char("Alumnus/Enrolled 1")
+    alumnus_enrolled_name = fields.Char()
+    relationship_to_application = fields.Char()
+    years_attended = fields.Char()
+
 
 
 class AdmissionApplicationLanguages(models.Model):

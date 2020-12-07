@@ -67,7 +67,7 @@ class AdmissionController(http.Controller):
             'application_status_ids': application_status_ids,
             'language_ids': language_ids.ids,
             'language_level_ids': language_level_ids.ids,
-            'student_application': application_id,
+            'student': application_id,
             'contact_time_ids': contact_time_ids,
             "gender_ids": gender_ids,
             'degree_program_ids': degree_program_ids,
@@ -157,12 +157,10 @@ class AdmissionController(http.Controller):
         school_years = SchoolYearEnv.browse(SchoolYearEnv.search([])).ids
         companies = http.request.env['res.company'].sudo().search([('country_id', '!=', False)])
 
-        template = "adm.template_application_menu_info"
-        if params.get("grade_level") == "pre":
-            template = "adm.template_application_menu_info_preescolar"
+        template = "adm.template_application_create_application"
 
         return http.request.render(template, {
-            "application": ApplicationEnv,
+            "application_id": ApplicationEnv,
             "countries": countries.ids,
             "student_photo": "data:image/png;base64",
             "adm_languages": languages,
@@ -969,22 +967,50 @@ class AdmissionController(http.Controller):
             if isinstance(value, list):
                 if value:
                     rel_model_env = request.env[model_env._fields[field].comodel_name].sudo()
-                    parsed_vals = []
+                    parsed_vals = [(5, 0, 0)]
                     for val_array in value:
                         if 'id' not in val_array or not val_array['id']:
                             parsed_vals.append((0, 0, self.parse_json_to_odoo_fields(rel_model_env, val_array)))
                         else:
                             rel_id = val_array.pop('id')
-                            parsed_vals.append((0, rel_id, False))
+                            parsed_vals.append((4, rel_id, False))
                             if len(val_array.keys()):
                                 rel_model_env.browse(rel_id).write(self.parse_json_to_odoo_fields(rel_model_env, val_array))
                     value_to_json = parsed_vals
             elif isinstance(value, dict):
-                rel_model_env = request.env[model_env._fields[field].comodel_name].sudo()
+                model_name = model_env._fields[field].comodel_name
+                rel_model_env = request.env[model_name].sudo()
+
                 if 'id' not in value or not value['id']:
-                    rel_id = rel_model_env.create(self.parse_json_to_odoo_fields(rel_model_env, value)).id
+                    if len(model_env) == 1 and model_name == 'ir.attachment':
+                        attachment_id = model_env.env['ir.attachment'].sudo().create({
+                            'name': value['name'],
+                            'datas': value['base64_encoded_file'],
+                            'mimetype': value['content_type'],
+                            'res_id': model_env.id,
+                            'res_model': model_env._name,
+                            'type': 'binary',
+                            })
+                        rel_id = attachment_id.id
+                    else:
+                        rel_id = rel_model_env.create(self.parse_json_to_odoo_fields(rel_model_env, value)).id
                 else:
                     rel_id = value.pop('id')
+
+                    for aux_field in value:
+                        if hasattr(rel_model_env._fields[aux_field], 'comodel_name'):
+                            if rel_model_env._fields[aux_field].comodel_name == 'ir.attachment':
+                                attachment_dict = value.pop(aux_field)
+                                attachment_id = rel_model_env.env['ir.attachment'].create({
+                                    'name': attachment_dict['name'],
+                                    'datas': attachment_dict['base64_encoded_file'],
+                                    'mimetype': attachment_dict['content_type'],
+                                    'res_id': rel_id,
+                                    'res_model': model_name,
+                                    'type': 'binary',
+                                    })
+                                value[aux_field] = attachment_id.id
+
                     if len(value.keys()):
                         rel_model_env.browse(rel_id).write(self.parse_json_to_odoo_fields(rel_model_env, value))
                 value_to_json = rel_id
@@ -1002,6 +1028,37 @@ class AdmissionController(http.Controller):
         json_request = request.jsonrequest
         write_vals = self.parse_json_to_odoo_fields(application_id, json_request)
         application_id.sudo().write(write_vals)
+
+    @http.route("/admission/applications/<model(adm.application):application_id>/avatar", auth="public", methods=["POST"], csrf=True, type='json')
+    def upload_partner_avatar(self, application_id, **params):
+        """ This is a JSON controller, this get a JSON and write the application with it, that's all """
+        json_request = request.jsonrequest
+        # decodedFile = base64.b64decode()
+        application_id.sudo().partner_id.write({
+            'image_1920': json_request['file'].split(',')[1]
+            })
+
+    @staticmethod
+    def insert_files_into_application_field(application_id, application_field, json_name, json_request):
+        if json_name in json_request:
+            application_id.sudo().write({
+                application_field: [(0, 0, {
+                    'name': json_request[json_name]['name'],
+                    'datas': json_request[json_name]['file'].split(',')[1],
+                    'mimetype': json_request[json_name]['content_type'],
+                    'res_id': application_id.id,
+                    'res_model': 'adm.application',
+                    'type': 'binary',
+                    })]
+                })
+
+    @http.route("/admission/applications/<model(adm.application):application_id>/student-files", auth="public", methods=["POST"], csrf=True, type='json')
+    def submit_student_files(self, application_id, **params):
+        """ This is a JSON controller, this get a JSON and write the application with it, that's all """
+        json_request = request.jsonrequest
+
+        self.insert_files_into_application_field(application_id, 'passport_file_ids', 'passportFile', json_request)
+        self.insert_files_into_application_field(application_id, 'residency_file_ids', 'residencyFile', json_request)
 
     @http.route("/admission/applications/<int:application_id>/write", auth="public", methods=["POST"], website=True, csrf=False)
     def write_application(self, application_id, **params):
@@ -1134,7 +1191,6 @@ class AdmissionController(http.Controller):
 
         if photo:
             return "data:image/png;base64," + str(photo)[2:-1:]
-
         return ""
 
         # return "data:image/png;base64," + str(relationship.partner_2.image_1920)[2:-1:]

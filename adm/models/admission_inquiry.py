@@ -232,17 +232,17 @@ class Inquiry(models.Model):
         PartnerEnv = self.env["res.partner"]
 
         partner = PartnerEnv.create({
-            "name": values["name"],
-            "first_name": values["first_name"],
-            "middle_name": values["middle_name"],
-            "last_name": values["last_name"],
-            "email": values["email"],
-            "phone": values["phone"],
-            "country_id": values["country_id"],
-            "state_id": values["state_id"],
-            "city": values["city"],
-            "street": values["street"],
-            "zip": values["zip"],
+            "name": values.get("name", False),
+            "first_name": values.get("first_name", False),
+            "middle_name": values.get("middle_name", False),
+            "last_name": values.get("last_name", False),
+            "email": values.get("email", False),
+            "phone": values.get("phone", False),
+            "country_id": values.get("country_id", False),
+            "state_id": values.get("state_id", False),
+            "city": values.get("city", False),
+            "street": values.get("street", False),
+            "zip": values.get("zip", False),
         })
         
         #===============================================================================================================

@@ -4,6 +4,7 @@
         <t t-call="adm.template_application_page_commons">
             <t t-set="head">
                 <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
+                <link rel="stylesheet" href="/adm/static/src/css/check_animation.css"/>
                 <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
             </t>
             <t t-set="title">Application</t>
@@ -28,16 +29,29 @@
                                         <div class="container pt-4" data-adm-model-fields="1">
                                             <div class="row">
                                                 <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-                                                    <div class="text-center">
-                                                        <img t-att-src="student_photo" widget="image"
-                                                             class="avatar rounded" alt="avatar"
-                                                             width="175"/>
-                                                        <h6 class="mt-2">Upload a different photo...</h6>
-                                                        <input type="file" name="file_upload"
-                                                               class="form-control" accept="image/*"/>
-                                                        <div class='alert alert-info pt-0 pb-0 mt-1'
-                                                             role='alert'>Upload a student photo.</div>
+                                                    <div class="position-relative m-auto d-flex justify-content-center align-items-center"
+                                                         style="width: 175px;border-radius: 100px !important;height: 175px;overflow: hidden;">
+                                                        <img t-attf-src="/web/image?model=res.partner&amp;id=#{application_id.partner_id.id}&amp;field=image_512" widget="image"
+                                                             id="avatar_photo"
+                                                             class="avatar h-100" alt="avatar"/>
+                                                        <div class="spinner-grow text-light position-absolute w-50 h-50"
+                                                             style="display: none;" id="student_avatar_loading"
+                                                             role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
                                                     </div>
+                                                    <h6 class="mt-2">Upload a different photo...</h6>
+                                                    <input type="file" id="avatar_photo_file" name="image_1920"
+                                                           class="form-control" accept="image/*"/>
+                                                    <div class='alert alert-info pt-0 pb-0 mt-1'
+                                                         role='alert'>Upload a student photo.</div>
+                                                    <svg class="" id="upload_image_success" style="display: none;" xmlns="http://www.w3.org/2000/svg"
+                                                         viewBox="0 0 52 52">
+                                                        <circle class="checkmark__circle" cx="26" cy="26" r="25"
+                                                                fill="none"/>
+                                                        <path class="checkmark__check" fill="none"
+                                                              d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                                    </svg>
                                                 </div>
                                             </div>
                                             <div class="row mt-2">
@@ -91,7 +105,7 @@
                                                 <div class="col-12 col-md-6 form-group">
                                                     <label for="selStudentGradeLevel"> Grade Level: </label>
                                                     <select id="selStudentGradeLevel" class="form-control"
-                                                            data-adm-field="grade_level" data-adm-field-type="MANY2ONE">
+                                                            data-adm-field="grade_level" data-adm-field-type="INTEGER">
                                                         <t t-foreach="grade_level_ids" t-as="grade_level">
                                                             <option t-att-selected="application_id.grade_level == grade_level"
                                                                     t-att-value="grade_level.id"><t
@@ -101,7 +115,8 @@
                                                 </div>
                                                 <div class="col-12 col-md-6 form-group">
                                                     <label> School Year: </label>
-                                                    <select data-adm-field="school_year" data-adm-field-type="MANY2ONE" class="form-control">
+                                                    <select data-adm-field="school_year" data-adm-field-type="INTEGER"
+                                                            class="form-control">
                                                         <t t-foreach="school_year_ids" t-as="school_year_id">
                                                             <option t-att-value="school_year_id.id"
                                                                     t-att-selected="application_id.school_year == school_year_id">
@@ -134,7 +149,7 @@
                                                         *</span></label>
                                                     <select required="required" type="text"
                                                             id="state_id" name="state_id" placeholder="State"
-                                                            data-adm-field="state_id" data-adm-field-type="MANY2ONE"
+                                                            data-adm-field="state_id" data-adm-field-type="INTEGER"
                                                             class="form-control">
                                                         <option value="-1" selected="selected" disabled="disabled">
                                                             -Select a state-
@@ -152,7 +167,7 @@
                                                         *</span></label>
                                                     <select required="required" type="text"
                                                             id="country_id" name="country_id" placeholder="Country"
-                                                            data-adm-field="country_id" data-adm-field-type="MANY2ONE"
+                                                            data-adm-field="country_id" data-adm-field-type="INTEGER"
                                                             class="form-control">
                                                         <option value="-1" selected="selected" disabled="disabled">
                                                             -Select a country-
@@ -181,7 +196,8 @@
                                             <section class="row">
                                                 <div class="col-12 col-md-6 form-group">
                                                     <label> Gender: <span class="text-danger"> *</span></label>
-                                                    <select required="required" class="form-control" name="gender" data-adm-field="gender" data-adm-field-type="MANY2ONE">
+                                                    <select required="required" class="form-control" name="gender"
+                                                            data-adm-field="gender" data-adm-field-type="INTEGER">
                                                         <t t-foreach="gender_ids" t-as="gender_id">
                                                             <option t-att-selected="application_id.gender == gender_id"
                                                                     t-att-value="gender_id.id">
@@ -193,7 +209,7 @@
                                                 <div class="col-12 col-md-6 form-group">
                                                     <label>Nationality:</label>
                                                     <select name="citizenship" class="form-control"
-                                                            data-adm-field="citizenship" data-adm-field-type="MANY2ONE">
+                                                            data-adm-field="citizenship" data-adm-field-type="INTEGER">
                                                         <option value="-1" selected="selected" disabled="disabled">
                                                             -Select a country-
                                                         </option>
@@ -287,7 +303,7 @@
                                                 </div>
 
                                                 <div class="col-12 col-md-6">
-                                                    <label for="field_expected_starting_date" >Expected starting
+                                                    <label for="field_expected_starting_date">Expected starting
                                                         date</label>
                                                     <input id="field_expected_starting_date" type="date"
                                                            data-adm-field="expected_starting_date"
