@@ -20,7 +20,9 @@
     'depends': ['adm'],
 
     # always loaded
-    'data': [ ],
+    'data': [
+        'views/views_application.xml'
+        ],
     # 'qweb': [ ],
     # 'application': True
     }

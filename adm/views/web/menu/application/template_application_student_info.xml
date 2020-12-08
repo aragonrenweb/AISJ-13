@@ -263,7 +263,14 @@
                                                     <label class="label-upload" for="passport_file"><i
                                                             class="fa fa-upload"></i></label>
                                                     <input type="file" id="passport_file"/>
-                                                    <span class="js_input_file_label">No file uploaded</span>
+                                                    <span class="js_input_file_label">
+                                                        <t t-if="application_id.passport_file_ids">
+                                                            <t t-esc="application_id.passport_file_ids[-1].name"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            No file uploaded
+                                                        </t>
+                                                    </span>
                                                 </div>
                                             </div>
 
@@ -275,7 +282,15 @@
                                                            for="passport_residency_permit"><i
                                                             class="fa fa-upload"></i></label>
                                                     <input type="file" id="passport_residency_permit"/>
-                                                    <span class="js_input_file_label">No file uploaded</span>
+                                                    <span class="js_input_file_label">
+
+                                                        <t t-if="application_id.residency_file_ids">
+                                                            <t t-esc="application_id.residency_file_ids[-1].name"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            No file uploaded
+                                                        </t>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </section>

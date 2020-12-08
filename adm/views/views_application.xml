@@ -4,7 +4,8 @@
         <field name="name">Application Kanban</field>
         <field name="model">adm.application</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="status_id" edit="false" class="o_kanban_small_column o_kanban_project_tasks" disable_drag_drop_record="true" disable_sort_column="true">
+            <kanban default_group_by="status_id" edit="false" class="o_kanban_small_column o_kanban_project_tasks"
+                    disable_drag_drop_record="true" disable_sort_column="true">
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click oe_semantic_html_override oe_kanban_card">
@@ -12,13 +13,15 @@
                                 <div class="o_kanban_record_top">
                                     <div class="o_kanban_record_headings">
                                         <strong class="o_kanban_record_title">
-                                            <field name="name" />
+                                            <field name="name"/>
                                         </strong>
-                                        <br />
+                                        <br/>
                                     </div>
                                     <div class="o_dropdown_kanban dropdown">
-                                        <a role="button" class="dropdown-toogle o-no-caret btn" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
-                                            <span class="fa fa-ellipsis-v" />
+                                        <a role="button" class="dropdown-toogle o-no-caret btn" data-toggle="dropdown"
+                                           data-display="static" href="#" aria-label="Dropdown menu"
+                                           title="Dropdown menu">
+                                            <span class="fa fa-ellipsis-v"/>
                                         </a>
                                         <div class="dropdown-menu" role="menu">
                                             <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
@@ -40,47 +43,46 @@
         <field name="model">adm.application.status</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="id" />
-                <field name="name" />
-                <field name="sequence" widget="handle" />
+                <field name="id"/>
+                <field name="name"/>
+                <field name="sequence" widget="handle"/>
             </tree>
         </field>
     </record>
 
-<!--reporte base que muestra la información de la aplicacion común entre distintos colegios-->
+    <!--reporte base que muestra la información de la aplicacion común entre distintos colegios-->
     <report
-        id="report_application_default"
-        model="adm.application"
-        string="Default Report"
-        report_type="qweb-html"
-        name="adm.report_default"
-        file="adm.report_default"
-        menu="False"
+            id="report_application_default"
+            model="adm.application"
+            string="Default Report"
+            report_type="qweb-html"
+            name="adm.report_default"
+            file="adm.report_default"
+            menu="False"
 
     />
-<!--reporte customizado que muestra la información de la aplicacion-->
+    <!--reporte customizado que muestra la información de la aplicacion-->
     <report
-        id="report_application_custom"
-        model="adm.application"
-        string="Custom Report"
-        report_type="qweb-pdf"
-        name="adm.report_custom"
-        file="adm.report_custom"
-        menu="False"
+            id="report_application_custom"
+            model="adm.application"
+            string="Custom Report"
+            report_type="qweb-pdf"
+            name="adm.report_custom"
+            file="adm.report_custom"
+            menu="False"
     />
-<!--reporte customizado para iae-pan, encargado de mostrar reporte interno donde administradores firmarán las aplicaciones-->
-        <report
-        id="report_internal_custom"
-        model="adm.application"
-        string="Internal Report"
-        report_type="qweb-pdf"
-        name="adm.report_internal"
-        file="adm.report_internal"
-        menu="False"
+    <!--reporte customizado para iae-pan, encargado de mostrar reporte interno donde administradores firmarán las aplicaciones-->
+    <report
+            id="report_internal_custom"
+            model="adm.application"
+            string="Internal Report"
+            report_type="qweb-pdf"
+            name="adm.report_internal"
+            file="adm.report_internal"
+            menu="False"
     />
-      <!--  attachment_use="True"
-        attachment="'Application_of_'+(object.name or '').replace('/','').replace(' ','_')+'.pdf'"-->
-
+    <!--  attachment_use="True"
+      attachment="'Application_of_'+(object.name or '').replace('/','').replace(' ','_')+'.pdf'"-->
 
 
     <!--Form View for Application -->
@@ -91,346 +93,115 @@
 
             <form>
                 <header>
-                    <field name="status_type" attrs="{'invisible': 1}" />
-                    <button name="move_to_next_status" string="NEXT STATUS" type="object" class="btn-primary oe_read_only" attrs="{'invisible': [('status_type', '!=', 'stage')]}" />
-                    <button name="cancel" string="CANCEL" type="object" class="btn-danger oe_read_only" attrs="{'invisible': [('status_type', '=', 'cancelled')]}" />
+                    <field name="status_type" attrs="{'invisible': 1}"/>
+                    <button name="move_to_next_status" string="NEXT STATUS" type="object"
+                            class="btn-primary oe_read_only" attrs="{'invisible': [('status_type', '!=', 'stage')]}"/>
+                    <button name="cancel" string="CANCEL" type="object" class="btn-danger oe_read_only"
+                            attrs="{'invisible': [('status_type', '=', 'cancelled')]}"/>
 
-                    <button name="force_back" string="FORCE BACK STATUS" type="object" class="btn-warning oe_read_only" />
-                    <button name="force_next" string="FORCE NEXT STATUS" type="object" class="btn-warning oe_read_only" />
-                    <button class="btn btn-success text-light" name="print_custom" type="object" string="PRINT" />
-                    <button class="btn btn-success text-light" name="generate_internal_report" type="object" string="GENERATE INTERNAL REPORT" />
+                    <button name="force_back" string="FORCE BACK STATUS" type="object"
+                            class="btn-warning oe_read_only"/>
+                    <button name="force_next" string="FORCE NEXT STATUS" type="object"
+                            class="btn-warning oe_read_only"/>
+                    <button class="btn btn-success text-light" name="print_custom" type="object" string="PRINT"/>
+                    <button class="btn btn-success text-light" name="generate_internal_report" type="object"
+                            string="GENERATE INTERNAL REPORT"/>
 
-                    <field name="status_id" widget="statusbar" options="{'fold_field': 'fold'}" />
+                    <field name="status_id" widget="statusbar" options="{'fold_field': 'fold'}"/>
                 </header>
                 <sheet>
-                    <field name="image" String="" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image&quot;}"/>
+                    <field name="image" String="" widget="image" class="oe_avatar"
+                           options="{&quot;preview_image&quot;: &quot;image&quot;}"/>
                     <div class="oe_title">
                         <h1>
                             <field name="name" force_save="1"/>
                         </h1>
                     </div>
                     <group>
-                        <field name="preferred_degree_program" />
-                        <field name="partner_id" />
+                        <field name="preferred_degree_program"/>
+                        <field name="partner_id"/>
                         <group colspan="1">
 
-                            <field name="first_name" />
-                            <field name="middle_name" />
-                            <field name="last_name" />
-                            <field name="contact_time_id" />
+                            <field name="first_name"/>
+                            <field name="middle_name"/>
+                            <field name="last_name"/>
+                            <field name="contact_time_id"/>
                             <field name="grade_level"/>
                             <field name="school_year"/>
-<!--                            <field name="siblings"/>-->
+                            <!--                            <field name="siblings"/>-->
                         </group>
                         <group colspan="1">
-                            <field name="gender" />
-                            <field name="father_name" />
-                            <field name="mother_name" />
+                            <field name="gender"/>
+                            <field name="father_name"/>
+                            <field name="mother_name"/>
                         </group>
                     </group>
-                    <notebook>
+                    <notebook id="application_notebook">
                         <page string="Tasks">
-                            <field name="state_tasks" attrs="{'invisible': True}" />
-                            <field name="task_ids" widget="many2many_checkboxes" domain="[('id', 'in', state_tasks)]" />
+                            <field name="state_tasks" attrs="{'invisible': True}"/>
+                            <field name="task_ids" widget="many2many_checkboxes" domain="[('id', 'in', state_tasks)]"/>
                         </page>
-                        <page string="Languages">
+
+                        <!--                        <page name="student_info" string="Student info">-->
+                        <!--                            <group>-->
+                        <!--                                <field name=""-->
+                        <!--                            </group> -->
+                        <!--                        </page>-->
+                        <page name="schools" string="Schools">
+                            <field name="previous_school_ids"/>
+                        </page>
+                        <page name="family" string="Family">
+                            <notebook>
+                                <page name="parents" string="Parents/Guardian">
+                                </page>
+                                <page name="siblings" string="Sibling">
+                                    <field name="sibling_ids"/>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page name="health" string="Health">
                             <group>
-                                <group colspan="1" attrs="{'invisible': [('first_language', '==', False)]}">
-                                    <field name="first_language"/>
-                                    <field name="first_level_language"/>
-                                </group>
-
-                                <group colspan="1" attrs="{'invisible': [('second_language', '==', False)]}">
-                                    <field name="second_language"/>
-                                    <field name="second_level_language"/>
-                                </group>
-
-                                <group colspan="1" attrs="{'invisible': [('third_language', '==', False)]}">
-                                    <field name="third_language"/>
-                                    <field name="third_level_language"/>
-                                </group>
+                                <field name="doctor_name"/>
+                                <field name="hospital"/>
+                                <field name="doctor_name"/>
                             </group>
+                            <notebook id="application_health">
+                                <page name="conditions" string="Conditions">
+                                    <field name="medical_conditions_ids">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="comment"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page name="allergies" string="Allergies">
+                                    <field name="medical_allergies_ids">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="comment"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page name="medications" string="Medications">
+                                    <field name="medical_medications_ids">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="comment"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
                         </page>
+                        <page name="documents" string="Documents">
 
-                        <page string="Academic Info">
-                            <field name="previous_school_ids" />
                         </page>
-
-                        <page string="Family Info">
-                            <page string="Relationships">
-                                <field name="relationship_ids">
-                                    <tree>
-                                        <field name="partner_2" />
-                                        <field name="relationship_type" />
-                                    </tree>
-                                    <form>
-                                        <group>
-                                            <field name="partner_2" />
-                                            <field name="relationship_type" />
-                                        </group>
-                                    </form>
-                                </field>
-                            </page>
-                        </page>
-
-                        <page string="House Address">
-                            <field name="house_address_ids" />
-                        </page>
-
-                        <page string="Medical Info">
-                            <group>
-                                <field name="doctor_name" />
-                                <field name="doctor_address" />
-                                <field name="doctor_phone" />
-                                <field name="permission_to_treat" />
-                                <field name="blood_type"/>
-                                <field name="medical_conditions_ids">
-                                    <tree editable="bottom">
-                                        <field name="name" />
-                                        <field name="comment" />
-                                    </tree>
-                                    <form>
-                                        <group>
-                                            <field name="name" />
-                                            <field name="comment" />
-                                        </group>
-                                    </form>
-                                </field>
-                                <field name="medical_allergies_ids">
-                                    <tree editable="bottom">
-                                        <field name="name" />
-                                        <field name="comment" />
-                                    </tree>
-                                    <form>
-                                        <group>
-                                            <field name="name" />
-                                            <field name="comment" />
-                                        </group>
-                                    </form>
-                                </field>
-                                <field name="medical_medications_ids">
-                                    <tree editable="bottom">
-                                        <field name="name" />
-                                        <field name="comment" />
-                                    </tree>
-                                    <form>
-                                        <group>
-                                            <field name="name" />
-                                            <field name="comment" />
-                                        </group>
-                                    </form>
-                                </field>
-                            </group>
-                        </page>
-
-                        <page string="Administration Section">
-                            <field name="relationship_ids">
-                                <tree>
-                                    <field name="partner_2" />
-                                    <field name="relationship_type" />
-                                </tree>
-                                <form>
-                                    <group>
-                                        <field name="partner_2" />
-                                        <field name="relationship_type" />
-                                    </group>
-                                </form>
-                            </field>
-                        </page>
-<!--                        <page string="Signature Info">-->
-<!--                             <t t-foreach="docs" t-as="doc">-->
-<!--                               <img  id="imgDefault" t-att-src="attach_file_id.website_url" width="400" height="200" />-->
-<!--                             </t>-->
-<!--                        </page>-->
-
-<!--                        <page string="Document Upload (Toddlesrs - Kindler)">-->
-<!--                        </page>-->
-
-<!--                        <page string="Document Upload (1st Grade - 9th Grade)">-->
-<!--                        </page>-->
-
-<!--                        <page string="Document Upload (Foreign Students)">-->
-<!--                        </page>-->
-                        <!--                        <page string="Contact">-->
-                        <!--                            <group>-->
-                        <!--                                <field name="email" widget="email" />-->
-                        <!--                                <field name="phone" />-->
-                        <!--                                <field name="other_contacts_ids">-->
-                        <!--                                    <tree editable="bottom">-->
-                        <!--                                        <field name="contact_name" />-->
-                        <!--                                        <field name="contact_identification" />-->
-                        <!--                                    </tree>-->
-                        <!--                                </field>-->
-                        <!--                            </group>-->
-                        <!--                        </page>-->
-                        <!--                        <page string="Location">-->
-                        <!--                            <group>-->
-                        <!--                                <label for="street" string="Address" />-->
-                        <!--                                <div class="o_address_format">-->
-                        <!--                                    <field name="street" placeholder="Street..." class="o_address_street" />-->
-                        <!--                                    <field name="city" placeholder="City" class="o_address_city" />-->
-                        <!--                                    <field name="state_id" class="o_address_state" placeholder="State" domain="[('country_id', '=', country_id)]" />-->
-                        <!--                                    <field name="zip" placeholder="ZIP" class="o_address_zip" />-->
-                        <!--                                    <field name="country_id" placeholder="Country" class="o_address_country" />-->
-                        <!--                                </div>-->
-                        <!--                            </group>-->
-                        <!--                        </page>-->
-                        <!--                        <page string="School Information">-->
-                        <!--                            <group>-->
-                        <!--                                <field name="current_school" />-->
-                        <!--                                <field name="previous_school" />-->
-                        <!--                                <field name="gpa" />-->
-                        <!--                                <field name="cumulative_grades" />-->
-                        <!--                                <field name="regional_exam_grade" />-->
-                        <!--                                <field name="bac_grade" />-->
-                        <!--                            </group>-->
-                        <!--                        </page>-->
-                        <!--                        <page string="Language Skills">-->
-                        <!--                            <field name="language_ids">-->
-                        <!--                                <tree editable="bottom">-->
-                        <!--                                    <field name="language_id" />-->
-                        <!--                                    <field name="language_level_id" />-->
-                        <!--                                </tree>-->
-                        <!--                                <form>-->
-                        <!--                                    <sheet>-->
-                        <!--                                        <group>-->
-                        <!--                                            <field name="language_id" />-->
-                        <!--                                            <field name="language_level_id" />-->
-                        <!--                                        </group>-->
-                        <!--                                    </sheet>-->
-                        <!--                                </form>-->
-                        <!--                            </field>-->
-                        <!--                        </page>-->
-                        <!--                        <page string="Documentation">-->
-                        <!--                            <group>-->
-                        <!--                                <group col="1">-->
-                        <!--                                    <field name="letter_of_motivation_id" />-->
-                        <!--                                    <field name="cv_id" />-->
-                        <!--                                </group>-->
-                        <!--                                <group col="1">-->
-                        <!--                                    <field name="grade_transcript_id" />-->
-                        <!--                                    <field name="letters_of_recommendation_id" />-->
-                        <!--                                </group>-->
-                        <!--                            </group>-->
-                        <!--                        </page>-->
-                        <!--                        <page string="Siblings">-->
-                        <!--                            <field name="sibling_ids" />-->
-                        <!--                        </page>-->
-                        <!--                        <page string="Previous School">-->
-                        <!--                            <field name="previous_school_ids" />-->
-                        <!--                        </page>-->
-                        <!--                        <page string="Additional student information up">-->
-                        <!--                            <group>-->
-                        <!--                                <button name="move_to_next_status" type="object" string="Move" class="oe_highlight"/>-->
-                        <!--                                <field name="resident_status" />-->
-                        <!--                                <field name="resident_length_of_stay" />-->
-
-                        <!--                                <field name="first_language" />-->
-                        <!--                                <field name="first_language_skill_write" />-->
-                        <!--                                <field name="first_language_skill_read" />-->
-                        <!--                                <field name="first_language_skill_speak" />-->
-                        <!--                                <field name="first_language_skill_listen" />-->
-
-                        <!--                                <field name="second_language" />-->
-                        <!--                                <field name="second_language_skill_write" />-->
-                        <!--                                <field name="second_language_skill_read" />-->
-                        <!--                                <field name="second_language_skill_speak" />-->
-                        <!--                                <field name="second_language_skill_listen" />-->
-
-                        <!--                                <field name="third_language" />-->
-                        <!--                                <field name="third_language_skill_write" />-->
-                        <!--                                <field name="third_language_skill_read" />-->
-                        <!--                                <field name="third_language_skill_speak" />-->
-                        <!--                                <field name="third_language_skill_listen" />-->
-
-                        <!--                                <field name="number_years_in_english" />-->
-                        <!--                                <field name="additional_info_other" />-->
-                        <!--                                <field name="special_education" />-->
-                        <!--                                <field name="special_education_desc" />-->
-                        <!--                                <field name="psycho_educational_testing" />-->
-                        <!--                                <field name="emotional_support" />-->
-                        <!--                                <field name="emotional_support_desc" />-->
-                        <!--                                <field name="iep_education" />-->
-                        <!--                            </group>-->
-                        <!--                        </page>-->
-                        <!--                                                <page string="Relationships">-->
-                        <!--                                                    <field name="relationship_ids">-->
-                        <!--                                                        <tree>-->
-                        <!--                                                            <field name="partner_2" />-->
-                        <!--                                                            <field name="relationship_type" />-->
-                        <!--                                                        </tree>-->
-                        <!--                                                        <form>-->
-                        <!--                                                            <group>-->
-                        <!--                                                                <field name="partner_2" />-->
-                        <!--                                                                <field name="relationship_type" />-->
-                        <!--                                                            </group>-->
-                        <!--                                                        </form>-->
-                        <!--                                                    </field>-->
-                        <!--                                                </page>-->
-                        <!--                        <page string="Medical information">-->
-                        <!--                                                    <group>-->
-                        <!--                                                        <field name="doctor_name" />-->
-                        <!--                                                        <field name="doctor_phone" />-->
-                        <!--                                                        <field name="permission_to_treat" />-->
-                        <!--                                                        <field name="medical_conditions_ids">-->
-                        <!--                                                            <tree editable="bottom">-->
-                        <!--                                                                <field name="name" />-->
-                        <!--                                                                <field name="comment" />-->
-                        <!--                                                            </tree>-->
-                        <!--                                                            <form>-->
-                        <!--                                                                <group>-->
-                        <!--                                                                    <field name="name" />-->
-                        <!--                                                                    <field name="comment" />-->
-                        <!--                                                                </group>-->
-                        <!--                                                            </form>-->
-                        <!--                                                        </field>-->
-                        <!--                                                        <field name="medical_allergies_ids">-->
-                        <!--                                                            <tree editable="bottom">-->
-                        <!--                                                                <field name="name" />-->
-                        <!--                                                                <field name="comment" />-->
-                        <!--                                                            </tree>-->
-                        <!--                                                            <form>-->
-                        <!--                                                                <group>-->
-                        <!--                                                                    <field name="name" />-->
-                        <!--                                                                    <field name="comment" />-->
-                        <!--                                                                </group>-->
-                        <!--                                                            </form>-->
-                        <!--                                                        </field>-->
-                        <!--                                                        <field name="medical_medications_ids">-->
-                        <!--                                                            <tree editable="bottom">-->
-                        <!--                                                                <field name="name" />-->
-                        <!--                                                                <field name="comment" />-->
-                        <!--                                                            </tree>-->
-                        <!--                                                            <form>-->
-                        <!--                                                                <group>-->
-                        <!--                                                                    <field name="name" />-->
-                        <!--                                                                    <field name="comment" />-->
-                        <!--                                                                </group>-->
-                        <!--                                                            </form>-->
-                        <!--                                                        </field>-->
-                        <!--                                                    </group>-->
-                        <!--                        </page>-->
-                        <!--                        <page string="References">-->
-                        <!--                            <group col="2">-->
-                        <!--                                <group colspan="1"><field name="isp_community_reference_1" /></group>-->
-                        <!--                                <group colspan="1"><field name="isp_community_reference_2" /></group>-->
-                        <!--                            </group>-->
-                        <!--                            <group col="2">-->
-                        <!--                                <group colspan="1"><field name="personal_reference_contact_information_1" /></group>-->
-                        <!--                                <group colspan="1"><field name="personal_reference_name_1" /></group>-->
-                        <!--                            </group>-->
-                        <!--                            <group col="2">-->
-                        <!--                                <group colspan="1"><field name="personal_reference_contact_information_2" /></group>-->
-                        <!--                                <group colspan="1"><field name="personal_reference_name_2" /></group>-->
-                        <!--                            </group>-->
-                        <!--                        </page>-->
                     </notebook>
                 </sheet>
 
                 <div class="oe_chatter" modifiers="{}">
-                    <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity" />
-                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}" />
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
                 </div>
 
             </form>
@@ -444,15 +215,15 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="name" />
-                        <field name="description" />
+                        <field name="name"/>
+                        <field name="description"/>
                     </group>
                     <group>
                         <group colspan="1">
-                            <field name="fold" />
+                            <field name="fold"/>
                         </group>
                         <group colspan="1">
-                            <field name="type_id" widget="radio" />
+                            <field name="type_id" widget="radio"/>
                         </group>
                     </group>
                     <group>
@@ -460,8 +231,8 @@
                             <page string="Tasks">
                                 <field name="task_ids">
                                     <tree editable="bottom">
-                                        <field name="name" />
-                                        <field name="description" />
+                                        <field name="name"/>
+                                        <field name="description"/>
                                     </tree>
                                 </field>
                             </page>
@@ -477,9 +248,9 @@
         <field name="model">adm.application.sibling</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" />
-                <field name="age" />
-                <field name="school" />
+                <field name="name"/>
+                <field name="age"/>
+                <field name="school"/>
             </tree>
         </field>
     </record>

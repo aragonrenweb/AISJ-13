@@ -218,8 +218,8 @@ class Application(models.Model):
     sibling_ids = fields.One2many("adm.application.sibling", "application_id", "Siblings")
 
     # Files
-    passport_file_ids = fields.One2many('ir.attachment', 'application_passport_id')
-    residency_file_ids = fields.One2many('ir.attachment', 'application_residency_id')
+    passport_file_ids = fields.Many2many('ir.attachment', 'application_passport_id')
+    residency_file_ids = fields.Many2many('ir.attachment', 'application_residency_id')
 
     residency_permit_id_number = fields.Many2one('ir.attachment')
     parent_passport_upload = fields.Many2one('ir.attachment')
@@ -454,7 +454,7 @@ class ApplicationSiblings(models.Model):
 
     partner_id = fields.Many2one('res.partner')
 
-    name = fields.Char("Name")
+    name = fields.Char(related="partner_id.name")
     age = fields.Integer("Edad")
 
     school = fields.Char("School name")

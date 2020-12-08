@@ -30,12 +30,26 @@ class AdmApplication(models.Model):
     guardian_relationship2_id_parent_passport_upload = fields.Many2one('ir.attachment')
 
     immunization_history_attachment_id = fields.Many2one('ir.attachment')
+    immunization_history_attachment_id_data = fields.Binary(related='immunization_history_attachment_id.datas')
+    testing_attachment = fields.Binary('lol', attachment=True)
+
     report_cards_attachment_id = fields.Many2one('ir.attachment')
+    report_cards_attachment_id_data = fields.Binary(related='report_cards_attachment_id.datas')
+
     previous_school_profile_attachment_id = fields.Many2one('ir.attachment')
+    previous_school_profile_attachment_id_data = fields.Binary(related='previous_school_profile_attachment_id.datas')
+
     standardized_tests_attachment_id = fields.Many2one('ir.attachment')
+    standardized_tests_attachment_id_data = fields.Binary(related='standardized_tests_attachment_id.datas')
+
     family_identification_document_attachment_id = fields.Many2one('ir.attachment')
+    family_identification_document_attachment_id_data = fields.Binary(related='family_identification_document_attachment_id.datas')
+
     special_evaluation_report_attachment_id = fields.Many2one('ir.attachment')
+    special_evaluation_report_attachment_id_data = fields.Binary(related='special_evaluation_report_attachment_id.datas')
+
     business_card_attachment_id = fields.Many2one('ir.attachment')
+    business_card_attachment_id_data = fields.Binary(related='business_card_attachment_id.datas')
 
     c_aisj_parent_questionaire_sel = [('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ]
 
