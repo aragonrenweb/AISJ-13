@@ -25,7 +25,9 @@
                                             <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                                                 <div class="position-relative m-auto d-flex justify-content-center align-items-center"
                                                      style="width: 175px;border-radius: 100px !important;height: 175px;overflow: hidden;">
-                                                    <img t-attf-src="/web/image?model=res.partner&amp;id=#{application_id.partner_id.id}&amp;field=image_512"
+<!--                                                    t-attf-src="/web/image?model=res.partner&amp;id=#{application_id.partner_id.id}&amp;field=image_512-->
+<!--                                                            t-att-scr="student_photo"-->
+                                                    <img t-attf-src="data:image/*;base64,{{application_id.partner_id and application_id.partner_id.image_1920}}"
                                                          widget="image"
                                                          id="avatar_photo"
                                                          class="avatar h-100" alt="avatar"/>
