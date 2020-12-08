@@ -5,6 +5,16 @@
         <field name="model">adm.application</field>
         <field name="inherit_id" ref="adm.view_application_form"/>
         <field name="arch" type="xml">
+
+            <field name="previous_school_ids" position="before">
+                <hr/>
+                <group col="1">
+                    <field name="c_aisj_schools_q1"/>
+                    <field name="c_aisj_schools_q2"/>
+                </group>
+                <hr/>
+            </field>
+
             <notebook id="application_notebook" position="inside">
 
                 <page name="parent_questionnaire" string="Parent Questionnaire">
@@ -30,7 +40,13 @@
                     </group>
                 </page>
             </notebook>
+
             <page name="parents" position="inside">
+                <group col="1">
+                    <field name="c_aisj_parent_q1"/>
+                    <field name="c_aisj_parent_q2"/>
+                </group>
+                <hr/>
                 <group>
                     <field name="guardian_relationship1_id"/>
                     <field name="guardian_relationship2_id"/>
