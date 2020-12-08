@@ -130,12 +130,18 @@
                                                 School of Jeddah before?</label>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio"
+                                                       data-adm-field="c_aisj_schools_q1"
+                                                       value="yes"
+                                                       t-att-checked="application_id.c_aisj_schools_q1 == 'yes'"
                                                        name="attended_to_aisj_before"/>
                                                 <label class="for-check-label">Yes</label>
                                             </div>
 
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio"
+                                                       data-adm-field="c_aisj_schools_q1"
+                                                       value="no"
+                                                       t-att-checked="application_id.c_aisj_schools_q1 == 'no'"
                                                        name="attended_to_aisj_before"/>
                                                 <label class="for-check-label">No</label>
                                             </div>
@@ -146,12 +152,18 @@
                                                 School of Jeddah Before?</label>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio"
+                                                       data-adm-field="c_aisj_schools_q2"
+                                                       value="yes"
+                                                       t-att-checked="application_id.c_aisj_schools_q2 == 'yes'"
                                                        name="applied_to_aisj_before"/>
                                                 <label class="for-check-label">Yes</label>
                                             </div>
 
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio"
+                                                       data-adm-field="c_aisj_schools_q2"
+                                                       value="no"
+                                                       t-att-checked="application_id.c_aisj_schools_q2 == 'no'"
                                                        name="applied_to_aisj_before"/>
                                                 <label class="for-check-label">No</label>
                                             </div>

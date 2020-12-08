@@ -43,7 +43,7 @@ class AdmApplication(models.Model):
     standardized_tests_attachment_id_data = fields.Binary(related='standardized_tests_attachment_id.datas')
 
     family_identification_document_attachment_id = fields.Many2one('ir.attachment')
-    family_identification_document_attachment_id_data = fields.Binary(related='family_identification_document_attachment_id.datas')
+    amily_identification_document_attachment_id_data = fields.Binary(related='family_identification_document_attachment_id.datas')
 
     special_evaluation_report_attachment_id = fields.Many2one('ir.attachment')
     special_evaluation_report_attachment_id_data = fields.Binary(related='special_evaluation_report_attachment_id.datas')
@@ -148,6 +148,21 @@ class AdmApplication(models.Model):
         ], string="What is important to you when choosing a school?")
     c_aisj_additional_questions_q3 = fields.Char("Has your child ever been on academic probation?")
     c_aisj_additional_questions_q4 = fields.Char("Has your child ever been asked to withdraw from a school?")
+
+    c_aisj_parent_q1 = fields.Selection([
+                ('father_and_mother', "Father and mother"),
+                ('father_and_stepmother', "Father and stepmother"),
+                ('father_only', "Father only"),
+                ('mother_and_stepfather', "Mother and stepfather"),
+                ('mother_only', "Mother only"),
+                ('grandparents', "Grandparents"),
+                ('shares_time_with_both_parents', "Shares time with both parents"),
+                ('other', "Other"),
+        ], string="With whom does the applicant live?")
+    c_aisj_parent_q2 = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Does your employer pay tuition directly to the school?")
+
+    c_aisj_schools_q1 = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Has your child applied to The American International School of Jeddah before?")
+    c_aisj_schools_q2 = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Has your child attended The American International School of Jeddah Before?")
 
 
 class ApplicationSiblings(models.Model):
