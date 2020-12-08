@@ -301,17 +301,44 @@
             <div class="row">
                 <!-- Uploads -->
                 <div class="col-12 col-md-6 form-group">
-                    <label>Residency Permit Id Number</label>
-                    <input class="form-control" type="file"
-                           t-attf-data-adm-field="#{parent_field_name}_residency_permit_id_number"
-                           data-adm-field-type="ATTACHMENT"/>
+                    <label t-attf-for="#{parent_field_name}_residency_permit_id_number" class="label">Residency Permit
+                        Id Number</label>
+                    <div class="form-upload">
+                        <label class="label-upload" t-attf-for="#{parent_field_name}_residency_permit_id_number">
+                            <i class="fa fa-upload"></i>
+                        </label>
+                        <input type="file" t-attf-id="#{parent_field_name}_residency_permit_id_number"
+                               t-attf-data-adm-field="#{parent_field_name}_residency_permit_id_number"
+                               data-adm-field-type="ATTACHMENT"/>
+                        <span class="js_input_file_label">
+                            <t t-if="application_id['%s_residency_permit_id_number' % parent_field_name]">
+                                <t t-esc="application_id['%s_residency_permit_id_number' % parent_field_name].name"/>
+                            </t>
+                            <t t-else="">
+                                No file uploaded
+                            </t>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="col-12 col-md-6 form-group">
-                    <label>Parent passport upload</label>
-                    <input class="form-control" type="file"
-                           t-attf-data-adm-field="#{parent_field_name}_parent_passport_upload"
-                           data-adm-field-type="ATTACHMENT"/>
+                    <label t-attf-for="#{parent_field_name}_parent_passport_upload" class="label">Parent passport
+                        upload</label>
+                    <div class="form-upload">
+                        <label class="label-upload" t-attf-for="#{parent_field_name}_parent_passport_upload"><i
+                                class="fa fa-upload"></i></label>
+                        <input type="file" t-attf-id="#{parent_field_name}_parent_passport_upload"
+                               t-attf-data-adm-field="#{parent_field_name}_parent_passport_upload"
+                               data-adm-field-type="ATTACHMENT"/>
+                        <span class="js_input_file_label">
+                            <t t-if="application_id['%s_parent_passport_upload' % parent_field_name]">
+                                <t t-esc="application_id['%s_parent_passport_upload' % parent_field_name].name"/>
+                            </t>
+                            <t t-else="">
+                                No file uploaded
+                            </t>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -321,6 +348,7 @@
         <t t-call="adm.template_application_page_commons">
             <t t-set="head">
                 <!--<link rel="stylesheet" href="/adm/static/css/form_application_id..css"/>-->
+                <link rel="stylesheet" href="/adm/static/src/css/main.css"/>
                 <t t-call-assets="adm.assets_application_family_parents" defer_load="True"/>
             </t>
             <t t-set="title">Parents</t>

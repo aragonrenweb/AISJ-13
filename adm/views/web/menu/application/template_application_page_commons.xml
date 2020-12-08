@@ -10,7 +10,20 @@
                 <t t-call-assets="adm.assets_application_common" defer_load="True"/>
             </t>
             <t t-set="head" t-value="head_application_common + (head or '')"/>
-            <t t-raw="0"/>
+
+            <t t-if="application_id.status_id.type_id not in ['return', 'started']">
+
+                <div class="oe_struture"/>
+                <div class="oe_struture">
+                    <t t-call="adm.template_application_menu"/>
+                    <div class="alert alert-warning mt-3" role="alert">
+                        The request has already been sent.
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <t t-raw="0"/>
+            </t>
         </t>
     </template>
 

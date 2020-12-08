@@ -36,7 +36,7 @@ odoo.define('adm.application.student_info', require => {
             });
         });
 
-        document.getElementById('passport_file').addEventListener('input', event => {
+        $(document.getElementById('passport_file')).on('input', event => {
             const elFile = event.currentTarget;
             const file = elFile.files[0];
             utils.getDataURLFromFile(file).then(buffer => {
@@ -48,7 +48,7 @@ odoo.define('adm.application.student_info', require => {
             })
         });
 
-        document.getElementById('passport_residency_permit').addEventListener('input', event => {
+        $(document.getElementById('passport_residency_permit')).on('input', event => {
             const elFile = event.currentTarget;
             const file = elFile.files[0];
             utils.getDataURLFromFile(file).then(buffer => {
