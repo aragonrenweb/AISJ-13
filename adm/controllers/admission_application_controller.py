@@ -206,8 +206,20 @@ class AdmissionController(http.Controller):
                     result[key] = False
                     pass
 
-        parent = http.request.env.user.partner_id
+        parent = http.request.env.user.partner_id.sudo()
         family = parent.family_ids and parent.family_ids[0]
+
+        if not family:
+            family = PartnerEnv.sudo().create({
+                'name': 'Family of %s' % parent.name,
+                'is_family': True,
+                'is_company': True,
+                'member_ids': [(4, parent.id, False)]
+                })
+            parent.write({
+                'family_ids': [(4, family.id, False)]
+                })
+
         partner = PartnerEnv.sudo().create({
             "first_name": result.get("first_name"),
             "middle_name": result.get("middle_name"),
@@ -215,9 +227,11 @@ class AdmissionController(http.Controller):
             "image_1920": params.get("file_upload") and base64.b64encode(params["file_upload"].stream.read()),
             "parent_id": family.id,
             "person_type": "student",
-            "family_ids": [(4, family.id)],
+            "family_ids": [(4, family.id, False)],
             })
-        family.member_ids = [(4, partner.id)]
+        family.write({
+            'member_ids': [(4, partner.id, False)]
+        })
         application = ApplicationEnv.create({
             "first_name": result.get("first_name"),
             "middle_name": result.get("middle_name"),
