@@ -197,7 +197,7 @@ class AdmissionController(http.Controller):
                     'age': sibling_age_list[idx],
                     'school': sibling_school_list[idx],
                     }))
-        result["siblings"] = siblings
+        result["sibling_ids"] = siblings
 
         for key in result.keys():
             if key in many2one_fields:
