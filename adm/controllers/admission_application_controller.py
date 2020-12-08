@@ -1254,7 +1254,7 @@ class AdmissionController(http.Controller):
         LanguageEnv = request.env["adm.language"]
         languages = LanguageEnv.browse(LanguageEnv.search([])).ids
 
-        student_photo = "data:image/png;base64," + str(application_id.partner_id.image_1920)[2:-1:]
+        # student_photo = "data:image/png;base64," + str(application_id.partner_id.image_1920)[2:-1:]
 
         # Applying semester
         field_applying_semester = request.env['adm.application']._fields['applying_semester']
@@ -1264,8 +1264,8 @@ class AdmissionController(http.Controller):
             } for value, name in field_applying_semester.selection]
         params = self.compute_view_render_params(application_id)
         params.update({
-            "student": application_id.partner_id,
-            "student_photo": student_photo,
+            "student": application_id.partner_id.sudo(),
+            # "student_photo": student_photo,
             "adm_languages": languages,
             "showPendingInformation": showPendingInformation,
             "pendingData": pendingTasks,
