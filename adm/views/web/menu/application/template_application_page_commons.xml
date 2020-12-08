@@ -18,6 +18,7 @@
                     <t t-call="adm.template_application_menu"/>
                     <div class="alert alert-warning mt-3" role="alert">
                         The request has already been sent.
+<!--                        <t t-esc="application_id.status_id.type_id "/>  -->
                     </div>
                 </div>
             </t>

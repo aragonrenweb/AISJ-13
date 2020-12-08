@@ -11,6 +11,7 @@ class Relationship(models.Model):
 
     partner_1 = fields.Many2one("res.partner", string="Partner 1", required=True, ondelete="cascade")
     partner_2 = fields.Many2one("res.partner", string="Partner", required=True, ondelete="cascade")
+    name = fields.Char(related='partner_2.name')
 
     relationship_type = fields.Selection(
         [('sibling', "Sibling"), ('father', "Father"), ('mother', "Mother"), ('uncle', "Uncle"), ('grandmother', "Grandmother"), ('grandfather', "Grandfather"),

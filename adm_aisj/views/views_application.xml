@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="aisj_application_customized_view">
+        <field name="name">aisj.application.customized.view</field>
+        <field name="model">adm.application</field>
+        <field name="inherit_id" ref="adm.view_application_form"/>
+        <field name="arch" type="xml">
+            <notebook id="application_notebook" position="inside">
+
+                <page name="parent_questionnaire" string="Parent Questionnaire">
+                    <group col="1">
+                        <field name="c_aisj_parent_questionaire_q1"/>
+                        <field name="c_aisj_parent_questionaire_q2"/>
+                        <field name="c_aisj_parent_questionaire_q3"/>
+                        <field name="c_aisj_parent_questionaire_q4"/>
+                        <field name="c_aisj_parent_questionaire_q5"/>
+                        <field name="c_aisj_parent_questionaire_q5"/>
+                        <field name="c_aisj_parent_questionaire_q7"/>
+                        <field name="c_aisj_parent_questionaire_q8"/>
+                        <field name="c_aisj_parent_questionaire_q9"/>
+                        <field name="c_aisj_parent_questionaire_q10"/>
+                    </group>
+                </page>
+                <page name="additional_questions" string="Additional Questsions">
+                    <group col="1">
+                        <field name="c_aisj_additional_questions_q1"/>
+                        <field name="c_aisj_additional_questions_q2"/>
+                        <field name="c_aisj_additional_questions_q3"/>
+                        <field name="c_aisj_additional_questions_q4"/>
+                    </group>
+                </page>
+            </notebook>
+            <page name="parents" position="inside">
+                <group>
+                    <field name="guardian_relationship1_id"/>
+                    <field name="guardian_relationship2_id"/>
+                </group>
+            </page>
+            <page name="documents" position="inside">
+                <h2>Students documents</h2>
+                <group>
+                    <field name="passport_file_ids" widget="many2many_binary"/>
+                    <field name="residency_file_ids" widget="many2many_binary"/>
+                </group>
+                <hr/>
+                <h2 class="text-center">Parent documents</h2>
+                <group>
+                    <group>
+                        <h3>Parent/Guardian 1</h3>
+                        <field string="Passport" name="guardian_relationship1_id_parent_passport_upload"/>
+                        <field string="Residency Permit ID"
+                               name="guardian_relationship1_id_residency_permit_id_number"/>
+                    </group>
+                    <group>
+                        <h3>Parent/Guardian 2</h3>
+                        <field string="Passport" name="guardian_relationship2_id_parent_passport_upload"/>
+                        <field string="Residency Permit ID"
+                               name="guardian_relationship2_id_residency_permit_id_number"/>
+                    </group>
+                </group>
+                <hr/>
+                <h2 class="text-center">Other documents</h2>
+                <group col="1">
+                    <field name="immunization_history_attachment_id"/>
+                    <field name="report_cards_attachment_id"/>
+                    <field name="previous_school_profile_attachment_id"/>
+                    <field name="standardized_tests_attachment_id"/>
+                    <field name="family_identification_document_attachment_id"/>
+                    <field name="special_evaluation_report_attachment_id"/>
+                    <field name="business_card_attachment_id"/>
+                </group>
+            </page>
+        </field>
+    </record>
+</odoo>
