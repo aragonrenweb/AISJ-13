@@ -20,11 +20,8 @@
                                 </t>
                                 <h3 class="text-center mt-4">
                                     CREATE NEW APPLICATION:
-                                    <a class="btn btn-primary" href="/admission/applications/create?grade_level=pre">
-                                        Pre-school
-                                    </a>
                                     <a class="btn btn-primary" href="/admission/applications/create">
-                                        Grade 1-12
+                                        New Application
                                     </a>
                                 </h3>
                             </div>

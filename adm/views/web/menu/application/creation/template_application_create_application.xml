@@ -255,12 +255,6 @@
                                                         </label>
                                                         <input  type="text" name="email" class="form-control" t-att-value="application_id.email"/>
                                                      </div>
-                                                     <div class="col-12 col-md-6">
-                                                         <label>
-                                                            ID Number:
-                                                         </label>
-                                                        <input  type="text" name="identification" class="form-control" t-att-value="application_id.partner_id.identification"/>
-                                                     </div>
                                                 </section>
                                                 <!--
                                                 <section class="row">
