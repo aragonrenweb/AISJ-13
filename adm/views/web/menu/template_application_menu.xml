@@ -11,62 +11,66 @@
             <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
                 <ul class="navbar-nav w-100 justify-content-center">
                     <li class="nav-item nav-item-menu" id="nav-itm-instr">
-                        <a t-attf-href="/admission/applications/#{application_id.id}/instructions-resources"
-                           class="nav-link" >
+                        <a t-attf-href="/admission/applications/#{application_id.id}/"
+                           class="nav-link">
                             GENERAL INFO
                         </a>
                     </li>
                     <li class="nav-item nav-item-menu" id="nav-itm-appl">
-                        <a t-attf-href="/admission/applications/#{application_id.id}/info" class="nav-link" >
+                        <a t-attf-href="/admission/applications/#{application_id.id}/info" class="nav-link">
                             STUDENT INFO
                         </a>
                     </li>
-<!--                    <li class="nav-item nav-item-menu" id="nav-itm-lang">-->
-<!--                        <a t-attf-href="/admission/applications/#{application_id.id}/info" class="nav-link" >-->
-<!--                            LANGUAGES-->
-<!--                        </a>-->
-<!--                    </li>-->
+                    <!--                    <li class="nav-item nav-item-menu" id="nav-itm-lang">-->
+                    <!--                        <a t-attf-href="/admission/applications/#{application_id.id}/info" class="nav-link" >-->
+                    <!--                            LANGUAGES-->
+                    <!--                        </a>-->
+                    <!--                    </li>-->
                     <li class="nav-item nav-item-menu" id="nav-itm-acad">
-                        <a t-attf-href="/admission/applications/#{application_id.id}/schools" class="nav-link" >
+                        <a t-attf-href="/admission/applications/#{application_id.id}/schools" class="nav-link">
                             STUDENT'S SCHOOL
                         </a>
                     </li>
 
                     <li class="nav-item nav-item-menu dropdown">
-                        <a class="nav-link dropdown-toggle"  id="navbarDropdowFamily" role="button"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdowFamily" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             FAMILY
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdowFamily">
-                            <a class="dropdown-item" t-attf-href="/admission/applications/#{application_id.id}/family/parents">
+                            <a class="dropdown-item"
+                               t-attf-href="/admission/applications/#{application_id.id}/family/parents">
                                 PARENTS
                             </a>
-                            <a class="dropdown-item" t-attf-href="/admission/applications/#{application_id.id}/family/siblings">
+                            <a class="dropdown-item"
+                               t-attf-href="/admission/applications/#{application_id.id}/family/siblings">
                                 SIBLINGS
                             </a>
                         </div>
                     </li>
 
                     <li class="nav-item nav-item-menu" id="nav-itm-acad">
-                        <a t-attf-href="/admission/applications/#{application_id.id}/parent-questionnaire" class="nav-link" >
+                        <a t-attf-href="/admission/applications/#{application_id.id}/parent-questionnaire"
+                           class="nav-link">
                             Parent Questionnaire
                         </a>
                     </li>
 
                     <li class="nav-item nav-item-menu" id="nav-itm-acad">
-                        <a t-attf-href="/admission/applications/#{application_id.id}/additional-questions" class="nav-link" >
+                        <a t-attf-href="/admission/applications/#{application_id.id}/additional-questions"
+                           class="nav-link">
                             Additional Questions
                         </a>
                     </li>
 
                     <li class="nav-item nav-item-menu" id="nav-itm-med">
-                        <a t-attf-href="/admission/applications/#{application_id.id}/medical-info" class="nav-link" >
+                        <a t-attf-href="/admission/applications/#{application_id.id}/medical-info" class="nav-link">
                             HEALTH
                         </a>
                     </li>
 
                     <li class="nav-item nav-item-menu" id="nav-itm-one">
-                        <a t-attf-href="/admission/applications/#{application_id.id}/document-comun" class="nav-link" >
+                        <a t-attf-href="/admission/applications/#{application_id.id}/document-comun" class="nav-link">
                             DOCUMENTS
                         </a>
                     </li>
@@ -75,11 +79,14 @@
         </nav>
 
         <t t-if="application_id.status_id.type_id =='return' or application_id.status_id.type_id == 'started'">
-            <form t-att-action="'/admission/applications/{}/check'.format(application_id.id)" method="post"
-                  enctype="multipart/form-data" id="info-form">
-                <button class="btn btn-primary btn-lg fixed-bottom ml-auto mr-2 mb-2" style="left: auto !important;">
-                    Send to School &#10095;</button>
-            </form>
+            <t t-if="application_id.total_required_fields_completed == 100">
+                <form t-att-action="'/admission/applications/{}/check'.format(application_id.id)" method="post"
+                      enctype="multipart/form-data" id="info-form">
+                    <button class="btn btn-primary btn-lg fixed-bottom ml-auto mr-2 mb-2"
+                            style="left: auto !important;">
+                        Send to School &#10095;</button>
+                </form>
+            </t>
             <t t-if="showPendingInformation">
                 <div class="modal show modal_shown" tabindex="-1" role="dialog"
                      style="padding-right: 17px; display: block;" aria-modal="true">

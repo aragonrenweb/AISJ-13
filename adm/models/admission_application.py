@@ -3,6 +3,7 @@
 from odoo import models, fields, api, exceptions, _
 from ..utils import formatting
 import base64
+import datetime
 import requests
 from urllib.request import urlopen
 from odoo.http import content_disposition, dispatch_rpc, request, serialize_exception as _serialize_exception, Response
@@ -25,6 +26,10 @@ class ApplicationStatus(models.Model):
     sequence = fields.Integer(readonly=True, default=-1)
     fold = fields.Boolean(string="Fold")
     type_id = fields.Selection(status_types, string="Type", default='stage')
+    web_visible = fields.Boolean(string="Visible on web")
+    web_alternative_name = fields.Char("Alternative name for web")
+    hide_if_cancel = fields.Boolean(string="Hide if cancelled")
+    hide_if_done = fields.Boolean(string="Hide if done")
 
     partner_id = fields.Many2one("res.partner", string="Customer")
 
@@ -66,6 +71,7 @@ class Application(models.Model):
     birth_country = fields.Many2one("res.country", string="Birth Country", related="partner_id.country_id")
     birth_city = fields.Char("Birth City", related="partner_id.city")
     gender = fields.Many2one("adm.gender", string="Gender", related="partner_id.gender", inverse="_set_gender")
+    status_history_ids = fields.One2many('adm.application.history.status', 'application_id', string="Status history")
 
     def _set_gender(self):
         for application_id in self:
@@ -224,6 +230,44 @@ class Application(models.Model):
     residency_permit_id_number = fields.Many2one('ir.attachment')
     parent_passport_upload = fields.Many2one('ir.attachment')
 
+    required_fields_completed = fields.Integer(string="Required fields completed", compute="_compute_application_fields")
+    optional_fields_completed = fields.Integer(string="Optional fields completed", compute="_compute_application_fields")
+    fields_completed = fields.Float(string="Fields completed", compute="_compute_application_fields")
+
+    total_required_fields_completed = fields.Float(string="Total required fields completed", compute="_compute_application_fields")
+    total_optional_fields_completed = fields.Float(string="Total optional fields completed", compute="_compute_application_fields")
+    total_fields_completed = fields.Float(string="Total fields completed", compute="_compute_application_fields")
+
+    def _compute_application_fields(self):
+        for application_id in self:
+
+            config_parameter = self.env['ir.config_parameter'].sudo()
+            application_required_fields_str = config_parameter.get_param('adm_application_required_field_ids', '')
+            application_required_fields = [int(e) for e in application_required_fields_str.split(',') if e.isdigit()]
+
+            if application_required_fields:
+                required_field_ids = self.env['ir.model.fields'].sudo().browse(application_required_fields)
+                application_id.required_fields_completed = sum(required_field_ids.mapped(lambda f: not not application_id[f.name]))
+                application_id.total_required_fields_completed = application_id.required_fields_completed * 100 / len(required_field_ids)
+            else:
+                application_id.required_fields_completed = 0
+                application_id.total_required_fields_completed = 0
+
+            application_optional_fields_str = config_parameter.get_param('adm_application_optional_field_ids', '')
+            application_optional_fields = [int(e) for e in application_optional_fields_str.split(',') if e.isdigit()]
+
+            if application_optional_fields:
+                optional_field_ids = self.env['ir.model.fields'].sudo().browse(application_optional_fields)
+                application_id.optional_fields_completed = sum(optional_field_ids.mapped(lambda f: not not application_id[f.name]))
+                application_id.total_optional_fields_completed = application_id.optional_fields_completed * 100 / len(optional_field_ids)
+            else:
+                application_id.optional_fields_completed = 0
+                application_id.total_optional_fields_completed = 0
+
+            # Required fields first
+            application_id.fields_completed = application_id.required_fields_completed + application_id.optional_fields_completed
+            application_id.total_fields_completed = (application_id.fields_completed * 100) / (len(application_optional_fields) + len(application_required_fields))
+
     def message_get_suggested_recipients(self):
         recipients = super().message_get_suggested_recipients()
         try:
@@ -246,8 +290,8 @@ class Application(models.Model):
         if index >= 0:
             next_status = status_ids_ordered[index]
             self.with_context({
-                                  'forcing': True
-                                  }).status_id = next_status
+                'forcing': True
+                }).status_id = next_status
 
     def print_default(self):
         return {
@@ -276,7 +320,7 @@ class Application(models.Model):
         # requests.session = request.session
 
         file_id = AttachmentEnv.sudo().create({
-            'name': 'Internal Report', # 'datas_fname': upload_file.filename,
+            'name': 'Internal Report',  # 'datas_fname': upload_file.filename,
             'res_name': 'reportInternal.pdf',
             'type': 'binary',
             'res_model': 'adm.application',
@@ -305,13 +349,13 @@ class Application(models.Model):
         if index < len(status_ids_ordered):
             next_status = status_ids_ordered[index]
             self.with_context({
-                                  'forcing': True
-                                  }).status_id = next_status
+                'forcing': True
+                }).status_id = next_status
 
     def force_status_submitted(self, next_status_id):
         self.with_context({
-                              'forcing': True
-                              }).status_id = next_status_id
+            'forcing': True
+            }).status_id = next_status_id
 
     def move_to_next_status(self):
         self.forcing = False
@@ -374,60 +418,53 @@ class Application(models.Model):
 
     def write(self, values):
 
-        status_ids = self.env['adm.application.status'].sudo().search([])
+        for application_id in self:
+            first_name = values.get('first_name', application_id.first_name)
+            middle_name = values.get('middle_name', application_id.middle_name)
+            last_name = values.get('last_name', application_id.last_name)
 
-        first_name = values["first_name"] if "first_name" in values else self.first_name
-        middle_name = values["middle_name"] if "middle_name" in values else self.middle_name
-        last_name = values["last_name"] if "last_name" in values else self.last_name
+            # "related" in application_id.fields_get()["email"]
+            # Se puede hacer totalmente dinamico, no lo hago ahora por falta de tiempo
+            # Pero sin embargo, es totalmente posible.
+            # Los no related directamente no tiene related, y los que si son
+            # tiene el campo related de la siguiente manera: (model, field)
+            # fields = application_id.fields_get()
+            partner_related_fields = {}
+            partner_fields = ['email', 'phone', 'home_phone', 'country_id', 'state_id', 'city', 'street', 'zip', 'date_of_birth', 'identification']
+            for partner_field in partner_fields:
+                if partner_field in values:
+                    partner_related_fields[partner_field] = values[partner_field]
 
-        partner_related_fields = dict()
-        # partner_related_fields["name"] = values["name"] = formatting.format_name(first_name, middle_name, last_name)
+            if "first_name" in values:
+                partner_related_fields["first_name"] = first_name
+            if "middle_name" in values:
+                partner_related_fields["middle_name"] = middle_name
+            if "last_name" in values:
+                partner_related_fields["last_name"] = last_name
 
-        # "related" in self.fields_get()["email"]
-        # Se puede hacer totalmente dinamico, no lo hago ahora por falta de tiempo
-        # Pero sin embargo, es totalmente posible. 
-        # Los no related directamente no tiene related, y los que si son
-        # tiene el campo related de la siguiente manera: (model, field)
-        # fields = self.fields_get()
+            application_id.sudo().partner_id.write(partner_related_fields)
 
-        if "first_name" in values:
-            partner_related_fields["first_name"] = first_name
-        if "middle_name" in values:
-            partner_related_fields["middle_name"] = middle_name
-        if "last_name" in values:
-            partner_related_fields["last_name"] = last_name
+            # PARA PONER VALOR POR DEFECTO
+            # application_id._context.get('forcing', False):
 
-        if "email" in values:
-            partner_related_fields["email"] = values["email"]
-        if "phone" in values:
-            partner_related_fields["mobile"] = values["phone"]
-        if "home_phone" in values:
-            partner_related_fields["phone"] = values["home_phone"]
-        if "country_id" in values:
-            partner_related_fields["country_id"] = values["country_id"]
-        if "state_id" in values:
-            partner_related_fields["state_id"] = values["state_id"]
-        if "city" in values:
-            partner_related_fields["city"] = values["city"]
-        if "street" in values:
-            partner_related_fields["street"] = values["street"]
-        if "zip" in values:
-            partner_related_fields["zip"] = values["zip"]
-        if "date_of_birth" in values:
-            partner_related_fields["date_of_birth"] = values["date_of_birth"]
-        if "identification" in values:
-            partner_related_fields["identification"] = values["identification"]
+            if values.get('status_id', False):
 
-        self.sudo().partner_id.write(partner_related_fields)
+                next_status_id = application_id.env['adm.application.status'].browse(values['status_id'])
 
-        print(status_ids)
-        #         PARA PONER VALOR POR DEFECTO
-        #         self._context.get('forcing', False):
-        if "status_id" in values and not self._context.get('forcing', False):
-            if not self.state_tasks & self.task_ids == self.state_tasks and self:
-                raise exceptions.ValidationError("All task are not completed")
-        else:
-            self.forcing = False
+                message = _("From [%s] to [%s] status") % (application_id.status_id.name, next_status_id.name)
+                timestamp = datetime.datetime.now()
+
+                self.env['adm.application.history.status'].sudo().create({
+                    'note': message,
+                    'timestamp': timestamp,
+                    'application_id': application_id.id,
+                    })
+
+                if not self._context.get('forcing', False):
+                    if not application_id.state_tasks & application_id.task_ids == application_id.state_tasks and application_id:
+                        raise exceptions.ValidationError("All task are not completed")
+            else:
+                self.forcing = False
 
         return super().write(values)
 
@@ -465,7 +502,6 @@ class ApplicationSiblings(models.Model):
     alumnus_enrolled_name = fields.Char()
     relationship_to_application = fields.Char()
     years_attended = fields.Char()
-
 
 
 class AdmissionApplicationLanguages(models.Model):

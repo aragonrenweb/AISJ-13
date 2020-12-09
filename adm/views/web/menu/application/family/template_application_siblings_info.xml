@@ -200,7 +200,7 @@
                             </div>
                             <button type="button"
                                     class="add-sibling btn btn-secondary d-block mt-2 ml-auto">
-                                &#10010; Add school</button>
+                                &#10010; Add sibling</button>
                         </div>
 
                         <div class="col-12 col-md-3">

@@ -21,8 +21,35 @@
                            data-adm-field="id" data-adm-field-type="INTEGER"/>
                 </div>
 
-                <!-- Photo -->
                 <div class="row">
+                    <div class="col-12 col-md-6 form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="js_existing form-control custom-control-input"
+                                   t-attf-id="#{parent_field_name}-existing"/>
+                            <label class="custom-control-label" t-attf-for="#{parent_field_name}-existing">Add existing
+                                one</label>
+                        </div>
+                    </div>
+                    <!--t-attf-data-adm-field="first_name"-->
+                    <!--t-att-value="guardian_relationship_id.partner_2.first_name"-->
+                    <div class="col-12 col-md-6 form-group js_existing_selection"
+                         data-adm-field="partner_2" data-adm-field-type="MANY2ONE"
+                                style="display: none;">
+                        <select class="form-control" type="text" name="id"
+                                data-adm-field="id" data-adm-field-type="INTEGER">
+                            <t t-foreach="application_id.sudo().partner_id.family_ids.member_ids.filtered(lambda m: m.person_type != 'student')"
+                               t-as="member">
+                                <option t-att-value="member.id"><t t-esc="member.name"/></option>
+                            </t>
+                        </select>
+                        <p><small>
+                            You need to save first to be able to edit this partner.
+                        </small></p>
+                    </div>
+                </div>
+
+                <!-- Photo -->
+                <div class="row js_invisible_existing">
                     <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                         <div class="text-center" data-adm-field="partner_2" data-adm-field-type="MANY2ONE">
 
@@ -42,7 +69,7 @@
                 </div>
 
                 <!-- Form -->
-                <div class="row">
+                <div class="row js_invisible_existing">
                     <fieldset class="col-12 border">
                         <legend class="w-auto">Demographics</legend>
                         <section class="row" data-adm-field="partner_2" data-adm-field-type="MANY2ONE">
@@ -298,7 +325,7 @@
 
                 </div>
             </div>
-            <div class="row">
+            <div class="row js_invisible_existing">
                 <!-- Uploads -->
                 <div class="col-12 col-md-6 form-group">
                     <label t-attf-for="#{parent_field_name}_residency_permit_id_number" class="label">Residency Permit
@@ -418,7 +445,7 @@
                                                        data-adm-field="c_aisj_parent_q1"
                                                        value="father_and_stepmother"
                                                        t-att-checked="application_id.c_aisj_parent_q1 == 'father_and_stepmother'"
-                                                        name="living_whom"/>
+                                                       name="living_whom"/>
                                                 <label class="form-check-label">Father and stepmother</label>
                                             </div>
 
@@ -427,7 +454,7 @@
                                                        data-adm-field="c_aisj_parent_q1"
                                                        value="father_only"
                                                        t-att-checked="application_id.c_aisj_parent_q1 == 'father_only'"
-                                                        name="living_whom"/>
+                                                       name="living_whom"/>
                                                 <label class="form-check-label">Father only</label>
                                             </div>
 
@@ -454,7 +481,7 @@
                                                        data-adm-field="c_aisj_parent_q1"
                                                        value="grandparents"
                                                        t-att-checked="application_id.c_aisj_parent_q1 == 'grandparents'"
-                                                        name="living_whom"/>
+                                                       name="living_whom"/>
                                                 <label class="form-check-label">Grandparents</label>
                                             </div>
 

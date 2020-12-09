@@ -16,4 +16,4 @@ from . import res_partner
 from . import res_users
 from . import admission_reenrollment
 from . import salewiz
-#from . import ir_http
+from . import application

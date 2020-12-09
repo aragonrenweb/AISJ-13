@@ -245,10 +245,10 @@ class AdmissionController(http.Controller):
 
         return http.request.redirect("/admission/applications/%s" % application.id)
 
-    @http.route("/admission/applications/<model(adm.application):application_id>", auth="public", methods=["GET"], website=True)
-    def admission_web(self, application_id):
-        response = request.render('adm.template_application_menu_progress', self.compute_view_render_params(application_id))
-        return response
+    # @http.route("/admission/applications/<model(adm.application):application_id>", auth="public", methods=["GET"], website=True)
+    # def admission_web(self, application_id):
+    #     response = request.render('adm.template_application_menu_progress', self.compute_view_render_params(application_id))
+    #     return response
 
     @http.route("/admission/applications/signature/<int:application_id>", auth="public", methods=["POST"], website=True, csrf=False)
     def send_signature(self, **params):
@@ -1209,9 +1209,8 @@ class AdmissionController(http.Controller):
 
         # return "data:image/png;base64," + str(relationship.partner_2.image_1920)[2:-1:]
 
-    @http.route("/admission/applications/<model(adm.application):application_id>/instructions-resources", auth="public", methods=["GET"], website=True, csrf=False)
-    def instructions_resources(self, application_id, **params):
-
+    @http.route("/admission/applications/<model(adm.application):application_id>/", auth="public", methods=["GET"], website=True, csrf=False)
+    def see_application(self, application_id, **params):
         return request.render("adm.template_application_menu_instructions", self.compute_view_render_params(application_id))
 
     @http.route("/admission/applications/<int:application_id>/document-foreign-instructions", auth="public", methods=["GET"], website=True, csrf=False)

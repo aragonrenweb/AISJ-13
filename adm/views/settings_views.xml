@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.admission</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Admission Data-String" string="Admission"
+                     data-key="adm">
+                    <div id="adm_setting">
+                        <h2>Application</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="adm_application_required_field_ids"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="adm_application_required_field_ids"
+                                                   widget="many2many"
+                                                   class="o_light_label"
+                                                   options="{'no_open':True,'no_create':1,'no_create_edit':1}"
+                                                   domain="[('model', '=', 'adm.application'), ('id', 'not in', adm_application_optional_field_ids)]">
+                                                <tree editable="bottom">
+                                                    <field name="field_description"/>
+                                                    <field name="name" groups="base.group_no_one"/>
+                                                </tree>
+                                            </field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="adm_application_optional_field_ids"/>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="adm_application_optional_field_ids"
+                                                   class="o_light_label"
+                                                   options="{'no_open':True,'no_create':1,'no_create_edit':1}"
+                                                   domain="[('model', '=', 'adm.application'), ('id', 'not in', adm_application_required_field_ids)]">
+                                                <tree editable="bottom">
+                                                    <field name="field_description"/>
+                                                    <field name="name" groups="base.group_no_one"/>
+                                                </tree>
+                                            </field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="adm_settings_action" model="ir.actions.act_window">
+        <field name="name">adm.settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="res_config_settings_view_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{
+            'module': 'adm'
+            }</field>
+    </record>
+
+    <!--     <menuitem id="school_finance_settings_menu" name="Configuration"
+              parent="main_school_finance_menu" action="school_finance_settings_action"/> -->
+</odoo>

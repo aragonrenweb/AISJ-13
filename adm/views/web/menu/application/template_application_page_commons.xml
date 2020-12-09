@@ -11,19 +11,37 @@
             </t>
             <t t-set="head" t-value="head_application_common + (head or '')"/>
 
-            <t t-if="application_id.status_id.type_id not in ['return', 'started']">
+            <t t-if="not skip_sent_message and application_id.status_id.type_id not in ['return', 'started']">
 
                 <div class="oe_struture"/>
                 <div class="oe_struture">
                     <t t-call="adm.template_application_menu"/>
                     <div class="alert alert-warning mt-3" role="alert">
                         The request has already been sent.
-<!--                        <t t-esc="application_id.status_id.type_id "/>  -->
+                        <!--                        <t t-esc="application_id.status_id.type_id "/>  -->
                     </div>
                 </div>
             </t>
             <t t-else="">
                 <t t-raw="0"/>
+                <div id="adm_loader" style="display: none;">
+                    <span role="img" aria-label="Loading..." title="Loading..." style="font-size: 10vw;" class="fa fa-spinner fa-spin fa-2x m-auto"></span>
+                </div>
+                <style>
+                    #adm_loader {
+                        position: fixed;
+                        width: 100vw;
+                        height: 100vh;
+                        top: 0;
+                        left: 0;
+                        background: white;
+                        opacity: 0.7;
+                        z-index: 2000;
+                        display: flex;
+                        justify-content: center;
+                        align-content: center;
+                    }
+                </style>
             </t>
         </t>
     </template>
