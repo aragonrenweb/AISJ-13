@@ -26,4 +26,4 @@ adm_reenrollment_task_access,adm.adm_reenrollment_task_access,adm.model_adm_reen
 adm_reenrollment_status_access,adm.adm_reenrollment_status_access,adm.model_adm_reenrollment_status,,1,1,1,1
 adm_reenrollment_language_access,adm.adm_reenrollment_language_access,adm.model_adm_reenrollment_language,,1,1,1,1
 adm_reenrollment_other_contacts_access,adm.adm_reenrollment_other_contacts_access,adm.model_adm_reenrollment_other_contacts,,1,1,1,1
-
+adm_application_history_status,adm.adm_application_history_status,adm.model_adm_application_history_status,,1,1,1,1

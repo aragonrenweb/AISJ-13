@@ -11,6 +11,9 @@ class AdmApplication(models.Model):
     passport_expiration_date = fields.Date()
     expected_starting_date = fields.Date()
 
+    upload_passport_copy_attachment_id = fields.Many2one('ir.attachment', string="Upload passport copy")
+    permit_copy_attachment_id = fields.Many2one('ir.attachment', string="Upload Iqama/ Residency Permit Copy")
+
     # Parent/Guardian relation
     # I know we can use relationship_ids field, but, this can make the things really
     # complicated.

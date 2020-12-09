@@ -22,6 +22,9 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+
+        'views/settings_views.xml',
+
         'views/inherited_views.xml',
         'views/views_inquiry.xml',
         'views/views_application.xml',
@@ -43,7 +46,6 @@
         'views/web/template_custom_header_footer.xml',
 
         'views/web/menu/template_application_menu.xml',
-        'views/web/menu/template_application_menu_electronic_signature_page.xml',
         'views/web/menu/template_application_menu_family_info.xml',
         'views/web/menu/template_application_menu_instructions.xml',
         'views/web/menu/template_application_menu_progress.xml',

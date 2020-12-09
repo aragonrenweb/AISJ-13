@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="adm.template_application_menu_instructions">
-        <t t-call="website.layout">
+        <t t-call="adm.template_application_page_commons">
+            <t t-set="skip_sent_message" t-value="True"/>
             <t t-set="title">Application</t>
-            <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
-            <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
+            <t t-set="head">
+                <script defer="defer" type="text/javascript"
+                        src="/adm/static/src/js/application/menu_progress.js"></script>
+                <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
+            </t>
             <div class="oe_struture"/>
             <div class="oe_struture">
                 <t t-call="adm.template_application_menu"/>
@@ -18,93 +22,141 @@
 
                             <section class="card-body&gt;">
                                 <div class="container">
-                                    <p class="mt-3">
-                                            Hello! Welcome to the AISJ admissions online platform, you can fill in your information and include
-                                            the documents to complete the first stage of the admission process to our Institution.
-                                            Any questions or concerns do not hesitate to write to us at <a class="text-primary">admisiones@aisj.edu.</a>
+                                    <div class="row pt-4 pb-4">
+                                        <div class="col-2">
+                                            <b>Current Status:</b>
+                                        </div>
+                                        <section class="progressbar col">
+                                            <progress value="0"></progress>
+                                            <ul>
+                                                <t t-set="current" t-value="False"/>
+                                                <t t-foreach="application_status_ids" t-as="status_id">
+                                                    <t t-set="status_name"
+                                                       t-value="status_id.web_alternative_name or status_id.name"/>
+                                                    <t t-if="application_id.status_id == status_id">
+                                                        <t t-set="current" t-value="True"/>
+                                                        <li class="current">
+                                                            <t t-esc="status_name"/>
+                                                        </li>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-if="current">
+                                                            <li t-if="status_id.web_visible">
+                                                                <t t-esc="status_name"/>
+                                                            </li>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <li t-if="status_id.type_id != 'return' and (application_id.status_id.type_id != 'cancelled' or not status_id.hide_if_cancel) and (application_id.status_id.type_id != 'done' or not status_id.hide_if_done)"
+                                                                class="active">
+                                                                <t t-esc="status_name"/>
+                                                            </li>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                    <div class="row">
+                                        <p class="mt-3">
+                                            Hello! Welcome to the AISJ admissions online platform, you can fill in your
+                                            information and include
+                                            the documents to complete the first stage of the admission process to our
+                                            Institution.
+                                            Any questions or concerns do not hesitate to write to us at <a
+                                                class="text-primary">admisiones@aisj.edu.</a>
+                                            <ul class="text-justify">
+                                                <li class="mt-3">
+                                                    <a>Documents required to admission</a>
+                                                </li>
+                                            </ul>
+                                        </p>
+
                                         <ul class="text-justify">
                                             <li class="mt-3">
-                                                <a>Documents required to admission</a>
+                                                <p>
+                                                    The monthly in UAE are 11 months, these are from February to
+                                                    December.
+                                                </p>
+                                            </li>
+                                            <li class="mt-3">
+                                                <p>
+                                                    Annual tuition must be paid in January. Indistinctly in the month
+                                                    entered.
+                                                    Students entering for the first time, there is an admission charge
+                                                    depending on the grade level.
+                                                </p>
+                                            </li>
+                                            <li class="mt-3">
+                                                <p>
+                                                    The academic fee covers Technology, didactic material, craft
+                                                    material, package
+                                                    of school supplies such as texts and novels and access to the Renweb
+                                                    system, where the parents and students have to access to
+                                                    academic information.
+                                                </p>
+                                            </li>
+                                            <li class="mt-3">
+                                                <p>
+                                                    For Primary grade levels, it covers textbooks, school supplies and
+                                                    notebooks. In
+                                                    Secondary school covers textbooks and online access to licensed
+                                                    programs
+                                                    international.
+                                                </p>
                                             </li>
                                         </ul>
-                                    </p>
-                                    <ul class="text-justify">
-                                        <li class="mt-3">
-                                            <p>
-                                               The monthly in UAE are 11 months, these are from February to December.
-                                            </p>
-                                        </li>
-                                        <li class="mt-3">
-                                            <p>
-                                                Annual tuition must be paid in January. Indistinctly in the month entered.
-Students entering for the first time, there is an admission charge depending on the grade level.
-                                            </p>
-                                        </li>
-                                        <li class="mt-3">
-                                            <p>
-                                               The academic fee covers Technology, didactic material, craft material, package
-of school supplies such as texts and novels and access to the Renweb system, where the parents and students have to access to
-academic information.
-                                            </p>
-                                        </li>
-                                        <li class="mt-3">
-                                            <p>
-                                                For Primary grade levels, it covers textbooks, school supplies and notebooks. In
-Secondary school covers textbooks and online access to licensed programs
-international.
-                                            </p>
-                                        </li>
-                                    </ul>
+                                    </div>
 
-                                    <table class="table text-center table-striped">
-                                          <thead>
-                                            <tr class="text-light" style="background-color: #1a4176;">
-                                              <th scope="col">LEVEL</th>
-                                              <th scope="col">ADMISSION</th>
-                                              <th scope="col">ENROLLMENT</th>
-                                              <th scope="col">ACADEMIC<br/>FEE</th>
-                                              <th scope="col">11 MONTHLY</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            <tr>
-                                              <th scope="row">NURSERY</th>
-                                              <td>-</td>
-                                              <td>520.00</td>
-                                              <td>150.00</td>
-                                              <td>495.00</td>
-                                            </tr>
-                                            <tr>
-                                              <th scope="row">PRE KINDER</th>
-                                              <td>500.00</td>
-                                              <td>685.00</td>
-                                              <td>150.00</td>
-                                              <td>650.00</td>
-                                            </tr>
-                                            <tr>
-                                              <th scope="row">KINDER</th>
-                                              <td>1,000.00</td>
-                                              <td>685.00</td>
-                                              <td>150.00</td>
-                                              <td>650.00</td>
-                                            </tr>
-                                            <tr>
-                                              <th scope="row">PRIMARY</th>
-                                              <td>5,000.00**</td>
-                                              <td>1060.00</td>
-                                              <td>450.00</td>
-                                              <td>995.00</td>
-                                            </tr>
-                                            <tr>
-                                              <th scope="row">SECONDARY</th>
-                                              <td>5,000.00**</td>
-                                              <td>1130.00</td>
-                                              <td>350.00</td>
-                                              <td>1075.00</td>
-                                            </tr>
-                                          </tbody>
+                                    <div class="row">
+                                        <table class="table text-center table-striped">
+                                            <thead>
+                                                <tr class="text-light" style="background-color: #1a4176;">
+                                                    <th scope="col">LEVEL</th>
+                                                    <th scope="col">ADMISSION</th>
+                                                    <th scope="col">ENROLLMENT</th>
+                                                    <th scope="col">ACADEMIC<br/>FEE</th>
+                                                    <th scope="col">11 MONTHLY</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">NURSERY</th>
+                                                    <td>-</td>
+                                                    <td>520.00</td>
+                                                    <td>150.00</td>
+                                                    <td>495.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">PRE KINDER</th>
+                                                    <td>500.00</td>
+                                                    <td>685.00</td>
+                                                    <td>150.00</td>
+                                                    <td>650.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">KINDER</th>
+                                                    <td>1,000.00</td>
+                                                    <td>685.00</td>
+                                                    <td>150.00</td>
+                                                    <td>650.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">PRIMARY</th>
+                                                    <td>5,000.00**</td>
+                                                    <td>1060.00</td>
+                                                    <td>450.00</td>
+                                                    <td>995.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">SECONDARY</th>
+                                                    <td>5,000.00**</td>
+                                                    <td>1130.00</td>
+                                                    <td>350.00</td>
+                                                    <td>1075.00</td>
+                                                </tr>
+                                            </tbody>
                                         </table>
-<!--                                    <img width="100%" src="/adm/static/files/Edad_Einstein_Admissions.PNG" alt="Edades relacionadas con grade levels"></img>-->
+                                    </div>
                                 </div>
                             </section>
                         </section>

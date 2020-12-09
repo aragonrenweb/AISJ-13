@@ -103,6 +103,13 @@ odoo.define('adm.application.common', require => {
                 contentType: 'application/json',
                 data: JSON.stringify(jsonToSend),
                 csrf_token: odoo.csrf_token,
+                beforeSend: () => {
+                    $(document.getElementById('adm_loader')).show();
+                },
+                success: () => {location.reload();},
+                error: () => {
+                    $(document.getElementById('adm_loader')).hide();
+                },
             })
         });
     }

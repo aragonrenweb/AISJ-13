@@ -1,48 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <template id="adm.templat_application_progress_bar">
+
+    </template>
     <template id="adm.template_application_menu_progress">
         <t t-call="website.layout">
             <t t-set="title">Application Review</t>
             <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
-            <t t-set="head">
-                <script defer="defer" type="text/javascript" src="/adm/static/src/js/application/menu_progress.js"></script>
-            </t>
+
             <div class="oe_struture"/>
             <div class="oe_struture">
                 <t t-call="adm.template_application_menu"/>
                 <div class="container-fluid d-flex p-4">
                     <main class="container-fluid p-4">
-                        <div class="row">
-                            <div class="col-2">
-                                <b>Current Status:</b>
-                            </div>
-                            <section class="progressbar col">
-                                <progress></progress>
-                                <ul>
-                                    <t t-set="current" t-value="False"/>
-                                    <t t-foreach="application_status_ids" t-as="application_status_id">
-                                        <t t-if="application_id.status_id == application_status_id">
-                                            <t t-set="current" t-value="True"/>
-                                            <li class="current">
-                                                <t t-esc="application_status_id.name"/>
-                                            </li>
-                                        </t>
-                                        <t t-else="">
-                                            <t t-if="current">
-                                                <li>
-                                                    <t t-esc="application_status_id.name"/>
-                                                </li>
-                                            </t>
-                                            <t t-else="">
-                                                <li class="active">
-                                                    <t t-esc="application_status_id.name"/>
-                                                </li>
-                                            </t>
-                                        </t>
-                                    </t>
-                                </ul>
-                            </section>
-                        </div>
+>
                     </main>
                 </div>
             </div>

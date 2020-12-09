@@ -14,7 +14,7 @@ odoo.define('adm.application.progress', require => {
                 break;
             }
         }
-        currentNodeIndex = 2;
+        // currentNodeIndex = 2;
         const $ul = $('.progressbar ul')
         let progressBarWidth = $ul[0].offsetWidth;
         let progressBarHeight = $ul.height();

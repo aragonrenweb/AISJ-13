@@ -55,8 +55,8 @@
             <page name="documents" position="inside">
                 <h2>Students documents</h2>
                 <group>
-                    <field name="passport_file_ids" widget="many2many_binary"/>
-                    <field name="residency_file_ids" widget="many2many_binary"/>
+                    <field name="upload_passport_copy_attachment_id" />
+                    <field name="permit_copy_attachment_id" />
                 </group>
                 <hr/>
                 <h2 class="text-center">Parent documents</h2>

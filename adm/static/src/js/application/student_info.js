@@ -114,42 +114,41 @@ odoo.define('adm.application.student_info', require => {
     }
 
     function sendJson() {
-        const jsonToSend = buildJson();
-
-        const applicationId = $('meta[name="_application_id"]').attr("value");//$('meta[name="_application_id"]').val();
-        $.ajax({
-            url: '/admission/applications/' + applicationId + '/',
-            method: 'PUT',
-            contentType: 'application/json',
-            data: jsonToSend,
-            csrf_token: odoo.csrf_token,
-        })
-
-        if (partnerAvatarFile) {
-            $.ajax({
-                url: '/admission/applications/' + applicationId + '/avatar',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(partnerAvatarFile),
-                csrf_token: odoo.csrf_token,
-            });
-        }
-
-        if (partnerPassportFile || partnerResidencyPermit) {
-
-            const dataFiles = {
-                passportFile: partnerPassportFile,
-                residencyFile: partnerResidencyPermit,
-            }
-
-            $.ajax({
-                url: '/admission/applications/' + applicationId + '/student-files',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(dataFiles),
-                csrf_token: odoo.csrf_token,
-            })
-        }
+        // const jsonToSend = buildJson();
+        // const applicationId = $('meta[name="_application_id"]').attr("value");//$('meta[name="_application_id"]').val();
+        // $.ajax({
+        //     url: '/admission/applications/' + applicationId + '/',
+        //     method: 'PUT',
+        //     contentType: 'application/json',
+        //     data: jsonToSend,
+        //     csrf_token: odoo.csrf_token,
+        // })
+        //
+        // if (partnerAvatarFile) {
+        //     $.ajax({
+        //         url: '/admission/applications/' + applicationId + '/avatar',
+        //         method: 'POST',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify(partnerAvatarFile),
+        //         csrf_token: odoo.csrf_token,
+        //     });
+        // }
+        //
+        // if (partnerPassportFile || partnerResidencyPermit) {
+        //
+        //     const dataFiles = {
+        //         passportFile: partnerPassportFile,
+        //         residencyFile: partnerResidencyPermit,
+        //     }
+        //
+        //     $.ajax({
+        //         url: '/admission/applications/' + applicationId + '/student-files',
+        //         method: 'POST',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify(dataFiles),
+        //         csrf_token: odoo.csrf_token,
+        //     })
+        // }
     }
 
     function addSibling() {
