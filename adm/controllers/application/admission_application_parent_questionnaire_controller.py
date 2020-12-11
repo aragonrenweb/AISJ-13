@@ -8,7 +8,7 @@ import re
 import json
 from odoo.http import content_disposition, dispatch_rpc, request, serialize_exception as _serialize_exception, Response
 
-from odoo.addons.adm.controllers.admission_application_controller import AdmissionController
+from odoo.addons.adm.controllers.application.admission_application_controller import AdmissionController
 
 _logger = logging.getLogger(__name__)
 
@@ -38,8 +38,8 @@ class Admission(http.Controller):
         return redirect if redirect else '/web'
 
     # < model("res.country"): country >
-    @http.route("/admission/applications/<model('adm.application'):application_id>/family/siblings", auth="public", methods=["GET"], website=True)
-    def get_siblings(self, application_id):
+    @http.route("/admission/applications/<model('adm.application'):application_id>/parent-questionnaire", auth="public", methods=["GET"], website=True)
+    def get_questionnaire(self, application_id):
         # contact_id = self.get_partner()
         # ApplicationEnv = request.env["adm.application"]
         #
@@ -52,6 +52,6 @@ class Admission(http.Controller):
         # language_ids = request.env['adm.language'].browse(http.request.env['adm.language'].search([]))
         # language_level_ids = request.env['adm.language.level'].browse(request.env['adm.language.level'].search([]))
 
-        response = request.render('adm.template_application_siblings_webpage', AdmissionController.compute_view_render_params(application_id))
+        response = request.render('adm.template_application_parent_questionnaire_webpage', AdmissionController.compute_view_render_params(application_id))
         return response
 

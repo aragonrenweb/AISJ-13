@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import previous_school
-from . import admission_application
+from . import application
 from . import languages
 from . import attachment
 from . import contact_time

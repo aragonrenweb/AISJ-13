@@ -10,6 +10,7 @@ class ResPartnerExtended(models.Model):
     _inherit = ["res.partner"]
 
     application_id = fields.Many2one("adm.application", string="Application")
+
     inquiry_id = fields.Many2one("adm.inquiry", string="Inquiry")
     is_in_application = fields.Boolean("Is in Application?")
     is_resident_panama = fields.Boolean("Reside en Panamá?")

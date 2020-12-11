@@ -55,7 +55,7 @@
             <page name="documents" position="inside">
                 <h2>Students documents</h2>
                 <group>
-                    <field name="upload_passport_copy_attachment_id" />
+                    <field name="upload_passport_copy_attachment_id"/>
                     <field name="permit_copy_attachment_id" />
                 </group>
                 <hr/>
