@@ -15,6 +15,7 @@
     'version': '1.0',
 
     'depends': [
+        'base',
         'formio_extends',
         'adm',
         'school_base',

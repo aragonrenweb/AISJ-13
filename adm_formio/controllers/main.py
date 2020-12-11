@@ -5,9 +5,8 @@ import base64
 import itertools
 import re
 import json
-
-from odoo import http
-from odoo.http import request
+from odoo import http, _
+from odoo.http import request, Response
 from odoo.addons.adm.controllers.application.admission_application_controller import AdmissionController
 from odoo.exceptions import MissingError, ValidationError
 
@@ -15,16 +14,20 @@ _logger = logging.getLogger(__name__)
 
 class Admission(AdmissionController):
 
-    @http.route("/admission/applications/message/<int:application_id>", auth="public", methods=["POST"], website=True, csrf=False)
-    def send_message(self, **params):
-        email = params.get("teacher_assessment_email")
-        if params.get("file_upload") or not email:
-            return super().send_message(**params)
+    @http.route("/admission/applications/<model(adm.application):application_id>/formio/email", auth="public",
+                methods=["POST"], website=True, csrf=True, type='json')
+    def send_message(self, application_id, **params):
+        try:
+            json_request = request.jsonrequest
+            email = json_request.get("email", False)
+            if not email:
+                raise ValidationError(_("Email shouldn't be empty!"))
 
-        origin = params["origin"]
-        application_id = int(params["application_id"])
-        application = request.env["adm.application"].search([("id","=",application_id)]).sudo()
-        application.teacher_assessment_email = email
-        
-        url_redirect = ("/admission/applications/{}/document-" + str(origin)).format(application_id)
-        return request.redirect(url_redirect)
+            application_id.sudo().formio_sent_to_email = email
+            template_id = request.env.ref('adm_formio.adm_application_mail_template_reference_form').id
+            request.env['adm.application'].sudo().message_post_with_template(template_id, res_id=application_id.id)
+        except Exception as e:
+            Response.status = "400 Bad Request"
+            return e
+
+        return "Ok"
