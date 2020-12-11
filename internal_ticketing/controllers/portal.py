@@ -11,7 +11,10 @@ class CustomerPortal(CustomerPortal):
 
     def _prepare_portal_layout_values(self):
         values = super(CustomerPortal, self)._prepare_portal_layout_values()
-        values["internal_ticket_team_ids"] = request.env["helpdesk.team"].search([]).sorted("name")
+        values["internal_ticket_team_ids"] = request.env["helpdesk.team"].sudo().search([
+            "|", ("company_id","=",False),
+                 ("company_id","=",request.env.user.company_id.id),
+        ]).sorted("name")
         values["internal_ticket_count"] = request.env["helpdesk.ticket"].sudo().search_count([("partner_id","=",request.env.user.partner_id.id)])
         values["user"] = request.env.user
         return values
@@ -20,7 +23,10 @@ class CustomerPortal(CustomerPortal):
         values = {
             "internal_ticket": internal_ticket,
             "user": request.env.user,
-            "internal_ticket_team_ids": request.env["helpdesk.team"].search([]).sorted("name"),
+            "internal_ticket_team_ids": request.env["helpdesk.team"].sudo().search([
+                "|", ("company_id","=",False),
+                     ("company_id","=",request.env.user.company_id.id),
+            ]).sorted("name"),
         }
         res = self._get_page_view_values(internal_ticket, access_token, values, "my_internal_tickets_history", True, **kwargs)
         if res.get("prev_record"):
