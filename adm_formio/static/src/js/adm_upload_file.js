@@ -16,19 +16,22 @@ odoo.define('adm_formio.upload_file', require => {
                 url: '/admission/applications/' + applicationId + '/formio/email',
                 method: 'POST',
                 contentType: 'application/json',
-                data: {'email': email},
+                data: JSON.stringify({'email': email}),
                 csrf_token: odoo.csrf_token,
                 beforeSend: () => {
                     $(document.getElementById('adm_loader')).show();
                 },
                 success: () => {location.reload();},
-                error: () => {
+                error: (error) => {
                     $(document.getElementById('adm_loader')).hide();
-
                     $('.js_hide_if_sent').show();
                     $('.js_show_if_sent').hide();
-
                     $sentFormioEmail.find('input').prop('disabled', false);
+
+                    const errorResponse = JSON.parse(error.responseText);
+
+                    $(document.getElementById('errorDialog')).modal('show');
+                    $('.js_error_text').text(errorResponse.result);
                 },
             })
         });

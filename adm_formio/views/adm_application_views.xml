@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <field name="previous_school_ids" position="before">
                 <group>
-                    <field name="teacher_assessment_form_id"/>
+                    <field name="formio_reference_form_id"/>
                 </group>
             </field>
         </field>
