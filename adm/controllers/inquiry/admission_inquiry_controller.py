@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import http
-from ..utils import formatting
+from odoo.addons.adm.utils import formatting
 import base64
 
 

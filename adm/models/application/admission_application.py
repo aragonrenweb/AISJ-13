@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, exceptions, _
-from ..utils import formatting
+from odoo.addons.adm.utils import formatting
 import base64
 import datetime
-import requests
-from urllib.request import urlopen
-from odoo.http import content_disposition, dispatch_rpc, request, serialize_exception as _serialize_exception, Response
 
 status_types = [("stage", "Stage"), ("done", "Done"), ("return", "Return To Parents"), ("started", "Application Started"), ("submitted", "Submitted"), ("cancelled", "Cancelled")]
 
@@ -24,6 +21,10 @@ class ApplicationStatus(models.Model):
     name = fields.Char(string="Status Name")
     description = fields.Text(string="Description")
     sequence = fields.Integer(readonly=True, default=-1)
+
+    mail_template_id = fields.Many2one('mail.template', string='Email Template', domain=[('model', '=', 'adm.application')],
+                                       help="If set an email will be sent to the customer when the application reaches this status")
+
     fold = fields.Boolean(string="Fold")
     type_id = fields.Selection(status_types, string="Type", default='stage')
     web_visible = fields.Boolean(string="Visible on web")
@@ -51,6 +52,7 @@ class Gender(models.Model):
 
 class Application(models.Model):
     _name = "adm.application"
+    _description = "Admission Application"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     @api.model
@@ -72,6 +74,9 @@ class Application(models.Model):
     birth_city = fields.Char("Birth City", related="partner_id.city")
     gender = fields.Many2one("adm.gender", string="Gender", related="partner_id.gender", inverse="_set_gender")
     status_history_ids = fields.One2many('adm.application.history.status', 'application_id', string="Status history")
+
+    responsible_user_id = fields.Many2one('res.users')
+    assigned_user_id = fields.Many2one('res.users')
 
     def _set_gender(self):
         for application_id in self:
@@ -459,6 +464,9 @@ class Application(models.Model):
                     'timestamp': timestamp,
                     'application_id': application_id.id,
                     })
+
+                if next_status_id.mail_template_id:
+                    application_id.message_post_with_template(template_id=next_status_id.mail_template_id.id, res_id=application_id.id)
 
                 if not self._context.get('forcing', False):
                     if not application_id.state_tasks & application_id.task_ids == application_id.state_tasks and application_id:

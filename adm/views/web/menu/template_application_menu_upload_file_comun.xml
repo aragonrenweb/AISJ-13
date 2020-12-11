@@ -16,7 +16,7 @@
                 <div class="container-fluid mt-4">
                     <div class="row" data-adm-model-fields="1">
                         <div class="col-12 col-md-9">
-                            <div class="row">
+                            <div class="row" id="document_list">
                                 <div class="col-12 text-center">
                                     <h1>Documents</h1>
                                 </div>

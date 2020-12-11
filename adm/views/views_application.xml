@@ -123,7 +123,7 @@
                 </header>
                 <sheet>
                     <field name="image" String="" widget="image" class="oe_avatar"
-                           options="{&quot;preview_image&quot;: &quot;image&quot;}"/>
+                           options="{'preview_image': 'image'}"/>
                     <div class="oe_title">
                         <h1>
                             <field name="name" force_save="1"/>
@@ -132,20 +132,16 @@
                     <group>
                         <field name="preferred_degree_program"/>
                         <field name="partner_id"/>
-                        <group colspan="1">
+                        <group>
 
                             <field name="first_name"/>
                             <field name="middle_name"/>
                             <field name="last_name"/>
-                            <field name="contact_time_id"/>
                             <field name="grade_level"/>
                             <field name="school_year"/>
-                            <!--                            <field name="siblings"/>-->
                         </group>
-                        <group colspan="1">
+                        <group>
                             <field name="gender"/>
-                            <field name="father_name"/>
-                            <field name="mother_name"/>
                         </group>
                     </group>
                     <notebook id="application_notebook">
@@ -244,6 +240,11 @@
                         </group>
                         <group>
                             <field name="fold"/>
+                            <field name="mail_template_id"
+                                   context="{'default_model': 'adm.application',
+                                   'default_email_from': '${user.company_id.email | safe}',
+                                   'default_email_to': '${object.message_follower_ids}'}"
+                            />
                         </group>
                         <group>
                             <field name="type_id" widget="radio"/>

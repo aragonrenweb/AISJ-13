@@ -20,72 +20,54 @@
     'depends': ['base', 'school_base', 'mail', 'website', 'contacts'],
 
     # always loaded
-    'data': [
-        'security/ir.model.access.csv',
+    'data': ['security/ir.model.access.csv',
 
-        'views/settings_views.xml',
+             'views/settings_views.xml',
 
-        'views/inherited_views.xml',
-        'views/views_inquiry.xml',
-        'views/views_application.xml',
-        'views/configuration.xml',
-        'views/views_reenrollment.xml',
+             'views/inherited_views.xml', 'views/views_inquiry.xml', 'views/views_application.xml', 'views/configuration.xml', 'views/views_reenrollment.xml',
 
-        'data/menudata.xml',
-        'data/sequences_data.xml',
-        'data/statics_data.xml',
-        'data/email_template_data.xml',
-        'data/language_types.xml',
-        'data/status_type_data.xml',
-        'data/gender_data.xml',
-        
-        'views/web/template_application_list.xml',
-        'views/web/template_reenrollment_list.xml',
-        'views/web/template_inquiry_form.xml',
-        'views/web/template_application_first_form.xml',
-        'views/web/template_custom_header_footer.xml',
+             'data/menudata.xml', 'data/sequences_data.xml', 'data/statics_data.xml', 'data/email_template_data.xml', 'data/language_types.xml', 'data/status_type_data.xml',
+             'data/gender_data.xml',
 
-        'views/web/menu/template_application_menu.xml',
-        'views/web/menu/template_application_menu_family_info.xml',
-        'views/web/menu/template_application_menu_instructions.xml',
-        'views/web/menu/template_application_menu_progress.xml',
-        'views/web/menu/template_application_menu_upload_file_comun.xml',
-        'views/web/menu/template_application_menu_invoice.xml',
-        'views/web/menu/application/template_application_health.xml',
+             'views/web/template_application_list.xml', 'views/web/template_reenrollment_list.xml', 'views/web/template_inquiry_form.xml',
+             'views/web/template_application_first_form.xml', 'views/web/template_custom_header_footer.xml',
 
-        'views/web/reports/report_application_default.xml',
-        'views/web/reports/report_application_custom.xml',
-        'views/web/reports/report_internal_custom.xml',
-        'views/templates_custom.xml',
+             'views/web/menu/template_application_menu.xml', 'views/web/menu/template_application_menu_family_info.xml',
+             'views/web/menu/template_application_menu_instructions.xml', 'views/web/menu/template_application_menu_progress.xml',
+             'views/web/menu/template_application_menu_upload_file_comun.xml', 'views/web/menu/template_application_menu_invoice.xml',
+             'views/web/menu/application/template_application_health.xml',
 
-        'views/web/menu/application/template_application_student_info.xml',
+             'views/web/reports/report_application_default.xml', 'views/web/reports/report_application_custom.xml', 'views/web/reports/report_internal_custom.xml',
+             'views/templates_custom.xml',
 
-        # Application/Create
-        'views/web/menu/application/creation/template_application_create_application.xml',
+             'views/web/menu/application/template_application_student_info.xml',
 
-        # Application/Commons
-        'views/web/menu/application/template_application_page_commons.xml',
+             # Application/Create
+             'views/web/menu/application/creation/template_application_create_application.xml',
 
-        # Application/Family
-        'views/web/menu/application/family/template_application_parents.xml',
-        'views/web/menu/application/family/template_application_siblings_info.xml',
+             # Application/Commons
+             'views/web/menu/application/template_application_page_commons.xml',
 
-        # Application/Schools
-        'views/web/menu/application/schools/template_application_schools_information.xml',
+             # Application/Family
+             'views/web/menu/application/family/template_application_parents.xml', 'views/web/menu/application/family/template_application_siblings_info.xml',
 
-        # Application/Parent Questionnaire
-        'views/web/menu/application/parent_questionnaire/template_application_parent_questionnaire.xml',
+             # Application/Schools
+             'views/web/menu/application/schools/template_application_schools_information.xml',
 
-        # Application/Additional Questions
-        'views/web/menu/application/additional_questions/template_application_additional_questions.xml',
+             # Application/Parent Questionnaire
+             'views/web/menu/application/parent_questionnaire/template_application_parent_questionnaire.xml',
 
-        'views/wizards/salewiz.xml',
+             # Application/Additional Questions
+             'views/web/menu/application/additional_questions/template_application_additional_questions.xml',
 
-        # Load assets
-        'views/assets.xml'
+             'views/wizards/salewiz.xml',
 
-    ],
+             # Load assets
+             'views/assets.xml',
+
+             'views/web/portal_templates.xml',
+
+             ],
     'qweb': ['static/src/xml/kanban_view_button.xml'],
     'application': True
-}
-
+    }

@@ -123,7 +123,7 @@ class AdmissionController(http.Controller):
         # application_ids = ApplicationEnv.search([("family_id", "=", user_contact.parent_id.id)])
         # obtenemos todas las aplicaciones en las cuales el estudiante asociado este relacionado mediante la familia con el user que esta accediendo dede el portal.
         # application_ids = ApplicationEnv.sudo().search([]).filtered(lambda app: any(i in user_contact.get_families().ids for i in app.partner_id.get_families().ids))
-        application_ids = ApplicationEnv.sudo().search([('partner_id.family_ids', 'in', user_partner.family_ids.ids)])
+        application_ids = request.env.user.application_ids.sudo()
         response = request.render('adm.template_admission_application_list', {
             "application_ids": application_ids,
             })
@@ -237,6 +237,7 @@ class AdmissionController(http.Controller):
             "middle_name": result.get("middle_name"),
             "last_name": result.get("last_name"),
             "partner_id": partner.id,
+            "responsible_user_id": request.env.user.id
             })
         result["relationship_ids"] = [(0, 0, {
             "partner_2": parent.id
@@ -1040,7 +1041,7 @@ class AdmissionController(http.Controller):
     def update_application_with_json(self, application_id, **params):
         """ This is a JSON controller, this get a JSON and write the application with it, that's all """
         json_request = request.jsonrequest
-        write_vals = self.parse_json_to_odoo_fields(application_id, json_request)
+        write_vals = self.parse_json_to_odoo_fields(application_id.sudo(), json_request)
         application_id.sudo().write(write_vals)
 
     @http.route("/admission/applications/<model(adm.application):application_id>/avatar", auth="public", methods=["POST"], csrf=True, type='json')

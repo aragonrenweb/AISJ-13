@@ -8,7 +8,7 @@ import json
 
 from odoo import http
 from odoo.http import request
-from odoo.addons.adm.controllers.admission_application_controller import AdmissionController
+from odoo.addons.adm.controllers.application.admission_application_controller import AdmissionController
 from odoo.exceptions import MissingError, ValidationError
 
 _logger = logging.getLogger(__name__)

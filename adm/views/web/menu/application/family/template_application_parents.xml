@@ -34,8 +34,9 @@
                     <!--t-att-value="guardian_relationship_id.partner_2.first_name"-->
                     <div class="col-12 col-md-6 form-group js_existing_selection"
                          data-adm-field="partner_2" data-adm-field-type="MANY2ONE"
-                                style="display: none;">
+                         style="display: none;">
                         <select class="form-control" type="text" name="id"
+                                disabled="disabled"
                                 data-adm-field="id" data-adm-field-type="INTEGER">
                             <t t-foreach="application_id.sudo().partner_id.family_ids.member_ids.filtered(lambda m: m.person_type != 'student')"
                                t-as="member">
@@ -75,7 +76,7 @@
                         <section class="row" data-adm-field="partner_2" data-adm-field-type="MANY2ONE">
 
                             <div class="col-12 col-md-6 form-group">
-                                <label>First name</label>
+                                <label>First name <t t-esc="guardian_relationship_id.partner_2.last_name"/></label>
                                 <input class="form-control" type="text"
                                        t-attf-data-adm-field="first_name"
                                        t-att-value="guardian_relationship_id.partner_2.first_name"
@@ -395,6 +396,9 @@
                                             Parent 1/Guardian information
                                         </button>
                                     </h2>
+                                    <button type="button" class="btn btn-outline-danger remove-sibling position-absolute js_clean_parent"
+                                            data-target="#parent1Collapse"
+                                            style="top: 1em; right: 1em;"><i class="fa fa-repeat"></i> RESET</button>
                                 </div>
                                 <div class="collapse show" id="parent1Collapse">
                                     <div class="card-body">
@@ -414,6 +418,9 @@
                                             Parent 2/Guardian information
                                         </button>
                                     </h2>
+                                    <button type="button" class="btn btn-outline-danger remove-sibling position-absolute js_clean_parent"
+                                            data-target="#parent2Collapse"
+                                            style="top: 1em; right: 1em;"><i class="fa fa-repeat"></i> RESET</button>
                                 </div>
                                 <div class="collapse" id="parent2Collapse">
                                     <div class="card-body">

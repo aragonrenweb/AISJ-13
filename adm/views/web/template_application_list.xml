@@ -12,7 +12,7 @@
                                 </h1>
                                 <t t-foreach="application_ids" t-as="application_id">
                                     <div class="list-group">
-                                        <a t-att-href="'/admission/applications/{}'.format(application_id.id)"
+                                        <a t-attf-href="/admission/applications/#{application_id.id}"
                                             class="list-group-item list-group-item-action">
                                             <t t-esc="application_id.name"/>
                                         </a>
