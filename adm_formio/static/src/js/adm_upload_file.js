@@ -28,7 +28,7 @@ odoo.define('adm_formio.upload_file', require => {
                     $('.js_show_if_sent').hide();
                     $sentFormioEmail.find('input').prop('disabled', false);
 
-                    const errorResponse = JSON.parse(error.responseText);
+                    const errorResponse = error.responseJSON;
 
                     $(document.getElementById('errorDialog')).modal('show');
                     $('.js_error_text').text(errorResponse.result);
