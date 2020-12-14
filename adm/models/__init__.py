@@ -14,6 +14,4 @@ from . import medical_condition
 from . import medication
 from . import res_partner
 from . import res_users
-from . import admission_reenrollment
-from . import salewiz
 from . import application

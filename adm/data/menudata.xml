@@ -54,20 +54,6 @@
     </record>
 
 
-     <!-- Reenrollment  -->
-    <record model="ir.actions.act_window" id="action_reenrollment">
-        <field name="name">Reenrollment</field>
-        <field name="res_model">adm.reenrollment</field>
-        <field name="view_mode">kanban,tree,form</field>
-    </record>
-
-     <record model="ir.actions.act_window" id="action_reenrollment_status">
-        <field name="name">Reenrollment Status</field>
-        <field name="res_model">adm.reenrollment.status</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-
     <!-- Principal -->
 	<menuitem id="adm_menu" name="Admission" />
     
@@ -78,10 +64,6 @@
     <!-- Application -->
 	<menuitem id="adm_menu_application" action="action_application"
 		name="Application" parent="adm_menu" sequence="2"/>
-
-    <!-- Application Reenrollment -->
-	<menuitem id="adm_menu_application_reenrollment" action="action_reenrollment"
-		name="Reenrollment" parent="adm_menu" sequence="3"/>
 
     <!--Configuration -->
     <menuitem id="adm_menu_configurations" sequence="4"
@@ -95,10 +77,6 @@
     <menuitem id="adm_menu_application_status"
         parent="adm_menu_configurations" name="Application Status"
         action="action_application_status" />
-
-    <menuitem id="adm_menu_reenrollment_status"
-        parent="adm_menu_configurations" name="Reenrolled Status"
-        action="action_reenrollment_status" />
 
     <menuitem id="adm_menu_language"
         parent="adm_menu_configurations" name="Languages"
@@ -126,9 +104,6 @@
     <template id="website_menuitem_application" inherit_id="website.layout" name="header application menu">
            <xpath expr="//a[@id='o_logout']" position="before">
                <a href="/admission/applications" role="menuitem" class="dropdown-item">Application</a>
-           </xpath>
-            <xpath expr="//a[@id='o_logout']" position="before">
-               <a href="/admission/reenrollment" role="menuitem" class="dropdown-item">Reenrollment</a>
            </xpath>
     </template>
 

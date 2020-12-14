@@ -21,9 +21,4 @@ adm_medical_condition_access,adm.adm_medical_condition_access,adm.model_adm_medi
 adm_medical_medication_access,adm.adm_medical_medication_access,adm.model_adm_medical_medication,,1,1,1,1
 adm_gender_access,adm.adm_gender_access,adm.model_adm_gender,,1,0,0,0
 adm_inquiry_status_type_access,adm.adm_inquiry_status_type_access,adm.model_adm_inquiry_status_type,,1,0,0,0
-adm_reenrollment_access,adm.adm_reenrollment_access,adm.model_adm_reenrollment,,1,1,1,1
-adm_reenrollment_task_access,adm.adm_reenrollment_task_access,adm.model_adm_reenrollment_task,,1,1,1,1
-adm_reenrollment_status_access,adm.adm_reenrollment_status_access,adm.model_adm_reenrollment_status,,1,1,1,1
-adm_reenrollment_language_access,adm.adm_reenrollment_language_access,adm.model_adm_reenrollment_language,,1,1,1,1
-adm_reenrollment_other_contacts_access,adm.adm_reenrollment_other_contacts_access,adm.model_adm_reenrollment_other_contacts,,1,1,1,1
 adm_application_history_status,adm.adm_application_history_status,adm.model_adm_application_history_status,,1,1,1,1
