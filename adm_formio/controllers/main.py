@@ -16,7 +16,7 @@ class Admission(AdmissionController):
 
     @http.route("/admission/applications/<model(adm.application):application_id>/formio/email", auth="public",
                 methods=["POST"], website=True, csrf=True, type='json')
-    def send_message(self, application_id, **params):
+    def send_formio_email(self, application_id, **params):
         try:
             json_request = request.jsonrequest
             email = json_request.get("email", False)
