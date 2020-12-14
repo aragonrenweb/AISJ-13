@@ -11,7 +11,8 @@
     'website': "http://www.yourcompany.com",
 
     # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/12.0/odoo/addons/base/data/ir_module_category_data.xml
+    # Check https://github.com/odoo/odoo/blob/12.0/odoo/addons/base/data
+    # /ir_module_category_data.xml
     # for the full list
     'category': 'Admission',
     'version': '0.2',
@@ -22,50 +23,57 @@
     # always loaded
     'data': ['security/ir.model.access.csv',
 
-             'views/settings_views.xml',
-
-             'views/inherited_views.xml', 'views/views_inquiry.xml', 'views/views_application.xml', 'views/configuration.xml', 'views/views_reenrollment.xml',
-
-             'data/menudata.xml', 'data/sequences_data.xml', 'data/statics_data.xml', 'data/email_template_data.xml', 'data/language_types.xml', 'data/status_type_data.xml',
-             'data/gender_data.xml',
-
-             'views/web/template_application_list.xml', 'views/web/template_reenrollment_list.xml', 'views/web/template_inquiry_form.xml',
-             'views/web/template_application_first_form.xml', 'views/web/template_custom_header_footer.xml',
-
-             'views/web/menu/template_application_menu.xml', 'views/web/menu/template_application_menu_family_info.xml',
-             'views/web/menu/template_application_menu_instructions.xml', 'views/web/menu/template_application_menu_progress.xml',
-             'views/web/menu/template_application_menu_upload_file_comun.xml', 'views/web/menu/template_application_menu_invoice.xml',
-             'views/web/menu/application/template_application_health.xml',
-
-             'views/web/reports/report_application_default.xml', 'views/web/reports/report_application_custom.xml', 'views/web/reports/report_internal_custom.xml',
-             'views/templates_custom.xml',
-
-             'views/web/menu/application/template_application_student_info.xml',
-
-             # Application/Create
-             'views/web/menu/application/creation/template_application_create_application.xml',
-
-             # Application/Commons
-             'views/web/menu/application/template_application_page_commons.xml',
-
-             # Application/Family
-             'views/web/menu/application/family/template_application_parents.xml', 'views/web/menu/application/family/template_application_siblings_info.xml',
-
-             # Application/Schools
-             'views/web/menu/application/schools/template_application_schools_information.xml',
-
-             # Application/Parent Questionnaire
-             'views/web/menu/application/parent_questionnaire/template_application_parent_questionnaire.xml',
-
-             # Application/Additional Questions
-             'views/web/menu/application/additional_questions/template_application_additional_questions.xml',
-
-             'views/wizards/salewiz.xml',
-
-             # Load assets
+             # Backend views
+             'views/adm_application_status_views.xml',
+             'views/adm_application_views.xml',
+             'views/adm_contact_time_views.xml',
+             'views/adm_degree_program_views.xml',
+             'views/adm_inquiry_views.xml',
+             'views/adm_language_level_views.xml',
+             'views/adm_language_views.xml',
+             'views/adm_siblings_views.xml',
              'views/assets.xml',
+             'views/res_config_settings_views.xml',
+             'views/res_partner_views.xml',
+             'views/res_user_views.xml',
+
+             # Web templates
+             'views/web/application/menu/family/template_application_parents.xml',
+             'views/web/application/menu/family/template_application_siblings_info.xml',
+
+             'views/web/application/menu/template_application_additional_questions.xml',
+             'views/web/application/menu/template_application_health.xml',
+             'views/web/application/menu/template_application_menu.xml',
+             'views/web/application/menu/template_application_menu_instructions.xml',
+             'views/web/application/menu/template_application_menu_upload_file_comun.xml',
+             'views/web/application/menu/template_application_page_commons.xml',
+             'views/web/application/menu/template_application_parent_questionnaire.xml',
+             'views/web/application/menu/template_application_schools_information.xml',
+             'views/web/application/menu/template_application_student_info.xml',
+
+             'views/web/application/template_application_create_application.xml',
+             'views/web/application/template_application_list.xml',
+             # 'views/web/application/template_application_menu_invoice.xml',
+             'views/web/application/template_application_menu_progress.xml',
+
+             'views/web/inquiry/template_inquiry_form.xml',
+
+             'views/web/reports/report_application_custom.xml',
+             'views/web/reports/report_application_default.xml',
+             'views/web/reports/report_internal_custom.xml',
 
              'views/web/portal_templates.xml',
+
+             'data/menudata.xml',
+             'data/sequences_data.xml',
+             'data/statics_data.xml',
+             'data/email_template_data.xml',
+             'data/language_types.xml',
+             'data/status_type_data.xml',
+             'data/gender_data.xml',
+
+             # Wizard
+             'wizard/sale_confirm_limit_wizard.xml',
 
              ],
     'qweb': ['static/src/xml/kanban_view_button.xml'],
