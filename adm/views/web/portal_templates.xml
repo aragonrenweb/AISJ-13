@@ -18,7 +18,7 @@
             <attribute name="class">navbar navbar-expand-md navbar-dark pl-0</attribute>
         </xpath>
 
-        <xpath expr="//div[hasclass('container')][1]" position="before">
+        <xpath expr="//div[@class='container'][1]" position="before">
             <link rel="stylesheet" href="/adm/static/src/css/custom_header_footer.css"/>
             <div class="col-6 col-sm-5 col-md-5 w-100 d-flex p-0" id="menu-bar">
                 <div class="col" style="background-color:white"></div>
