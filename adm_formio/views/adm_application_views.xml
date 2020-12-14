@@ -3,7 +3,7 @@
     <record id="adm_application_view_form_inherit" model="ir.ui.view">
         <field name="name">adm.application.view.form.inherit</field>
         <field name="model">adm.application</field>
-        <field name="inherit_id" ref="adm.view_application_form"/>
+        <field name="inherit_id" ref="adm.adm_application_view_form"/>
         <field name="arch" type="xml">
             <field name="previous_school_ids" position="before">
                 <group>
