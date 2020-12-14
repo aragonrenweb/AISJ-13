@@ -56,8 +56,8 @@
 
                             <img t-attf-src="data:image/*;base64,{{guardian_relationship_id and guardian_relationship_id.partner_2.image_1920}}"
                                  widget="image"
-                                 onerror="this.src = '/adm/static/files/contact_photo_placeholder.png';"
-                                 src="/adm/static/files/contact_photo_placeholder.png"
+                                 onerror="this.src = '/adm/static/img/contact_photo_placeholder.png';"
+                                 src="/adm/static/img/contact_photo_placeholder.png"
                                  class="avatar rounded-circle" alt="avatar" width="175"/>
                             <h6 class="mt-2 textUpload">Upload a different photo...</h6>
 

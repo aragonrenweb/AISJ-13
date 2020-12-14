@@ -28,7 +28,7 @@ odoo.define('adm.family.parents', require => {
             }
 
             $target.find('[data-adm-field="partner_2"]').find('input:hidden').remove();
-            $target.find('img').attr('src', '/adm/static/files/contact_photo_placeholder.png');
+            $target.find('img').attr('src', '/adm/static/img/contact_photo_placeholder.png');
         });
 
     });
