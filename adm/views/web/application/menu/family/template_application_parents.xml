@@ -375,7 +375,7 @@
     <template id="template_application_parents_webpage" name="Student's parents">
         <t t-call="adm.template_application_page_commons">
             <t t-set="head">
-                <!--<link rel="stylesheet" href="/adm/static/css/form_application_id..css"/>-->
+                <!--<link rel="stylesheet" href="/adm/static/src/css/form_application_id..css"/>-->
                 <link rel="stylesheet" href="/adm/static/src/css/main.css"/>
                 <t t-call-assets="adm.assets_application_family_parents" defer_load="True"/>
             </t>

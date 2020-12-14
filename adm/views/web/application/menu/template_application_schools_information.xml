@@ -90,7 +90,7 @@
                 <t t-call="adm.template_application_schools_information_form"/>
             </div>
             <t t-set="head">
-                <!--<link rel="stylesheet" href="/adm/static/css/form_application.css"/>-->
+                <!--<link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>-->
                 <t t-call-assets="adm.assets_application_school_info" defer_load="True"/>
             </t>
             <t t-set="title">Schools</t>

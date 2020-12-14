@@ -3,7 +3,7 @@
     <template id="adm.template_application_create_application">
         <t t-call="website.layout">
             <t t-set="title">Application</t>
-            <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
+            <link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>
             <div class="oe_struture"/>
             <div class="oe_struture">
                 <t t-call="adm.template_application_menu"/>

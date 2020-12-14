@@ -68,7 +68,7 @@
 
         <t t-call="adm.template_application_page_commons">
             <t t-set="head">
-                <!--<link rel="stylesheet" href="/adm/static/css/form_application_id.id.css"/>-->
+                <!--<link rel="stylesheet" href="/adm/static/src/css/form_application_id.id.css"/>-->
             </t>
             <t t-set="title">Parent questionnaire</t>
 

@@ -7,7 +7,7 @@
             <t t-set="head">
                 <script defer="defer" type="text/javascript"
                         src="/adm/static/src/js/application/menu_progress.js"></script>
-                <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
+                <link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>
             </t>
             <div class="oe_struture"/>
             <div class="oe_struture">

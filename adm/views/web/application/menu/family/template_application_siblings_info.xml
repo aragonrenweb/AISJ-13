@@ -178,7 +178,7 @@
                 <t t-call="adm.template_application_siblings_form"/>
             </div>
             <t t-set="head">
-                <!--<link rel="stylesheet" href="/adm/static/css/form_application.css"/>-->
+                <!--<link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>-->
                 <t t-call-assets="adm.assets_application_school_sibling" defer_load="True"/>
             </t>
             <t t-set="title">siblings</t>

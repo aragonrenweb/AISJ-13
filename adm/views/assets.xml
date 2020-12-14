@@ -26,7 +26,7 @@
 <!--    <template id="assets_backend_inherit_ninebox" inherit_id="web.assets_backend" name="Employees Asset">-->
 <!--        <xpath expr="script[last()]" position="after">-->
 <!--            <script type="text/javascript" src="/adm/static/js/listview_button.js"></script>-->
-<!--&lt;!&ndash;            <link href="/adm/static/css/style.css" rel="stylesheet" type="text/css"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <link href="/adm/static/src/css/style.css" rel="stylesheet" type="text/css"/>&ndash;&gt;-->
 <!--        </xpath>-->
 <!--    </template>-->
 </odoo>
