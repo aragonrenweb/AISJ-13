@@ -55,7 +55,7 @@
                                         <t t-set="rowCount" t-value="rowCount + 1"/>
                                     </t>
                                 </t>
-                                <img t-if="rowCount > 0" src="/adm/static/files/check_mark.png" width="25"/>
+                                <img t-if="rowCount > 0" src="/adm/static/img/check_mark.png" width="25"/>
                                 <img t-else="" src="https://cdn3.iconfinder.com/data/icons/flat-actions-icons-9/792/Close_Icon_Dark-512.png" width="25"/>
                                 <span class="ml-1 h5" type="text" t-field="state_task.name"/>
                                 <br></br>

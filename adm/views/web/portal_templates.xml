@@ -18,7 +18,7 @@
             <attribute name="class">navbar navbar-expand-md navbar-dark pl-0</attribute>
         </xpath>
 
-        <xpath expr="//div[@class='container'][1]" position="before">
+        <xpath expr="//div[hasclass('container')][1]" position="before">
             <link rel="stylesheet" href="/adm/static/src/css/custom_header_footer.css"/>
             <div class="col-6 col-sm-5 col-md-5 w-100 d-flex p-0" id="menu-bar">
                 <div class="col" style="background-color:white"></div>
@@ -84,7 +84,7 @@
                 <div class="containerImageFooter col-12 d-flex flex-column">
                     <div class="col-12 d-flex justify-content-center">
                         <img id="img_footer"
-                             src="/adm/static/files/aisj_logo_blanco.png"
+                             src="/adm/static/img/aisj_logo_blanco.png"
                              class="img img-fluid"
                              t-attf-alt="Logo of #{res_company.name}"/>
                     </div>
@@ -113,7 +113,7 @@
                     <b>AMERICAN INTERNATIONAL SCHOOL OF JEDDAH</b>
                 </div>
                 <div class="col-12 d-flex mb-2">
-                    <img src="/adm/static/files/adm_portal.png" class="img img-fluid w-100" alt="Admissions"/>
+                    <img src="/adm/static/img/adm_portal.png" class="img img-fluid w-100" alt="Admissions"/>
                 </div>
             </div>
         </xpath>

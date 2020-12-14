@@ -36,7 +36,7 @@
                                                     <img t-attf-src="data:image/*;base64,{{application_id.partner_id and application_id.partner_id.image_1920}}"
                                                          widget="image"
                                                          id="avatar_photo"
-                                                         onerror="this.src = '/adm/static/files/contact_photo_placeholder.png';"
+                                                         onerror="this.src = '/adm/static/img/contact_photo_placeholder.png';"
                                                          class="avatar h-100" alt="avatar"/>
                                                     <div class="spinner-grow text-light position-absolute w-50 h-50"
                                                          style="display: none;" id="student_avatar_loading"
