@@ -21,7 +21,7 @@
 
     # always loaded
     'data': [
-        'views/views_application.xml'
+        'views/adm_application_views.xml',
         ],
     # 'qweb': [ ],
     # 'application': True
