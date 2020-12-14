@@ -143,8 +143,8 @@
             <t t-set="head">
                 <t t-call-assets="adm.assets_application_school_health" defer_load="True"/>
             </t>
-            <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
-            <link rel="stylesheet" href="/adm/static/css/medical.css"/>
+            <link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>
+            <link rel="stylesheet" href="/adm/static/src/css/medical.css"/>
             <div class="oe_struture"/>
             <div class="oe_struture">
                 <t t-call="adm.template_application_menu"/>

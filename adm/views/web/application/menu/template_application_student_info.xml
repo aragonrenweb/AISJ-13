@@ -3,7 +3,7 @@
     <template id="template_application_student_info" name="Student info">
         <t t-call="adm.template_application_page_commons">
             <t t-set="head">
-                <link rel="stylesheet" href="/adm/static/css/form_application.css"/>
+                <link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>
                 <link rel="stylesheet" href="/adm/static/src/css/check_animation.css"/>
                 <t t-call-assets="adm.assets_application_student_info" defer_load="True"/>
             </t>
