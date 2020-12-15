@@ -138,12 +138,12 @@
                                         <input class="form-check-input" type="radio"
                                                t-attf-data-adm-field="marital_status"
                                                t-att-value="marital_status['value']"
-                                               t-attf-name="partner_2.marital_status"
-                                               t-attf-id="partner_2.marital_status_#{marital_status['value']}"
+                                               t-attf-name="#{parent_field_name}.marital_status"
+                                               t-attf-id="#{parent_field_name}.marital_status_#{marital_status['value']}"
                                                t-att-checked="guardian_relationship_id.partner_2.marital_status == marital_status['value']"
                                         />
                                         <label class="form-check-lavel"
-                                               t-attf-for="partner_2.marital_status_#{marital_status['value']}">
+                                               t-attf-for="#{parent_field_name}.marital_status_#{marital_status['value']}">
                                             <t t-esc="marital_status['name']"/>
                                         </label>
                                     </div>
@@ -193,12 +193,12 @@
                                         <input class="form-check-input" type="radio"
                                                data-adm-field="custodial_rights"
                                                t-att-value="custodial_right['value']"
-                                               t-attf-name="custodial_rights"
-                                               t-attf-id="custodial_right_#{custodial_right['value']}"
+                                               t-attf-name="#{parent_field_name}_custodial_rights"
+                                               t-attf-id="#{parent_field_name}_custodial_right_#{custodial_right['value']}"
                                                t-att-checked="guardian_relationship_id.custodial_rights == custodial_right['value']"
                                         />
                                         <label class="form-check-lavel"
-                                               t-attf-for="custodial_right_#{custodial_right['value']}">
+                                               t-attf-for="#{parent_field_name}_custodial_right_#{custodial_right['value']}">
                                             <t t-esc="custodial_right['name']"/>
                                         </label>
                                     </div>
