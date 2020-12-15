@@ -21,9 +21,9 @@ class ApplicationController(AdmissionController):
     def create_get(self, **params):
         ApplicationEnv = http.request.env['adm.application']
 
-        countries = request.env['adm.application'].sudo().search([])
-        genders = request.env['res.country'].sudo().search([])
-        languages = request.env['adm.gender'].sudo().search([])
+        countries = request.env['res.country'].sudo().search([])
+        genders = request.env['adm.gender'].sudo().search([])
+        languages = request.env['adm.language'].sudo().search([])
 
         grade_levels = (request.env['school_base.grade_level'].sudo()
                         .search([('active_admissions', '=', True)]))
