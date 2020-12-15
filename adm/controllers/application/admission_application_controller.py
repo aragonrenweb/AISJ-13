@@ -17,6 +17,38 @@ _logger = logging.getLogger(__name__)
 class ApplicationController(AdmissionController):
 
     @http.route("/admission/applications/create", auth="public",
+                methods=["GET"], website=True, csrf=False)
+    def create_get(self, **params):
+        ApplicationEnv = http.request.env['adm.application']
+
+        countries = request.env['res.country'].sudo().search([])
+        genders = request.env['adm.gender'].sudo().search([])
+        languages = request.env['adm.language'].sudo().search([])
+
+        grade_levels = (request.env['school_base.grade_level'].sudo()
+                        .search([('active_admissions', '=', True)]))
+        school_years = (request.env['school_base.school_year'].sudo()
+                        .search([]))
+        companies = (http.request.env['res.company'].sudo()
+                     .search([('country_id', '!=', False)]))
+
+        template = "adm.template_application_create_application"
+
+        return http.request.render(template, {
+            "application_id": ApplicationEnv,
+            "countries": countries,
+            "student_photo": "data:image/png;base64",
+            "adm_languages": languages,
+            "genders": genders,
+            "grade_levels": grade_levels,
+            "school_years": school_years,
+            "create_mode": True,
+            "create_grade_level": params.get("grade_level"),
+            "company": companies and companies[0],
+            })
+
+    @http.route("/admission/applications/create", auth="public",
+                
                 methods=["POST"], website=True, csrf=False)
     def info_create_post(self, **params):
         PartnerEnv = http.request.env["res.partner"]
