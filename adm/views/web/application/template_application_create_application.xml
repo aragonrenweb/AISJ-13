@@ -6,9 +6,7 @@
             <link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>
             <div class="oe_struture"/>
             <div class="oe_struture">
-<!--                <t t-call="adm.template_application_menu"/>-->
                 <div class="container-fluid d-flex p-4">
-
                     <main class="col">
                         <section class="card mb-2">
                             <section class="card-header">
@@ -208,13 +206,13 @@
                                                         </label>
                                                         <select required="required" class="form-control" name="gender">
                                                             <t t-foreach="genders" t-as="gender_id">
-                                                            <option t-if="application_id.gender == gender_id" selected="selected" t-att-value="gender_id.id">
-                                                                <t t-esc="gender_id.name"/>
-                                                            </option>
-                                                            <option t-else="" t-att-value="gender_id.id">
-                                                                <t t-esc="gender_id.name"/>
-                                                            </option>
-                                                        </t>
+                                                                <option t-if="application_id.gender == gender_id" selected="selected" t-att-value="gender_id.id">
+                                                                    <t t-esc="gender_id.name"/>
+                                                                </option>
+                                                                <option t-else="" t-att-value="gender_id.id">
+                                                                    <t t-esc="gender_id.name"/>
+                                                                </option>
+                                                            </t>
                                                     </select>
                                                     </div>
                                                      <div class="col-12 col-md-6 form-group">

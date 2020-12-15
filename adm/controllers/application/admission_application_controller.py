@@ -48,6 +48,7 @@ class ApplicationController(AdmissionController):
             })
 
     @http.route("/admission/applications/create", auth="public",
+                
                 methods=["POST"], website=True, csrf=False)
     def info_create_post(self, **params):
         PartnerEnv = http.request.env["res.partner"]
