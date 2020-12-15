@@ -6,7 +6,7 @@
             <link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>
             <div class="oe_struture"/>
             <div class="oe_struture">
-                <t t-call="adm.template_application_menu"/>
+<!--                <t t-call="adm.template_application_menu"/>-->
                 <div class="container-fluid d-flex p-4">
 
                     <main class="col">
