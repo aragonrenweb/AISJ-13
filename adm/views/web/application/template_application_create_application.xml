@@ -207,7 +207,7 @@
                                                         <span class="text-danger"> *</span>
                                                         </label>
                                                         <select required="required" class="form-control" name="gender">
-                                                            <t t-foreach="genders.ids" t-as="gender_id">
+                                                            <t t-foreach="genders" t-as="gender_id">
                                                             <option t-if="application_id.gender == gender_id" selected="selected" t-att-value="gender_id.id">
                                                                 <t t-esc="gender_id.name"/>
                                                             </option>
@@ -223,14 +223,14 @@
                                                             <option value="-1" selected="true" disabled="disabled">-Select a country-
                                                             </option>
                                                             <t t-foreach="countries" t-as="country">
-                                                                <option t-if="application_id.citizenship" t-att-selected="application_id.citizenship.id == country.id" t-att-value="country.id">
+                                                                <option t-if="application_id.citizenship" t-att-selected="application_id.citizenship == country" t-att-value="country.id">
                                                                     <t t-esc="country.name"/>
                                                                 </option>
                                                                 <t t-else="">
                                                                     <option t-if="application" t-att-selected="application_id.create_uid.sudo().company_id.country_id.id == country.id" t-att-value="country.id">
                                                                         <t t-esc="country.name"/>
                                                                     </option>
-                                                                    <option t-else="" t-att-selected="company.country_id.id == country.id" t-att-value="country.id">
+                                                                    <option t-else="" t-att-selected="company.country_id == country" t-att-value="country.id">
                                                                         <t t-esc="country.name"/>
                                                                     </option>
                                                                 </t>

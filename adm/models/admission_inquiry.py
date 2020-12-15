@@ -9,7 +9,6 @@ status_types = [
     ("done", "Done"),
     ("cancelled", "Cancelled")
 ]
-    
 
 class StatusType(models.Model):
     _name = "adm.inquiry.status.type"
@@ -348,7 +347,7 @@ class Inquiry(models.Model):
                 "school_year_id": self.school_year_id.id,
                 "medical_conditions_ids": medical_base,
             })
-        
+
         else: #No found product of admission payment, so create a application without sales order
             application_record = ApplicationEnv.create({
                 "name": self.name,
@@ -364,7 +363,7 @@ class Inquiry(models.Model):
                 "school_year_id": self.school_year_id.id,
                 "medical_conditions_ids": medical_base,
             })
-        
+
         # Creating language
         for language in self.language_ids:
             
