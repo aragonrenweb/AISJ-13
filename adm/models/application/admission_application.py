@@ -76,6 +76,16 @@ class Application(models.Model):
     status_history_ids = fields.One2many('adm.application.history.status', 'application_id', string="Status history")
 
     responsible_user_id = fields.Many2one('res.users')
+
+    responsible_user_kanban_ids = fields.Many2many(
+        'res.users',
+        compute="compute_responsible_user_kanban",
+        string="Responsible User")
+
+    def compute_responsible_user_kanban(self):
+        for application_id in self:
+            application_id.responsible_user_kanban_ids = application_id.responsible_user_id
+
     assigned_user_id = fields.Many2one('res.users')
 
     def _set_gender(self):
@@ -111,51 +121,53 @@ class Application(models.Model):
     bac_grade = fields.Float("BAC Grade")
 
     # Skills
-    language_ids = fields.One2many("adm.application.language", "application_id", string="Languages", kwargs={
-        "website_form_blacklisted": False
-        })
+    language_ids = fields.One2many("adm.application.language",
+                                   "application_id", string="Languages",
+                                   kwargs={"website_form_blacklisted": False})
 
     # Location
-    country_id = fields.Many2one("res.country", related="partner_id.country_id", string="Country")
-    state_id = fields.Many2one("res.country.state", related="partner_id.state_id", string="State")
+    country_id = fields.Many2one("res.country",
+                                 related="partner_id.country_id",
+                                 string="Country")
+    state_id = fields.Many2one("res.country.state",
+                               related="partner_id.state_id", string="State")
     city = fields.Char(string="City", related="partner_id.city")
     street = fields.Char(string="Street Address", related="partner_id.street")
     zip = fields.Char("zip", related="partner_id.zip")
 
     # Relationships
-    relationship_ids = fields.One2many(string="Relationship", related="partner_id.relationship_ids", readonly=False)
+    relationship_ids = fields.One2many(string="Relationship",
+                                       related="partner_id.relationship_ids",
+                                       readonly=False)
+    custodial_relationship_ids = fields.Many2many('adm.relationship',
+                                                  string="Custodials",
+                                                  compute="compute_custodials",
+                                                  store=False,
+                                                  )
+
+    @api.depends('relationship_ids', 'relationship_ids.custodial_rights')
+    def compute_custodials(self):
+        for application_id in self:
+            application_id.custodial_relationship_ids = (
+                application_id
+                .relationship_ids
+                .filtered(lambda rel: rel.custodial_rights == 'yes'))
 
     # Documentation
-    letter_of_motivation_id = fields.Many2one("ir.attachment", string="Letter of motivation")
+    letter_of_motivation_id = fields.Many2one("ir.attachment",
+                                              string="Letter of motivation")
     cv_id = fields.Many2one("ir.attachment", string="C.V")
-    grade_transcript_id = fields.Many2one("ir.attachment", string="Grade transcript")
-    letters_of_recommendation_id = fields.Many2one("ir.attachment", string="Letter of recommendation")
+    grade_transcript_id = fields.Many2one("ir.attachment",
+                                          string="Grade transcript")
+    letters_of_recommendation_id = fields.Many2one(
+        "ir.attachment", string="Letter of recommendation")
 
     # Additional student info
-    resident_status = fields.Selection((('permanent', 'Permanent'), ('transient', 'Transient')), string="Resident status")
+    resident_status = fields.Selection([('permanent', 'Permanent'),
+                                        ('transient', 'Transient'),
+                                        ],
+                                       string="Resident status")
     resident_length_of_stay = fields.Char("Length of stay")
-
-    first_language = fields.Many2one("adm.language", string="First Language")
-    first_language_skill_write = fields.Boolean("First Language writing")
-    first_language_skill_read = fields.Boolean("First Language reading")
-    first_language_skill_speak = fields.Boolean("First Language speaking")
-    first_language_skill_listen = fields.Boolean("First Language listening")
-
-    # first_language_skill_write = fields.Many2many("adm.language.skill.type", string="First language skills")
-
-    second_language = fields.Many2one("adm.language", string="Second Language")
-    second_language_skill_write = fields.Boolean("Second Language writing")
-    second_language_skill_read = fields.Boolean("Second Language reading")
-    second_language_skill_speak = fields.Boolean("Second Language speaking")
-    second_language_skill_listen = fields.Boolean("Second Language listening")
-    # second_language_skills = fields.Many2many("adm.language.skill.type", string="Second language skills")
-
-    third_language = fields.Many2one("adm.language", string="Third Language")
-    third_language_skill_write = fields.Boolean("Third Language writing")
-    third_language_skill_read = fields.Boolean("Third Language reading")
-    third_language_skill_speak = fields.Boolean("Third Language speaking")
-    third_language_skill_listen = fields.Boolean("Third Language listening")
-    # third_language_skills = fields.Many2many("adm.language.skill.type", string="Third language skills")
 
     # Signture Attachment
     signature_attach_url = fields.Char("Signature Attachment URL")

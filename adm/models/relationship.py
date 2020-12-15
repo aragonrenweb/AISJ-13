@@ -1,8 +1,9 @@
-'''
+"""
 Created on Feb 1, 2020
 
 @author: LuisMora
-'''
+"""
+
 from odoo import models, fields, _, api
 
 
@@ -11,7 +12,10 @@ class Relationship(models.Model):
 
     partner_1 = fields.Many2one("res.partner", string="Partner 1", required=True, ondelete="cascade")
     partner_2 = fields.Many2one("res.partner", string="Partner", required=True, ondelete="cascade")
+
+    partner_2_email = fields.Char(related="partner_2.email")
     name = fields.Char(related='partner_2.name')
+    image = fields.Binary("Applicant´s Photo", related="partner_2.image_1920")
 
     relationship_type = fields.Selection(
         [('sibling', "Sibling"), ('father', "Father"), ('mother', "Mother"), ('uncle', "Uncle"), ('grandmother', "Grandmother"), ('grandfather', "Grandfather"),
@@ -33,7 +37,6 @@ class Relationship(models.Model):
                 })
         return relationship
 
-    @api.model
     def write(self, values):
         for relationship in self:
             for family in relationship.partner_1.family_ids:

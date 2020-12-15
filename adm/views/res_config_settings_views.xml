@@ -11,7 +11,7 @@
                      data-key="adm">
                     <div id="adm_setting">
                         <h2>Application</h2>
-                        <div class="row mt16 o_settings_container">
+                        <div class="row mt16 o_settings_container" id="adm_settins_container">
                             <div class="col-12 col-6 o_setting_box">
                                 <div class="o_setting_right_pane">
                                     <label for="adm_application_required_field_ids"/>
