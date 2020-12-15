@@ -31,6 +31,7 @@
              'views/adm_inquiry_views.xml',
              'views/adm_language_level_views.xml',
              'views/adm_language_views.xml',
+             'views/adm_relationship_views.xml',
              'views/adm_siblings_views.xml',
              'views/assets.xml',
              'views/res_config_settings_views.xml',
