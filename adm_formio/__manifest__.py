@@ -22,7 +22,6 @@
         ],
 
     'data': [
-        'views/adm_inquiry_views.xml',
         'views/adm_application_views.xml',
         'views/adm_application_templates.xml',
 
