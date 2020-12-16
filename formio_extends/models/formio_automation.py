@@ -39,14 +39,25 @@ class FormioAutomation(models.Model):
         if form_builder.state != "CURRENT":
             raise ValidationError("State of form builder is INVALID. Contact the system administrator.")
         for mapping in form_automation.mapping_ids:
-            if mapping.form_field_key not in form_builder.schema:
+            splitted_keys = mapping.form_field_key.split('.')
+            if splitted_keys[-1] not in form_builder.schema:
                 raise MissingError("%s not found in form builder schema. Contact the system administrator." % mapping.form_field_key)
         form_obj = self.env["formio.form"]
         for rec in recs:
             submission_data = {}
             for mapping in form_automation.mapping_ids:
+                splitted_keys = mapping.form_field_key.split('.')
+
+                looking_dict = submission_data
+                for splitted_key in splitted_keys[:-1]:
+                    if splitted_key not in submission_data:
+                        submission_data[splitted_key] = {}
+                    looking_dict = submission_data[splitted_key]
+
+                key = splitted_keys[-1]
                 value = rec.mapped(mapping.object_field_name)
-                submission_data[mapping.form_field_key] = value and value[0] or ""
+
+                looking_dict[key] = value and value[0] or ""
             form = form_obj.sudo().create({
                 "builder_id": form_builder.id,
                 "title": form_builder.title,
