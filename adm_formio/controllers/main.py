@@ -24,8 +24,8 @@ class Admission(AdmissionController):
                 raise ValidationError(_("Email shouldn't be empty!"))
 
             application_id.sudo().formio_sent_to_email = email
-            template_id = request.env.ref('adm_formio.adm_application_mail_template_reference_form').id
-            request.env['adm.application'].sudo().message_post_with_template(template_id, res_id=application_id.id)
+            # template_id = request.env.ref('adm_formio.adm_application_mail_template_reference_form').id
+            # request.env['adm.application'].sudo().message_post_with_template(template_id, res_id=application_id.id)
         except Exception as e:
             Response.status = "400 Bad Request"
             return e
