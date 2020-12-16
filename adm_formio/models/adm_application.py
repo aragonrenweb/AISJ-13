@@ -7,8 +7,11 @@ class AdmApplication(models.Model):
     _inherit = "adm.application"
 
     def default_formio_reference_form_id(self):
-        default_reference_form_id = self.env['ir.config_parameter'].get_param(
-            'adm_formio.default_application_formio_reference_id', False)
+        default_reference_form_id = (
+            self.env['ir.config_parameter']
+                .sudo().get_param(
+                'adm_formio.default_application_formio_reference_id', False)
+            )
 
         formio_form_id = self.env['formio.form']
         if default_reference_form_id:
