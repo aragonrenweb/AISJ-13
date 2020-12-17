@@ -94,7 +94,6 @@ class Application(models.Model):
 
     father_name = fields.Char("Father name")
     mother_name = fields.Char("Mother name")
-    family_id = fields.Many2one(related="partner_id.parent_id", string="Family")
 
     # Contact
     email = fields.Char(string="Email", related="partner_id.email", index=True)
@@ -232,10 +231,16 @@ class Application(models.Model):
     status_type = fields.Selection(string="Status Type", related="status_id.type_id")
     forcing = False
 
-    family_id = fields.Many2one(string="Family", related="partner_id.parent_id")
+    family_id = fields.Many2one(string="Family",
+                                related="partner_id.parent_id")
 
     # QUESTION CUSTOMIZED PREESCOLAR
-    applying_semester = fields.Selection([('semester_1', 'Semester 1 (August)'), ('semester_2', 'Semester 2 (January)'), ('immediate', 'Immediate'), ], string="Applying semester")
+    applying_semester = fields.Selection([
+        ('semester_1', 'Semester 1 (August)'),
+        ('semester_2', 'Semester 2 (January)'),
+        ('immediate', 'Immediate'),
+        ],
+        string="Applying semester")
 
     # HERMANOS INFORMATION
     sibling_ids = fields.One2many("adm.application.sibling", "application_id", "Siblings")
