@@ -313,7 +313,7 @@
                                                 <label>Which semester are you applying for?<span class="text-danger">*</span></label>
                                                 <select name="applying_semester" class="form-control"
                                                         data-adm-field="applying_semester">
-                                                    <t t-esc="applying_semester_values"/>
+<!--                                                    <t t-esc="applying_semester_values"/>-->
                                                     <t t-foreach="applying_semester_values"
                                                        t-as="applying_semester_value">
                                                         <option t-att-selected="application_id.applying_semester == applying_semester_value['value']"
