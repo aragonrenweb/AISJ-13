@@ -32,6 +32,10 @@ class AdmissionController(http.Controller):
                                   ._get_values_for_selection_fields(
                                     'adm.relationship', 'custodial_rights'))
 
+        applying_semester_values = (AdmissionController
+                                   ._get_values_for_selection_fields(
+                                    'adm.application', 'applying_semester'))
+
         contact_id = AdmissionController.get_user().partner_id
         contact_time_ids = request.env["adm.contact_time"].search([])
         degree_program_ids = request.env["adm.degree_program"].search([])
@@ -65,6 +69,7 @@ class AdmissionController(http.Controller):
             'current_url': request.httprequest.full_path,
             "showPendingInformation": False,
             'grade_level_ids': grade_level_ids,
+            'applying_semester_values': applying_semester_values,
             'school_year_ids': school_year_ids,
             'relationship_types': relationship_types,
             'marital_status_types': marital_status_types,
