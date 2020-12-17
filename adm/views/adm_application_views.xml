@@ -25,7 +25,7 @@
                                         <strong class="o_kanban_record_title">
                                             <field name="name"/>
                                             <br/>
-                                            <field name="total_fields_completed"
+                                            <field name="total_required_fields_completed"
                                                    nolabel="1"
                                                    string="Perc."
                                                    widget="percentpie"/>
