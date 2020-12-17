@@ -80,9 +80,8 @@
                                             <div class="container">
                                                 <div class="row" data-adm-field="partner_id"
                                                      data-adm-field-type="MANY2ONE">
-                                                    <section class="col-12 col-md-4 form-group">
-                                                        <label> First Name <span class="text-danger">
-                                                            *</span></label>
+                                                    <section class="col-12 col-md form-group">
+                                                        <label> First Name <span class="text-danger">*</span></label>
                                                         <input type="text" name="first_name"
                                                                class="form-control"
                                                                t-att-value="application_id.first_name"
@@ -90,7 +89,7 @@
                                                         />
 
                                                     </section>
-                                                    <section class="col-12 col-md-4 form-group">
+                                                    <section class="d-none col-12 col-md form-group">
                                                         <label> Middle Name </label>
                                                         <input type="text" name="middle_name"
                                                                class="form-control"
@@ -98,9 +97,8 @@
                                                                data-adm-field="middle_name"
                                                         />
                                                     </section>
-                                                    <section class="col-12 col-md-4 form-group">
-                                                        <label> Last Name <span class="text-danger">
-                                                            *</span></label>
+                                                    <section class="col-12 col-md form-group">
+                                                        <label> Last Name <span class="text-danger">*</span></label>
                                                         <input type="text" name="last_name" class="form-control"
                                                                data-adm-field="last_name"
                                                                t-att-value="application_id.last_name"/>
@@ -110,7 +108,7 @@
                                         </div>
                                         <section class="row">
                                             <div class="col-12 col-md-6 form-group">
-                                                <label for="selStudentGradeLevel"> Grade Level: </label>
+                                                <label for="selStudentGradeLevel"> Grade Level: <span class="text-danger">*</span></label>
                                                 <select id="selStudentGradeLevel" class="form-control"
                                                         data-adm-field="grade_level" data-adm-field-type="INTEGER">
                                                     <t t-foreach="grade_level_ids" t-as="grade_level">
@@ -121,7 +119,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-12 col-md-6 form-group">
-                                                <label> School Year: </label>
+                                                <label> School Year: <span class="text-danger">*</span></label>
                                                 <select data-adm-field="school_year" data-adm-field-type="INTEGER"
                                                         class="form-control">
                                                     <t t-foreach="school_year_ids" t-as="school_year_id">
@@ -135,8 +133,7 @@
                                         </section>
                                         <section class="row">
                                             <div class="col-12 col-md-6 form-group">
-                                                <label> Street Address: <span class="text-danger">
-                                                    *</span></label>
+                                                <label> Street Address: <span class="text-danger">*</span></label>
                                                 <input required="required" type="text"
                                                        name="street" class="form-control"
                                                        data-adm-field="street"
@@ -152,8 +149,7 @@
                                                        t-att-value="application_id.city"/>
                                             </div>
                                             <div class="col-12 col-md-4 form-group">
-                                                <label for="state_id"> State <span class="text-danger">
-                                                    *</span></label>
+                                                <label for="state_id"> State <span class="text-danger">*</span></label>
                                                 <select required="required" type="text"
                                                         id="state_id" name="state_id" placeholder="State"
                                                         data-adm-field="state_id" data-adm-field-type="INTEGER"
@@ -215,7 +211,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-12 col-md-6 form-group">
-                                                <label>Nationality:</label>
+                                                <label>Nationality:<span class="text-danger">*</span></label>
                                                 <select name="citizenship" class="form-control"
                                                         data-adm-field="citizenship" data-adm-field-type="INTEGER">
                                                     <option value="-1" selected="selected" disabled="disabled">
@@ -233,7 +229,7 @@
                                         <section class="row">
                                             <div class="col-12 col-md-6" data-adm-field="partner_id"
                                                  data-adm-field-type="MANY2ONE">
-                                                <label> Iqama/ Residence Permit ID number: </label>
+                                                <label> Iqama/ Residence Permit ID number: <span class="text-danger">*</span></label>
                                                 <input type="text" name="identification" class="form-control"
                                                        data-adm-field="identification"
                                                        t-att-value="application_id.partner_id.identification"/>
@@ -245,7 +241,7 @@
                                             <div class="col-12 text-center h2">Passport</div>
 
                                             <div class="col-12 col-md-6">
-                                                <label>Passport number 1:</label>
+                                                <label>Passport number 1 <span class="text-danger">*</span>: </label>
                                                 <input type="text" name="passport_number_1" class="form-control"
                                                        data-adm-field="passport_number_1"
                                                        t-att-value="application_id.passport_number_1"/>
@@ -270,7 +266,7 @@
                                             <div class="col-12 text-center h2">Documentation</div>
 
                                             <div class="col-12 col-md-6 form-group">
-                                                <label for="upload_passport_copy_file" class="label">Upload passport copy</label>
+                                                <label for="upload_passport_copy_file" class="label">Upload passport copy<span class="text-danger">*</span></label>
                                                 <div class="form-upload">
                                                     <label class="label-upload" for="upload_passport_copy_file"><i
                                                             class="fa fa-upload"></i></label>
@@ -289,7 +285,7 @@
                                             </div>
 
                                             <div class="col-12 col-md-6 form-group">
-                                                <label for="permit_copy_attachment_id" class="label">Upload Iqama/ Residency Permit Copy</label>
+                                                <label for="permit_copy_attachment_id" class="label">Upload Iqama/ Residency Permit Copy<span class="text-danger">*</span></label>
                                                 <div class="form-upload">
                                                     <label class="label-upload" for="permit_copy_attachment_id"><i
                                                             class="fa fa-upload"></i></label>
@@ -314,7 +310,7 @@
                                             <div class="col-12 text-center h2">Additional info</div>
 
                                             <div class="col-12 col-md-6">
-                                                <label>Which semester are you applying for?</label>
+                                                <label>Which semester are you applying for?<span class="text-danger">*</span></label>
                                                 <select name="applying_semester" class="form-control"
                                                         data-adm-field="applying_semester">
                                                     <t t-foreach="applying_semester_values"
@@ -328,8 +324,10 @@
                                             </div>
 
                                             <div class="col-12 col-md-6">
-                                                <label for="field_expected_starting_date">Expected starting
-                                                    date</label>
+                                                <label for="field_expected_starting_date">
+                                                    Expected starting date
+                                                    <span class="text-danger">*</span>
+                                                </label>
                                                 <input id="field_expected_starting_date" type="date"
                                                        data-adm-field="expected_starting_date"
                                                        t-att-value="application_id.expected_starting_date"
