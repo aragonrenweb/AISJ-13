@@ -137,11 +137,10 @@ class ApplicationController(AdmissionController):
         # if len(self.getPendingTasks(application_id)) == 0:
         # BUSCAMOS EL STATUS QUE SEA DE TIPO SUBMITTED PARA TRANSLADAR
         # LA PETICION DEL USUARIO
-        #     StatusEnv = request.env["adm.application.status"].sudo()
-        #     statusSubmitted = (StatusEnv.browse(StatusEnv
-        #                        .search([('type_id', '=', 'submitted')])))
-        #     application_id.sudo().force_status_submitted(
-        #     statusSubmitted.id.id)
+        StatusEnv = request.env["adm.application.status"].sudo()
+        status_submitted = StatusEnv.search([('type_id', '=', 'submitted')])[0]
+        if status_submitted:
+            application_id.sudo().force_status_submitted(status_submitted.id)
 
         return request.redirect(
             http.request.httprequest.referrer + "?checkData=1")
