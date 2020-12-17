@@ -163,7 +163,8 @@
                                                     </option>
                                                     <t t-foreach="state_ids" t-as="state">
                                                         <option t-att-selected="application_id.state_id == state"
-                                                                t-att-value="state.id">
+                                                                t-att-data-country="state.country_id.id"
+                                                                t-att-value="state.id" style="display: none;">
                                                             <t t-esc="state.name"/>
                                                         </option>
                                                     </t>
