@@ -7,7 +7,6 @@ odoo.define('adm.application.school', require => {
     }
 
     function appendNewSchool(event) {
-        console.log("Hola2")
         const $clonedNewSchoolTemplate = $(document.getElementById('template_school')).clone(true);
 
         // We remove the style display none

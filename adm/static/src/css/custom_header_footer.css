@@ -44,20 +44,20 @@ li span,li b{
     color: white !important;
     padding-bottom: 5px;
 }
-li span,li b{
+li.nav-item {
   color: #666;
   display:inline-block;
   margin:5px;
   text-transform:uppercase;
  }
-li span:after,li b:after {
+li.nav-item::after {
   display:block;
   content: '';
   border-bottom: solid 4px #808284;
   transform: scaleX(0);
   transition: transform 300ms ease-in-out;
 }
-li span:hover:after, li b:hover:after {
+li.nav-item:hover::after {
  transform: scaleX(1);
 }
 

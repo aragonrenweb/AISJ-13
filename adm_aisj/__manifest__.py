@@ -22,6 +22,7 @@
     # always loaded
     'data': [
         'views/adm_application_views.xml',
+        'views/portal_templates.xml',
         ],
     # 'qweb': [ ],
     # 'application': True
