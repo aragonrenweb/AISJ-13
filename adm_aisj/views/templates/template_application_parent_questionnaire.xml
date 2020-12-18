@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="template_application_parent_questionnaire_form"
+              inherit_id="adm.template_application_parent_questionnaire_form">
+        <xpath expr="." position="replace">
+            <div>
+                <section class="card mb-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                        <th>4</th>
+                                        <th>5</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Math</td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_math"
+                                                   name="c_aisj_parent_quest_math" value="1"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_math == '1'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_math"
+                                                   name="c_aisj_parent_quest_math" value="2"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_math == '2'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_math"
+                                                   name="c_aisj_parent_quest_math" value="3"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_math == '3'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_math"
+                                                   name="c_aisj_parent_quest_math" value="4"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_math == '4'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_math"
+                                                   name="c_aisj_parent_quest_math" value="5"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_math == '5'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>English</td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_english"
+                                                   name="c_aisj_parent_quest_english" value="1"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_english == '1'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_english"
+                                                   name="c_aisj_parent_quest_english" value="2"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_english == '2'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_english"
+                                                   name="c_aisj_parent_quest_english" value="3"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_english == '3'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_english"
+                                                   name="c_aisj_parent_quest_english" value="4"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_english == '4'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_english"
+                                                   name="c_aisj_parent_quest_english" value="5"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_english == '5'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Languajes</td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_language"
+                                                   name="c_aisj_parent_quest_language" value="1"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_language == '1'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_language"
+                                                   name="c_aisj_parent_quest_language" value="2"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_language == '2'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_language"
+                                                   name="c_aisj_parent_quest_language" value="3"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_language == '3'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_language"
+                                                   name="c_aisj_parent_quest_language" value="4"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_language == '4'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_language"
+                                                   name="c_aisj_parent_quest_language" value="5"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_language == '5'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sciences</td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_sciences"
+                                                   name="c_aisj_parent_quest_sciences" value="1"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_sciences == '1'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_sciences"
+                                                   name="c_aisj_parent_quest_sciences" value="2"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_sciences == '2'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_sciences"
+                                                   name="c_aisj_parent_quest_sciences" value="3"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_sciences == '3'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_sciences"
+                                                   name="c_aisj_parent_quest_sciences" value="4"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_sciences == '4'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_sciences"
+                                                   name="c_aisj_parent_quest_sciences" value="5"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_sciences == '5'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>History</td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_history"
+                                                   name="c_aisj_parent_quest_history" value="1"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_history == '1'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_history"
+                                                   name="c_aisj_parent_quest_history" value="2"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_history == '2'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_history"
+                                                   name="c_aisj_parent_quest_history" value="3"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_history == '3'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_history"
+                                                   name="c_aisj_parent_quest_history" value="4"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_history == '4'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_history"
+                                                   name="c_aisj_parent_quest_history" value="5"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_history == '5'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PE</td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_pe"
+                                                   name="c_aisj_parent_quest_pe" value="1"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_pe == '1'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_pe"
+                                                   name="c_aisj_parent_quest_pe" value="2"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_pe == '2'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_pe"
+                                                   name="c_aisj_parent_quest_pe" value="3"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_pe == '3'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_pe"
+                                                   name="c_aisj_parent_quest_pe" value="4"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_pe == '4'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_pe"
+                                                   name="c_aisj_parent_quest_pe" value="5"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_pe == '5'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Arts</td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arts"
+                                                   name="c_aisj_parent_quest_arts" value="1"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arts == '1'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arts"
+                                                   name="c_aisj_parent_quest_arts" value="2"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arts == '2'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arts"
+                                                   name="c_aisj_parent_quest_arts" value="3"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arts == '3'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arts"
+                                                   name="c_aisj_parent_quest_arts" value="4"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arts == '4'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arts"
+                                                   name="c_aisj_parent_quest_arts" value="5"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arts == '5'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Social Studies</td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_social_studies"
+                                                   name="c_aisj_parent_quest_social_studies" value="1"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_social_studies == '1'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_social_studies"
+                                                   name="c_aisj_parent_quest_social_studies" value="2"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_social_studies == '2'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_social_studies"
+                                                   name="c_aisj_parent_quest_social_studies" value="3"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_social_studies == '3'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_social_studies"
+                                                   name="c_aisj_parent_quest_social_studies" value="4"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_social_studies == '4'"/></td>
+                                        <td><input type="radio"
+                                                   data-adm-field="c_aisj_parent_quest_social_studies"
+                                                   name="c_aisj_parent_quest_social_studies" value="5"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_social_studies == '5'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Arabic</td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arabic"
+                                                   name="c_aisj_parent_quest_arabic" value="1"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arabic == '1'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arabic"
+                                                   name="c_aisj_parent_quest_arabic" value="2"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arabic == '2'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arabic"
+                                                   name="c_aisj_parent_quest_arabic" value="3"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arabic == '3'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arabic"
+                                                   name="c_aisj_parent_quest_arabic" value="4"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arabic == '4'"/></td>
+                                        <td><input type="radio" data-adm-field="c_aisj_parent_quest_arabic"
+                                                   name="c_aisj_parent_quest_arabic" value="5"
+                                                   t-att-checked="application_id.c_aisj_parent_quest_arabic == '5'"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                <section class="card mb-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-md-6 form-group">
+                                <label>My child's challenged at school include</label>
+                                <input class="form-control" type="text"
+                                       data-adm-field="c_aisj_parent_questionaire_q1"
+                                       t-att-value="application_id.c_aisj_parent_questionaire_q1"/>
+                            </div>
+                            <div class="col-12 col-md-6 form-group">
+                                <label>In What activities outside of school is your child involved?</label>
+                                <input class="form-control" type="text"
+                                       data-adm-field="c_aisj_parent_questionaire_q2"
+                                       t-att-value="application_id.c_aisj_parent_questionaire_q2"/>
+                            </div>
+                            <div class="col-12 col-md-6 form-group">
+                                <label>Applicant's proficiency in English:</label>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                           data-adm-field="c_aisj_parent_questionaire_q3"
+                                           name="c_aisj_parent_questionaire_q3"
+                                           value="fluent"
+                                           t-att-checked="application_id.c_aisj_parent_questionaire_q3 == 'fluent'"/>
+                                    <label class="form-check-label">Fluent</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                           data-adm-field="c_aisj_parent_questionaire_q3"
+                                           name="c_aisj_parent_questionaire_q3"
+                                           value="limited"
+                                           t-att-checked="application_id.c_aisj_parent_questionaire_q3 == 'limited'"/>
+                                    <label class="form-check-label">Limited</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                           data-adm-field="c_aisj_parent_questionaire_q3"
+                                           name="c_aisj_parent_questionaire_q3"
+                                           value="beginner"
+                                           t-att-checked="application_id.c_aisj_parent_questionaire_q3 == 'beginner'"/>
+                                    <label class="form-check-label">Beginner</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 form-group">
+                                <label>Has the applicant received any of the following programs?</label>
+                                <div t-foreach="applicant_programs_ids" t-as="applicant_programs_id" class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           data-adm-field="c_aisj_parent_questionaire_q4"
+                                           data-adm-field-type="MANY2MANY_CHECKBOX"
+                                           name="c_aisj_parent_questionaire_q4"
+                                           t-att-value="applicant_programs_id.id"
+                                           t-attf-id="c_aisj_parent_questionaire_q4-#{applicant_programs_id.id}"
+                                           t-att-checked="applicant_programs_id in application_id.c_aisj_parent_questionaire_q4"/>
+                                    <label class="form-check-label"
+                                           t-attf-for="c_aisj_parent_questionaire_q4-#{applicant_programs_id.id}">
+                                        <t t-esc="applicant_programs_id.name"/>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 form-group">
+                                <label>Has your child ever received additional support in-school or outside
+                                    of
+                                    school in the following areas?</label>
+                                <div t-foreach="additional_support_ids" t-as="additional_support_id" class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           data-adm-field="c_aisj_parent_questionaire_q5"
+                                           data-adm-field-type="MANY2MANY_CHECKBOX"
+                                           name="c_aisj_parent_questionaire_q5"
+                                           t-att-value="additional_support_id.id"
+                                           t-attf-id="c_aisj_parent_questionaire_q5-#{additional_support_id.id}"
+                                           t-att-checked="additional_support_id in application_id.c_aisj_parent_questionaire_q5"/>
+                                    <label class="form-check-label"
+                                           t-attf-for="c_aisj_parent_questionaire_q5-#{additional_support_id.id}">
+                                        <t t-esc="additional_support_id.name"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label>Why are you interested in AISJ for your child?</label>
+                                
+                                <div t-foreach="interested_options_ids" t-as="interested_options_id" class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           data-adm-field="c_aisj_parent_questionaire_q6"
+                                           data-adm-field-type="MANY2MANY_CHECKBOX"
+                                           name="c_aisj_parent_questionaire_q6"
+                                           t-att-value="interested_options_id.id"
+                                           t-attf-id="c_aisj_parent_questionaire_q6-#{interested_options_id.id}"
+                                           t-att-checked="interested_options_id in application_id.c_aisj_parent_questionaire_q6"/>
+                                    <label class="form-check-label"
+                                           t-attf-for="c_aisj_parent_questionaire_q6-#{interested_options_id.id}">
+                                        <t t-esc="interested_options_id.name"/>
+                                    </label>
+                                </div>
+                                
+                            </div>
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label>What experiences are you hoping your child will have at AISJ?</label>
+                                <textarea class="form-control" type="text"
+                                          data-adm-field="c_aisj_parent_questionaire_q7"
+                                          t-att-value="application_id.c_aisj_parent_questionaire_q7"/>
+
+                            </div>
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label>How did you hear about us?</label>
+                                <div t-foreach="how_hear_about_us_ids" t-as="how_hear_about_us_id" class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           data-adm-field="c_aisj_parent_questionaire_q8"
+                                           data-adm-field-type="MANY2MANY_CHECKBOX"
+                                           name="c_aisj_parent_questionaire_q8"
+                                           t-att-value="how_hear_about_us_id.id"
+                                           t-attf-id="c_aisj_parent_questionaire_q8-#{how_hear_about_us_id.id}"
+                                           t-att-checked="how_hear_about_us_id in application_id.c_aisj_parent_questionaire_q8"/>
+                                    <label class="form-check-label"
+                                           t-attf-for="c_aisj_parent_questionaire_q8-#{how_hear_about_us_id.id}">
+                                        <t t-esc="how_hear_about_us_id.name"/>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label>Is there anything you really want us to know about your family as you
+                                    apply to AISJ?</label>
+                                <input class="form-control" type="text"
+                                       data-adm-field="c_aisj_parent_questionaire_q9"
+                                       t-att-value="application_id.c_aisj_parent_questionaire_q9"/>
+                            </div>
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label>Has your family attended an Admissions visit or tour at AISJ?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                           data-adm-field="c_aisj_parent_questionaire_q10"
+                                           name="c_aisj_parent_questionaire_q10"
+                                           value="yes"
+                                           t-att-checked="application_id.c_aisj_parent_questionaire_q10 == 'yes'"/>
+                                    <label class="form-check-label">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                           data-adm-field="c_aisj_parent_questionaire_q10"
+                                           name="c_aisj_parent_questionaire_q10"
+                                           value="no"
+                                           t-att-checked="application_id.c_aisj_parent_questionaire_q10 == 'no'"/>
+                                    <label class="form-check-label">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>

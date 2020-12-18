@@ -76,52 +76,33 @@ class AdmApplication(models.Model):
         ('limited', 'Limited'),
         ('beginner', 'Beginner'),
         ], "Applicant's proficiency in English")
-    c_aisj_parent_questionaire_q4 = fields.Selection([
-        ('english_second', 'English as a second language'),
-        ('gifted_and_talented', 'Gifted and Talented or Accelerated'),
-        ('occupational', 'Occupational Language Therapy'),
-        ('educational', 'Educational or Psychological Testing'),
-        ('counseling', 'Counseling'),
-        ('extra_academic_support', 'Extra Academic Support'),
-        ('special_education', 'Special Education'),
-        ('adhd_testing', 'ADHD Testing'),
-        ('cognitive_testing', 'Cognitive Testing'),
-        ('none_of_above', 'None of the above'),
-        ], "Has the applicant received any of the following programs?")
 
-    c_aisj_parent_questionaire_q5 = fields.Selection([
-        ('reading_support', 'Reading/Literacy Support'),
-        ('math_support', 'Math Support'),
-        ('speech_and_language_support', 'Speech and Language support'),
-        ('occupational_support', 'Occupational Support'),
-        ('resource_classroom', 'Resource Classroom'),
-        ('any_other_type', 'Any other type of therapy or support'),
-        ('none_of_above', 'None of the above'),
-        ], "Has your child ever received additional support in-school or outside of school in the following areas?")
-    c_aisj_parent_questionaire_q6 = fields.Selection([
-        ('neighborhood', 'In my neighborhood'),
-        ('program', 'Program/Curriculum'),
-        ('not_for_profit', 'Not for profit'),
-        ('facilities', 'Facilities'),
-        ('teaching_staff', 'Teaching Staff'),
-        ('reputation', 'Reputation'),
-        ('sibling_at_school', 'Siblings at school'),
-        ('ap_program', 'AP Program'),
-        ('other', 'Other'),
-        ],"why are you interested in AISJ for your child?")
+    c_aisj_parent_questionaire_q4 = fields.Many2many(
+        'adm_aisj.applicant.programs',
+        string="Has the applicant received any of the following programs?")
+
+    c_aisj_parent_questionaire_q5 = fields.Many2many(
+        'adm_aisj.additional.support',
+        string="Has your child ever received additional support in-school or"
+               " outside of school in the following areas?")
+
+    c_aisj_parent_questionaire_q6 = fields.Many2many(
+        'adm_aisj.interested.options',
+        string="Why are you interested in AISJ for your child?")
 
     c_aisj_parent_questionaire_q7 = fields.Text("What experiences are you hoping your child will have at AISJ?")
-    c_aisj_parent_questionaire_q8 = fields.Selection([
-        ('employer', 'Employer'),
-        ('friends', 'Friends'),
-        ('alumni', 'Alumni'),
-        ('relocation_service', 'Relocation Service'),
-        ('adverstising', 'Advertising'),
-        ('website', 'Website'),
-        ('current_school', 'Current school'),
-        ('open_house', 'Open house'),
-        ('other', 'Other'),
-        ], "How did you hear about us?")
+    c_aisj_parent_questionaire_q8 = fields.Many2many(
+        'adm_aisj.how.hear.about.us',
+        string="How did you hear about us?")
+        # ('employer', 'Employer'),
+        # ('friends', 'Friends'),
+        # ('alumni', 'Alumni'),
+        # ('relocation_service', 'Relocation Service'),
+        # ('adverstising', 'Advertising'),
+        # ('website', 'Website'),
+        # ('current_school', 'Current school'),
+        # ('open_house', 'Open house'),
+        # ('other', 'Other'),
 
     c_aisj_parent_questionaire_q9 = fields.Char("Is there anything you really want us to know about your family as you apply to AISJ?")
     c_aisj_parent_questionaire_q10 = fields.Selection(
