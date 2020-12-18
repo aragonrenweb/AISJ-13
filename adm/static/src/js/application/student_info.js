@@ -17,7 +17,6 @@ odoo.define('adm.application.student_info', require => {
         $stateInput.children("option[data-country='" + countryId + "']").show().prop('disabled', false);
 
         if ($stateInput.children("option:selected").is(":disabled")) {
-            console.log('ASD')
             $stateInput.children("option:nth(0)").prop("selected", true);
         }
     }
