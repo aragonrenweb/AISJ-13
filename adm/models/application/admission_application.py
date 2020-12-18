@@ -152,9 +152,7 @@ class Application(models.Model):
     def compute_custodials(self):
         for application_id in self:
             application_id.custodial_relationship_ids = (
-                application_id
-                .relationship_ids
-                .filtered(lambda rel: rel.custodial_rights == 'yes'))
+                application_id.relationship_ids.filtered('custodial_rights'))
 
     # Documentation
     letter_of_motivation_id = fields.Many2one("ir.attachment",
