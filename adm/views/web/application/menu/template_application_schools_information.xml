@@ -133,8 +133,9 @@
                                                        data-adm-field="c_aisj_schools_q1"
                                                        value="yes"
                                                        t-att-checked="application_id.c_aisj_schools_q1 == 'yes'"
+                                                       id="attended_to_aisj_before_yes"
                                                        name="attended_to_aisj_before"/>
-                                                <label class="for-check-label">Yes</label>
+                                                <label class="for-check-label" for="attended_to_aisj_before_yes">Yes</label>
                                             </div>
 
                                             <div class="form-check">
@@ -142,8 +143,9 @@
                                                        data-adm-field="c_aisj_schools_q1"
                                                        value="no"
                                                        t-att-checked="application_id.c_aisj_schools_q1 == 'no'"
+                                                       id="attended_to_aisj_before_no"
                                                        name="attended_to_aisj_before"/>
-                                                <label class="for-check-label">No</label>
+                                                <label class="for-check-label" for="attended_to_aisj_before_no">No</label>
                                             </div>
                                         </div>
 
@@ -155,8 +157,9 @@
                                                        data-adm-field="c_aisj_schools_q2"
                                                        value="yes"
                                                        t-att-checked="application_id.c_aisj_schools_q2 == 'yes'"
+                                                       id="applied_to_aisj_before_yes"
                                                        name="applied_to_aisj_before"/>
-                                                <label class="for-check-label">Yes</label>
+                                                <label class="for-check-label" for="applied_to_aisj_before_yes">Yes</label>
                                             </div>
 
                                             <div class="form-check">
@@ -164,8 +167,9 @@
                                                        data-adm-field="c_aisj_schools_q2"
                                                        value="no"
                                                        t-att-checked="application_id.c_aisj_schools_q2 == 'no'"
+                                                       id="applied_to_aisj_before_no"
                                                        name="applied_to_aisj_before"/>
-                                                <label class="for-check-label">No</label>
+                                                <label class="for-check-label" for="applied_to_aisj_before_no">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +184,9 @@
                                     <section
                                             class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
                                         <span class="text-muted mb-2">Please, make sure you save the changes</span>
-                                        <button class="btn btn-primary js_submit_json" type="button">Save</button>
+                                        <button class="btn btn-primary js_submit_json"
+                                                t-attf-data-next-url="/admission/applications/#{application_id.id}/family/parents"
+                                                type="button">Save and next</button>
                                     </section>
                                 </div>
                             </section>

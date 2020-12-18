@@ -56,7 +56,10 @@
 
     <!-- Principal -->
 	<menuitem id="adm_menu" name="Admission" />
-    
+
+    <!-- For customizations -->
+    <menuitem id="adm_custom_menu" parent="adm_menu" name="Custom" />
+
     <!-- Inquiry -->
 	<menuitem  id="adm_menu_inquiry" action="action_inquiry"
 		name="Inquiry" parent="adm_menu" sequence="1" />

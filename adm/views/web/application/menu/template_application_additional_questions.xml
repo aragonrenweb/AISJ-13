@@ -251,7 +251,9 @@
                                     <section
                                             class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
                                         <span class="text-muted mb-2">Please, make sure you save the changes</span>
-                                        <button class="btn btn-primary js_submit_json" type="button">Save</button>
+                                        <button class="btn btn-primary js_submit_json"
+                                                t-attf-data-next-url="/admission/applications/#{application_id.id}/medical-info"
+                                                type="button">Save and next</button>
                                     </section>
                                 </div>
                             </section>

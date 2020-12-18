@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-    <template id="adm.temaplte_application_medical_condition">
+    <template id="adm.template_application_medical_condition">
         <t t-if="condition">
             <input type="hidden" t-att-value="condition.id" data-adm-field="id"
                    data-adm-field-type="INTEGER"/>
@@ -59,7 +59,7 @@
         </article>
     </template>
 
-    <template id="adm.temaplte_application_medical_allergies">
+    <template id="adm.template_application_medical_allergies">
 
         <t t-if="allergy">
             <input type="hidden" t-att-value="allergy.id" data-adm-field="id"
@@ -94,7 +94,7 @@
         </article>
     </template>
 
-    <template id="adm.temaplte_application_medical_Medication">
+    <template id="adm.template_application_medical_Medication">
         <t t-if="medication">
             <input type="hidden" t-att-value="medication.id" data-adm-field="id"
                    data-adm-field-type="INTEGER"/>
@@ -131,13 +131,13 @@
     <template id="adm.template_application_menu_medical_info">
         <t t-call="adm.template_application_page_commons">
             <div id="template_condition" style="display: none;">
-                <t t-call="adm.temaplte_application_medical_condition"/>
+                <t t-call="adm.template_application_medical_condition"/>
             </div>
             <div id="template_medication" style="display: none;">
-                <t t-call="adm.temaplte_application_medical_Medication"/>
+                <t t-call="adm.template_application_medical_Medication"/>
             </div>
             <div id="template_allergy" style="display: none;">
-                <t t-call="adm.temaplte_application_medical_allergies"/>
+                <t t-call="adm.template_application_medical_allergies"/>
             </div>
             <t t-set="title">Application</t>
             <t t-set="head">
@@ -255,7 +255,7 @@
                                                             <t t-foreach="application_id.medical_conditions_ids"
                                                                t-as="condition">
                                                                 <div data-adm-rel="rel">
-                                                                    <t t-call="adm.temaplte_application_medical_condition"/>
+                                                                    <t t-call="adm.template_application_medical_condition"/>
                                                                 </div>
                                                             </t>
                                                         </section>
@@ -275,7 +275,7 @@
                                                             <t t-foreach="application_id.medical_allergies_ids"
                                                                t-as="allergy">
                                                                 <div data-adm-rel="rel">
-                                                                    <t t-call="adm.temaplte_application_medical_allergies"/>
+                                                                    <t t-call="adm.template_application_medical_allergies"/>
                                                                 </div>
                                                             </t>
                                                         </section>
@@ -294,7 +294,7 @@
                                                             <t t-foreach="application_id.medical_medications_ids"
                                                                t-as="medication">
                                                                 <div data-adm-rel="rel">
-                                                                    <t t-call="adm.temaplte_application_medical_Medication"/>
+                                                                    <t t-call="adm.template_application_medical_Medication"/>
                                                                 </div>
                                                             </t>
                                                         </section>
@@ -322,7 +322,8 @@
                                             <span class="text-muted mb-2">Please, make sure you save
                                                 the changes</span>
                                             <button class="btn btn-primary js_submit_json"
-                                                    type="button">Save</button>
+                                                    t-attf-data-next-url="/admission/applications/#{application_id.id}/document-comun"
+                                                    type="button">Save and next</button>
                                         </section>
                                     </div>
                                 </section>

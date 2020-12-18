@@ -197,7 +197,7 @@ class ApplicationController(AdmissionController):
 
         response = request.render(
             'adm.template_application_additional_questions_webpage',
-            AdmissionController.compute_view_render_params(application_id))
+            self.compute_view_render_params(application_id))
         return response
 
     @http.route("/admission/applications/"
@@ -215,14 +215,14 @@ class ApplicationController(AdmissionController):
     def get_questionnaire(self, application_id):
         return request.render(
             'adm.template_application_parent_questionnaire_webpage',
-            AdmissionController.compute_view_render_params(application_id))
+            self.compute_view_render_params(application_id))
 
     @http.route("/admission/applications/"
                 "<model('adm.application'):application_id>/family/parents",
                 auth="public", methods=["GET"], website=True)
     def get_parents(self, application_id):
         return request.render('adm.template_application_parents_webpage',
-                              AdmissionController
+                              self
                               .compute_view_render_params(application_id))
 
     @http.route("/admission/applications/"
@@ -231,7 +231,7 @@ class ApplicationController(AdmissionController):
     def get_school(self, application_id):
         return request.render(
             'adm.template_application_schools_information_webpage',
-            AdmissionController.compute_view_render_params(application_id))
+            self.compute_view_render_params(application_id))
 
     @http.route("/admission/applications/"
                 "<model('adm.application'):application_id>/family/siblings",
@@ -239,4 +239,4 @@ class ApplicationController(AdmissionController):
     def get_siblings(self, application_id):
         return request.render(
             'adm.template_application_siblings_webpage',
-            AdmissionController.compute_view_render_params(application_id))
+            self.compute_view_render_params(application_id))
