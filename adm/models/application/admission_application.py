@@ -9,13 +9,16 @@ status_types = [("stage", "Stage"), ("done", "Done"), ("return", "Return To Pare
 
 
 class Questions(models.Model):
-    _name = "adm.application.question"
+    _name = 'adm.application.question'
+    _description = "Application question"
+
     question = fields.Char(string="Question")
     answer = fields.Char(string="Answer")
 
 
 class ApplicationStatus(models.Model):
-    _name = "adm.application.status"
+    _name = 'adm.application.status'
+    _description = "Application status"
     _order = "sequence"
 
     name = fields.Char(string="Status Name")
@@ -45,7 +48,8 @@ class ApplicationStatus(models.Model):
 
 
 class Gender(models.Model):
-    _name = "adm.gender"
+    _name = 'adm.gender'
+    _description = "Admission Gender"
 
     name = fields.Char("Gender")
 
@@ -495,7 +499,8 @@ class Application(models.Model):
 
 
 class ApplicationOtherContacts(models.Model):
-    _name = "adm.application.other_contacts"
+    _name = 'adm.application.other_contacts'
+    _description = "Application other contacts"
 
     contact_name = fields.Char("Contact Name")
     contact_identification = fields.Char("Contact Identification")
@@ -504,7 +509,8 @@ class ApplicationOtherContacts(models.Model):
 
 
 class ApplicationTasks(models.Model):
-    _name = "adm.application.task"
+    _name = 'adm.application.task'
+    _description = "Application Task"
 
     name = fields.Char("Name")
     description = fields.Char("Description")
@@ -512,7 +518,8 @@ class ApplicationTasks(models.Model):
 
 
 class ApplicationSiblings(models.Model):
-    _name = "adm.application.sibling"
+    _name = 'adm.application.sibling'
+    _description = "Application sibling"
 
     partner_id = fields.Many2one('res.partner')
 
@@ -530,7 +537,8 @@ class ApplicationSiblings(models.Model):
 
 
 class AdmissionApplicationLanguages(models.Model):
-    _name = "adm.application.language"
+    _name = 'adm.application.language'
+    _description = "Application language"
 
     language_id = fields.Many2one("adm.language", string="Language")
     language_level_id = fields.Many2one("adm.language.level", string="Language Level")

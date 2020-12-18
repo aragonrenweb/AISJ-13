@@ -1,4 +1,5 @@
 odoo.define('adm.application.common', require => {
+    "use strict";
 
     require('web.core');
     const utils = require('web.utils')
@@ -21,14 +22,21 @@ odoo.define('adm.application.common', require => {
                     return base64EncodedFile;
                 }
             }
-            let val = $el.val();
+            let val;
 
             switch (($el.data('admFieldType') || '').toUpperCase()) {
                 case 'INTEGER':
-                    val = parseInt(val);
+                case 'MANY2MANY_CHECKBOX':
+                    val = parseInt($el.val());
                     break;
                 case 'FLOAT':
-                    val = parseFloat(val);
+                    val = parseFloat($el.val());
+                    break;
+                case 'BOOLEAN':
+                    val = !!$el.is(':checked');
+                    break;
+                default:
+                    val = $el.val();
                     break;
             }
 
@@ -47,7 +55,7 @@ odoo.define('adm.application.common', require => {
         for (let i = 0; i < firstFields.length; ++i) {
             const el = firstFields[i];
             const $el = $(el);
-            if (($el.is(':radio') && !$el.is(':checked'))
+            if ((($el.is(':radio') || $el.is(':checkbox')) && !$el.is(':checked'))
                 || $el.prop('disabled')
                 || ($el.is(':file') && (!el.files || !el.files.length ))) {
                 continue;
@@ -82,6 +90,11 @@ odoo.define('adm.application.common', require => {
                         };
                     }
                     break;
+                case 'MANY2MANY_CHECKBOX':
+                    auxJson[fieldName] = auxJson[fieldName] || [];
+                    const elValue = await getValueDependingOnType($el);
+                    auxJson[fieldName].push({id: elValue});
+                    break;
                 default:
                     auxJson[fieldName] = await getValueDependingOnType($el);
                     break;
@@ -91,7 +104,9 @@ odoo.define('adm.application.common', require => {
         return auxJson;
     }
 
-    function sendJson() {
+    function sendJson(event) {
+        const btnSave = event.currentTarget;
+        const nextUrlPage = btnSave.dataset.nextUrl;
         const mainRoot = $('[data-adm-model-fields="1"]');
         buildAdmJSONObject(mainRoot).then(jsonToSend => {
             console.log(jsonToSend);
@@ -106,7 +121,13 @@ odoo.define('adm.application.common', require => {
                 beforeSend: () => {
                     $(document.getElementById('adm_loader')).show();
                 },
-                success: () => {location.reload();},
+                success: () => {
+                    if (nextUrlPage) {
+                        window.location.href = nextUrlPage;
+                    } else {
+                        window.location.reload();
+                    }
+                },
                 error: () => {
                     $(document.getElementById('adm_loader')).hide();
                 },

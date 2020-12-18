@@ -16,6 +16,7 @@
         <script type="text/javascript" src="/adm/static/src/js/application/sibling.js"></script>
     </template>
     <template id="assets_application_common" name="Assets student info">
+        <script type="text/javascript" src="/adm/static/src/js/jquery_fix.js"></script>
         <script type="text/javascript" src="/adm/static/src/js/application/common.js"></script>
     </template>
 

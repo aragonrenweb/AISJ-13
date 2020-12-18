@@ -8,7 +8,8 @@ from odoo import models, fields, _, api
 
 
 class Relationship(models.Model):
-    _name = "adm.relationship"
+    _name = 'adm.relationship'
+    _description = "Adm relationship"
 
     partner_1 = fields.Many2one("res.partner", string="Partner 1", required=True, ondelete="cascade")
     partner_2 = fields.Many2one("res.partner", string="Partner", required=True, ondelete="cascade")
@@ -21,9 +22,9 @@ class Relationship(models.Model):
         [('sibling', "Sibling"), ('father', "Father"), ('mother', "Mother"), ('uncle', "Uncle"), ('grandmother', "Grandmother"), ('grandfather', "Grandfather"),
          ('other', "Other"), ], string="Type", default='other')
 
-    custodial_rights = fields.Selection([('yes', _('Yes')), ('no', _('No')), ], string="Custiodial rights", default="no")
+    custodial_rights = fields.Boolean(string="Custiodial rights")
 
-    financial_responsability = fields.Char()
+    financial_responsability = fields.Boolean()
     is_emergency_contact = fields.Boolean("Is an emergency contact?")
     residency_permit_id_number = fields.Many2one('ir.attachment')
     parent_passport_upload = fields.Many2one('ir.attachment')

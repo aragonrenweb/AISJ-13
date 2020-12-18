@@ -152,14 +152,15 @@
 
                             <div class="col-12 col-md-6 form-group">
                                 <label>Citizenship</label>
-                                <select name="citizenship" class="form-control"
+                                <t t-esc="guardian_relationship_id.partner_2.citizenship"/>
+                                <select class="form-control"
                                         data-adm-field="citizenship"
                                         data-adm-field-type="INTEGER">
                                     <option value="-1" selected="selected" disabled="disabled">
                                         -Select a country-
                                     </option>
                                     <t t-foreach="country_ids" t-as="country">
-                                        <option t-att-selected="guardian_relationship_id.partner_2.citizenship.id == country.id"
+                                        <option t-att-selected="guardian_relationship_id.partner_2.citizenship == country"
                                                 t-att-value="country.id">
                                             <t t-esc="country.name"/>
                                         </option>
@@ -186,30 +187,43 @@
                                 </select>
                             </div>
 
-                            <div class="col-12 col-md-6 form-group">
-                                <label>Custodial rights</label>
-                                <t t-foreach="custodial_rights_types" t-as="custodial_right">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio"
-                                               data-adm-field="custodial_rights"
-                                               t-att-value="custodial_right['value']"
-                                               t-attf-name="#{parent_field_name}_custodial_rights"
-                                               t-attf-id="#{parent_field_name}_custodial_right_#{custodial_right['value']}"
-                                               t-att-checked="guardian_relationship_id.custodial_rights == custodial_right['value']"
-                                        />
-                                        <label class="form-check-lavel"
-                                               t-attf-for="#{parent_field_name}_custodial_right_#{custodial_right['value']}">
-                                            <t t-esc="custodial_right['name']"/>
-                                        </label>
+                            <div class="col-12 col-md-6 form-group border-left pl-4">
+                                <div class="row">
+                                    <strong>Switch if applicable</strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" data-adm-field="custodial_rights"
+                                                   t-att-value="guardian_relationship_id.custodial_rights"
+                                                   t-attf-name="#{parent_field_name}_custodial_rights"
+                                                   t-attf-id="#{parent_field_name}_custodial_right"
+                                                   t-att-checked="guardian_relationship_id.custodial_rights"
+                                                   data-adm-field-type="BOOLEAN"
+                                                   class="custom-control-input"/>
+                                            <label class="custom-control-label"
+                                                   t-attf-for="#{parent_field_name}_custodial_right">
+                                                Custodial rights
+                                            </label>
+                                        </div>
                                     </div>
-                                </t>
-                            </div>
 
-                            <div class="col-12 col-md-6 form-group">
-                                <label>Financial Responsability</label>
-                                <input class="form-control" type="text" name="financial_responsability"
-                                       t-attf-data-adm-field="financial_responsability"
-                                       t-att-value="guardian_relationship_id.financial_responsability"/>
+                                    <div class="col-12 col-md-6">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" data-adm-field="financial_responsability"
+                                                   t-att-value="guardian_relationship_id.financial_responsability"
+                                                   t-attf-name="#{parent_field_name}_financial_responsability"
+                                                   t-attf-id="#{parent_field_name}_financial_responsability"
+                                                   t-att-checked="guardian_relationship_id.financial_responsability"
+                                                   data-adm-field-type="BOOLEAN"
+                                                   class="custom-control-input"/>
+                                            <label class="custom-control-label"
+                                                   t-attf-for="#{parent_field_name}_financial_responsability">
+                                                Financial Responsibility
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     </fieldset>
@@ -293,9 +307,10 @@
                     </div>
 
                     <div class="col-12 col-md-6 form-group" data-adm-field="partner_2" data-adm-field-type="MANY2ONE">
-                        <label>May we provide your contact information to our Parent Teacher Support Association (PTSA)
-                            so
-                            that they might reach out to welcome you?</label>
+                        <label>
+                            May we provide your contact information to our Parent Teacher Student Association (PTSA)
+                            so that they might reach out to welcome you?
+                        </label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio"
                                    data-adm-field="c_aisj_parent_question_2"
@@ -329,8 +344,9 @@
             <div class="row js_invisible_existing">
                 <!-- Uploads -->
                 <div class="col-12 col-md-6 form-group">
-                    <label t-attf-for="#{parent_field_name}_residency_permit_id_number" class="label">Residency Permit
-                        Id Number</label>
+                    <label t-attf-for="#{parent_field_name}_residency_permit_id_number" class="label">
+                        Residency Permit Id Number
+                    </label>
                     <div class="form-upload">
                         <label class="label-upload" t-attf-for="#{parent_field_name}_residency_permit_id_number">
                             <i class="fa fa-upload"></i>
@@ -396,7 +412,8 @@
                                             Parent 1/Guardian information
                                         </button>
                                     </h2>
-                                    <button type="button" class="btn btn-outline-danger remove-sibling position-absolute js_clean_parent"
+                                    <button type="button"
+                                            class="btn btn-outline-danger remove-sibling position-absolute js_clean_parent"
                                             data-target="#parent1Collapse"
                                             style="top: 1em; right: 1em;"><i class="fa fa-repeat"></i> RESET</button>
                                 </div>
@@ -418,7 +435,8 @@
                                             Parent 2/Guardian information
                                         </button>
                                     </h2>
-                                    <button type="button" class="btn btn-outline-danger remove-sibling position-absolute js_clean_parent"
+                                    <button type="button"
+                                            class="btn btn-outline-danger remove-sibling position-absolute js_clean_parent"
                                             data-target="#parent2Collapse"
                                             style="top: 1em; right: 1em;"><i class="fa fa-repeat"></i> RESET</button>
                                 </div>
@@ -542,7 +560,9 @@
                                     <section
                                             class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
                                         <span class="text-muted mb-2">Please, make sure you save the changes</span>
-                                        <button class="btn btn-primary js_submit_json" type="button">Save</button>
+                                        <button class="btn btn-primary js_submit_json"
+                                                t-attf-data-next-url="/admission/applications/#{application_id.id}/family/siblings"
+                                                type="button">Save and next</button>
                                     </section>
                                 </div>
                             </section>

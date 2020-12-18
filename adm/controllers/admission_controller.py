@@ -17,8 +17,7 @@ class AdmissionController(http.Controller):
             'value': value
             } for value, name in field_selection_type.selection]
 
-    @staticmethod
-    def compute_view_render_params(application_id: Application):
+    def compute_view_render_params(self, application_id: Application):
         application_id = application_id.sudo()
 
         relationship_types = (AdmissionController
@@ -26,15 +25,15 @@ class AdmissionController(http.Controller):
                                     'adm.relationship', 'relationship_type'))
         marital_status_types = (AdmissionController
                                 ._get_values_for_selection_fields(
-                                    'res.partner', 'marital_status'))
+                                        'res.partner', 'marital_status'))
 
-        custodial_rights_types = (AdmissionController
-                                  ._get_values_for_selection_fields(
-                                    'adm.relationship', 'custodial_rights'))
+        # custodial_rights_types = (AdmissionController
+        #                           ._get_values_for_selection_fields(
+        #                             'adm.relationship', 'custodial_rights'))
 
         applying_semester_values = (AdmissionController
-                                   ._get_values_for_selection_fields(
-                                    'adm.application', 'applying_semester'))
+                                    ._get_values_for_selection_fields(
+                                            'adm.application', 'applying_semester'))
 
         contact_id = AdmissionController.get_user().partner_id
         contact_time_ids = request.env["adm.contact_time"].search([])
@@ -73,7 +72,7 @@ class AdmissionController(http.Controller):
             'school_year_ids': school_year_ids,
             'relationship_types': relationship_types,
             'marital_status_types': marital_status_types,
-            'custodial_rights_types': custodial_rights_types,
+            # 'custodial_rights_types': custodial_rights_types,
             }
 
     @staticmethod

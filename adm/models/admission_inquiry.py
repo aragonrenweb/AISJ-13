@@ -8,15 +8,19 @@ status_types = [
     ("stage", "Stage"),
     ("done", "Done"),
     ("cancelled", "Cancelled")
-]
+    ]
+
 
 class StatusType(models.Model):
-    _name = "adm.inquiry.status.type"
+    _name = 'adm.inquiry.status.type'
+    _description = "Inquiry Status Type"
+
     name = fields.Char(string="Status Name")
 
 
 class Status(models.Model):
-    _name = "adm.inquiry.status"
+    _name = 'adm.inquiry.status'
+    _description = "Inquiry Status"
     _order = "sequence"
 
     name = fields.Char(string="Status Name")
@@ -32,7 +36,9 @@ class Status(models.Model):
 
 
 class Inquiry(models.Model):
-    _name = "adm.inquiry"
+    _name = 'adm.inquiry'
+    _description = "Inquiry"
+
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _primary_email = ['email']
 
@@ -512,7 +518,8 @@ class Inquiry(models.Model):
 
 
 class InquiryTasks(models.Model):
-    _name = "adm.inquiry.task"
+    _name = 'adm.inquiry.task'
+    _description = "Inquiry Task"
 
     name = fields.Char("Name")
     description = fields.Char("Description")
@@ -520,9 +527,9 @@ class InquiryTasks(models.Model):
 
     
 class AdmissionInquirylanguage(models.Model):
-    _name = "adm.inquiry.language"
-    
+    _name = 'adm.inquiry.language'
+    _description = "Inquiry Language"
+
     language_id = fields.Many2one("adm.language", string="Language")
     language_level_id = fields.Many2one("adm.language.level", string="Language Level")
     inquiry_id = fields.Many2one("adm.inquiry", string="Inquiry")
-    
