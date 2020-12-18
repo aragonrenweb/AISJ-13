@@ -76,7 +76,7 @@
                         <section class="row" data-adm-field="partner_2" data-adm-field-type="MANY2ONE">
 
                             <div class="col-12 col-md-6 form-group">
-                                <label>First name <t t-esc="guardian_relationship_id.partner_2.last_name"/></label>
+                                <label>First name</label>
                                 <input class="form-control" type="text"
                                        t-attf-data-adm-field="first_name"
                                        t-att-value="guardian_relationship_id.partner_2.first_name"
@@ -152,7 +152,6 @@
 
                             <div class="col-12 col-md-6 form-group">
                                 <label>Citizenship</label>
-                                <t t-esc="guardian_relationship_id.partner_2.citizenship"/>
                                 <select class="form-control"
                                         data-adm-field="citizenship"
                                         data-adm-field-type="INTEGER">
@@ -276,7 +275,7 @@
                             <div class="col-12 col-md-6 form-group">
                                 <label>School name</label>
                                 <input class="form-control" type="text" name="school_name"
-                                       field="school_name"
+                                       data-adm-field="school_name"
                                        t-att-value="guardian_relationship_id.partner_2.school_name"/>
                             </div>
                             <div class="col-12 col-md-6 form-group">
