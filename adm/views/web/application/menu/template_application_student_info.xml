@@ -229,10 +229,13 @@
                                         <section class="row">
                                             <div class="col-12 col-md-6" data-adm-field="partner_id"
                                                  data-adm-field-type="MANY2ONE">
-                                                <label> Iqama/ Residence Permit ID number: <span class="text-danger">*</span></label>
+                                                <label>
+                                                    Iqama/ Residence Permit ID number: <span class="text-danger">*</span>
+                                                </label>
                                                 <input type="text" name="identification" class="form-control"
                                                        data-adm-field="identification"
-                                                       t-att-value="application_id.partner_id.identification"/>
+                                                       t-att-value="application_id.partner_id.identification"
+                                                       placeholder="If the applicant doesn't have Iqama yet please place an 'a'"/>
                                             </div>
                                         </section>
 
