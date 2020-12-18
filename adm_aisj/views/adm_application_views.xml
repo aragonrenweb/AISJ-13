@@ -22,11 +22,14 @@
                         <field name="c_aisj_parent_questionaire_q1"/>
                         <field name="c_aisj_parent_questionaire_q2"/>
                         <field name="c_aisj_parent_questionaire_q3"/>
-                        <field name="c_aisj_parent_questionaire_q4"/>
-                        <field name="c_aisj_parent_questionaire_q5"/>
-                        <field name="c_aisj_parent_questionaire_q5"/>
+
+                        <!-- Checkboxes -->
+                        <field name="c_aisj_parent_questionaire_q4" widget="many2many_checkboxes"/>
+                        <field name="c_aisj_parent_questionaire_q5" widget="many2many_checkboxes"/>
+                        <field name="c_aisj_parent_questionaire_q6" widget="many2many_checkboxes"/>
+
                         <field name="c_aisj_parent_questionaire_q7"/>
-                        <field name="c_aisj_parent_questionaire_q8"/>
+                        <field name="c_aisj_parent_questionaire_q8" widget="many2many_checkboxes"/>
                         <field name="c_aisj_parent_questionaire_q9"/>
                         <field name="c_aisj_parent_questionaire_q10"/>
                     </group>
