@@ -13,11 +13,11 @@ odoo.define('adm.application.student_info', require => {
 
     function toggleState(countryId) {
         const $stateInput = $(document.getElementById('state_id'))
-        $stateInput.find('option').show();
-        $stateInput.children("option:gt(0)").hide();
-        $stateInput.children("option[data-country='" + countryId + "']").show();
+        $stateInput.children("option:gt(0)").hide().prop('disabled', true);
+        $stateInput.children("option[data-country='" + countryId + "']").show().prop('disabled', false);
 
-        if ($stateInput.children("option:selected").is(":hidden")) {
+        if ($stateInput.children("option:selected").is(":disabled")) {
+            console.log('ASD')
             $stateInput.children("option:nth(0)").prop("selected", true);
         }
     }
