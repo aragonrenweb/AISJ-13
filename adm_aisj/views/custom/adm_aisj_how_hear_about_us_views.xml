@@ -12,7 +12,7 @@
     </record>
 
     <record id="adm_aisj_how_hear_about_us_action" model="ir.actions.act_window">
-        <field name="name">AISJ interested options</field>
+        <field name="name">AISJ How hear about us</field>
         <field name="res_model">adm_aisj.how.hear.about.us</field>
         <field name="view_mode">tree,search</field>
     </record>
