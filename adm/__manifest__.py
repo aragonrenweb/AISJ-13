@@ -49,6 +49,7 @@
              'views/web/application/menu/template_application_menu_upload_file_comun.xml',
              'views/web/application/menu/template_application_page_commons.xml',
              'views/web/application/menu/template_application_parent_questionnaire.xml',
+             'views/web/application/menu/template_application_signature.xml',
              'views/web/application/menu/template_application_schools_information.xml',
              'views/web/application/menu/template_application_student_info.xml',
 

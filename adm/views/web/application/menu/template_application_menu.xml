@@ -8,7 +8,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <!-- QUEDA TRABAJAR EN LA DINAMIZACION DE LOS LANGUAGES ACTUALMENTE ESTA PUESTO EN 3 IDIOMAS EN HARD CODE -->
-            <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse text-center" id="application_nav_bar">
                 <ul class="navbar-nav w-100 justify-content-center">
                     <li class="nav-item nav-item-menu" id="nav-itm-instr">
                         <a t-attf-href="/admission/applications/#{application_id.id}/"
@@ -21,11 +21,6 @@
                             STUDENT INFO
                         </a>
                     </li>
-                    <!--                    <li class="nav-item nav-item-menu" id="nav-itm-lang">-->
-                    <!--                        <a t-attf-href="/admission/applications/#{application_id.id}/info" class="nav-link" >-->
-                    <!--                            LANGUAGES-->
-                    <!--                        </a>-->
-                    <!--                    </li>-->
                     <li class="nav-item nav-item-menu" id="nav-itm-acad">
                         <a t-attf-href="/admission/applications/#{application_id.id}/schools" class="nav-link">
                             STUDENT'S SCHOOL
@@ -72,6 +67,13 @@
                     <li class="nav-item nav-item-menu" id="nav-itm-one">
                         <a t-attf-href="/admission/applications/#{application_id.id}/document-comun" class="nav-link">
                             DOCUMENTS
+                        </a>
+                    </li>
+
+                    <li class="nav-item nav-item-menu" id="nav-itm-instr">
+                        <a t-attf-href="/admission/applications/#{application_id.id}/signature"
+                           class="nav-link">
+                            SIGNATURE
                         </a>
                     </li>
                 </ul>

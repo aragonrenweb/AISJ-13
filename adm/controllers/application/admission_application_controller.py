@@ -48,7 +48,7 @@ class ApplicationController(AdmissionController):
             })
 
     @http.route("/admission/applications/create", auth="public",
-                
+
                 methods=["POST"], website=True, csrf=False)
     def info_create_post(self, **params):
         PartnerEnv = http.request.env["res.partner"]
@@ -239,4 +239,12 @@ class ApplicationController(AdmissionController):
     def get_siblings(self, application_id):
         return request.render(
             'adm.template_application_siblings_webpage',
+            self.compute_view_render_params(application_id))
+
+    @http.route("/admission/applications/"
+                "<model('adm.application'):application_id>/signature",
+                auth="public", methods=["GET"], website=True)
+    def get_signature_web(self, application_id):
+        return request.render(
+            'adm.template_application_signature_webpage',
             self.compute_view_render_params(application_id))

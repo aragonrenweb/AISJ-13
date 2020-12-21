@@ -38,7 +38,8 @@
                             <div class="row">
                                 <div class="col-8 offset-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                                     <div class="text-center" data-adm-field="partner_id" data-adm-field-type="MANY2ONE">
-                                        <img t-attf-src="data:image/*;base64,{{sibling and sibling.partner_id.image_1920}}" widget="image"
+                                        <img t-attf-src="data:image/*;base64,{{sibling and sibling.partner_id.image_1920}}"
+                                             widget="image"
                                              onerror="this.src = '/adm/static/img/contact_photo_placeholder.png';"
                                              class="avatar rounded-circle" alt="avatar" width="175"/>
                                         <h6 class="mt-2 textUpload">Upload a different photo...</h6>
@@ -173,7 +174,7 @@
     </template>
 
     <template id="template_application_siblings_webpage" name="Student's siblings">
-        <t t-call="adm.template_application_page_commons">
+        <t t-call="adm.template_application_form_commons">
             <div id="template_sibling" style="display: none;">
                 <t t-call="adm.template_application_siblings_form"/>
             </div>
@@ -181,43 +182,26 @@
                 <!--<link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>-->
                 <t t-call-assets="adm.assets_application_school_sibling" defer_load="True"/>
             </t>
-            <t t-set="title">siblings</t>
+            <t t-set="title">Siblings</t>
+            <t t-set="url_prev" t-value="'/admission/applications/%s/family/parents' % application_id.id"/>
+            <t t-set="url_next" t-value="'/admission/applications/%s/parent-questionnaire' % application_id.id"/>
 
-            <div class="oe_struture"/>
-            <div class="oe_struture">
-                <t t-call="adm.template_application_menu"/>
-                <div class="container-fluid mt-4" data-adm-model-fields="1">
-                    <div class="row">
-                        <div class="col-12 col-md-9">
-                            <div id="sibling_list"
-                                 data-adm-field-type="ONE2MANY"
-                                 data-adm-field="sibling_ids">
-                                <t t-foreach="application_id.sibling_ids" t-as="sibling">
-                                    <div data-adm-rel="rel">
-                                        <t t-call="adm.template_application_siblings_form"/>
-                                    </div>
-                                </t>
+            <div class="row" data-adm-model-fields="1">
+                <div class="col-12">
+                    <div id="sibling_list"
+                         data-adm-field-type="ONE2MANY"
+                         data-adm-field="sibling_ids">
+                        <t t-foreach="application_id.sibling_ids" t-as="sibling">
+                            <div data-adm-rel="rel">
+                                <t t-call="adm.template_application_siblings_form"/>
                             </div>
-                            <button type="button"
-                                    class="add-sibling btn btn-secondary d-block mt-2 ml-auto">
-                                &#10010; Add sibling</button>
-                        </div>
-
-                        <div class="col-12 col-md-3">
-                            <section class="card card-sticky-save mb-3 mt-3">
-                                <div class="card-body">
-                                    <p> Fields with (*) are mandatory </p>
-                                    <section
-                                            class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
-                                        <span class="text-muted mb-2">Please, make sure you save the changes</span>
-                                        <button class="btn btn-primary js_submit_json"
-                                                t-attf-data-next-url="/admission/applications/#{application_id.id}/parent-questionnaire"
-                                                type="button">Save and next</button>
-                                    </section>
-                                </div>
-                            </section>
-                        </div>
+                        </t>
                     </div>
+                </div>
+                <div class="col-12">
+                    <button type="button"
+                            class="add-sibling btn btn-secondary d-block mt-2 ml-auto">
+                        &#10010; Add sibling</button>
                 </div>
             </div>
         </t>

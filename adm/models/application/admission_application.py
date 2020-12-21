@@ -170,9 +170,6 @@ class Application(models.Model):
                                        string="Resident status")
     resident_length_of_stay = fields.Char("Length of stay")
 
-    # Signture Attachment
-    signature_attach_url = fields.Char("Signature Attachment URL")
-
     # languages level
     languages_levels = [("beginner", "Beginner"), ("elementary", "Elementary"), ("intermediate", "Intermediate"), ("advanced", "Advanced"), ("fluent", "Fluent")]
     first_level_language = fields.Selection(languages_levels, string="Level", default='beginner')
@@ -261,6 +258,14 @@ class Application(models.Model):
     total_required_fields_completed = fields.Float(string="Total required fields completed", compute="_compute_application_fields")
     total_optional_fields_completed = fields.Float(string="Total optional fields completed", compute="_compute_application_fields")
     total_fields_completed = fields.Float(string="Total fields completed", compute="_compute_application_fields")
+
+    # Signature
+    signature_attach_url = fields.Char("Signature Attachment URL")
+    signature_person_name = fields.Char()
+    signature_agreements = fields.Boolean(string="Signature agreements")
+    check_confidential_info_adm_file = fields.Boolean(string="Rights to access confidential information contained in applicant's admission file.")
+
+    signature_date = fields.Date()
 
     def _compute_application_fields(self):
         for application_id in self:

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <template id="template_application_menu_upload_file_comun"
               inherit_id="adm.template_application_menu_upload_file_comun">
         <div id="document_list" position="inside">
@@ -11,7 +12,9 @@
             <t t-set="head" t-value="head_formio_custom_page + (head or '')"/>
 
             <div class="col-12 col-md-6 form-group" id="sent_formio_email">
-                <label for="immunization_history" class="label">Reference Form</label>
+                <label for="immunization_history" class="label">
+                    Reference Form<span class="text-danger"> *</span>
+                </label>
                 <div class="row">
                     <div class="col-8">
                         <input type="mail" class="form-control" placeholder=""/>

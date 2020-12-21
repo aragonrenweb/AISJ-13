@@ -2,20 +2,28 @@
 <odoo>
 
     <template id="assets_application_student_info" name="Assets student info">
-        <link rel="stylesheet" href="/adm/static/src/css/main.css"/>
         <script type="text/javascript" src="/adm/static/src/js/application/student_info.js"></script>
     </template>
 
     <template id="assets_application_school_info" name="Assets school info">
         <script type="text/javascript" src="/adm/static/src/js/application/school.js"></script>
     </template>
+
     <template id="assets_application_school_health" name="Assets school health">
         <script type="text/javascript" src="/adm/static/src/js/application/health.js"></script>
     </template>
+
     <template id="assets_application_school_sibling" name="Assets school sibling">
         <script type="text/javascript" src="/adm/static/src/js/application/sibling.js"></script>
     </template>
+
+    <template id="assets_application_signature" name="Assets school sibling">
+        <script type="text/javascript" src="/adm/static/src/js/application/signature_page.js"></script>
+    </template>
+
     <template id="assets_application_common" name="Assets student info">
+        <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.js"></script>
+        <link rel="stylesheet" href="/adm/static/src/css/main.css"/>
         <script type="text/javascript" src="/adm/static/src/js/jquery_fix.js"></script>
         <script type="text/javascript" src="/adm/static/src/js/application/common.js"></script>
     </template>

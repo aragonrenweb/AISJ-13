@@ -26,7 +26,7 @@
         'views/portal_templates.xml',
 
         # Templates
-        'views/templates/template_application_parent_questionnaire.xml',
+        'views/templates/adm_application_templates.xml',
 
         'views/custom/adm_aisj_additional_support.xml',
         'views/custom/adm_aisj_applicant_programs_views.xml',
