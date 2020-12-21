@@ -17,7 +17,6 @@
 
 .card-sticky-save {
     position: sticky;
-    transform: translateY(-50%);
     @media (min-height: 720px) {
         top: 50%;
     }

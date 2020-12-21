@@ -55,7 +55,7 @@ odoo.define('adm.application.common', require => {
         for (let i = 0; i < firstFields.length; ++i) {
             const el = firstFields[i];
             const $el = $(el);
-            if ((($el.is(':radio') || $el.is(':checkbox')) && !$el.is(':checked'))
+            if ((($el.is(':radio') || $el.is(':checkbox:not([data-adm-field-type=BOOLEAN])')) && !$el.is(':checked'))
                 || $el.prop('disabled')
                 || ($el.is(':file') && (!el.files || !el.files.length ))) {
                 continue;

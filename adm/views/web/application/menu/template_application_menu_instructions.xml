@@ -5,21 +5,18 @@
             <t t-set="skip_sent_message" t-value="True"/>
             <t t-set="title">Application</t>
             <t t-set="head">
-                <script defer="defer" type="text/javascript"
-                        src="/adm/static/src/js/application/menu_progress.js"></script>
+                <script defer="defer" type="text/javascript" src="/adm/static/src/js/application/menu_progress.js"/>
                 <link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>
             </t>
             <div class="oe_struture"/>
             <div class="oe_struture">
                 <t t-call="adm.template_application_menu"/>
                 <div class="container-fluid d-flex p-4">
-
                     <main class="col container">
                         <section class="card mb-2">
                             <section class="card-header">
                                 <h1>Information</h1>
                             </section>
-
                             <section class="card-body&gt;">
                                 <div class="container">
                                     <div class="row pt-4 pb-4">
@@ -27,7 +24,7 @@
                                             <b>Current Status:</b>
                                         </div>
                                         <section class="progressbar col">
-                                            <progress value="0"></progress>
+                                            <progress value="0"/>
                                             <ul>
                                                 <t t-set="current" t-value="False"/>
                                                 <t t-foreach="application_status_ids" t-as="status_id">
@@ -56,111 +53,117 @@
                                             </ul>
                                         </section>
                                     </div>
+                                    <div class="row mt-3">
+                                        <p>
+                                            <strong>Welcome to American International School of Jeddah's Online
+                                                Application.</strong>
+                                            We have designed our online application process to make applying as simple
+                                            as possible.
+                                        </p>
+                                    </div>
+                                    <div class="row h3"> Instructions </div>
                                     <div class="row">
-                                        <p class="mt-3">
-                                            Hello! Welcome to the AISJ admissions online platform, you can fill in your
-                                            information and include
-                                            the documents to complete the first stage of the admission process to our
-                                            Institution.
-                                            Any questions or concerns do not hesitate to write to us at <a
-                                                class="text-primary">admisiones@aisj.edu.</a>
-                                            <ul class="text-justify">
-                                                <li class="mt-3">
-                                                    <a>Documents required to admission</a>
+                                        <p>
+                                            Please complete the Online Application forms listed in the left menu,
+                                            beginning with the <b>Student Information</b> form.
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <p>
+                                            Feedback will be provided throughout the process to help you complete the
+                                            application. You need to complete all questions required in order to move to
+                                            the next form. After you have completed the application, a
+                                            <b>Submit Application</b>form will appear. Please follow the instructions
+                                            that will be
+                                            provided to submit the application.
+                                        </p>
+                                    </div>
+                                    <div class="row h3"> Application Checklist </div>
+                                    <div class="row">
+
+                                        <p>
+                                            In order to complete the application process, please complete the checklist
+                                            items listed below, including submission of all supplemental application
+                                            forms.
+                                            <br/>
+                                            <ul>
+                                                <li>Submit completed Online Application.</li>
+                                                <li>
+                                                    Submit the following by uploading documents in the “Document Upload”
+                                                    area located towards the end of this process:
+                                                    <ul>
+                                                        <li>A copy of Immunization History</li>
+                                                        <li>A copy of the Student’s Passport</li>
+                                                        <li>A copy of the Guardian’s Passport</li>
+                                                        <li>A copy of the Student’s Iqama</li>
+                                                        <li>A copy of the Guardian’s Iqama</li>
+                                                        <li>Letter of Conduct</li>
+                                                        <li>Previous two (2) year’s final report card and current
+                                                            year-to-date report card (in English)</li>
+                                                        <li>Previous School’s Official Transcript</li>
+                                                        <li>Previous school’s profile with explanation of grading
+                                                            scale</li>
+                                                        <li>Standardized Test Records</li>
+                                                        <li>Copy of Family ID (If Saudi)</li>
+                                                        <li>Attendance Report</li>
+                                                        <li>Guardian's Business Card (if applicable)</li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <strong><a
+                                                            href="https://aisj-sau.client.renweb.com/oa/client_files/aisj-sau/uploads/English%20Recommendation%20Letter%202019.pdf">
+                                                        Confidential English Recommendation
+                                                    </a></strong> letter to be
+                                                    completed by current English Teacher. To be forwarded directly from
+                                                    school to our Admissions Office.
+                                                </li>
+                                                <li>
+                                                    <strong><a
+                                                            href="https://aisj-sau.client.renweb.com/oa/client_files/aisj-sau/uploads/Math%20Recommendation%20Letter%202019.pdf">
+                                                        Confidential Math Recommendation
+                                                    </a></strong> letter to be completed by current Math Teacher.
+                                                    To be forwarded directly from school to our Admissions Office.
                                                 </li>
                                             </ul>
                                         </p>
-
-                                        <ul class="text-justify">
-                                            <li class="mt-3">
-                                                <p>
-                                                    The monthly in UAE are 11 months, these are from February to
-                                                    December.
-                                                </p>
-                                            </li>
-                                            <li class="mt-3">
-                                                <p>
-                                                    Annual tuition must be paid in January. Indistinctly in the month
-                                                    entered.
-                                                    Students entering for the first time, there is an admission charge
-                                                    depending on the grade level.
-                                                </p>
-                                            </li>
-                                            <li class="mt-3">
-                                                <p>
-                                                    The academic fee covers Technology, didactic material, craft
-                                                    material, package
-                                                    of school supplies such as texts and novels and access to the Renweb
-                                                    system, where the parents and students have to access to
-                                                    academic information.
-                                                </p>
-                                            </li>
-                                            <li class="mt-3">
-                                                <p>
-                                                    For Primary grade levels, it covers textbooks, school supplies and
-                                                    notebooks. In
-                                                    Secondary school covers textbooks and online access to licensed
-                                                    programs
-                                                    international.
-                                                </p>
-                                            </li>
-                                        </ul>
                                     </div>
-
                                     <div class="row">
-                                        <table class="table text-center table-striped">
-                                            <thead>
-                                                <tr class="text-light" style="background-color: #1a4176;">
-                                                    <th scope="col">LEVEL</th>
-                                                    <th scope="col">ADMISSION</th>
-                                                    <th scope="col">ENROLLMENT</th>
-                                                    <th scope="col">ACADEMIC<br/>FEE</th>
-                                                    <th scope="col">11 MONTHLY</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">NURSERY</th>
-                                                    <td>-</td>
-                                                    <td>520.00</td>
-                                                    <td>150.00</td>
-                                                    <td>495.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">PRE KINDER</th>
-                                                    <td>500.00</td>
-                                                    <td>685.00</td>
-                                                    <td>150.00</td>
-                                                    <td>650.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">KINDER</th>
-                                                    <td>1,000.00</td>
-                                                    <td>685.00</td>
-                                                    <td>150.00</td>
-                                                    <td>650.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">PRIMARY</th>
-                                                    <td>5,000.00**</td>
-                                                    <td>1060.00</td>
-                                                    <td>450.00</td>
-                                                    <td>995.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">SECONDARY</th>
-                                                    <td>5,000.00**</td>
-                                                    <td>1130.00</td>
-                                                    <td>350.00</td>
-                                                    <td>1075.00</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <p>
+                                            Admissions assessment is required for all applicants who are accepted.
+                                            Placement decisions are made by the Admissions Committee and based upon the
+                                            results of the assessment and review of submitted records.
+                                        </p>
+                                    </div>
+                                    <div class="row h3"> Registration and Enrollment </div>
+                                    <div class="row">
+                                        <p>
+                                            After receiving acceptance notification, parents will be provided
+                                            information necessary to complete the admissions process.
+                                        </p>
+                                    </div>
+                                    <div class="row"> Admissions Status Tracking </div>
+                                    <div class="row">
+                                        <p>
+                                            After your application is submitted, you will be able to print the completed
+                                            application, and track online your progress through our admissions process.
+                                            To view your application status, please use your online application username
+                                            and password to access your account.
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <p>
+                                            We appreciate your interest and look forward to meeting you. If you have any
+                                            questions, please feel free to contact us at +966122328668 Ext. 128 or 129.
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <p>
+                                            Admissions Office
+                                        </p>
                                     </div>
                                 </div>
                             </section>
                         </section>
-
                     </main>
                 </div>
             </div>

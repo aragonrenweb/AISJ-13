@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="template_application_signature_webpage">
+        <t t-call="adm.template_application_form_commons">
+            <t t-set="title">Signature</t>
+            <t t-set="head">
+                <t t-call-assets="adm.assets_application_signature" defer_load="True"/>
+            </t>
+
+            <t t-set="url_prev" t-value="'/admission/applications/%s/document-comun' % application_id.id"/>
+            <t t-set="url_next" t-value="'/admission/applications/%s/photo-permission-grant-signature' % application_id.id"/>
+
+            <!-- Body -->
+            <div data-adm-model-fields="1">
+                <div class="row h3">
+                    Electronic Signature
+                </div>
+                <div class="row">
+                    <p>
+                        The electronic signatures below and their related fields are treated by American International
+                        School of Jeddah like a physical handwritten signature on a paper form.
+                    </p>
+                </div>
+                <div class="row h3">
+                    Agreements
+                </div>
+                <div class="row">
+                    <p>
+                        My signature below affirms that all of the information contained in this application is correct,
+                        complete, and honestly presented. I understand that withholding or misrepresenting information
+                        in
+                        this application may jeopardize my child's admission.
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p>My signature below affirms that I adhere to the parent profile.</p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" data-adm-field="signature_agreements"
+                                   t-att-value="application_id.signature_agreements"
+                                   t-attf-name="signature_agreements"
+                                   t-attf-id="signature_agreements_checkbox"
+                                   t-att-checked="application_id.signature_agreements"
+                                   data-adm-field-type="BOOLEAN"
+                                   class="custom-control-input"/>
+                            <label class="custom-control-label"
+                                   t-attf-for="signature_agreements_checkbox">
+                                Check for electronic signature<span class="text-danger"> *</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 position-relative">
+                        <div class="row">
+                            <div class="col text-right">
+                                <div id="js_spin_lag_loader"
+                                     class="position-absolute d-flex justify-content-center align-content-center mr-3"
+                                     style="width: 400px; height: 200px;background: #8080807a; margin: 1px; right: 0;">
+                                    <span class="fa fa-circle-o-notch fa-spin fa-4x m-auto"></span>
+                                </div>
+                                <canvas id="signature-pad" class="signature-pad border border-dark rounded" width="400"
+                                        height="200"/>
+
+                                <input class="form-control" type="hidden"
+                                       t-att-value="application_id.signature_attach_url"
+                                       data-adm-field="signature_attach_url"
+                                       name="signature_attach_url"/>
+                            </div>
+                        </div>
+                        <div class="row text-right">
+                            <div class="col">
+                                <div id="clear_signature" class="mt-1 btn btn-secondary ">Clear</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="col-12"/>
+                    <div class="col-12 col-md-6 form-group">
+                        <label>Name</label>
+                        <input class="form-control" type="text"
+                               t-att-value="application_id.signature_person_name or application_id.responsible_user_id.name"
+                               data-adm-field="signature_person_name" name="signature_person_name"/>
+                    </div>
+                    <div class="col-12 col-md-6 form-group">
+                        <label>Date</label>
+                        <input class="form-control" type="date"
+                               t-att-value="application_id.signature_date or datetime.date.today()"
+                               disabled="disabled"
+                               data-adm-field="signature_date" name="signature_date"/>
+                    </div>
+                </div>
+                <div class="row h3">
+                    Release of Records
+                </div>
+                <div class="row">
+                    <p>I waive my right to access confidential information contained in my child's admission file.</p>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" data-adm-field="check_confidential_info_adm_file"
+                                   t-att-value="application_id.check_confidential_info_adm_file"
+                                   t-attf-name="check_confidential_info_adm_file"
+                                   t-attf-id="check_confidential_info_adm_file_checkbox"
+                                   t-att-checked="application_id.check_confidential_info_adm_file"
+                                   data-adm-field-type="BOOLEAN"
+                                   class="custom-control-input"/>
+                            <label class="custom-control-label"
+                                   t-attf-for="check_confidential_info_adm_file_checkbox">
+                                Check for electronic signature<span class="text-danger"> *</span>
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-md-6 form-group">
+                        <label>Date</label>
+                        <input class="form-control" type="date"
+                               t-att-value="application_id.signature_date or datetime.date.today()"
+                               disabled="disabled"
+                               data-adm-field="signature_date" name="signature_date"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

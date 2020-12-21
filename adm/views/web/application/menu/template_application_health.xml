@@ -19,7 +19,8 @@
                                 data-adm-field="name" required="required"
                                 name="medical_condition_name">
                             <option value="Asthma">Asthma</option>
-                            <option value="Attention Deficit Disorder/Hyperactive">Attention Deficit Disorder/Hyperactive</option>
+                            <option value="Attention Deficit Disorder/Hyperactive">Attention Deficit
+                                Disorder/Hyperactive</option>
                             <option value="Neurological Concerns">Neurological Concerns</option>
                             <option value="Seizure disorder/Epilepsy">Seizure disorder/Epilepsy</option>
                             <option value="Diabetes">Diabetes</option>
@@ -129,7 +130,7 @@
     </template>
 
     <template id="adm.template_application_menu_medical_info">
-        <t t-call="adm.template_application_page_commons">
+        <t t-call="adm.template_application_form_commons">
             <div id="template_condition" style="display: none;">
                 <t t-call="adm.template_application_medical_condition"/>
             </div>
@@ -139,200 +140,137 @@
             <div id="template_allergy" style="display: none;">
                 <t t-call="adm.template_application_medical_allergies"/>
             </div>
-            <t t-set="title">Application</t>
+            <t t-set="title">Health</t>
             <t t-set="head">
                 <t t-call-assets="adm.assets_application_school_health" defer_load="True"/>
             </t>
-            <link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>
-            <link rel="stylesheet" href="/adm/static/src/css/medical.css"/>
-            <div class="oe_struture"/>
-            <div class="oe_struture">
-                <t t-call="adm.template_application_menu"/>
+            <t t-set="url_prev" t-value="'/admission/applications/%s/additional-questions' % application_id.id"/>
+            <t t-set="url_next" t-value="'/admission/applications/%s/document-comun' % application_id.id"/>
 
-                <div class="container-fluid d-flex p-4">
-                    <main class="row w-100 position-relative">
-                        <section class="card mb-2 col p-0">
-                            <section class="card-header">
-                                <h1>Medical Information</h1>
+            <!-- Body -->
+            <p>Please provide us with all health information in case your child has either
+                an acute or chronic condition. All information will be kept confidential. We
+                encourage you to leave a dosage of any routine or emergency medications
+                (inhalers, EpiPens, etc.) in the health office. Our goal is to provide your
+                child with the safest and healthiest environment at AISJ. We will be happy
+                to assist you with any question or concern.</p>
+            <section class="container-fluid mt-3">
+                <div class="row mb-4 justify-content-center align-items-center"
+                     data-adm-model-fields="1">
+                    <div class="col-12 col-md-9">
+                        <div class="row">
+                            <section class="col-12 col-md-4">
+                                <label>
+                                    Doctor Name
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <input required="required" class="form-control"
+                                       type="text"
+                                       name="doctor_name"
+                                       data-adm-field="doctor_name"
+                                       t-att-value="application_id.doctor_name"/>
                             </section>
 
-                            <section class="card-body container">
-                                <div class="container">
-                                    <t t-if="application_id.status_id.type_id !='return' and application_id.status_id.type_id != 'started'">
-                                        <div class="alert alert-warning mt-3" role="alert">
-                                            The request has already been sent.
-                                        </div>
-                                    </t>
-                                    <t t-else="">
-                                        <p>Please provide us with all health information in case your child has either
-                                            an acute or chronic condition. All information will be kept confidential. We
-                                            encourage you to leave a dosage of any routine or emergency medications
-                                            (inhalers, EpiPens, etc.) in the health office. Our goal is to provide your
-                                            child with the safest and healthiest environment at AISJ. We will be happy
-                                            to assist you with any question or concern.</p>
-                                        <section class="container-fluid mt-3">
-                                            <div class="row mb-4 justify-content-center align-items-center"
-                                                 data-adm-model-fields="1">
-                                                <div class="col-12 col-md-9">
-                                                    <div class="row">
-                                                        <section class="col-12 col-md-4">
-                                                            <label>
-                                                                Doctor Name
-                                                                <span class="text-danger"> *</span>
-                                                            </label>
-                                                            <input required="required" class="form-control"
-                                                                   type="text"
-                                                                   name="doctor_name"
-                                                                   data-adm-field="doctor_name"
-                                                                   t-att-value="application_id.doctor_name"/>
-                                                        </section>
-
-                                                        <section class="col-12 col-md-4">
-                                                            <label> Hospital <span class="text-danger"> *</span> </label>
-                                                            <input required="required" class="form-control"
-                                                                   type="text"
-                                                                   name="hospital"
-                                                                   data-adm-field="hospital"
-                                                                   t-att-value="application_id.hospital"/>
-                                                        </section>
-                                                        <section class="col-12 col-md-4">
-                                                            <label>
-                                                                Doctor phone
-                                                                <span class="text-danger"> *</span>
-                                                            </label>
-                                                            <input required="required" class="form-control"
-                                                                   type="text"
-                                                                   name="doctor_phone"
-                                                                   data-adm-field="doctor_phone"
-                                                                   t-att-value="application_id.doctor_phone"/>
-                                                        </section>
-                                                        <section class="col">
-                                                            <label>
-                                                                Student Blood Type
-                                                                <span class="text-danger"> *</span>
-                                                            </label>
-                                                            <input required="required" class="form-control"
-                                                                   type="text"
-                                                                   name="blood_type"
-                                                                   data-adm-field="blood_type"
-                                                                   t-att-value="application_id.blood_type"/>
-                                                        </section>
-                                                        <section class="col">
-                                                            <label>
-                                                                Permision to treat?
-                                                                <span class="text-danger"> *</span>
-                                                            </label>
-
-                                                            <!--                                                            <div class="form-check form-check-inline">-->
-                                                            <!--                                                                <input class="form-check-input"-->
-                                                            <!--                                                                       type="radio"-->
-                                                            <!--                                                                       name="permission_to_treat"-->
-                                                            <!--                                                                       id="pst_yes"-->
-                                                            <!--                                                                       value="true"-->
-                                                            <!--                                                                       t-att-checked="application_id.permission_to_treat"/>-->
-                                                            <!--                                                                <label class="form-check-label"-->
-                                                            <!--                                                                       for="pst_yes">-->
-                                                            <!--                                                                    Yes</label>-->
-                                                            <!--                                                            </div>-->
-                                                            <!--                                                            <div class="form-check form-check-inline">-->
-                                                            <!--                                                            <input class="form-check-input" type="radio"-->
-                                                            <!--                                                                   id="pst_no"-->
-                                                            <!--                                                                   name="permission_to_treat" value=""-->
-                                                            <!--                                                                   t-att-checked="not application_id.permission_to_treat"/>-->
-                                                            <!--                                                            <label class="form-check-label" for="pst_no">-->
-                                                            <!--                                                                No</label>-->
-                                                        </section>
-                                                    </div>
-
-                                                    <div class="card mt-2">
-                                                        <section class="card-header p-0">
-                                                            <h3>Medical Conditions</h3>
-                                                        </section>
-                                                        <section id="condition_list"
-                                                                 class="container-fluid card-body p-0"
-                                                                 data-adm-field-type="ONE2MANY"
-                                                                 data-adm-field="medical_conditions_ids">
-                                                            <t t-foreach="application_id.medical_conditions_ids"
-                                                               t-as="condition">
-                                                                <div data-adm-rel="rel">
-                                                                    <t t-call="adm.template_application_medical_condition"/>
-                                                                </div>
-                                                            </t>
-                                                        </section>
-                                                        <button type="button"
-                                                                class="add-medical_condition btn btn-secondary d-block ml-auto mr-1 mt-3 mb-3 btn-add"
-                                                                id="btn-condition">&#10010;</button>
-                                                    </div>
-
-                                                    <div class="card mt-2">
-                                                        <section class="card-header p-0">
-                                                            <h3>Medical allergies</h3>
-                                                        </section>
-                                                        <section id="allergy_list"
-                                                                 class="container-fluid card-body p-0"
-                                                                 data-adm-field-type="ONE2MANY"
-                                                                 data-adm-field="medical_allergies_ids">
-                                                            <t t-foreach="application_id.medical_allergies_ids"
-                                                               t-as="allergy">
-                                                                <div data-adm-rel="rel">
-                                                                    <t t-call="adm.template_application_medical_allergies"/>
-                                                                </div>
-                                                            </t>
-                                                        </section>
-                                                        <button type="button"
-                                                                class="add-medical_allergy btn btn-secondary d-block ml-auto mr-1 mt-3 mb-3 btn-add">
-                                                            &#10010;</button>
-                                                    </div>
-
-                                                    <div class="card mt-2">
-                                                        <section class="card-header p-0">
-                                                            <h3>Medication</h3>
-                                                        </section>
-                                                        <section id="medication_list" class="container-fluid"
-                                                                 data-adm-field-type="ONE2MANY"
-                                                                 data-adm-field="medical_medications_ids">
-                                                            <t t-foreach="application_id.medical_medications_ids"
-                                                               t-as="medication">
-                                                                <div data-adm-rel="rel">
-                                                                    <t t-call="adm.template_application_medical_Medication"/>
-                                                                </div>
-                                                            </t>
-                                                        </section>
-                                                        <button type="button"
-                                                                class="add-medical_medication btn btn-secondary d-block ml-auto mr-1 mt-3 mb-3 btn-add">
-                                                            &#10010;</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </section>
-                                        <!--                                        <script type="text/javascript" src="/adm/static/js/medical_info.js"/>-->
-                                    </t>
-                                </div>
+                            <section class="col-12 col-md-4">
+                                <label> Hospital <span class="text-danger"> *</span></label>
+                                <input required="required" class="form-control"
+                                       type="text"
+                                       name="hospital"
+                                       data-adm-field="hospital"
+                                       t-att-value="application_id.hospital"/>
                             </section>
+                            <section class="col-12 col-md-4">
+                                <label>
+                                    Doctor phone
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <input required="required" class="form-control"
+                                       type="text"
+                                       name="doctor_phone"
+                                       data-adm-field="doctor_phone"
+                                       t-att-value="application_id.doctor_phone"/>
+                            </section>
+                            <section class="col">
+                                <label>
+                                    Student Blood Type
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <input required="required" class="form-control"
+                                       type="text"
+                                       name="blood_type"
+                                       data-adm-field="blood_type"
+                                       t-att-value="application_id.blood_type"/>
+                            </section>
+                            <section class="col">
+                                <label>
+                                    Permision to treat?
+                                    <span class="text-danger"> *</span>
+                                </label>
+                            </section>
+                        </div>
 
-                        </section>
-
-                        <t t-if="application_id.status_id.type_id in ['return', 'started']">
-                            <div class="col-12 col-md-3">
-                                <section class="card card-sticky-save mb-3 mt-3">
-                                    <div class="card-body">
-                                        <p> Fields with (*) are mandatory </p>
-                                        <section
-                                                class="d-flex flex-column align-items-center justify-content-center bg-white p-2 mb-4">
-                                            <span class="text-muted mb-2">Please, make sure you save
-                                                the changes</span>
-                                            <button class="btn btn-primary js_submit_json"
-                                                    t-attf-data-next-url="/admission/applications/#{application_id.id}/document-comun"
-                                                    type="button">Save and next</button>
-                                        </section>
+                        <div class="card mt-2">
+                            <section class="card-header p-0">
+                                <h3>Medical Conditions</h3>
+                            </section>
+                            <section id="condition_list"
+                                     class="container-fluid card-body p-0"
+                                     data-adm-field-type="ONE2MANY"
+                                     data-adm-field="medical_conditions_ids">
+                                <t t-foreach="application_id.medical_conditions_ids"
+                                   t-as="condition">
+                                    <div data-adm-rel="rel">
+                                        <t t-call="adm.template_application_medical_condition"/>
                                     </div>
-                                </section>
-                            </div>
-                        </t>
-                    </main>
-                </div>
+                                </t>
+                            </section>
+                            <button type="button"
+                                    class="add-medical_condition btn btn-secondary d-block ml-auto mr-1 mt-3 mb-3 btn-add"
+                                    id="btn-condition">&#10010;</button>
+                        </div>
 
-            </div>
+                        <div class="card mt-2">
+                            <section class="card-header p-0">
+                                <h3>Medical allergies</h3>
+                            </section>
+                            <section id="allergy_list"
+                                     class="container-fluid card-body p-0"
+                                     data-adm-field-type="ONE2MANY"
+                                     data-adm-field="medical_allergies_ids">
+                                <t t-foreach="application_id.medical_allergies_ids"
+                                   t-as="allergy">
+                                    <div data-adm-rel="rel">
+                                        <t t-call="adm.template_application_medical_allergies"/>
+                                    </div>
+                                </t>
+                            </section>
+                            <button type="button"
+                                    class="add-medical_allergy btn btn-secondary d-block ml-auto mr-1 mt-3 mb-3 btn-add">
+                                &#10010;</button>
+                        </div>
+
+                        <div class="card mt-2">
+                            <section class="card-header p-0">
+                                <h3>Medication</h3>
+                            </section>
+                            <section id="medication_list" class="container-fluid"
+                                     data-adm-field-type="ONE2MANY"
+                                     data-adm-field="medical_medications_ids">
+                                <t t-foreach="application_id.medical_medications_ids"
+                                   t-as="medication">
+                                    <div data-adm-rel="rel">
+                                        <t t-call="adm.template_application_medical_Medication"/>
+                                    </div>
+                                </t>
+                            </section>
+                            <button type="button"
+                                    class="add-medical_medication btn btn-secondary d-block ml-auto mr-1 mt-3 mb-3 btn-add">
+                                &#10010;</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </t>
     </template>
 </odoo>

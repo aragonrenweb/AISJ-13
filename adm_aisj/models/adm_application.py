@@ -94,15 +94,6 @@ class AdmApplication(models.Model):
     c_aisj_parent_questionaire_q8 = fields.Many2many(
         'adm_aisj.how.hear.about.us',
         string="How did you hear about us?")
-        # ('employer', 'Employer'),
-        # ('friends', 'Friends'),
-        # ('alumni', 'Alumni'),
-        # ('relocation_service', 'Relocation Service'),
-        # ('adverstising', 'Advertising'),
-        # ('website', 'Website'),
-        # ('current_school', 'Current school'),
-        # ('open_house', 'Open house'),
-        # ('other', 'Other'),
 
     c_aisj_parent_questionaire_q9 = fields.Char("Is there anything you really want us to know about your family as you apply to AISJ?")
     c_aisj_parent_questionaire_q10 = fields.Selection(
@@ -147,6 +138,8 @@ class AdmApplication(models.Model):
 
     c_aisj_schools_q1 = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Has your child applied to The American International School of Jeddah before?")
     c_aisj_schools_q2 = fields.Selection([('yes', 'Yes'), ('no', 'No')], string="Has your child attended The American International School of Jeddah Before?")
+
+    grant_aisj_photo_permission = fields.Boolean(string="Grant Aisj photo permission")
 
 
 class ApplicationSiblings(models.Model):

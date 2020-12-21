@@ -1,12 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
+    <template id="template_application_menu" inherit_id="adm.template_application_menu">
+        <xpath expr="//div[@id='application_nav_bar']/ul" position="inside">
+            <li class="nav-item nav-item-menu" id="nav-itm-instr">
+                <a t-attf-href="/admission/applications/#{application_id.id}/photo-permission-grant-signature"
+                   class="nav-link">
+                    Photo permission grant signature
+                </a>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="template_photo_permission_grant_signature">
+        <t t-call="adm.template_application_form_commons">
+            <t t-set="title">Photo permission grant signature</t>
+
+            <t t-set="url_prev" t-value="'/admission/applications/%s/signature' % application_id.id"/>
+            <t t-set="url_next" t-value="'/admission/applications/%s/' % application_id.id"/>
+
+            <!-- Body -->
+
+            <p>
+                Photos and videos of students or their work may be featured in materials to increase awareness of AISJ,
+                engage the community, and/or recruit and train staff. This is done through print ads, online (AISJ
+                website/official social media outlets/other), displays, brochures, banners, flyers, posters, and other
+                types of media. Please select yes if you <strong>GRANT AISJ PERMISSION</strong> to use your child and
+                their work in various materials and media, as outlined here, for the duration of their attendance at the
+                school or for however long the material is being used, and if you release AISJ, its Board of Trustees,
+                and its employees from all claims, demands, and liabilities in connection with the above.
+                Please select no if you <strong>DO NOT GRANT AISJ PERMISSION</strong> for the same.
+                Please note that a student's participation in any event/concert/production or other activity,
+                that is publicized by AISJ, <strong>AUTOMATICALLY GRANTS</strong> AISJ permission to use that student's
+                picture in all publicized material (social media, website, videos, ads...) for that particular
+                event/activity.
+            </p>
+            <div class="row" data-adm-model-fields="1">
+                <div class="col-12 col-md-6">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" data-adm-field="grant_aisj_photo_permission"
+                               t-att-value="application_id.grant_aisj_photo_permission"
+                               t-attf-name="grant_aisj_photo_permission"
+                               t-attf-id="grant_aisj_photo_permission_checkbox"
+                               t-att-checked="application_id.grant_aisj_photo_permission"
+                               data-adm-field-type="BOOLEAN"
+                               class="custom-control-input"/>
+                        <label class="custom-control-label"
+                               t-attf-for="grant_aisj_photo_permission_checkbox">
+                            Grant AISJ Photo Permission?<span class="text-danger"> *</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
     <template id="template_application_parent_questionnaire_form"
               inherit_id="adm.template_application_parent_questionnaire_form">
         <xpath expr="." position="replace">
             <div>
                 <section class="card mb-2">
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <p>
+                                    The parent questionnaire will be looked at in conjunction with the contents of your
+                                    child’s academic records, the information pervaded will give additional insight into
+                                    your child and a better picture of your child’s academic abilities and needs. Please
+                                    answer all questions as completely as you can.
+                                    Please specify your child’s strengths (1 being the lowest and 5 the highest)
+                                </p>
+                            </div>
+                        </div>
                         <div class="row">
                             <table class="table">
                                 <thead>
@@ -284,7 +349,7 @@
 
                             <div class="col-12 col-md-6 form-group">
                                 <label>Why are you interested in AISJ for your child?</label>
-                                
+
                                 <div t-foreach="interested_options_ids" t-as="interested_options_id" class="form-check">
                                     <input class="form-check-input" type="checkbox"
                                            data-adm-field="c_aisj_parent_questionaire_q6"
@@ -298,7 +363,7 @@
                                         <t t-esc="interested_options_id.name"/>
                                     </label>
                                 </div>
-                                
+
                             </div>
 
                             <div class="col-12 col-md-6 form-group">
