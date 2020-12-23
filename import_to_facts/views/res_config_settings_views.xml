@@ -22,9 +22,19 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="col-12 col-6 o_setting_box">
+                    <div class="o_setting_right_pane">
+                        <label for="domain_code"/>
+                        <div class="content-group">
+                            <div class="mt16">
+                                <field name="domain_code"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </xpath>
         </field>
+
     </record>
 
 </odoo>

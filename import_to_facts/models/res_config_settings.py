@@ -7,6 +7,7 @@ class AdmissionsSettings(models.TransientModel):
     """  Settings for school base module """
     _inherit = "res.config.settings"
 
+    domain_code = fields.Text("Python code Domain")
     adm_application_json_field_ids = fields.Many2many(
         'import_to_facts.import_field',
         string="Application required fields",
@@ -25,8 +26,12 @@ class AdmissionsSettings(models.TransientModel):
             if e.isdigit()
         ]
 
+        domain_code_str = config_parameter.get_param(
+            'domain_code', '')
+
         res.update({
-            'adm_application_json_field_ids': application_json_fields
+            'adm_application_json_field_ids': application_json_fields,
+            'domain_code': domain_code_str
         })
 
         return res
@@ -37,3 +42,7 @@ class AdmissionsSettings(models.TransientModel):
             config_parameter.set_param(
                 'adm_application_json_field_ids', ",".join(
                     map(str, settings.adm_application_json_field_ids.ids)))
+
+            config_parameter.set_param(
+                'domain_code', ",".join(
+                    map(str, settings.domain_code)))

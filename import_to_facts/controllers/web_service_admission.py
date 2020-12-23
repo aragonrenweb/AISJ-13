@@ -50,6 +50,25 @@ class AdmisionController(http.Controller):
         #                   "inquiry_id", "gender", "relationship_ids",
         #                   "family_ids"]
 
+        #tomamos los campos seleccionados en la opcion
+        config_parameter = http.request.env['ir.config_parameter'].sudo()
+        field_ids = config_parameter.get_param('adm_application_json_field_ids', False)
+
+        search_domain =[]
+        domain_config = config_parameter.get_param('domain_code', False)
+
+        if domain_config and str(domain_config) != '':
+            search_domain = domain_config
+
+        import_field = http.request.env['import_to_facts.import_field'].sudo()
+        application_values = []
+        alias_fields =[]
+
+        if field_ids:
+            list_field = field_ids.split(',')
+            for data in list_field:
+                application_values.append(import_field.browse(int(data)).field_id.name)
+                alias_fields.append(import_field.browse(int(data)).alias_field)
         # DATOS DE LA APPLICATION        
 
         # Crea una variable con el modelo desde donde se va a tomar la
@@ -57,7 +76,8 @@ class AdmisionController(http.Controller):
         ApplicationEnv = http.request.env['adm.application'].sudo()
 
         # filtro del modelo: status = done y el checkBox Imported = False
-        search_domain = [("status_id.type_id", "in", ["done", "stage"])]
+        # search_domain = [("status_id.type_id", "in", ["done", "stage"])]
+        search_domain = []
 
         # Tomar informacion basado en el modelo y en el domain IDS
         application_record = ApplicationEnv.search(search_domain)
@@ -79,161 +99,160 @@ class AdmisionController(http.Controller):
         #      "relationship_ids", "partner_id", "name", "house_address_ids",
         #      "sibling_ids",
         #      ])
-        application_values = application_record.read(
-            ["first_name", "middle_name", "last_name"])
+        application_values = application_record.read(application_values)
 
         # recorremos el array y vamos tratando los datos. Se modifica el
         # formato del for: se añade index y enumerate para poder hacer
         # busquedas
         # por el index, esto se usa en las familias.
-        for index, record in enumerate(application_values):
-            application_id = application_record[index].sudo()
-
-            # Convertir fechas a string
-            record["date_of_birth"] = (application_id.date_of_birth
-                                       .strftime('%m/%d/%Y') if
-                                       application_id.date_of_birth else '')
-
-            # SchooCode
-            if record["grade_level"]:
-                record["SCName"] = (application_id.grade_leve
-                                    .school_code_id.name) or []
-
-            # Sacamos datos de los Horarios de partner   
-            # Array para los Horarios de partner
-            if record["contact_time_id"]:
-                record["horariopartnerDatos"] = (application_id
-                                                 .contact_time_id
-                                                 .read(["name",
-                                                        "from_time",
-                                                        "to_time"])) or []
-
-            # Sacamos datos de los Hermanos    
-            # Array para los Hermanos
-            record["hermanosDatos"] = (application_id.sibling_ids
-                                       .read(["name", "age", "school"]))
-
-            # Array para las task
-            record["task"] = (application_id.task_ids
-                              .read(["name", "description", "display_name"]))
-
-            # Sacamos datos de las relationship    
-            # Array para las relationships  
-            record["relationship"] = (application_id.relationship_ids
-                                      .read(["partner_2",
-                                             "relationship_type"]))
-
-            # Sacamos datos del previous school
-            # if record["previous_school_ids"]:
-
-            # Array para los datos del colegio previo    
-            datosPrev_values = (application_id.previous_school_ids
-                                .read(["application_id",
-                                       "id",
-                                       "name",
-                                       "street",
-                                       "zip",
-                                       "country_id",
-                                       "from_date",
-                                       "to_date",
-                                       "extracurricular_interests",
-                                       "city", "state_id",
-                                       "grade_completed"
-                                       ]))
-
-            # Recorremos los datos obtenidos y transformamos las fechas para
-            # evitar errores
-            for record_school in datosPrev_values:
-                # Convertir fechas a string
-                record_school["from_date"] = (record_school["from_date"]
-                                              .strftime('%m/%d/%Y')
-                                              if record_school["from_date"]
-                                              else '')
-
-                record_school["to_date"] = (record_school["from_date"]
-                                            .strftime('%m/%d/%Y')
-                                            if record_school["to_date"]
-                                            else '')
-
-            record["previousSchool"] = datosPrev_values
-
-            # Array para los datos de las direcciones    
-            record["address"] = (application_id.house_address_ids
-                                 .read(["name",
-                                        "country_id",
-                                        "state_id",
-                                        "street",
-                                        "zip",
-                                        ]))
-
-            # Sacamos datos de las medicals conditions
-            # if record["medical_conditions_ids"]:  
-
-            # Array para los datos medicos Conditions  
-            record["medicalConditions"] = (application_id
-                                           .medical_conditions_ids
-                                           .read(["name", "comment"]))
-
-            # Sacamos datos de las medicals allergies
-            # if record["medical_allergies_ids"]:
-
-            # Array para los datos medicos Allergies  
-            record["medicalAllergies"] = (application_id
-                                          .medical_allergies_ids
-                                          .read(["name", "comment"]))
-
-            # Sacamos datos de las medicals medications
-            # if record["medical_medications_ids"]:
-
-            # Array para los datos medicos Medications  
-            record["medicalMedications"] = (application_id
-                                            .medical_medications_ids
-                                            .read(["name", "comment"]))
-
-            # DATOS DEL ALUMNO
-
-            # Sacamos datos del alumno
-            # if record["partner_id"]:
-
-            # Array para los datos alumnos  
-            # Tomar informacion basado en el modelo y en el domain IDS
-            application_partner_id = application_id.partner_id
-            record["alumnoDatos"] = application_partner_id.read(partner_fields)
-
-            # DATOS DE LA FAMILIA              
-            # Array para los datos de cada familia  
-            record["familiaDatos"] = []
-
-            family_id = application_partner_id.family_ids[0]
-            record["familiaDatos"] = family_id.read(partner_fields)
-
-            # DATOS DE LOS CONTACTOS
-            # Array para los datos de cada partner  
-            family_member_ids = (family_id.member_ids.filtered(
-                lambda member_id: member_id != application_partner_id))
-            record["partnerDatos"] = family_member_ids.read(partner_fields)
-
-            # DATOS DE LOS FICHEROS              
-            # Array para los datos de cada fichero de la aplicacion  
-            record["datosFicheros"] = []
-
-            # crea una variable con el modelo desde donde se va a tomar la
-            # información
-            attachments = http.request.env['ir.attachment'].sudo()
-
-            # filtro del modelo basados en parametros de la url
-            search_domain_attach = [("res_model", "=", "adm.application"),
-                                    ("res_id", "=", application_id.id)]
-
-            # Tomar informacion basado en el modelo y en el domain IDS
-            attachments_record = attachments.search(search_domain_attach)
-
-            # Obtienes la información basada en los ids anteriores y tomando
-            # en cuenta los campos definifos en la funcion posterior
-            # mimetype: tpo de archivo, datas: arhivo en binario
-            attachments_values = attachments_record.read(["id", "name"])
-
-            record["datosFicheros"] = json.dumps(attachments_values)
+        # for index, record in enumerate(application_values):
+        #     application_id = application_record[index].sudo()
+        #
+        #     # Convertir fechas a string
+        #     record["date_of_birth"] = (application_id.date_of_birth
+        #                                .strftime('%m/%d/%Y') if
+        #                                application_id.date_of_birth else '')
+        #
+        #     # SchooCode
+        #     if record["grade_level"]:
+        #         record["SCName"] = (application_id.grade_leve
+        #                             .school_code_id.name) or []
+        #
+        #     # Sacamos datos de los Horarios de partner
+        #     # Array para los Horarios de partner
+        #     if record["contact_time_id"]:
+        #         record["horariopartnerDatos"] = (application_id
+        #                                          .contact_time_id
+        #                                          .read(["name",
+        #                                                 "from_time",
+        #                                                 "to_time"])) or []
+        #
+        #     # Sacamos datos de los Hermanos
+        #     # Array para los Hermanos
+        #     record["hermanosDatos"] = (application_id.sibling_ids
+        #                                .read(["name", "age", "school"]))
+        #
+        #     # Array para las task
+        #     record["task"] = (application_id.task_ids
+        #                       .read(["name", "description", "display_name"]))
+        #
+        #     # Sacamos datos de las relationship
+        #     # Array para las relationships
+        #     record["relationship"] = (application_id.relationship_ids
+        #                               .read(["partner_2",
+        #                                      "relationship_type"]))
+        #
+        #     # Sacamos datos del previous school
+        #     # if record["previous_school_ids"]:
+        #
+        #     # Array para los datos del colegio previo
+        #     datosPrev_values = (application_id.previous_school_ids
+        #                         .read(["application_id",
+        #                                "id",
+        #                                "name",
+        #                                "street",
+        #                                "zip",
+        #                                "country_id",
+        #                                "from_date",
+        #                                "to_date",
+        #                                "extracurricular_interests",
+        #                                "city", "state_id",
+        #                                "grade_completed"
+        #                                ]))
+        #
+        #     # Recorremos los datos obtenidos y transformamos las fechas para
+        #     # evitar errores
+        #     for record_school in datosPrev_values:
+        #         # Convertir fechas a string
+        #         record_school["from_date"] = (record_school["from_date"]
+        #                                       .strftime('%m/%d/%Y')
+        #                                       if record_school["from_date"]
+        #                                       else '')
+        #
+        #         record_school["to_date"] = (record_school["from_date"]
+        #                                     .strftime('%m/%d/%Y')
+        #                                     if record_school["to_date"]
+        #                                     else '')
+        #
+        #     record["previousSchool"] = datosPrev_values
+        #
+        #     # Array para los datos de las direcciones
+        #     record["address"] = (application_id.house_address_ids
+        #                          .read(["name",
+        #                                 "country_id",
+        #                                 "state_id",
+        #                                 "street",
+        #                                 "zip",
+        #                                 ]))
+        #
+        #     # Sacamos datos de las medicals conditions
+        #     # if record["medical_conditions_ids"]:
+        #
+        #     # Array para los datos medicos Conditions
+        #     record["medicalConditions"] = (application_id
+        #                                    .medical_conditions_ids
+        #                                    .read(["name", "comment"]))
+        #
+        #     # Sacamos datos de las medicals allergies
+        #     # if record["medical_allergies_ids"]:
+        #
+        #     # Array para los datos medicos Allergies
+        #     record["medicalAllergies"] = (application_id
+        #                                   .medical_allergies_ids
+        #                                   .read(["name", "comment"]))
+        #
+        #     # Sacamos datos de las medicals medications
+        #     # if record["medical_medications_ids"]:
+        #
+        #     # Array para los datos medicos Medications
+        #     record["medicalMedications"] = (application_id
+        #                                     .medical_medications_ids
+        #                                     .read(["name", "comment"]))
+        #
+        #     # DATOS DEL ALUMNO
+        #
+        #     # Sacamos datos del alumno
+        #     # if record["partner_id"]:
+        #
+        #     # Array para los datos alumnos
+        #     # Tomar informacion basado en el modelo y en el domain IDS
+        #     application_partner_id = application_id.partner_id
+        #     record["alumnoDatos"] = application_partner_id.read(partner_fields)
+        #
+        #     # DATOS DE LA FAMILIA
+        #     # Array para los datos de cada familia
+        #     record["familiaDatos"] = []
+        #
+        #     family_id = application_partner_id.family_ids[0]
+        #     record["familiaDatos"] = family_id.read(partner_fields)
+        #
+        #     # DATOS DE LOS CONTACTOS
+        #     # Array para los datos de cada partner
+        #     family_member_ids = (family_id.member_ids.filtered(
+        #         lambda member_id: member_id != application_partner_id))
+        #     record["partnerDatos"] = family_member_ids.read(partner_fields)
+        #
+        #     # DATOS DE LOS FICHEROS
+        #     # Array para los datos de cada fichero de la aplicacion
+        #     record["datosFicheros"] = []
+        #
+        #     # crea una variable con el modelo desde donde se va a tomar la
+        #     # información
+        #     attachments = http.request.env['ir.attachment'].sudo()
+        #
+        #     # filtro del modelo basados en parametros de la url
+        #     search_domain_attach = [("res_model", "=", "adm.application"),
+        #                             ("res_id", "=", application_id.id)]
+        #
+        #     # Tomar informacion basado en el modelo y en el domain IDS
+        #     attachments_record = attachments.search(search_domain_attach)
+        #
+        #     # Obtienes la información basada en los ids anteriores y tomando
+        #     # en cuenta los campos definifos en la funcion posterior
+        #     # mimetype: tpo de archivo, datas: arhivo en binario
+        #     attachments_values = attachments_record.read(["id", "name"])
+        #
+        #     record["datosFicheros"] = json.dumps(attachments_values)
 
         # pintar la información obtenida, esto lo utilizamos para parsearlo
         # en el ajax.
