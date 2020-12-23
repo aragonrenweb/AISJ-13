@@ -62,13 +62,13 @@ class AdmisionController(http.Controller):
 
         import_field = http.request.env['import_to_facts.import_field'].sudo()
         application_values = []
-        alias_fields =[]
+        alias_fields ={}
 
         if field_ids:
             list_field = field_ids.split(',')
             for data in list_field:
                 application_values.append(import_field.browse(int(data)).field_id.name)
-                alias_fields.append(import_field.browse(int(data)).alias_field)
+                alias_fields[import_field.browse(int(data)).field_id.name] = import_field.browse(int(data)).alias_field
         # DATOS DE LA APPLICATION        
 
         # Crea una variable con el modelo desde donde se va a tomar la
@@ -80,7 +80,7 @@ class AdmisionController(http.Controller):
         search_domain = []
 
         # Tomar informacion basado en el modelo y en el domain IDS
-        application_record = ApplicationEnv.search(search_domain)
+        application_record = ApplicationEnv.search(search_domain,limit=10)
 
         # Obtienes la información basada en los ids anteriores y tomando en
         # cuenta los campos definifos en la funcion posterior
@@ -99,7 +99,19 @@ class AdmisionController(http.Controller):
         #      "relationship_ids", "partner_id", "name", "house_address_ids",
         #      "sibling_ids",
         #      ])
-        application_values = application_record.read(application_values)
+        # application_values = application_record.read(application_values)
+        application_values = (http.request.env['res.partner'].sudo().search(search_domain,limit=1)).read(application_values)
+        application_values_resp = []
+        for app_value in application_values:
+            aux_item = {}
+            for k,v in app_value.items():
+                key = k
+                if k in alias_fields:
+                    key = alias_fields[k]
+                aux_item[key] = v
+            application_values_resp.append(aux_item)
+
+        g = 2
 
         # recorremos el array y vamos tratando los datos. Se modifica el
         # formato del for: se añade index y enumerate para poder hacer
@@ -256,7 +268,8 @@ class AdmisionController(http.Controller):
 
         # pintar la información obtenida, esto lo utilizamos para parsearlo
         # en el ajax.
-        return json.dumps(application_values)
+        # return json.dumps(application_values)
+        return json.dumps(application_values_resp)
 
     @http.route("/admission/adm_insertId", auth="public", methods=["POST"],
                 cors='*', csrf=False)
