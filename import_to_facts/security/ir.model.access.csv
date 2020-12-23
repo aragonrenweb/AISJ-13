@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+import_to_facts_import_field_access,import_to_facts_import_field_access,import_to_facts.model_import_to_facts_import_field,,1,1,1,1

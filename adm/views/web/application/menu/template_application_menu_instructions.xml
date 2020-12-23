@@ -17,8 +17,9 @@
                             <section class="card-header">
                                 <h1>Information</h1>
                             </section>
-                            <section class="card-body&gt;">
+                            <section class="card-body">
                                 <div class="container">
+                                    <!-- 
                                     <div class="row pt-4 pb-4">
                                         <div class="col-2">
                                             <b>Current Status:</b>
@@ -53,6 +54,7 @@
                                             </ul>
                                         </section>
                                     </div>
+                                    -->
                                     <div class="row mt-3">
                                         <p>
                                             <strong>Welcome to American International School of Jeddah's Online
@@ -73,7 +75,7 @@
                                             Feedback will be provided throughout the process to help you complete the
                                             application. You need to complete all questions required in order to move to
                                             the next form. After you have completed the application, a
-                                            <b>Submit Application</b>form will appear. Please follow the instructions
+                                            <b>Submit Application</b> form will appear. Please follow the instructions
                                             that will be
                                             provided to submit the application.
                                         </p>
@@ -110,18 +112,16 @@
                                                     </ul>
                                                 </li>
                                                 <li>
-                                                    <strong><a
-                                                            href="https://aisj-sau.client.renweb.com/oa/client_files/aisj-sau/uploads/English%20Recommendation%20Letter%202019.pdf">
+                                                    <strong>
                                                         Confidential English Recommendation
-                                                    </a></strong> letter to be
+                                                    </strong> letter to be
                                                     completed by current English Teacher. To be forwarded directly from
                                                     school to our Admissions Office.
                                                 </li>
                                                 <li>
-                                                    <strong><a
-                                                            href="https://aisj-sau.client.renweb.com/oa/client_files/aisj-sau/uploads/Math%20Recommendation%20Letter%202019.pdf">
+                                                    <strong> 
                                                         Confidential Math Recommendation
-                                                    </a></strong> letter to be completed by current Math Teacher.
+                                                    </strong> letter to be completed by current Math Teacher.
                                                     To be forwarded directly from school to our Admissions Office.
                                                 </li>
                                             </ul>

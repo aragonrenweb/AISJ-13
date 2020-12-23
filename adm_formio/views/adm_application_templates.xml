@@ -14,6 +14,13 @@
             <div class="col-12 col-md-6 form-group" id="sent_formio_email">
                 <label for="immunization_history" class="label">
                     Reference Form<span class="text-danger"> *</span>
+                    <p>
+                        <small>
+                            Please enter the email address of the teacher that will fill 
+                            the Reference form. The teacher will receive a link to the form 
+                            that will be delivered by the school. 
+                        </small>
+                    </p>
                 </label>
                 <div class="row">
                     <div class="col-8">

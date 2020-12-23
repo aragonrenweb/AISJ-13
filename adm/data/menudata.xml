@@ -55,7 +55,7 @@
 
 
     <!-- Principal -->
-	<menuitem id="adm_menu" name="Admission" />
+	<menuitem id="adm_menu" name="Admission" web_icon="adm,static/description/icon.png"/>
 
     <!-- For customizations -->
     <menuitem id="adm_custom_menu" parent="adm_menu" name="Custom" />
