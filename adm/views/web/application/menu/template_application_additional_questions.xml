@@ -70,7 +70,7 @@
             <t t-set="head">
                 <!--<link rel="stylesheet" href="/adm/static/src/css/form_application_id.id.css"/>-->
             </t>
-            <t t-set="title">Parent questionnaire</t>
+            <t t-set="title">Additional Question</t>
             <t t-set="url_prev" t-value="'/admission/applications/%s/parent-questionnaire' % application_id.id"/>
             <t t-set="url_next" t-value="'/admission/applications/%s/medical-info' % application_id.id"/>
 

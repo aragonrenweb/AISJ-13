@@ -73,7 +73,7 @@ class Application(models.Model):
     middle_name = fields.Char(string="Middle Name", related="partner_id.middle_name")
     last_name = fields.Char(string="Last Name", related="partner_id.last_name")
     date_of_birth = fields.Date(string="Date of birth", related="partner_id.date_of_birth")
-    identification = fields.Char(string="Cedula / ID number", related="partner_id.identification")
+    identification = fields.Char(string="Identification", related="partner_id.identification")
     birth_country = fields.Many2one("res.country", string="Birth Country", related="partner_id.country_id")
     birth_city = fields.Char("Birth City", related="partner_id.city")
     gender = fields.Many2one("adm.gender", string="Gender", related="partner_id.gender", inverse="_set_gender")
