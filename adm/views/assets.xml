@@ -9,6 +9,10 @@
         <script type="text/javascript" src="/adm/static/src/js/application/school.js"></script>
     </template>
 
+    <template id="assets_application_additional_questions" name="Assets additional Questions">
+        <script type="text/javascript" src="/adm/static/src/js/application/additional_questions.js"></script>
+    </template>
+
     <template id="assets_application_school_health" name="Assets school health">
         <script type="text/javascript" src="/adm/static/src/js/application/health.js"></script>
     </template>
@@ -17,11 +21,11 @@
         <script type="text/javascript" src="/adm/static/src/js/application/sibling.js"></script>
     </template>
 
-    <template id="assets_application_signature" name="Assets school sibling">
+    <template id="assets_application_signature" name="Assets Application Signature">
         <script type="text/javascript" src="/adm/static/src/js/application/signature_page.js"></script>
     </template>
 
-    <template id="assets_application_common" name="Assets student info">
+    <template id="assets_application_common" name="Assets Application Common">
         <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.js"></script>
         <link rel="stylesheet" href="/adm/static/src/css/main.css"/>
         <script type="text/javascript" src="/adm/static/src/js/jquery_fix.js"></script>
