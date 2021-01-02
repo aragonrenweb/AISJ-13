@@ -190,10 +190,9 @@
                                        data-adm-field="doctor_phone"
                                        t-att-value="application_id.doctor_phone"/>
                             </section>
-                            <section class="col">
+                            <section class="col-6">
                                 <label>
                                     Student Blood Type
-                                    <span class="text-danger"> *</span>
                                 </label>
                                 <input required="required" class="form-control"
                                        type="text"
@@ -201,11 +200,21 @@
                                        data-adm-field="blood_type"
                                        t-att-value="application_id.blood_type"/>
                             </section>
-                            <section class="col">
-                                <label>
-                                    Permision to treat?
-                                    <span class="text-danger"> *</span>
-                                </label>
+                            <section class="col-6 d-flex justify-content-center align-items-center">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" data-adm-field="permission_to_treat"
+                                           t-att-value="application_id.permission_to_treat"
+                                           t-attf-name="permission_to_treat"
+                                           t-attf-id="permission_to_treat_checkbox"
+                                           t-att-checked="application_id.permission_to_treat"
+                                           data-adm-field-type="BOOLEAN"
+                                           class="custom-control-input"/>
+                                    <label class="custom-control-label"
+                                           t-attf-for="permission_to_treat_checkbox">
+                                        Permision to treat?
+                                        <span class="text-danger"> *</span>
+                                    </label>
+                                </div>
                             </section>
                         </div>
 
