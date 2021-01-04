@@ -24,10 +24,15 @@
                 </div>
                 <div class="col-12 col-6 o_setting_box">
                     <div class="o_setting_right_pane">
-                        <label for="domain_code"/>
+                        <label for="required_status_application_ids"/>
                         <div class="content-group">
                             <div class="mt16">
-                                <field name="domain_code"/>
+                                <field name="required_status_application_ids" class="o_light_label" >
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="description" />
+                                    </tree>
+                                </field>
                             </div>
                         </div>
                     </div>

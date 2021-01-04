@@ -55,10 +55,11 @@ class AdmisionController(http.Controller):
         field_ids = config_parameter.get_param('adm_application_json_field_ids', False)
 
         search_domain =[]
-        domain_config = config_parameter.get_param('domain_code', False)
-
-        if domain_config and str(domain_config) != '':
-            search_domain = domain_config
+        required_status_str = config_parameter.get_param('required_status_application_ids', False)
+        required_status_ids = [
+            int(e) for e in required_status_str.split(',')
+            if e.isdigit()
+        ]
 
         import_field = http.request.env['import_to_facts.import_field'].sudo()
         application_values = []
@@ -69,15 +70,16 @@ class AdmisionController(http.Controller):
             for data in list_field:
                 application_values.append(import_field.browse(int(data)).field_id.name)
                 alias_fields[import_field.browse(int(data)).field_id.name] = import_field.browse(int(data)).alias_field
-        # DATOS DE LA APPLICATION        
 
+
+        # DATOS DE LA APPLICATION
         # Crea una variable con el modelo desde donde se va a tomar la
         # información
         ApplicationEnv = http.request.env['adm.application'].sudo()
 
         # filtro del modelo: status = done y el checkBox Imported = False
         # search_domain = [("status_id.type_id", "in", ["done", "stage"])]
-        search_domain = []
+        search_domain = [("status_id.type.id","in",required_status_ids)]
 
         # Tomar informacion basado en el modelo y en el domain IDS
         application_record = ApplicationEnv.search(search_domain,limit=10)
@@ -99,8 +101,8 @@ class AdmisionController(http.Controller):
         #      "relationship_ids", "partner_id", "name", "house_address_ids",
         #      "sibling_ids",
         #      ])
-        # application_values = application_record.read(application_values)
-        application_values = (http.request.env['res.partner'].sudo().search(search_domain,limit=1)).read(application_values)
+        application_values = application_record.read(application_values)
+        #application_values = (http.request.env['res.partner'].sudo().search(search_domain,limit=1)).read(application_values)
         application_values_resp = []
         for app_value in application_values:
             aux_item = {}
