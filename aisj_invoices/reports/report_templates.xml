@@ -3,14 +3,17 @@
     <template id="external_layout_background_inherit" inherit_id="web.external_layout_background">
         <xpath expr="//div[contains(@t-attf-class, 'header')]" position="replace">
             <div class="header">
-                <div class="o_background_header">
                     <div class="float-right">
                         <h3 class="mt0 text-right" t-field="company.report_header"/>
                     </div>
                     <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" class="float-left" alt="Logo"/>
                     <div class="float-left company_address">
                         <div  style="color: #263977">
-                            <strong>AMERICAN<br></br>INTERNATIONAL<br></br>SCHOOL OF JEDDAH</strong>
+                            <strong>
+                                AMERICAN<br/>
+                                INTERNATIONAL<br/>
+                                SCHOOL OF JEDDAH
+                            </strong>
                         </div>
                     </div>
                     <div class="float-right company_address"  style="color: #263977">
@@ -18,7 +21,6 @@
                         | Excellence in the Pursuit of Dreams
                     </div>
                     <div class="clearfix mb8"/>
-                </div>
             </div>
         </xpath>
         <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
