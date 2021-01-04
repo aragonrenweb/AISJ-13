@@ -37,6 +37,7 @@
                 <page name="additional_questions" string="Additional Questsions">
                     <group col="1">
                         <field name="c_aisj_additional_questions_q1"/>
+                        <field name="c_aisj_additional_questions_q1_list" attrs="{'invisible': [('c_aisj_additional_questions_q1', '=', 'list_ideas')]}"/>
                         <field name="c_aisj_additional_questions_q2"/>
                         <field name="c_aisj_additional_questions_q3"/>
                         <field name="c_aisj_additional_questions_q4"/>

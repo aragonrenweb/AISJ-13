@@ -12,3 +12,5 @@ class ResPartner(models.Model):
     c_aisj_parent_question_1 = fields.Char('Interested in being an AISJ business partner donation')
     c_aisj_parent_question_2 = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                                 "May we provide your contact information to our Parent Teacher Support Association (PTSA) so that they might reach out to welcome you?")
+
+    identification = fields.Char("Identification", default="N/A", required=True)

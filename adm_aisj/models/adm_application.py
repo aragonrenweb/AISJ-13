@@ -105,6 +105,9 @@ class AdmApplication(models.Model):
         ('take_time', "Takes time to adjust to new situation"),
         ('list_ideas', "List any ideas that would ease adjustment to AISJ."),
     ], string="My Child")
+
+    c_aisj_additional_questions_q1_list = fields.Char(string="List any ideas that would ease adjustment to AISJ.")
+
     c_aisj_additional_questions_q2 = fields.Selection([
                 ('academic_program', "Academic Program"),
                 ('after_school_activities', "After School Activities"),

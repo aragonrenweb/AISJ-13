@@ -38,17 +38,26 @@
             <div class="row" data-adm-model-fields="1">
                 <div class="col-12 col-md-6">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" data-adm-field="grant_aisj_photo_permission"
-                               t-att-value="application_id.grant_aisj_photo_permission"
-                               t-attf-name="grant_aisj_photo_permission"
-                               t-attf-id="grant_aisj_photo_permission_checkbox"
-                               t-att-checked="application_id.grant_aisj_photo_permission"
-                               data-adm-field-type="BOOLEAN"
-                               class="custom-control-input"/>
-                        <label class="custom-control-label"
-                               t-attf-for="grant_aisj_photo_permission_checkbox">
-                            Grant AISJ Photo Permission?<span class="text-danger"> *</span>
-                        </label>
+                        <label>Grant AISJ Photo Permission?<span class="text-danger"> *</span></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   data-adm-field="grant_aisj_photo_permission"
+                                   value="yes"
+                                   t-att-checked="application_id.grant_aisj_photo_permission"
+                                   id="grant_aisj_photo_permission_yes"
+                                   name="grant_aisj_photo_permission"/>
+                            <label class="for-check-label" for="grant_aisj_photo_permission_yes">Yes</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   data-adm-field="grant_aisj_photo_permission"
+                                   value=""
+                                   t-att-checked="not application_id.grant_aisj_photo_permission"
+                                   id="grant_aisj_photo_permission_no"
+                                   name="grant_aisj_photo_permission"/>
+                            <label class="for-check-label" for="grant_aisj_photo_permission_no">No</label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,10 +74,10 @@
                             <div class="col">
                                 <p>
                                     The parent questionnaire will be looked at in conjunction with the contents of your
-                                    child’s academic records, the information pervaded will give additional insight into
-                                    your child and a better picture of your child’s academic abilities and needs. Please
+                                    child's academic records, the information provided will give additional insight into
+                                    your child and a better picture of your child's academic abilities and needs. Please
                                     answer all questions as completely as you can.
-                                    Please specify your child’s strengths (1 being the lowest and 5 the highest)
+                                    Please specify your child's strengths (1 being the lowest and 5 the highest)
                                 </p>
                             </div>
                         </div>
@@ -271,7 +280,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-md-6 form-group">
-                                <label>My child's challenged at school include</label>
+                                <label>My child's challenges at school include</label>
                                 <input class="form-control" type="text"
                                        data-adm-field="c_aisj_parent_questionaire_q1"
                                        t-att-value="application_id.c_aisj_parent_questionaire_q1"/>

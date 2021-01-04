@@ -32,7 +32,7 @@ class ResPartnerExtended(models.Model):
 
     house_address_id = fields.Many2one("adm.house_address", string="Home Address")
     citizenship = fields.Many2one("res.country", string="Citizenship")
-    identification = fields.Char("Cedula / ID number")
+    identification = fields.Char("Identification")
     marital_status = fields.Selection(
         [("married", "Married"),
          ("single", "Single"),
