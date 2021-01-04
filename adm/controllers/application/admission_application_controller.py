@@ -114,7 +114,7 @@ class ApplicationController(AdmissionController):
         family.write({
             'member_ids': [(4, partner.id, False)]
             })
-        application = ApplicationEnv.create({
+        application = ApplicationEnv.sudo().create({
             "first_name": result.get("first_name"),
             "middle_name": result.get("middle_name"),
             "last_name": result.get("last_name"),
