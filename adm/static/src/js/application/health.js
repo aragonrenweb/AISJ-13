@@ -35,6 +35,7 @@ odoo.define('adm.application.condition', require => {
         const newMany2manyRev = document.createElement('DIV');
         newMany2manyRev.dataset.admRel = "rel";
         $clonedNewConditionTemplate.appendTo(newMany2manyRev);
+        $clonedNewConditionTemplate.find('.remove-rel-medical').on('click', removeNewCondition);
         // newMany2manyRev.appendChild(clonedNewConditionTemplate)
         conditionList.appendChild(newMany2manyRev);
     }
@@ -49,6 +50,7 @@ odoo.define('adm.application.condition', require => {
         const newMany2manyRev = document.createElement('DIV');
         newMany2manyRev.dataset.admRel = "rel";
         $clonedNewConditionTemplate.appendTo(newMany2manyRev);
+        $clonedNewConditionTemplate.find('.remove-rel-medical').on('click', removeNewCondition);
         // newMany2manyRev.appendChild(clonedNewConditionTemplate)
         conditionList.appendChild(newMany2manyRev);
     }
@@ -65,6 +67,7 @@ odoo.define('adm.application.condition', require => {
         const newMany2manyRev = document.createElement('DIV');
         newMany2manyRev.dataset.admRel = "rel";
         $clonedNewConditionTemplate.appendTo(newMany2manyRev);
+        $clonedNewConditionTemplate.find('.remove-rel-medical').on('click', removeNewCondition);
         // newMany2manyRev.appendChild(clonedNewConditionTemplate)
         conditionList.appendChild(newMany2manyRev);
     }
