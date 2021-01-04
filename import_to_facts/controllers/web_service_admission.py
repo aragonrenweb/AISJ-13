@@ -110,7 +110,7 @@ class AdmisionController(http.Controller):
                 key = k
                 if k in alias_fields:
                     key = alias_fields[k]
-                if isinstance(now, datetime.date):
+                if isinstance(v, datetime.date):
                     aux_item[key] = v.strftime('%Y-%m-%d')
                 else:
                     aux_item[key] = v
