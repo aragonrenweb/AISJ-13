@@ -79,7 +79,7 @@ class AdmisionController(http.Controller):
 
         # filtro del modelo: status = done y el checkBox Imported = False
         # search_domain = [("status_id.type_id", "in", ["done", "stage"])]
-        search_domain = [("status_id.type.id","in",required_status_ids)]
+        search_domain = [("status_id","in",required_status_ids)]
 
         # Tomar informacion basado en el modelo y en el domain IDS
         application_record = ApplicationEnv.search(search_domain,limit=10)
