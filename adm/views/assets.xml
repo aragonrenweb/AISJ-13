@@ -23,6 +23,7 @@
 
     <template id="assets_application_signature" name="Assets Application Signature">
         <script type="text/javascript" src="/adm/static/src/js/application/signature_page.js"></script>
+        <link rel="stylesheet" type="text/scss" href="/adm/static/src/scss/application_signature.scss"/>
     </template>
 
     <template id="assets_application_common" name="Assets Application Common">
