@@ -29,7 +29,7 @@ odoo.define('adm.application.condition', require => {
         counter--;
         const $clonedNewConditionTemplate = $(document.getElementById('template_allergy')).clone();
         // We remove the style display none
-        $clonedNewConditionTemplate.removeAttr('style');
+        $clonedNewConditionTemplate.removeAttr( 'style');
 
         const conditionList = document.getElementById('allergy_list');
         const newMany2manyRev = document.createElement('DIV');
