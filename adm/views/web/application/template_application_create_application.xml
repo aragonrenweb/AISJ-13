@@ -13,7 +13,7 @@
                                 <h1>Student Information</h1>
                             </section>
 
-                            <section class="card-body&gt;">
+                            <section class="card-body">
 
                                 <div class="container">
 
@@ -23,7 +23,7 @@
                                         </div>
                                     </t>
                                     <t t-else="">
-                                        <form t-att-action="'/admission/applications/create' if create_mode else '/admission/applications/{}/write'.format(application_id)" method="post" enctype="multipart/form-data">
+                                        <form t-attf-action="/admission/applications/{{application_id}}/create" method="post" enctype="multipart/form-data">
                                             <div class="container">
 
                                                 <section class="container align-items-center mt-3">

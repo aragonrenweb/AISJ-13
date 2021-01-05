@@ -57,12 +57,12 @@
 <!--                </li>-->
 
 <!--                <div class="collapse navbar-collapse" id="top_menu_collapse">-->
-<!--                    &lt;!&ndash; FIXME We want menu to open to the right by default (except cases handled in JS) &ndash;&gt;-->
+<!--                    &lt;!&ndash; FIXME We want menu to open to the right by default (except cases handled in JS) &ndash;-->
 <!--                    <ul class="nav navbar-nav ml-auto text-right" id="top_menu">-->
 <!--                        <li class="nav-item divider" t-ignore="true" t-if="not user_id._is_public()"/>-->
 <!--                        <li class="nav-item dropdown" t-ignore="true" t-if="not user_id._is_public()">-->
 <!--                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">-->
-<!--                                <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>-->
+<!--                                <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name)  25 else user_id.name"/>-->
 <!--                            </a>-->
 <!--                            <div class="dropdown-menu js_usermenu" role="menu">-->
 <!--                                <a href="/my/home" role="menuitem" class="dropdown-item">My Account</a>-->
