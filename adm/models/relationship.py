@@ -32,13 +32,16 @@ class Relationship(models.Model):
     @api.model
     def create(self, values):
         relationship = super(Relationship, self).create(values)
-        if relationship.partner_2:
-            relationship.partner_2.write({
-                'family_ids': [(4, family.id, False) for family in relationship.partner_1.family_ids]
-                })
+        relationship.update_partner_2_family()
         return relationship
 
     def write(self, values):
+        success = super(Relationship, self).write(values)
+        if success:
+            self.update_partner_2_family()
+        return success
+
+    def update_partner_2_family(self):
         for relationship in self:
             for family in relationship.partner_1.family_ids:
                 if relationship.partner_2:
@@ -49,4 +52,5 @@ class Relationship(models.Model):
                     family.write({
                         'member_ids': [(4, relationship.partner_2.id, False)]
                         })
-        return super(Relationship, self).write(values)
+                    if relationship.relationship_type in ['father', 'mother']:
+                        relationship.partner_2.person_type = 'parent'
