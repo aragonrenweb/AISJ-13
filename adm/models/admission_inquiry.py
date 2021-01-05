@@ -365,7 +365,7 @@ class Inquiry(models.Model):
             "current_school_address": self.current_school_address,
             "partner_id": self.partner_id.id,
             "grade_level": self.grade_level_id.id,
-            "school_year_id": self.school_year_id.id,
+            "school_year": self.school_year_id.id,
             "medical_conditions_ids": medical_base,
         })
 
