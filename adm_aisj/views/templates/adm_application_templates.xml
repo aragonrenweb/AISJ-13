@@ -433,4 +433,10 @@
             </div>
         </xpath>
     </template>
+
+    <template id="template_application_siblings_form" inherit_id="adm.template_application_siblings_form">
+        <xpath expr="//div[@class='row'][1]" position="replace">
+
+        </xpath>
+    </template>
 </odoo>
