@@ -22,8 +22,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td valign="middle">
-                                                                <span style="font-size:10px;">&nbsp;</span><span
-                                                                    style="font-size:20px;font-weight: bold;">
+                                                                <span style="font-size:20px;font-weight: bold;">
                                                                 Application submitted!</span>
                                                             </td>
                                                             <td valign="middle" align="right">
@@ -51,11 +50,20 @@
                                                         <tr>
                                                             <td style="font-size:13px;" valign="top">
                                                                 <div>
-                                                                    Dear ${object.responsible_user_id.name},<br/><br/>The
-                                                                    application concerning ${object.partner_id.name} has
-                                                                    been correctly submitted.&nbsp;<br/><br/>Our team will
-                                                                    check the information you provided and we will
-                                                                    contact you soon.&nbsp;<br/><br/>Kind regards,<br/><br/>
+                                                                    Dear ${object.responsible_user_id.name},
+                                                                    <br/>
+                                                                    <br/>
+                                                                    The application concerning ${object.partner_id.name}
+                                                                    has been correctly submitted.
+                                                                    <br/>
+                                                                    <br/>
+                                                                    Our team will check the information you provided and we will
+                                                                    contact you soon.
+                                                                    <br/>
+                                                                    <br/>
+                                                                    Kind regards,
+                                                                    <br/>
+                                                                    <br/>
                                                                     <div style="margin:16px 0px 16px 0px;">
                                                                         <a href="/web/login?login=${object.responsible_user_id.login}"
                                                                            style="text-decoration-thickness:auto;background-color:#875A7B;padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
