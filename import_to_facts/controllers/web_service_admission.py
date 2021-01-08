@@ -3,7 +3,7 @@ import json
 from formiodata.components import selectboxesComponent
 
 from odoo import http
-
+import datetime
 
 # Se añaden campos:
 # - Siblings
@@ -172,7 +172,11 @@ class AdmisionController(http.Controller):
                 key = k
                 if k in alias_fields:
                     key = alias_fields[k]
-                aux_item[key] = v
+                if isinstance(v, datetime.date):
+                    aux_item[key] = v.strftime('%Y-%m-%d')
+                else:
+                    aux_item[key] = v
+                    
             application_values_resp.append(aux_item)
 
         return json_res

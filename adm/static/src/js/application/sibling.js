@@ -28,6 +28,7 @@ odoo.define('adm.application.sibling', require => {
         const newMany2manyRev = document.createElement('DIV');
         newMany2manyRev.dataset.admRel = "rel";
         $clonedNewSiblingTemplate.appendTo(newMany2manyRev);
+        $clonedNewSiblingTemplate.find('.remove-sibling').on('click', removeNewSibling);
         // newMany2manyRev.appendChild(clonedNewSiblingTemplate)
         siblingList.appendChild(newMany2manyRev);
     }

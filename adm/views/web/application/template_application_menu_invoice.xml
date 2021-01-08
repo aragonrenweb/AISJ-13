@@ -15,7 +15,7 @@
                                 <i class="h1">Factura</i>
                             </section>
 
-                            <section class="card-body&gt;">
+                            <section class="card-body">
                                 <div class="container">
                                     <t t-if="application_id.status_id.type_id !='return' and application_id.status_id.type_id != 'started'">
                                         <div class="alert alert-warning mt-3" role="alert">

@@ -13,11 +13,9 @@ class ResPartnerExtended(models.Model):
 
     inquiry_id = fields.Many2one("adm.inquiry", string="Inquiry")
     is_in_application = fields.Boolean("Is in Application?")
-    is_resident_panama = fields.Boolean("Reside en Panamá?")
     application_sibling_ids = fields.Many2many("adm.application")
 
     date_of_birth = fields.Date("date_of_birth")
-    #gender = fields.Selection([("m", "male"), ("f", "female")], string="Gender")
     gender = fields.Many2one("adm.gender", string="Gender")
 
     school_grade = fields.Char("School grade")

@@ -24,7 +24,6 @@
                 <field name="title"/>
                 <field name="work_address"/>
                 <field name="work_phone"/>
-                <field name="is_resident_panama"/>
             </xpath>
         </field>
     </record>

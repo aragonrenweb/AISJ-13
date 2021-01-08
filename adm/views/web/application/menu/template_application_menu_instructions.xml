@@ -5,7 +5,7 @@
             <t t-set="skip_sent_message" t-value="True"/>
             <t t-set="title">Application</t>
             <t t-set="head">
-                <script defer="defer" type="text/javascript" src="/adm/static/src/js/application/menu_progress.js"/>
+<!--                <script defer="defer" type="text/javascript" src="/adm/static/src/js/application/menu_progress.js"/>-->
                 <link rel="stylesheet" href="/adm/static/src/css/form_application.css"/>
             </t>
             <div class="oe_struture"/>

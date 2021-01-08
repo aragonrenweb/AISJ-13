@@ -24,7 +24,7 @@
                 </label>
                 <div class="row">
                     <div class="col-8">
-                        <input type="mail" class="form-control" placeholder=""/>
+                        <input type="mail" class="form-control" placeholder="" t-att-value="application_id.formio_sent_to_email"/>
                     </div>
                     <div class="col">
                         <button class="btn btn-outline-info" type="button">
