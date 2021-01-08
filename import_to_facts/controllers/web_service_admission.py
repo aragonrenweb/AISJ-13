@@ -127,7 +127,7 @@ class AdmisionController(http.Controller):
         # raw_json = self.getJsonFromConfig(selected_config.panel_configuration)
         # json_res = '{'+raw_json+'}';
 
-        adm_application_test = http.request.env['adm.application'].sudo().browse([1])
+        adm_application_test = http.request.env['adm.application'].sudo().browse([13])
 
         json_res = self.cleaned_json(selected_config, adm_application_test);
         json_test = json.loads(json_res)
