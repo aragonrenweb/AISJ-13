@@ -281,9 +281,10 @@ class Inquiry(models.Model):
         #search the productID
 
         # CONDICIONAR EL PRODUCTO POR EL GRADELEVEL
-
-        ProductEnv = self.env["product.product"]
-        product_id = ProductEnv.sudo().search([('name', 'like', self.grade_level_id.name)],order="create_date desc", limit=1)
+        product_id = False
+        if "product.product" in self.env:
+            ProductEnv = self.env["product.product"]
+            product_id = ProductEnv.sudo().search([('name', 'like', self.grade_level_id.name)],order="create_date desc", limit=1)
 
         medical_base = []
 
@@ -364,8 +365,8 @@ class Inquiry(models.Model):
                 "current_school": self.current_school,
                 "current_school_address": self.current_school_address,
                 "partner_id": self.partner_id.id,
-                "grade_level_id": self.grade_level_id.id,
-                "school_year_id": self.school_year_id.id,
+                "grade_level": self.grade_level_id.id,
+                "school_year": self.school_year_id.id,
                 "medical_conditions_ids": medical_base,
             })
 
